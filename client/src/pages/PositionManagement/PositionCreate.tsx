@@ -44,6 +44,11 @@ import { NormalPositionDetailsSection } from "./components/NormalPositionDetails
 import { NotesTasksSection } from "./components/NotesTasksSection";
 import { OvertimeSection } from "./components/OvertimeSection";
 import { SubcategoryPositionDetailsSection } from "./components/SubcategoryPositionDetailsSection";
+import { DemoAutoFillWidget } from "../../components/DemoAutoFillWidget/DemoAutoFillWidget";
+import {
+  POSITION_PRESETS,
+  getPositionPreviewFields,
+} from "../../components/DemoAutoFillWidget/demoPresets";
 
 const DEFAULT_POSITION_PAYMENT_METHOD = "N/A";
 const DEFAULT_POSITION_TERMS = "N/A";
@@ -141,6 +146,76 @@ export function PositionCreate({
     t,
   });
   usePositionRateCalculations(methods);
+
+  // Demo Auto-fill state and handler
+  const [activePositionPreset, setActivePositionPreset] = useState("forklift");
+
+  const handleAutoFillPosition = async () => {
+    const preset = POSITION_PRESETS[activePositionPreset]?.data || POSITION_PRESETS.forklift.data;
+
+    if (clientOptions && clientOptions.length > 0) {
+      const selectedOption = clientOptions[0];
+      await handleClientSelect(selectedOption);
+    } else {
+      methods.setValue("streetAddress", preset.streetAddress, { shouldValidate: true, shouldDirty: true });
+      methods.setValue("city", preset.city, { shouldValidate: true, shouldDirty: true });
+      methods.setValue("province", preset.province, { shouldValidate: true, shouldDirty: true });
+      methods.setValue("postalCode", preset.postalCode, { shouldValidate: true, shouldDirty: true });
+    }
+
+    if (titleOptions && titleOptions.length > 0) {
+      const match =
+        titleOptions.find((o) =>
+          String(o.value || "").toLowerCase().includes(preset.title.toLowerCase())
+        ) || titleOptions[0];
+      handleTitleSelect(match);
+    } else {
+      methods.setValue("title", preset.title, { shouldValidate: true, shouldDirty: true });
+    }
+
+    methods.setValue("description", preset.description, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("startDate", preset.startDate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("endDate", preset.endDate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("showOnJobPortal", preset.showOnJobPortal, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("stat", preset.stat, { shouldValidate: true, shouldDirty: true });
+
+    methods.setValue("employmentTerm", preset.employmentTerm, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("employmentType", preset.employmentType, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("positionCategory", preset.positionCategory, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("experience", preset.experience, { shouldValidate: true, shouldDirty: true });
+
+    methods.setValue("numberOfPositions", preset.numberOfPositions, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("payrateType", preset.payrateType, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("regularPayRate", preset.regularPayRate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("premiumPayRate", preset.premiumPayRate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("markup", preset.markup, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("billRate", preset.billRate, { shouldValidate: true, shouldDirty: true });
+
+    methods.setValue("overtimeEnabled", preset.overtimeEnabled, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("overtimeHours", preset.overtimeHours, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("overtimeBillRate", preset.overtimeBillRate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("overtimePayRate", preset.overtimePayRate, { shouldValidate: true, shouldDirty: true });
+
+    methods.setValue("preferredPaymentMethod", preset.preferredPaymentMethod, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("terms", preset.terms, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("notes", preset.notes, { shouldValidate: true, shouldDirty: true });
+
+    methods.setValue("documentsRequired", {
+      license: preset.documentsRequired.license,
+      driverAbstract: false,
+      tdgCertificate: false,
+      sin: preset.documentsRequired.sin,
+      immigrationStatus: false,
+      passport: false,
+      cvor: false,
+      resume: preset.documentsRequired.resume,
+      articlesOfIncorporation: false,
+      directDeposit: false,
+    }, { shouldValidate: true, shouldDirty: true });
+
+    methods.clearErrors();
+    setHasUnsavedChanges(true);
+  };
 
   function navigateBack() {
     navigate(isEditDraftMode ? "/position-management/drafts" : "/position-management");
@@ -504,6 +579,19 @@ export function PositionCreate({
 
   return (
     <div className="page-container">
+      <DemoAutoFillWidget
+        title="Create Position"
+        stepBadge="Position Details"
+        fields={getPositionPreviewFields(activePositionPreset)}
+        onAutoFill={handleAutoFillPosition}
+        presets={[
+          { id: "forklift", name: "Forklift Operator" },
+          { id: "generalLabour", name: "General Labour" },
+        ]}
+        activePresetId={activePositionPreset}
+        onSelectPreset={(id) => setActivePositionPreset(id)}
+        storageKey="demo_autofill_position"
+      />
       <AppHeader
         title={pageTitle}
         actions={

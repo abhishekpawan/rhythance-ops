@@ -57,7 +57,7 @@
     "consentTemplates": "Consent Templates",
     "myProfile": "My Profile",
     "myPositions": "My Positions",
-    "aiChat": "Rhythence AI Chat",
+    "aiChat": "Motion Falcon AI Chat",
     "calendar": "Workforce Schedule Dashboard"
   },
   "buttons": {
@@ -301,7 +301,7 @@
     "select": "Select",
     "deselect": "Deselect",
     "language": "Language",
-    "godspeedLogo": "Rhythence Logo",
+    "godspeedLogo": "Motion Falcon Logo",
     "user": "User",
     "client": "Client",
     "notAvailable": "N/A",
@@ -608,7 +608,7 @@
     "hidePassword": "Hide password",
     "showPassword": "Show password",
     "alreadyHaveAccount": "Already have an account?",
-    "brandDescription": "Elevate your talent management with Rhythence's intelligent workflows and lightning-fast systems designed to connect the right people with the right opportunities."
+    "brandDescription": "Elevate your talent management with Motion Falcon's intelligent workflows and lightning-fast systems designed to connect the right people with the right opportunities."
   },
   "twoFactor": {
     "error": {
@@ -1700,7 +1700,7 @@
     }
   },
   "app": {
-    "name": "Rhythence Ops Portal"
+    "name": "Motion Falcon Ops Portal"
   },
   "invoiceManagement": {
     "title": "Invoice Management",

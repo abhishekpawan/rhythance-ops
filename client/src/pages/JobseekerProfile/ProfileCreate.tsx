@@ -39,6 +39,11 @@ import {
   createFormSchema,
   type JobseekerProfileFormData,
 } from "./profileSchemas";
+import { DemoAutoFillWidget } from "../../components/DemoAutoFillWidget/DemoAutoFillWidget";
+import {
+  autoFillJobseekerStep,
+  getJobseekerFieldsForStep,
+} from "../../components/DemoAutoFillWidget/demoPresets";
 
 // Interface for ProfileCreate props
 interface ProfileCreateProps {
@@ -190,6 +195,30 @@ export function ProfileCreate({
       mode: "idle",
       activeStage: "documents",
     });
+
+  // Demo auto-fill state and handlers
+  const [activeDemoPreset, setActiveDemoPreset] = useState("alex");
+
+  const handleAutoFillJobseeker = () => {
+    autoFillJobseekerStep(currentStep, methods.setValue, activeDemoPreset);
+    if (currentStep === 1) {
+      setIsEmailAvailable(true);
+      methods.clearErrors(["email", "dob", "sinNumber", "licenseNumber", "passportNumber"]);
+    } else if (currentStep === 2) {
+      methods.clearErrors(["street", "city", "province", "postalCode"]);
+    } else if (currentStep === 3) {
+      methods.clearErrors(["workPreference", "bio", "licenseType", "experience", "manualDriving", "availability"]);
+    } else if (currentStep === 4) {
+      methods.clearErrors(["payrateType", "payRate", "paymentMethod", "hstGst", "overtimeHours", "overtimePayRate"]);
+    }
+  };
+
+  const handleAutoFillAndNext = async () => {
+    handleAutoFillJobseeker();
+    setTimeout(() => {
+      handleContinue();
+    }, 120);
+  };
 
   // Helper function to update specific loading state
   const setLoading = (key: keyof typeof loadingStates, value: boolean) => {
@@ -1639,6 +1668,23 @@ export function ProfileCreate({
 
   return (
     <div className="profile-create-container">
+      <DemoAutoFillWidget
+        title="Job Seeker Form"
+        stepBadge={t(getStepLabelKey(currentStep))}
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        fields={getJobseekerFieldsForStep(currentStep, activeDemoPreset)}
+        onAutoFill={handleAutoFillJobseeker}
+        onAutoFillAndNext={currentStep < totalSteps && currentStep < 5 ? handleAutoFillAndNext : undefined}
+        presets={[
+          { id: "alex", name: "Alexander (Forklift)" },
+          { id: "priya", name: "Priya (AZ Driver)" },
+        ]}
+        activePresetId={activeDemoPreset}
+        onSelectPreset={(id) => setActiveDemoPreset(id)}
+        hide={currentStep === 5}
+        storageKey="demo_autofill_jobseeker"
+      />
       <AppHeader
         title={
           isEditMode

@@ -9,13 +9,13 @@ export function GodspeedAIChat() {
 
   return (
     <div className="godspeed-ai-chat-container">
-      <AppHeader title="Rhythence AI Chat" hideHamburgerMenu={false} />
+      <AppHeader title="Motion Falcon AI Chat" hideHamburgerMenu={false} />
 
       <main className="ai-chat-main">
         <div className="ai-chat-content">
           <IframeViewer
             url={AI_CHAT_URL}
-            title="Rhythence AI Chat"
+            title="Motion Falcon AI Chat"
           />
         </div>
       </main>

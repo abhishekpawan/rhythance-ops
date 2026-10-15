@@ -21,6 +21,11 @@ import { getDropdownOptions, type DropdownListType } from '../../services/api/dr
 import '../../styles/pages/ClientManagement.css';
 import '../../styles/components/form.css';
 import '../../styles/components/header.css';
+import { DemoAutoFillWidget } from '../../components/DemoAutoFillWidget/DemoAutoFillWidget';
+import {
+  CLIENT_PRESETS,
+  getClientPreviewFields,
+} from '../../components/DemoAutoFillWidget/demoPresets';
 
 // Define form schema
 const clientFormSchema = z.object({
@@ -225,6 +230,67 @@ export function ClientCreate({ isEditMode = false, isEditDraftMode = false }: Cl
   const paymentMethodOptions = createPaymentMethodOptions();
   const paymentTermsOptions = createPaymentTermsOptions();
   const payCycleOptions = createPayCycleOptions();
+
+  // Demo auto-fill state and handler
+  const [activeClientPreset, setActiveClientPreset] = useState("apex");
+
+  const handleAutoFillClient = () => {
+    const preset = CLIENT_PRESETS[activeClientPreset]?.data || CLIENT_PRESETS.apex.data;
+
+    setValue("companyName", preset.companyName, { shouldValidate: true, shouldDirty: true });
+    setValue("billingName", preset.billingName, { shouldValidate: true, shouldDirty: true });
+    setValue("shortCode", preset.shortCode, { shouldValidate: true, shouldDirty: true });
+    setValue("website", preset.website, { shouldValidate: true, shouldDirty: true });
+    setValue("currency", preset.currency, { shouldValidate: true, shouldDirty: true });
+    setValue("workProvince", preset.workProvince, { shouldValidate: true, shouldDirty: true });
+    setValue("wsibCode", preset.wsibCode, { shouldValidate: true, shouldDirty: true });
+
+    if (clientManagerOptions.length > 0) {
+      setValue("clientManager", clientManagerOptions[0].value as string, { shouldValidate: true, shouldDirty: true });
+    }
+    if (clientRepresentativeOptions.length > 0) {
+      setValue("clientRep", clientRepresentativeOptions[0].value as string, { shouldValidate: true, shouldDirty: true });
+    }
+    if (salesPersonOptions.length > 0) {
+      setValue("salesPerson", salesPersonOptions[0].value as string, { shouldValidate: true, shouldDirty: true });
+    }
+    if (accountingPersonOptions.length > 0) {
+      setValue("accountingPerson", accountingPersonOptions[0].value as string, { shouldValidate: true, shouldDirty: true });
+    }
+    if (accountingManagerOptions.length > 0) {
+      setValue("accountingManager", accountingManagerOptions[0].value as string, { shouldValidate: true, shouldDirty: true });
+    }
+
+    setValue("contactPersonName1", preset.contactPersonName1, { shouldValidate: true, shouldDirty: true });
+    setValue("emailAddress1", preset.emailAddress1, { shouldValidate: true, shouldDirty: true });
+    setValue("mobile1", preset.mobile1, { shouldValidate: true, shouldDirty: true });
+
+    setValue("contactPersonName2", preset.contactPersonName2, { shouldValidate: true, shouldDirty: true });
+    setValue("emailAddress2", preset.emailAddress2, { shouldValidate: true, shouldDirty: true });
+    setValue("mobile2", preset.mobile2, { shouldValidate: true, shouldDirty: true });
+    setValue("invoiceCC2", preset.invoiceCC2, { shouldValidate: true, shouldDirty: true });
+
+    setValue("dispatchDeptEmail", preset.dispatchDeptEmail, { shouldValidate: true, shouldDirty: true });
+    setValue("invoiceCCDispatch", preset.invoiceCCDispatch, { shouldValidate: true, shouldDirty: true });
+
+    setValue("accountsDeptEmail", preset.accountsDeptEmail, { shouldValidate: true, shouldDirty: true });
+    setValue("invoiceCCAccounts", preset.invoiceCCAccounts, { shouldValidate: true, shouldDirty: true });
+    setValue("invoiceLanguage", preset.invoiceLanguage, { shouldValidate: true, shouldDirty: true });
+
+    setValue("streetAddress1", preset.streetAddress1, { shouldValidate: true, shouldDirty: true });
+    setValue("city1", preset.city1, { shouldValidate: true, shouldDirty: true });
+    setValue("province1", preset.province1, { shouldValidate: true, shouldDirty: true });
+    setValue("postalCode1", preset.postalCode1, { shouldValidate: true, shouldDirty: true });
+
+    setValue("preferredPaymentMethod", preset.preferredPaymentMethod, { shouldValidate: true, shouldDirty: true });
+    setValue("terms", preset.terms, { shouldValidate: true, shouldDirty: true });
+    setValue("payCycle", preset.payCycle, { shouldValidate: true, shouldDirty: true });
+    setValue("creditLimit", preset.creditLimit, { shouldValidate: true, shouldDirty: true });
+    setValue("notes", preset.notes, { shouldValidate: true, shouldDirty: true });
+
+    methods.clearErrors();
+    setHasUnsavedChanges(true);
+  };
 
   // Function to decode HTML entities for website field
   const decodeHtmlEntities = (text: string): string => {
@@ -471,6 +537,19 @@ export function ClientCreate({ isEditMode = false, isEditDraftMode = false }: Cl
   // Basic component structure - detailed form to be added
   return (
     <div className="page-container">
+      <DemoAutoFillWidget
+        title="Create Client"
+        stepBadge="Client Details"
+        fields={getClientPreviewFields(activeClientPreset)}
+        onAutoFill={handleAutoFillClient}
+        presets={[
+          { id: "apex", name: "Apex Logistics" },
+          { id: "northline", name: "Northline Cold Storage" },
+        ]}
+        activePresetId={activeClientPreset}
+        onSelectPreset={(id) => setActiveClientPreset(id)}
+        storageKey="demo_autofill_client"
+      />
       <AppHeader
         title={pageTitle}
         actions={
