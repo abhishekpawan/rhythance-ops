@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -41,6 +41,7 @@ export function Signup() {
   const [phoneValidationError, setPhoneValidationError] = useState<
     string | null
   >(null);
+  const isInitialMount = useRef(true);
 
   // OTP state
   const [otpCode, setOtpCode] = useState("");
@@ -107,6 +108,13 @@ export function Signup() {
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
     mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const watchedEmail = watch("email") || "";
@@ -171,6 +179,10 @@ export function Signup() {
 
   // Phone value sync
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     setValue("phoneNumber", phoneValue || "", { shouldValidate: true });
   }, [phoneValue, setValue]);
 
@@ -183,20 +195,20 @@ export function Signup() {
           selectedCountry === "CA"
             ? t("signup.validation.canadian")
             : t("signup.validation.indian");
-        setPhoneValidationError(
-          t("signup.validation.phoneValid", { country: countryName })
-        );
+        const msg = t("signup.validation.phoneValid", { country: countryName });
+        setPhoneValidationError(msg);
         setFormError("phoneNumber", {
           type: "manual",
-          message: t("signup.validation.phoneValid", { country: countryName }),
+          message: msg,
         });
       } else {
         setPhoneValidationError(null);
+        clearErrors("phoneNumber");
       }
     } else {
       setPhoneValidationError(null);
     }
-  }, [phoneValue, selectedCountry, setFormError, t]);
+  }, [phoneValue, selectedCountry, setFormError, clearErrors, t]);
 
   // Resend timer
   useEffect(() => {
@@ -385,11 +397,10 @@ export function Signup() {
                   {t("signup.checkingPhone")}
                 </p>
               )}
-              {phoneValidationError && (
-                <p className="error-message">{phoneValidationError}</p>
-              )}
-              {errors.phoneNumber && !checkingPhone && (
-                <p className="error-message">{errors.phoneNumber.message}</p>
+              {(phoneValidationError || errors.phoneNumber) && !checkingPhone && (
+                <p className="error-message">
+                  {phoneValidationError || errors.phoneNumber?.message}
+                </p>
               )}
 
               {isPhoneValid && phoneAvailable && !isPhoneVerified && (

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,6 +51,7 @@ export function CompleteSignup() {
   const [phoneValue, setPhoneValue] = useState<string | undefined>(undefined);
   const [selectedCountry, setSelectedCountry] = useState<string>("IN");
   const [phoneValidationError, setPhoneValidationError] = useState<string | null>(null);
+  const isInitialMount = useRef(true);
   const [linkExpired, setLinkExpired] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [otpCode, setOtpCode] = useState("");
@@ -76,6 +77,11 @@ export function CompleteSignup() {
   } = useForm<CompleteSignupFormData>({
     resolver: zodResolver(completeSignupSchema),
     mode: "onChange",
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+      phoneNumber: "",
+    },
   });
 
   // Phone validation helper
@@ -98,6 +104,10 @@ export function CompleteSignup() {
 
   // Phone value sync
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     setValue("phoneNumber", phoneValue || "", { shouldValidate: true });
   }, [phoneValue, setValue]);
 
@@ -423,11 +433,10 @@ export function CompleteSignup() {
               {checkingPhone && (
                 <p className="availability-message">{t('signup.checkingPhone')}</p>
               )}
-              {phoneValidationError && (
-                <p className="error-message">{phoneValidationError}</p>
-              )}
-              {errors.phoneNumber && (
-                <p className="error-message">{errors.phoneNumber.message}</p>
+              {(phoneValidationError || errors.phoneNumber) && !checkingPhone && (
+                <p className="error-message">
+                  {phoneValidationError || errors.phoneNumber?.message}
+                </p>
               )}
               {isPhoneValid && phoneAvailable && !isPhoneVerified && (
                 <button
