@@ -14,6 +14,7 @@ import "../../styles/components/form.css";
 import "../../styles/components/button.css";
 import "../../styles/components/phone-input.css";
 import rhythenceLogo from "../../assets/logos/rhythence-logo.png";
+import motionFalconLogo from "../../assets/logos/motion-falcon-logo.png";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import {
@@ -585,15 +586,15 @@ export function Signup() {
         </div>
       </div>
 
-      {/* Rhythence Footer - Right Bottom */}
+      {/* Motion Falcon Footer - Right Bottom */}
       <div className="motion-falcon-footer right">
         <span>Powered by</span>
         <img
-          src={rhythenceLogo}
-          alt="Rhythence"
+          src={motionFalconLogo}
+          alt="Motion Falcon"
           className="motion-falcon-logo"
         />
-        <span>Rhythence</span>
+        <span>Motion Falcon</span>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import "../../styles/components/form.css";
 import "../../styles/components/button.css";
 import "../../styles/components/demo-login-modal.css";
 import rhythenceLogo from "../../assets/logos/rhythence-logo.png";
+import motionFalconLogo from "../../assets/logos/motion-falcon-logo.png";
 import { LanguageToggle } from "../../components/LanguageToggle";
 import { DemoLoginModal } from "../../components/DemoLoginModal";
 
@@ -286,15 +287,15 @@ export function Login() {
         </div>
       </div>
 
-      {/* Rhythence Footer - Left Bottom */}
+      {/* Motion Falcon Footer - Left Bottom */}
       <div className="motion-falcon-footer left">
         <span>Powered by</span>
         <img
-          src={rhythenceLogo}
-          alt="Rhythence"
+          src={motionFalconLogo}
+          alt="Motion Falcon"
           className="motion-falcon-logo"
         />
-        <span>Rhythence</span>
+        <span>Motion Falcon</span>
       </div>
 
       {/* Demo Login Modal */}
