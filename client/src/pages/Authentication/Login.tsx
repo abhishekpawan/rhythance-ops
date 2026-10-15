@@ -12,8 +12,7 @@ import "../../styles/pages/Login.css";
 import "../../styles/components/form.css";
 import "../../styles/components/button.css";
 import "../../styles/components/demo-login-modal.css";
-import godspeedLogo from "../../assets/logos/motionfalcon-logo.avif";
-import motionFalconLogo from "../../assets/logos/motion-falcon-logo.png";
+import rhythenceLogo from "../../assets/logos/rhythence-logo.png";
 import { LanguageToggle } from "../../components/LanguageToggle";
 import { DemoLoginModal } from "../../components/DemoLoginModal";
 
@@ -154,7 +153,7 @@ export function Login() {
         <div className="brand-content">
           <div className="brand-logo">
             <img
-              src={godspeedLogo}
+              src={rhythenceLogo}
               alt={t("common.godspeedLogo")}
               className="godspeed-logo"
             />
@@ -287,15 +286,15 @@ export function Login() {
         </div>
       </div>
 
-      {/* Motion Falcon Footer - Left Bottom */}
+      {/* Rhythence Footer - Left Bottom */}
       <div className="motion-falcon-footer left">
         <span>Powered by</span>
         <img
-          src={motionFalconLogo}
-          alt="Motion Falcon"
+          src={rhythenceLogo}
+          alt="Rhythence"
           className="motion-falcon-logo"
         />
-        <span>Motion Falcon</span>
+        <span>Rhythence</span>
       </div>
 
       {/* Demo Login Modal */}

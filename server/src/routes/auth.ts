@@ -43,6 +43,7 @@ const normalizeToE164 = (phone?: string) => {
 const isRecruiterEmail = (email: string): boolean => {
   return (
     email.includes("@godspeedxp") ||
+    email.includes("@rhythence") ||
     email.includes("@motionfalcon") ||
     email.includes("@canhiresolutions") ||
     email.includes("@hiresolutions") ||

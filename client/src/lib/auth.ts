@@ -537,6 +537,7 @@ export const onAuthStateChange = (callback: (user: User | null) => void) => {
 export const isRecruiterEmail = (email: string): boolean => {
   return (
     email.includes("@godspeedxp") ||
+    email.includes("@rhythence") ||
     email.includes("@motionfalcon") ||
     (email.endsWith("@email.com") && email !== "jobseeker@email.com")
   );

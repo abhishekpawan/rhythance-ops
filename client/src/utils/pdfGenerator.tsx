@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
 
 // Company information
 const COMPANY_INFO = {
-  name: "9084380 Canada Inc. O/A Motion Falcon Group",
+  name: "Rhythence Group",
   address: "240 Humberline Dr",
   address2: "Etobicoke ON, M9W 5X1",
   gst: "GST/HST No. 825183387",
