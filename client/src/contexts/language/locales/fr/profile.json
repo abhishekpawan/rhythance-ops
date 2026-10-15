@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "title": "Profil utilisateur",
+    "edit": "Modifier le profil",
+    "personalInfo": "Informations personnelles",
+    "contactInfo": "Informations de contact",
+    "settings": "Paramètres",
+    "changePassword": "Changer le mot de passe",
+    "preferences": "Préférences",
+    "unableToLoad": "Impossible de charger le profil",
+    "refreshPrompt": "Veuillez rafraîchir la page.",
+    "contactInformation": "Informations de contact",
+    "emailAddress": "Adresse email",
+    "phoneNumber": "Numéro de téléphone",
+    "verified": "Vérifié",
+    "pending": "En attente",
+    "notProvided": "Non fourni",
+    "accountInformation": "Informations du compte",
+    "assignedRoles": "Rôle(s) utilisateur assigné(s)",
+    "accountCreated": "Compte créé",
+    "emailConfirmed": "Email confirmé",
+    "lastSignIn": "Dernière connexion",
+    "accountActions": "Actions du compte",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "notAvailable": "Non disponible",
+    "invalidDate": "Date invalide"
+  }
+}

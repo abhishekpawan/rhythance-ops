@@ -212,15 +212,6 @@
       "errorTitle": "Impossible de charger les données d'expiration"
     }
   },
-  "profile": {
-    "title": "Profil",
-    "edit": "Modifier le profil",
-    "personalInfo": "Informations personnelles",
-    "contactInfo": "Informations de contact",
-    "settings": "Paramètres",
-    "changePassword": "Changer le mot de passe",
-    "preferences": "Préférences"
-  },
   "auth": {
     "login": "Se connecter",
     "signup": "S'inscrire",

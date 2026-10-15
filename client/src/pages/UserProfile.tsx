@@ -13,6 +13,7 @@ import {
 import { UserRoleBadges } from '../components/dashboard/UserRoleBadges';
 import '../styles/pages/userProfile.css';
 import { formatDateTimeCanada } from '../utils/dateUtils';
+import { useLanguage } from '../contexts/language/language-provider';
 
 interface UserDetails {
   id: string;
@@ -29,6 +30,7 @@ interface UserDetails {
 
 export function UserProfile() {
   const { user } = useAuth();
+  const { language, t } = useLanguage();
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,21 +56,26 @@ export function UserProfile() {
   }, [user]);
 
   const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return 'Not available';
-    return formatDateTimeCanada(dateString, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }, 'Invalid date');
+    if (!dateString) return t('profile.notAvailable');
+    return formatDateTimeCanada(
+      dateString,
+      {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      },
+      t('profile.invalidDate'),
+      language === 'fr' ? 'fr-CA' : 'en-CA'
+    );
   };
 
 
   if (isLoading) {
     return (
       <div className="user-profile-page">
-        <AppHeader title="User Profile" hideHamburgerMenu={false} />
+        <AppHeader title={t('profile.title')} hideHamburgerMenu={false} />
         <div className="user-profile-container">
           <div className="profile-card loading">
             <div className="loading-skeleton header-skeleton"></div>
@@ -84,11 +91,11 @@ export function UserProfile() {
   if (!userDetails) {
     return (
       <div className="user-profile-page">
-        <AppHeader title="User Profile" hideHamburgerMenu={false} />
+        <AppHeader title={t('profile.title')} hideHamburgerMenu={false} />
         <div className="user-profile-container">
           <div className="error-card">
-            <h3>Unable to load profile</h3>
-            <p>Please try refreshing the page.</p>
+            <h3>{t('profile.unableToLoad')}</h3>
+            <p>{t('profile.refreshPrompt')}</p>
           </div>
         </div>
       </div>
@@ -97,7 +104,7 @@ export function UserProfile() {
 
   return (
     <div className="user-profile-page">
-      <AppHeader title="User Profile" hideHamburgerMenu={false} />
+      <AppHeader title={t('profile.title')} hideHamburgerMenu={false} />
       
       <div className="user-profile-container">
         <div className="profile-card">
@@ -118,23 +125,23 @@ export function UserProfile() {
             <div className="detail-section">
               <h3 className="section-title">
                 <Mail size={18} />
-                Contact Information
+                {t('profile.contactInformation')}
               </h3>
               
               <div className="detail-row">
-                <label>Email Address</label>
+                <label>{t('profile.emailAddress')}</label>
                 <div className="detail-value">
                   <span>{userDetails.email}</span>
                   <div className="verification-status">
                     {userDetails.emailVerified ? (
                       <span className="verified">
                         <UserCheck size={14} />
-                        Verified
+                        {t('profile.verified')}
                       </span>
                     ) : (
                       <span className="pending">
                         <Clock size={14} />
-                        Pending
+                        {t('profile.pending')}
                       </span>
                     )}
                   </div>
@@ -142,19 +149,19 @@ export function UserProfile() {
               </div>
 
               <div className="detail-row">
-                <label>Phone Number</label>
+                <label>{t('profile.phoneNumber')}</label>
                 <div className="detail-value">
-                  <span>{userDetails.phone || 'Not provided'}</span>
+                  <span>{userDetails.phone || t('profile.notProvided')}</span>
                   <div className="verification-status">
                     {userDetails.phoneVerified ? (
                       <span className="verified">
                         <UserCheck size={14} />
-                        Verified
+                        {t('profile.verified')}
                       </span>
                     ) : (
                       <span className="pending">
                         <Clock size={14} />
-                        Pending
+                        {t('profile.pending')}
                       </span>
                     )}
                   </div>
@@ -166,32 +173,32 @@ export function UserProfile() {
             <div className="detail-section">
               <h3 className="section-title">
                 <Key size={18} />
-                Account Information
+                {t('profile.accountInformation')}
               </h3>
 
               <div className="detail-row">
-                <label>Assigned User Role(s)</label>
+                <label>{t('profile.assignedRoles')}</label>
                 <div className="detail-value">
                   <UserRoleBadges />
                 </div>
               </div>
 
               <div className="detail-row">
-                <label>Account Created</label>
+                <label>{t('profile.accountCreated')}</label>
                 <div className="detail-value">
                   <span>{formatDate(userDetails.createdAt)}</span>
                 </div>
               </div>
 
               <div className="detail-row">
-                <label>Email Confirmed</label>
+                <label>{t('profile.emailConfirmed')}</label>
                 <div className="detail-value">
                   <span>{formatDate(userDetails.emailConfirmedAt)}</span>
                 </div>
               </div>
 
               <div className="detail-row">
-                <label>Last Sign In</label>
+                <label>{t('profile.lastSignIn')}</label>
                 <div className="detail-value">
                   <span>{formatDate(userDetails.lastSignIn)}</span>
                 </div>
@@ -201,7 +208,7 @@ export function UserProfile() {
           <div className="account-actions">
             <h3 className="section-title">
               <Key size={18} />
-              Account Actions
+              {t('profile.accountActions')}
             </h3>
             <div className="action-buttons">
               <button
@@ -209,7 +216,7 @@ export function UserProfile() {
                 onClick={() => navigate("/reset-password")}
               >
                 <KeyRound size={16} className="icon" />
-                Reset Password
+                {t('profile.resetPassword')}
               </button>
             </div>
           </div>

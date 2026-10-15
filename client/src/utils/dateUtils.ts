@@ -141,7 +141,8 @@ export function formatCalendarDateRange(
 export function formatDateTimeCanada(
   timestamp: string | Date | null | undefined,
   options?: Intl.DateTimeFormatOptions,
-  fallback: string = "N/A"
+  fallback: string = "N/A",
+  locale: string = "en-CA"
 ): string {
   if (!timestamp) return fallback;
   try {
@@ -159,7 +160,7 @@ export function formatDateTimeCanada(
       ...options,
     };
 
-    return date.toLocaleString("en-CA", defaultOptions);
+    return date.toLocaleString(locale, defaultOptions);
   } catch {
     return fallback;
   }

@@ -212,15 +212,6 @@
       "errorTitle": "Unable to load expiry data"
     }
   },
-  "profile": {
-    "title": "Profile",
-    "edit": "Edit Profile",
-    "personalInfo": "Personal Information",
-    "contactInfo": "Contact Information",
-    "settings": "Settings",
-    "changePassword": "Change Password",
-    "preferences": "Preferences"
-  },
   "auth": {
     "login": "Login",
     "signup": "Sign Up",

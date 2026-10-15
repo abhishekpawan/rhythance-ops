@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "title": "User Profile",
+    "edit": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "contactInfo": "Contact Information",
+    "settings": "Settings",
+    "changePassword": "Change Password",
+    "preferences": "Preferences",
+    "unableToLoad": "Unable to load profile",
+    "refreshPrompt": "Please try refreshing the page.",
+    "contactInformation": "Contact Information",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "verified": "Verified",
+    "pending": "Pending",
+    "notProvided": "Not provided",
+    "accountInformation": "Account Information",
+    "assignedRoles": "Assigned User Role(s)",
+    "accountCreated": "Account Created",
+    "emailConfirmed": "Email Confirmed",
+    "lastSignIn": "Last Sign In",
+    "accountActions": "Account Actions",
+    "resetPassword": "Reset Password",
+    "notAvailable": "Not available",
+    "invalidDate": "Invalid date"
+  }
+}
