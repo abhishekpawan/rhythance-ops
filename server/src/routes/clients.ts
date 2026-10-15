@@ -1,0 +1,1391 @@
+import { Router, Request, Response } from 'express';
+import { createClient } from '@supabase/supabase-js';
+import { authenticateToken, authorizeExactRoles, authorizeRoles } from '../middleware/auth.js';
+import { sanitizeInputs, apiRateLimiter } from '../middleware/security.js';
+import dotenv from 'dotenv';
+import { ClientData, DbClientData } from '../types.js';
+import { v4 as uuidv4 } from 'uuid';
+import { activityLogger } from '../middleware/activityLogger.js';
+
+dotenv.config();
+
+const router = Router();
+
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase credentials');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+/**
+ * Convert camelCase to snake_case properly handling consecutive capital letters
+ */
+function camelToSnakeCase(str: string): string {
+  // Special handling for known problematic fields
+  if (str === 'invoiceCC2') return 'invoice_cc2';
+  if (str === 'invoiceCC3') return 'invoice_cc3';
+  if (str === 'invoiceCCDispatch') return 'invoice_cc_dispatch';
+  if (str === 'invoiceCCAccounts') return 'invoice_cc_accounts';
+  if (str === 'wsibCode') return 'wsib_code';
+  
+  // For other fields, general algorithm
+  let result = '';
+  let prevChar = '';
+  
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    
+    if (i === 0) {
+      // First character is always lowercase
+      result += char.toLowerCase();
+    } else if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+      // This is a capital letter
+      
+      // If previous char was also uppercase and not the first char, don't add another underscore
+      if (prevChar === prevChar.toUpperCase() && prevChar !== prevChar.toLowerCase() && i > 1) {
+        result += char.toLowerCase();
+      } else {
+        result += '_' + char.toLowerCase();
+      }
+    } else {
+      result += char;
+    }
+    
+    prevChar = char;
+  }
+  
+  return result;
+}
+
+/**
+ * Convert snake_case to camelCase
+ */
+function snakeToCamelCase(str: string): string {
+  return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+/**
+ * Convert an object's keys from snake_case to camelCase
+ */
+function convertObjectToCamelCase(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(item => convertObjectToCamelCase(item));
+  }
+  
+  if (typeof obj === 'object') {
+    const converted: any = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      const camelKey = snakeToCamelCase(key);
+      converted[camelKey] = convertObjectToCamelCase(value);
+    });
+    return converted;
+  }
+  
+  return obj;
+}
+
+/**
+ * Get all clients with pagination and filtering
+ * GET /api/clients
+ * @access Private (Admin, Recruiter)
+ */
+router.get('/', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  // apiRateLimiter,
+  async (req: Request, res: Response) => {
+    try {
+      // Extract pagination and filter parameters from query
+      const { 
+        page = '1', 
+        limit = '10', 
+        searchTerm = '', 
+        companyNameFilter = '', 
+        shortCodeFilter = '',
+        listNameFilter = '',
+        contactFilter = '',
+        emailFilter = '', 
+        mobileFilter = '',
+        paymentMethodFilter = '',
+        paymentCycleFilter = ''
+      } = req.query as {
+        page?: string;
+        limit?: string;
+        searchTerm?: string;
+        companyNameFilter?: string;
+        shortCodeFilter?: string;
+        listNameFilter?: string;
+        contactFilter?: string;
+        emailFilter?: string;
+        mobileFilter?: string;
+        paymentMethodFilter?: string;
+        paymentCycleFilter?: string;
+      };
+
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const offset = (pageNum - 1) * limitNum;
+
+      // Build the base query
+      let baseQuery = supabase
+        .from('clients')
+        .select('*');
+
+      // Apply all filters at database level
+      baseQuery = applyClientFilters(baseQuery, {
+        searchTerm,
+        companyNameFilter,
+        shortCodeFilter,
+        listNameFilter,
+        contactFilter,
+        emailFilter,
+        mobileFilter,
+        paymentMethodFilter,
+        paymentCycleFilter
+      });
+
+      // Get total count (unfiltered)
+      const { count: totalCount, error: countError } = await supabase
+        .from('clients')
+        .select('*', { count: 'exact', head: true });
+
+      if (countError) {
+        console.error('Error getting total count:', countError);
+        return res.status(500).json({ error: 'Failed to get total count of clients' });
+      }
+
+      // Get filtered count
+      let countQuery = supabase
+        .from('clients')
+        .select('*', { count: 'exact', head: true });
+
+      countQuery = applyClientFilters(countQuery, {
+        searchTerm,
+        companyNameFilter,
+        shortCodeFilter,
+        listNameFilter,
+        contactFilter,
+        emailFilter,
+        mobileFilter,
+        paymentMethodFilter,
+        paymentCycleFilter
+      });
+
+      const { count: filteredCount, error: filteredCountError } = await countQuery;
+
+      if (filteredCountError) {
+        console.error('Error getting filtered count:', filteredCountError);
+        return res.status(500).json({ error: 'Failed to get filtered count of clients' });
+      }
+
+      // Apply pagination and execute main query
+      const { data: clients, error } = await baseQuery
+        .range(offset, offset + limitNum - 1)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching clients:', error);
+        return res.status(500).json({ error: 'Failed to fetch clients' });
+      }
+
+      if (!clients || clients.length === 0) {
+        return res.json({
+          clients: [],
+          pagination: {
+            page: pageNum,
+            limit: limitNum,
+            total: totalCount || 0,
+            totalFiltered: filteredCount || 0,
+            totalPages: Math.ceil((filteredCount || 0) / limitNum),
+            hasNextPage: false,
+            hasPrevPage: false
+          }
+        });
+      }
+
+      // Calculate pagination metadata
+      const totalFiltered = filteredCount || 0;
+      const totalPages = Math.ceil(totalFiltered / limitNum);
+      const hasNextPage = pageNum < totalPages;
+      const hasPrevPage = pageNum > 1;
+
+      // Convert snake_case to camelCase for frontend and compute inactivity
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      const formattedClients = clients.map(client => {
+        const converted = convertObjectToCamelCase(client);
+        const lastActivity = converted.lastActivityAt ? new Date(converted.lastActivityAt) : new Date(converted.createdAt);
+        converted.isInactive = lastActivity < thirtyDaysAgo;
+        return converted;
+      });
+
+      return res.status(200).json({
+        clients: formattedClients,
+        pagination: {
+          page: pageNum,
+          limit: limitNum,
+          total: totalCount || 0,
+          totalFiltered,
+          totalPages,
+          hasNextPage,
+          hasPrevPage
+        }
+      });
+    } catch (error) {
+      console.error('Unexpected error fetching clients:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Helper function to apply filters to a Supabase query
+ */
+function applyClientFilters(query: any, filters: {
+  searchTerm?: string;
+  companyNameFilter?: string;
+  shortCodeFilter?: string;
+  listNameFilter?: string;
+  contactFilter?: string;
+  emailFilter?: string;
+  mobileFilter?: string;
+  paymentMethodFilter?: string;
+  paymentCycleFilter?: string;
+}) {
+  const {
+    searchTerm,
+    companyNameFilter,
+    shortCodeFilter,
+    listNameFilter,
+    contactFilter,
+    emailFilter,
+    mobileFilter,
+    paymentMethodFilter,
+    paymentCycleFilter
+  } = filters;
+
+  // Global search across multiple fields
+  if (searchTerm && searchTerm.trim().length > 0) {
+    const searchTermTrimmed = searchTerm.trim();
+    query = query.or(`company_name.ilike.%${searchTermTrimmed}%,contact_person_name1.ilike.%${searchTermTrimmed}%,email_address1.ilike.%${searchTermTrimmed}%,short_code.ilike.%${searchTermTrimmed}%,list_name.ilike.%${searchTermTrimmed}%`);
+  }
+
+  // Individual column filters
+  if (companyNameFilter && companyNameFilter.trim().length > 0) {
+    query = query.ilike('company_name', `%${companyNameFilter.trim()}%`);
+  }
+
+  if (shortCodeFilter && shortCodeFilter.trim().length > 0) {
+    query = query.ilike('short_code', `%${shortCodeFilter.trim()}%`);
+  }
+
+  if (listNameFilter && listNameFilter.trim().length > 0) {
+    query = query.ilike('list_name', `%${listNameFilter.trim()}%`);
+  }
+
+  if (contactFilter && contactFilter.trim().length > 0) {
+    query = query.ilike('contact_person_name1', `%${contactFilter.trim()}%`);
+  }
+
+  if (emailFilter && emailFilter.trim().length > 0) {
+    query = query.ilike('email_address1', `%${emailFilter.trim()}%`);
+  }
+
+  if (mobileFilter && mobileFilter.trim().length > 0) {
+    query = query.ilike('mobile1', `%${mobileFilter.trim()}%`);
+  }
+
+  if (paymentMethodFilter && paymentMethodFilter.trim().length > 0) {
+    query = query.ilike('preferred_payment_method', `%${paymentMethodFilter.trim()}%`);
+  }
+
+  if (paymentCycleFilter && paymentCycleFilter.trim().length > 0) {
+    query = query.ilike('pay_cycle', `%${paymentCycleFilter.trim()}%`);
+  }
+
+  return query;
+}
+
+/**
+ * Get all client drafts with pagination and filtering
+ * GET /api/clients/drafts
+ * @access Private (Admin, Recruiter)
+ */
+router.get('/drafts', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  // apiRateLimiter,
+  async (req: Request, res: Response) => {
+    try {
+      // Extract pagination and filter parameters from query
+      const { 
+        page = '1', 
+        limit = '10', 
+        search = '',
+        companyNameFilter = '',
+        shortCodeFilter = '',
+        listNameFilter = '',
+        contactPersonFilter = '',
+        creatorFilter = '', 
+        updaterFilter = '',
+        dateFilter = '',
+        createdDateFilter = ''
+      } = req.query as {
+        page?: string;
+        limit?: string;
+        search?: string;
+        companyNameFilter?: string;
+        shortCodeFilter?: string;
+        listNameFilter?: string;
+        contactPersonFilter?: string;
+        creatorFilter?: string;
+        updaterFilter?: string;
+        dateFilter?: string;
+        createdDateFilter?: string;
+      };
+
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const offset = (pageNum - 1) * limitNum;
+
+      // Helper function to apply filters to a query
+      const applyDraftFilters = (query: any) => {
+        // Global search across multiple fields
+        if (search && search.trim().length > 0) {
+          const searchTerm = search.trim();
+          query = query.or(`company_name.ilike.%${searchTerm}%,short_code.ilike.%${searchTerm}%,list_name.ilike.%${searchTerm}%,contact_person_name1.ilike.%${searchTerm}%`);
+        }
+
+        // Individual column filters
+        if (companyNameFilter && companyNameFilter.trim().length > 0) {
+          query = query.ilike('company_name', `%${companyNameFilter.trim()}%`);
+        }
+
+        if (shortCodeFilter && shortCodeFilter.trim().length > 0) {
+          query = query.ilike('short_code', `%${shortCodeFilter.trim()}%`);
+        }
+
+        if (listNameFilter && listNameFilter.trim().length > 0) {
+          query = query.ilike('list_name', `%${listNameFilter.trim()}%`);
+        }
+
+        if (contactPersonFilter && contactPersonFilter.trim().length > 0) {
+          query = query.ilike('contact_person_name1', `%${contactPersonFilter.trim()}%`);
+        }
+
+        // Date filters
+        if (dateFilter) {
+          const filterDate = new Date(dateFilter);
+          const nextDay = new Date(filterDate);
+          nextDay.setDate(nextDay.getDate() + 1);
+          query = query.gte('updated_at', filterDate.toISOString()).lt('updated_at', nextDay.toISOString());
+        }
+
+        if (createdDateFilter) {
+          const filterDate = new Date(createdDateFilter);
+          const nextDay = new Date(filterDate);
+          nextDay.setDate(nextDay.getDate() + 1);
+          query = query.gte('created_at', filterDate.toISOString()).lt('created_at', nextDay.toISOString());
+        }
+
+        return query;
+      };
+
+      // Get total count (unfiltered)
+      const { count: totalCount, error: totalCountError } = await supabase
+        .from('client_drafts')
+        .select('*', { count: 'exact', head: true });
+
+      if (totalCountError) {
+        console.error('Error getting total count of drafts:', totalCountError);
+        return res.status(500).json({ error: 'Failed to get total count of drafts' });
+      }
+
+      // Get filtered count
+      let filteredCountQuery = supabase
+        .from('client_drafts')
+        .select('*', { count: 'exact', head: true });
+
+      filteredCountQuery = applyDraftFilters(filteredCountQuery);
+
+      const { count: filteredCount, error: filteredCountError } = await filteredCountQuery;
+
+      if (filteredCountError) {
+        console.error('Error getting filtered count of drafts:', filteredCountError);
+        return res.status(500).json({ error: 'Failed to get filtered count of drafts' });
+      }
+
+      // Build main query
+      let mainQuery = supabase
+        .from('client_drafts')
+        .select('*');
+
+      // Apply filters to main query
+      mainQuery = applyDraftFilters(mainQuery);
+
+      // Apply pagination and execute query
+      const { data: drafts, error } = await mainQuery
+        .range(offset, offset + limitNum - 1)
+        .order('updated_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching drafts:', error);
+        return res.status(500).json({ error: 'Failed to fetch drafts' });
+      }
+
+      if (!drafts || drafts.length === 0) {
+        return res.json({
+          drafts: [],
+          pagination: {
+            page: pageNum,
+            limit: limitNum,
+            total: totalCount || 0,
+            totalFiltered: filteredCount || 0,
+            totalPages: Math.ceil((filteredCount || 0) / limitNum),
+            hasNextPage: false,
+            hasPrevPage: false
+          }
+        });
+      }
+
+      // Collect all user IDs to fetch their details
+      const creatorIds = [...new Set(drafts.map(draft => draft.created_by_user_id).filter(Boolean))];
+      const updaterIds = [...new Set(drafts.map(draft => draft.updated_by_user_id).filter(Boolean))];
+      const allUserIds = [...new Set([...creatorIds, ...updaterIds])];
+
+      // Fetch user details for all users
+      const userDetailsMap: { [key: string]: any } = {};
+      
+      for (const userId of allUserIds) {
+        try {
+          const { data: userData, error: userError } = await supabase.auth.admin.getUserById(userId);
+          if (!userError && userData?.user) {
+            const user = userData.user;
+            userDetailsMap[userId] = {
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Unknown',
+              userType: user.user_metadata?.user_type || 'Unknown',
+              createdAt: user.created_at,
+              updatedAt: user.updated_at
+            };
+          }
+        } catch (userFetchError) {
+          console.error(`Error fetching user ${userId}:`, userFetchError);
+          userDetailsMap[userId] = null;
+        }
+      }
+
+      // Transform drafts format to match client expectations and convert snake_case to camelCase
+      let formattedDrafts = drafts.map(draft => {
+        // Convert snake_case to camelCase for frontend
+        const camelCaseDraft = convertObjectToCamelCase(draft);
+
+        // Add creator and updater details
+        const formattedDraft = {
+          ...camelCaseDraft,
+          creatorDetails: draft.created_by_user_id ? userDetailsMap[draft.created_by_user_id] || null : null,
+          updaterDetails: draft.updated_by_user_id ? userDetailsMap[draft.updated_by_user_id] || null : null
+        };
+
+        return formattedDraft;
+      });
+
+      // Apply creator and updater filters (these need to be done after user details are fetched)
+      if (creatorFilter && creatorFilter.trim().length > 0) {
+        formattedDrafts = formattedDrafts.filter(draft => {
+          const creator = draft.creatorDetails;
+          if (!creator) return false;
+          const searchTerm = creatorFilter.toLowerCase();
+          return (creator.name && creator.name.toLowerCase().includes(searchTerm)) ||
+                 (creator.email && creator.email.toLowerCase().includes(searchTerm));
+        });
+      }
+
+      if (updaterFilter && updaterFilter.trim().length > 0) {
+        formattedDrafts = formattedDrafts.filter(draft => {
+          const updater = draft.updaterDetails;
+          if (!updater) return false;
+          const searchTerm = updaterFilter.toLowerCase();
+          return (updater.name && updater.name.toLowerCase().includes(searchTerm)) ||
+                 (updater.email && updater.email.toLowerCase().includes(searchTerm));
+        });
+      }
+
+      // Note: If creator/updater filters are applied, the pagination might not be accurate
+      // This is a limitation when filtering by related data that requires additional API calls
+      const finalCount = (creatorFilter || updaterFilter) ? formattedDrafts.length : (filteredCount || 0);
+      const totalPages = Math.ceil(finalCount / limitNum);
+      const hasNextPage = pageNum < totalPages;
+      const hasPrevPage = pageNum > 1;
+
+      return res.status(200).json({
+        drafts: formattedDrafts,
+        pagination: {
+          page: pageNum,
+          limit: limitNum,
+          total: totalCount || 0,
+          totalFiltered: finalCount,
+          totalPages,
+          hasNextPage,
+          hasPrevPage
+        }
+      });
+    } catch (error) {
+      console.error('Unexpected error fetching drafts:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Get client by ID
+ * GET /api/clients/:id
+ * @access Private (Admin, Recruiter)
+ */
+router.get('/:id', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  // apiRateLimiter,
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      // Get client from the database
+      const { data: client, error } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching client:', error);
+        return res.status(404).json({ error: 'Client not found' });
+      }
+
+      const converted = convertObjectToCamelCase(client);
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      const lastActivity = converted.lastActivityAt ? new Date(converted.lastActivityAt) : new Date(converted.createdAt);
+      converted.isInactive = lastActivity < thirtyDaysAgo;
+      return res.status(200).json(converted);
+    } catch (error) {
+      console.error('Unexpected error fetching client:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Create a new client
+ * POST /api/clients
+ * @access Private (Admin, Recruiter)
+ */
+router.post('/', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  sanitizeInputs,
+  activityLogger({
+    onSuccess: (req, res) => ({
+      actionType: 'create_client',
+      actionVerb: 'created',
+      primaryEntityType: 'client',
+      primaryEntityId: res.locals.newClient?.id,
+      primaryEntityName: req.body.companyName,
+      displayMessage: `Created client "${req.body.companyName}"`,
+      category: 'client_management',
+      priority: 'normal',
+      metadata: {
+        shortCode: req.body.shortCode,
+        clientManager: req.body.clientManager,
+        website: req.body.website
+      }
+    })
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+      const clientData: ClientData = req.body;
+      
+      // Validate required fields
+      const requiredFields = [
+        'companyName', 'billingName', 'contactPersonName1', 
+        'emailAddress1', 'mobile1', 'streetAddress1',
+        'city1', 'province1', 'postalCode1'
+      ];
+
+      for (const field of requiredFields) {
+        if (!clientData[field as keyof ClientData]) {
+          return res.status(400).json({ error: `Missing required field: ${field}` });
+        }
+      }
+
+      // Check if client with same company name already exists
+      const { data: existingClient, error: clientCheckError } = await supabase
+        .from('clients')
+        .select('id, company_name')
+        .eq('company_name', clientData.companyName)
+        .maybeSingle();
+
+      if (clientCheckError) {
+        console.error('Error checking for existing client:', clientCheckError);
+        return res.status(500).json({ error: 'Failed to validate company name uniqueness' });
+      }
+
+      // If client already exists, return an error
+      if (existingClient) {
+        return res.status(409).json({ 
+          error: 'A client with this company name already exists',
+          field: 'companyName'
+        });
+      }
+
+      // Prepare client data for database
+      const dbClientData: Omit<DbClientData, 'id' | 'created_at' | 'updated_at'> = {
+        // Basic Details
+        company_name: clientData.companyName,
+        billing_name: clientData.billingName,
+        short_code: clientData.shortCode,
+        list_name: clientData.listName,
+        website: clientData.website,
+        client_manager: clientData.clientManager,
+        sales_person: clientData.salesPerson,
+        accounting_person: clientData.accountingPerson,
+        accounting_manager: clientData.accountingManager,
+        client_rep: clientData.clientRep,
+        merge_invoice: clientData.mergeInvoice,
+        currency: clientData.currency,
+        work_province: clientData.workProvince,
+        wsib_code: clientData.wsibCode,
+        
+        // Contact Details
+        contact_person_name1: clientData.contactPersonName1,
+        email_address1: clientData.emailAddress1,
+        mobile1: clientData.mobile1,
+        contact_person_name2: clientData.contactPersonName2,
+        email_address2: clientData.emailAddress2,
+        invoice_cc2: clientData.invoiceCC2 || false,
+        mobile2: clientData.mobile2,
+        contact_person_name3: clientData.contactPersonName3,
+        email_address3: clientData.emailAddress3,
+        invoice_cc3: clientData.invoiceCC3 || false,
+        mobile3: clientData.mobile3,
+        dispatch_dept_email: clientData.dispatchDeptEmail,
+        invoice_cc_dispatch: clientData.invoiceCCDispatch || false,
+        accounts_dept_email: clientData.accountsDeptEmail,
+        invoice_cc_accounts: clientData.invoiceCCAccounts || false,
+        invoice_language: clientData.invoiceLanguage,
+        
+        // Address Details
+        street_address1: clientData.streetAddress1,
+        city1: clientData.city1,
+        province1: clientData.province1,
+        postal_code1: clientData.postalCode1,
+        street_address2: clientData.streetAddress2,
+        city2: clientData.city2,
+        province2: clientData.province2,
+        postal_code2: clientData.postalCode2,
+        street_address3: clientData.streetAddress3,
+        city3: clientData.city3,
+        province3: clientData.province3,
+        postal_code3: clientData.postalCode3,
+        
+        // Payment & Billings
+        preferred_payment_method: clientData.preferredPaymentMethod,
+        terms: clientData.terms,
+        pay_cycle: clientData.payCycle,
+        credit_limit: clientData.creditLimit,
+        notes: clientData.notes,
+        
+        // Meta fields
+        is_draft: false,
+        created_by_user_id: userId,
+        updated_by_user_id: userId,
+      };
+
+      // Insert client into database
+      const { data: newClient, error: insertError } = await supabase
+        .from('clients')
+        .insert([dbClientData])
+        .select()
+        .single();
+
+      if (insertError) {
+        console.error('Error creating client:', insertError);
+        return res.status(500).json({ error: 'Failed to create client' });
+      }
+
+      // Store client data for activity logging
+      res.locals.newClient = newClient;
+
+      return res.status(201).json({
+        success: true,
+        message: 'Client created successfully',
+        client: convertObjectToCamelCase(newClient)
+      });
+    } catch (error) {
+      console.error('Unexpected error creating client:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Update an existing client
+ * PUT /api/clients/:id
+ * @access Private (Admin, Recruiter)
+ */
+router.put('/:id', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  sanitizeInputs,
+  activityLogger({
+    onSuccess: (req, res) => ({
+      actionType: 'update_client',
+      actionVerb: 'updated',
+      primaryEntityType: 'client',
+      primaryEntityId: req.params.id,
+      primaryEntityName: req.body.companyName,
+      displayMessage: `Updated client "${req.body.companyName}"`,
+      category: 'client_management',
+      priority: 'normal',
+      metadata: {
+        shortCode: req.body.shortCode,
+        clientManager: req.body.clientManager,
+        website: req.body.website,
+        updatedFields: Object.keys(req.body).filter(key => req.body[key] !== undefined)
+      }
+    })
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+      const { id } = req.params;
+      const clientData: ClientData = req.body;
+      
+      // Check if client exists
+      const { data: existingClient, error: clientCheckError } = await supabase
+        .from('clients')
+        .select('id')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (clientCheckError || !existingClient) {
+        return res.status(404).json({ error: 'Client not found' });
+      }
+
+      // Validate required fields
+      const requiredFields = [
+        'companyName', 'billingName', 'contactPersonName1', 
+        'emailAddress1', 'mobile1', 'streetAddress1',
+        'city1', 'province1', 'postalCode1'
+      ];
+
+      for (const field of requiredFields) {
+        if (!clientData[field as keyof ClientData]) {
+          return res.status(400).json({ error: `Missing required field: ${field}` });
+        }
+      }
+
+      // Check for duplicate company name (but ignore the current client)
+      const { data: duplicateClient, error: duplicateCheckError } = await supabase
+        .from('clients')
+        .select('id, company_name')
+        .eq('company_name', clientData.companyName)
+        .neq('id', id)
+        .maybeSingle();
+
+      if (duplicateCheckError) {
+        console.error('Error checking for duplicate client:', duplicateCheckError);
+        return res.status(500).json({ error: 'Failed to validate company name uniqueness' });
+      }
+
+      // If a different client with the same name exists, return an error
+      if (duplicateClient) {
+        return res.status(409).json({ 
+          error: 'Another client with this company name already exists',
+          field: 'companyName'
+        });
+      }
+
+      // Prepare client data for database update
+      const dbClientData = {
+        // Basic Details
+        company_name: clientData.companyName,
+        billing_name: clientData.billingName,
+        short_code: clientData.shortCode,
+        list_name: clientData.listName,
+        website: clientData.website,
+        client_manager: clientData.clientManager,
+        sales_person: clientData.salesPerson,
+        accounting_person: clientData.accountingPerson,
+        accounting_manager: clientData.accountingManager,
+        client_rep: clientData.clientRep,
+        merge_invoice: clientData.mergeInvoice,
+        currency: clientData.currency,
+        work_province: clientData.workProvince,
+        wsib_code: clientData.wsibCode,
+        
+        // Contact Details
+        contact_person_name1: clientData.contactPersonName1,
+        email_address1: clientData.emailAddress1,
+        mobile1: clientData.mobile1,
+        contact_person_name2: clientData.contactPersonName2,
+        email_address2: clientData.emailAddress2,
+        invoice_cc2: clientData.invoiceCC2 || false,
+        mobile2: clientData.mobile2,
+        contact_person_name3: clientData.contactPersonName3,
+        email_address3: clientData.emailAddress3,
+        invoice_cc3: clientData.invoiceCC3 || false,
+        mobile3: clientData.mobile3,
+        dispatch_dept_email: clientData.dispatchDeptEmail,
+        invoice_cc_dispatch: clientData.invoiceCCDispatch || false,
+        accounts_dept_email: clientData.accountsDeptEmail,
+        invoice_cc_accounts: clientData.invoiceCCAccounts || false,
+        invoice_language: clientData.invoiceLanguage,
+        
+        // Address Details
+        street_address1: clientData.streetAddress1,
+        city1: clientData.city1,
+        province1: clientData.province1,
+        postal_code1: clientData.postalCode1,
+        street_address2: clientData.streetAddress2,
+        city2: clientData.city2,
+        province2: clientData.province2,
+        postal_code2: clientData.postalCode2,
+        street_address3: clientData.streetAddress3,
+        city3: clientData.city3,
+        province3: clientData.province3,
+        postal_code3: clientData.postalCode3,
+        
+        // Payment & Billings
+        preferred_payment_method: clientData.preferredPaymentMethod,
+        terms: clientData.terms,
+        pay_cycle: clientData.payCycle,
+        credit_limit: clientData.creditLimit,
+        notes: clientData.notes,
+        
+        // Meta fields
+        is_draft: false,
+        updated_by_user_id: userId,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Update client in database
+      const { data: updatedClient, error: updateError } = await supabase
+        .from('clients')
+        .update(dbClientData)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (updateError) {
+        console.error('Error updating client:', updateError);
+        return res.status(500).json({ error: 'Failed to update client' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Client updated successfully',
+        client: convertObjectToCamelCase(updatedClient)
+      });
+    } catch (error) {
+      console.error('Unexpected error updating client:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Save client draft
+ * PUT /api/clients/draft/:id
+ * @access Private (Admin, Recruiter)
+ */
+router.put('/draft/:id?', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  sanitizeInputs,
+  activityLogger({
+    onSuccess: (req, res) => ({
+      actionType: 'update_client_draft',
+      actionVerb: 'updated draft',
+      primaryEntityType: 'client_draft',
+      primaryEntityId: req.params.id || res.locals.updatedDraft?.id,
+      primaryEntityName: req.body.companyName || res.locals.updatedDraft?.company_name || 'Unnamed Client Draft',
+      displayMessage: `Updated client draft for "${req.body.companyName || res.locals.updatedDraft?.company_name || 'Unnamed Client'}"`,
+      category: 'client_management',
+      priority: 'low',
+      metadata: {
+        shortCode: req.body.shortCode,
+        clientManager: req.body.clientManager,
+        isDraft: true,
+        isNewDraft: !req.params.id
+      }
+    })
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+      const clientData: Partial<ClientData> = req.body;
+      const { id } = req.params;
+      
+      // Check if we're updating an existing draft or creating a new one
+      if (id) {
+        // Check if the draft exists
+        const { data: existingDraft, error: draftCheckError } = await supabase
+          .from('client_drafts')
+          .select('id, created_by_user_id')
+          .eq('id', id)
+          .maybeSingle();
+
+        if (draftCheckError) {
+          console.error('Error checking for existing draft:', draftCheckError);
+          return res.status(500).json({ error: 'Failed to check draft status' });
+        }
+
+        // If draft doesn't exist or doesn't belong to the user
+        if (!existingDraft) {
+          return res.status(404).json({ error: 'Draft not found' });
+        }
+
+        // Prepare update data with timestamps
+        const updateData = {
+          ...clientData,
+          is_draft: true,
+          updated_at: new Date().toISOString(),
+          updated_by_user_id: userId,
+          last_updated: new Date().toISOString(),
+        };
+
+        // Convert camelCase to snake_case for database
+        const dbUpdateData = Object.entries(updateData).reduce((acc, [key, value]) => {
+          // Convert camelCase to snake_case using the helper function
+          const snakeKey = camelToSnakeCase(key);
+          acc[snakeKey] = value;
+          return acc;
+        }, {} as Record<string, any>);
+
+        // Update the draft
+        const { data: updatedDraft, error: updateError } = await supabase
+          .from('client_drafts')
+          .update(dbUpdateData)
+          .eq('id', id)
+          .select()
+          .single();
+
+        if (updateError) {
+          console.error('Error updating draft:', updateError);
+          return res.status(500).json({ error: 'Failed to update draft' });
+        }
+
+        // Store draft data for activity logging
+        res.locals.updatedDraft = updatedDraft;
+
+        return res.status(200).json({
+          success: true,
+          message: 'Draft updated successfully',
+          draft: convertObjectToCamelCase(updatedDraft)
+        });
+      } else {
+        // Creating a new draft
+        // Generate a new UUID for the draft
+        const draftId = uuidv4();
+
+        // Convert client data to snake_case for database
+        const dbDraftData = Object.entries(clientData).reduce((acc, [key, value]) => {
+          // Convert camelCase to snake_case using the helper function
+          const snakeKey = camelToSnakeCase(key);
+          acc[snakeKey] = value;
+          return acc;
+        }, {} as Record<string, any>);
+
+        // Add required fields
+        dbDraftData.id = draftId;
+        dbDraftData.is_draft = true;
+        dbDraftData.created_by_user_id = userId;
+        dbDraftData.updated_by_user_id = userId;
+        dbDraftData.created_at = new Date().toISOString();
+        dbDraftData.updated_at = new Date().toISOString();
+        dbDraftData.last_updated = new Date().toISOString();
+
+        // Insert new draft
+        const { data: newDraft, error: insertError } = await supabase
+          .from('client_drafts')
+          .insert([dbDraftData])
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Error creating draft:', insertError);
+          return res.status(500).json({ error: 'Failed to create draft' });
+        }
+
+        // Store draft data for activity logging
+        res.locals.updatedDraft = newDraft;
+
+        return res.status(201).json({
+          success: true,
+          message: 'Draft created successfully',
+          draft: convertObjectToCamelCase(newDraft)
+        });
+      }
+    } catch (error) {
+      console.error('Unexpected error saving draft:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Get latest client draft
+ * GET /api/clients/draft
+ * @access Private (Admin, Recruiter)
+ */
+router.get('/draft', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  // apiRateLimiter,
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+
+      // Get the latest draft for this user
+      const { data: draft, error } = await supabase
+        .from('client_drafts')
+        .select('*')
+        .eq('created_by_user_id', userId)
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching draft:', error);
+        return res.status(500).json({ error: 'Failed to fetch draft' });
+      }
+
+      // Convert snake_case to camelCase for frontend
+      let clientDraft = null;
+      
+      if (draft) {
+        clientDraft = convertObjectToCamelCase(draft);
+      }
+
+      return res.status(200).json({
+        draft: clientDraft,
+        lastUpdated: draft?.last_updated || null
+      });
+    } catch (error) {
+      console.error('Unexpected error fetching draft:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Delete a client
+ * DELETE /api/clients/:id
+ * @access Private (Admin only)
+ */
+router.delete('/:id', 
+  authenticateToken, 
+  authorizeExactRoles(['admin', 'recruiter_manager', 'recruiter_director']),
+  activityLogger({
+    onSuccess: (req, res) => ({
+      actionType: 'delete_client',
+      actionVerb: 'deleted',
+      primaryEntityType: 'client',
+      primaryEntityId: req.params.id,
+      primaryEntityName: res.locals.deletedClient?.company_name || `Client ID: ${req.params.id}`,
+      displayMessage: `Deleted client "${res.locals.deletedClient?.company_name || req.params.id}"`,
+      category: 'client_management',
+      priority: 'high',
+      metadata: {
+        deletedClientData: res.locals.deletedClient ? {
+          shortCode: res.locals.deletedClient.short_code,
+          billingName: res.locals.deletedClient.billing_name,
+          clientManager: res.locals.deletedClient.client_manager
+        } : null
+      }
+    })
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      // Check if client exists and get client data for logging
+      const { data: existingClient, error: clientCheckError } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (clientCheckError || !existingClient) {
+        return res.status(404).json({ error: 'Client not found' });
+      }
+
+      // Store client data for activity logging
+      res.locals.deletedClient = existingClient;
+
+      // Delete client
+      const { error: deleteError } = await supabase
+        .from('clients')
+        .delete()
+        .eq('id', id);
+
+      if (deleteError) {
+        console.error('Error deleting client:', deleteError);
+        return res.status(500).json({ error: 'Failed to delete client' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Client deleted successfully',
+        deletedId: id
+      });
+    } catch (error) {
+      console.error('Unexpected error deleting client:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Create a new client draft
+ * POST /api/clients/draft
+ * @access Private (Admin, Recruiter)
+ */
+router.post('/draft', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  sanitizeInputs,
+  activityLogger({
+    onSuccess: (req, res) => ({
+      actionType: 'create_client_draft',
+      actionVerb: 'created draft',
+      primaryEntityType: 'client_draft',
+      primaryEntityId: res.locals.newDraft?.id,
+      primaryEntityName: req.body.companyName || 'Unnamed Client Draft',
+      displayMessage: `Created client draft for "${req.body.companyName || 'Unnamed Client'}"`,
+      category: 'client_management',
+      priority: 'low',
+      metadata: {
+        shortCode: req.body.shortCode,
+        clientManager: req.body.clientManager,
+        isDraft: true
+      }
+    })
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+      const clientData: Partial<ClientData> = req.body;
+      
+      // Generate a new UUID for the draft
+      const draftId = uuidv4();
+
+      // Convert client data to snake_case for database
+      const dbDraftData = Object.entries(clientData).reduce((acc, [key, value]) => {
+        // Convert camelCase to snake_case using the helper function
+        const snakeKey = camelToSnakeCase(key);
+        acc[snakeKey] = value;
+        return acc;
+      }, {} as Record<string, any>);
+
+      // Add required fields
+      dbDraftData.id = draftId;
+      dbDraftData.is_draft = true;
+      dbDraftData.created_by_user_id = userId;
+      dbDraftData.updated_by_user_id = userId;
+      dbDraftData.created_at = new Date().toISOString();
+      dbDraftData.updated_at = new Date().toISOString();
+      dbDraftData.last_updated = new Date().toISOString();
+
+      // Insert new draft
+      const { data: newDraft, error: insertError } = await supabase
+        .from('client_drafts')
+        .insert([dbDraftData])
+        .select()
+        .single();
+
+      if (insertError) {
+        console.error('Error creating draft:', insertError);
+        return res.status(500).json({ error: 'Failed to create draft' });
+      }
+
+      // Store draft data for activity logging
+      res.locals.newDraft = newDraft;
+
+      return res.status(201).json({
+        success: true,
+        message: 'Draft created successfully',
+        draft: convertObjectToCamelCase(newDraft),
+        lastUpdated: newDraft.last_updated
+      });
+    } catch (error) {
+      console.error('Unexpected error creating draft:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+
+/**
+ * Get client draft by ID
+ * GET /api/clients/draft/:id
+ * @access Private (Admin, Recruiter)
+ */
+router.get('/draft/:id', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  // apiRateLimiter,
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+      const { id } = req.params;
+
+      // Get the draft by ID
+      const { data: draft, error } = await supabase
+        .from('client_drafts')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching draft by ID:', error);
+        return res.status(500).json({ error: 'Failed to fetch draft' });
+      }
+
+      if (!draft) {
+        return res.status(404).json({ error: 'Draft not found' });
+      }
+
+      // Make sure the draft belongs to the user
+      if (draft.created_by_user_id !== userId) {
+        return res.status(403).json({ error: 'You do not have permission to access this draft' });
+      }
+
+      // Convert snake_case to camelCase for frontend
+      const clientDraft = convertObjectToCamelCase(draft);
+
+      return res.status(200).json({
+        draft: clientDraft,
+        lastUpdated: draft.last_updated || null
+      });
+    } catch (error) {
+      console.error('Unexpected error fetching draft by ID:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+/**
+ * Delete a client draft
+ * DELETE /api/clients/draft/:id
+ * @access Private (Admin, Recruiter)
+ */
+router.delete('/draft/:id', 
+  authenticateToken, 
+  authorizeRoles(['admin', 'recruiter']),
+  activityLogger({
+    onSuccess: (req, res) => ({
+      actionType: 'delete_client_draft',
+      actionVerb: 'deleted draft',
+      primaryEntityType: 'client_draft',
+      primaryEntityId: req.params.id,
+      primaryEntityName: res.locals.deletedDraft?.company_name || 'Client Draft',
+      displayMessage: `Deleted client draft for "${res.locals.deletedDraft?.company_name || 'Unknown Client'}"`,
+      category: 'client_management',
+      priority: 'low',
+      metadata: {
+        draftId: req.params.id,
+        isDraft: true
+      }
+    })
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+
+      const userId = req.user.id;
+      const { id } = req.params;
+
+      // Make sure the draft exists and belongs to the user
+      const { data: draft, error: checkError } = await supabase
+        .from('client_drafts')
+        .select('id, created_by_user_id, company_name')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (checkError) {
+        console.error('Error checking draft:', checkError);
+        return res.status(500).json({ error: 'Failed to check draft status' });
+      }
+
+      if (!draft) {
+        return res.status(404).json({ error: 'Draft not found' });
+      }
+
+      if (draft.created_by_user_id !== userId) {
+        return res.status(403).json({ error: 'You do not have permission to delete this draft' });
+      }
+
+      // Store draft data for activity logging
+      res.locals.deletedDraft = draft;
+
+      // Delete the draft
+      const { error: deleteError } = await supabase
+        .from('client_drafts')
+        .delete()
+        .eq('id', id);
+
+      if (deleteError) {
+        console.error('Error deleting draft:', deleteError);
+        return res.status(500).json({ error: 'Failed to delete draft' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Draft deleted successfully',
+        deletedId: id
+      });
+    } catch (error) {
+      console.error('Unexpected error deleting draft:', error);
+      return res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+  }
+);
+
+export default router; 

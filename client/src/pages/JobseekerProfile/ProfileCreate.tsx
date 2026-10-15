@@ -1,0 +1,1879 @@
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "../../lib/supabaseClient";
+import { PersonalInfoForm } from "./PersonalInfoForm";
+import { AddressQualificationsForm } from "./AddressQualificationsForm";
+import { CompensationForm } from "./CompensationForm";
+import { DocumentUploadForm } from "./DocumentUploadForm";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
+import { AppHeader } from "../../components/AppHeader";
+import {
+  submitProfile,
+  saveDraft as saveDraftAPI,
+  checkEmailAvailability,
+  updateProfile,
+  getDraft,
+  type SubmitProfileResponse,
+} from "../../services/api/profile";
+import {
+  getJobseekerProfile,
+  updateJobseekerStatus,
+  getJobseekerDraft,
+  saveJobseekerDraft,
+} from "../../services/api/jobseeker";
+import { useAuth } from "../../contexts/AuthContext";
+import { useLanguage } from "../../contexts/language/language-provider";
+import "../../styles/components/form.css";
+import "../../styles/pages/JobseekerProfileStyles.css";
+import "../../styles/components/header.css";
+import { ArrowLeft, Check, Save } from "lucide-react";
+import { ProfileSubmissionOverlay } from "./ProfileSubmissionOverlay";
+import {
+  validateSIN,
+  validateDOB,
+  logValidation,
+} from "../../utils/validation";
+import {
+  createFormSchema,
+  type JobseekerProfileFormData,
+} from "./profileSchemas";
+
+// Interface for ProfileCreate props
+interface ProfileCreateProps {
+  isEditMode?: boolean;
+  isDraftEditMode?: boolean;
+  isNewForm?: boolean; // Add new prop to indicate creating a fresh form
+}
+
+type CreateSubmissionStage = "documents" | "account" | "profile";
+
+type CreateSubmissionOverlayState =
+  | {
+      mode: "idle";
+      activeStage: CreateSubmissionStage;
+    }
+  | {
+      mode: "progress";
+      activeStage: CreateSubmissionStage;
+    }
+  | {
+      mode: "success";
+      activeStage: CreateSubmissionStage;
+    };
+
+const createSubmissionStageOrder: CreateSubmissionStage[] = [
+  "documents",
+  "account",
+  "profile",
+];
+
+const delay = (ms: number) =>
+  new Promise<void>((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+
+export function ProfileCreate({
+  isEditMode = false,
+  isDraftEditMode = false,
+  isNewForm = false,
+}: ProfileCreateProps) {
+  const { id: profileId } = useParams<{ id: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { isJobSeeker, user } = useAuth();
+  const { t } = useLanguage();
+
+  // Create translated validation messages
+  const validationMessages = {
+    firstNameRequired: t("profileCreate.personalInfo.firstNameRequired"),
+    lastNameRequired: t("profileCreate.personalInfo.lastNameRequired"),
+    dobRequired: t("profileCreate.personalInfo.dobRequired"),
+    emailInvalid: t("profileCreate.personalInfo.emailInvalid"),
+    mobileRequired: t("profileCreate.personalInfo.mobileRequired"),
+    licenseOrPassportRequired: t(
+      "profileCreate.personalInfo.licenseOrPassportRequired"
+    ),
+    sinExpiryRequired: t("profileCreate.personalInfo.sinExpiryRequired"),
+    workPermitUciRequired: t(
+      "profileCreate.personalInfo.workPermitUciRequired"
+    ),
+    workPermitUciInvalid: t("profileCreate.personalInfo.workPermitUciInvalid"),
+    workPermitExpiryRequired: t(
+      "profileCreate.personalInfo.workPermitExpiryRequired"
+    ),
+    // Address validation messages
+    streetRequired: t("profileCreate.address.streetRequired"),
+    cityRequired: t("profileCreate.address.cityRequired"),
+    provinceRequired: t("profileCreate.address.provinceRequired"),
+    postalCodeRequired: t("profileCreate.address.postalCodeRequired"),
+    // Qualifications validation messages
+    workPreferenceRequired: t(
+      "profileCreate.qualifications.workPreferenceRequired"
+    ),
+    bioRequired: t("profileCreate.qualifications.bioRequired"),
+    bioMaxLength: t("profileCreate.qualifications.bioMaxLength"),
+    licenseTypeRequired: t("profileCreate.qualifications.licenseTypeRequired"),
+    experienceRequired: t("profileCreate.qualifications.experienceRequired"),
+    // Compensation validation messages
+    payrateTypeRequired: t("profileCreate.compensation.payrateTypeRequired"),
+    billRateRequired: t("profileCreate.compensation.billRateRequired"),
+    payRateRequired: t("profileCreate.compensation.payRateRequired"),
+    paymentMethodRequired: t(
+      "profileCreate.compensation.paymentMethodRequired"
+    ),
+    overtimeHoursRequired: t(
+      "profileCreate.compensation.overtimeHoursRequired"
+    ),
+    overtimeBillRateRequired: t(
+      "profileCreate.compensation.overtimeBillRateRequired"
+    ),
+    overtimePayRateRequired: t(
+      "profileCreate.compensation.overtimePayRateRequired"
+    ),
+    // Document validation messages
+    documentTypeRequired: t("profileCreate.documents.documentTypeRequired"),
+    documentFileRequired: t("profileCreate.documents.documentFileRequired"),
+    atLeastOneDocumentRequired: t(
+      "profileCreate.documents.atLeastOneDocumentRequired"
+    ),
+    maxFileSize: t("profileCreate.documents.maxFileSize"),
+    onlyPdfFiles: t("profileCreate.documents.onlyPdfFiles"),
+  };
+
+  // Create form schema with translated messages
+  const formSchema = createFormSchema(validationMessages);
+
+  // Check if isNewForm is passed via location state
+  const locationIsNewForm = location.state?.isNewForm === true;
+  const shouldStartWithNewForm = isNewForm || locationIsNewForm;
+
+  // Clear location state after checking
+  useEffect(() => {
+    if (locationIsNewForm) {
+      // Clear the isNewForm from location state to prevent it persisting on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [locationIsNewForm]);
+
+  const [currentStep, setCurrentStep] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+  const [isEmailAvailable, setIsEmailAvailable] = useState<boolean | null>(
+    null
+  );
+  // const [initialEmail, setInitialEmail] = useState<string | null>(null);
+  const [isSubmitConfirmationOpen, setIsSubmitConfirmationOpen] =
+    useState<boolean>(false);
+  const [formDataToSubmit, setFormDataToSubmit] =
+    useState<JobseekerProfileFormData | null>(null);
+
+  // Add a ref to track initial load to prevent auto-submission
+  const isInitialLoad = useRef(true);
+  // Add state to track user interaction
+  const [userInteracted, setUserInteracted] = useState(false);
+  const previousUserInteraction = useRef(false); // Add this to track previous interaction state
+
+  // Track created draft ID in the current session (for jobseeker drafts only)
+  const [createdDraftId, setCreatedDraftId] = useState<string | null>(null);
+
+  // New loading states object to track different operations
+  const [loadingStates, setLoadingStates] = useState({
+    formLoading: true, // Initial form loading
+    draftSaving: false, // Saving draft
+    emailChecking: false, // Checking email availability
+    submitting: false, // Form submission
+    fileUploading: false, // File uploads
+  });
+  const [createSubmissionOverlay, setCreateSubmissionOverlay] =
+    useState<CreateSubmissionOverlayState>({
+      mode: "idle",
+      activeStage: "documents",
+    });
+
+  // Helper function to update specific loading state
+  const setLoading = (key: keyof typeof loadingStates, value: boolean) => {
+    setLoadingStates((prev) => ({ ...prev, [key]: value }));
+  };
+
+  // Compute overall loading state
+  const isLoading = Object.values(loadingStates).some((state) => state);
+  const shouldShowCreateSubmissionOverlay =
+    !isEditMode && createSubmissionOverlay.mode !== "idle";
+
+  const setCreateSubmissionStage = (activeStage: CreateSubmissionStage) => {
+    setCreateSubmissionOverlay({
+      mode: "progress",
+      activeStage,
+    });
+  };
+
+  const showCreateSubmissionSuccess = () => {
+    setCreateSubmissionOverlay({
+      mode: "success",
+      activeStage: "profile",
+    });
+  };
+
+  const resetCreateSubmissionOverlay = () => {
+    setCreateSubmissionOverlay({
+      mode: "idle",
+      activeStage: "documents",
+    });
+  };
+
+  // Calculate total steps based on user type (hide compensation step for jobseekers)
+  const totalSteps = isJobSeeker ? 4 : 5;
+
+  // Initialize form methods with zod resolver
+  const methods = useForm<JobseekerProfileFormData>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    criteriaMode: "all",
+    defaultValues: {
+      // Personal info defaults
+      firstName: "",
+      lastName: "",
+      dob: "",
+      email: isJobSeeker && user?.email ? user.email : "",
+      billingEmail: "",
+      mobile:
+        isJobSeeker && user?.user_metadata?.phoneNumber
+          ? user.user_metadata.phoneNumber
+          : "",
+      licenseNumber: "",
+      passportNumber: "",
+      sinNumber: "",
+      sinExpiry: "",
+      workPermitUci: "",
+      workPermitExpiry: "",
+      businessNumber: "",
+      corporationName: "",
+
+      // Address & Qualifications defaults
+      street: "",
+      city: "",
+      province: "",
+      postalCode: "",
+      workPreference: "",
+      licenseType: "",
+      experience: "",
+      manualDriving: "NA",
+      availability: "Full-Time",
+      weekendAvailability: false,
+
+      // Compensation defaults
+      payrateType: "Hourly",
+      billRate: "0",
+      payRate: "",
+      paymentMethod: "",
+      hstGst: "",
+      cashDeduction: "0",
+      sinPayrollHoursCap: "",
+      overtimeEnabled: false,
+      overtimeHours: "",
+      overtimeBillRate: "",
+      overtimePayRate: "",
+
+      // Document upload defaults - Updated for multiple documents
+      documents: [],
+      // documentFile is not included in defaultValues since it's a File object
+    },
+  });
+
+  const watchedDocuments = methods.watch("documents");
+  const recruiterEditRequiresGovernmentId =
+    isEditMode &&
+    !isJobSeeker &&
+    !(
+      watchedDocuments?.some(
+        (doc) =>
+          doc.documentType === "government_id" &&
+          (!!doc.documentPath || doc.documentFile instanceof File)
+      ) ?? false
+    );
+
+  // Helper function to scroll to first error
+  const scrollToError = () => {
+    setTimeout(() => {
+      const errorElement = document.querySelector(".error-message");
+      if (errorElement) {
+        errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100); // Short delay to ensure DOM is updated
+  };
+
+  useEffect(() => {
+    if (isEditMode && profileId) {
+      // In edit mode, fetch the existing profile data
+      const fetchProfileData = async () => {
+        try {
+          setLoading("formLoading", true);
+          setError(null);
+
+          const profileData = await getJobseekerProfile(profileId);
+          if (!profileData) {
+            setError("Failed to load profile data");
+            return;
+          }
+
+          // Map detailed profile data to form format
+          const formData = {
+            firstName: profileData.firstName || "",
+            lastName: profileData.lastName || "",
+            dob: profileData.dob || "",
+            email: profileData.email || "",
+            billingEmail: profileData.billingEmail || "",
+            mobile: profileData.mobile || "",
+            licenseNumber: profileData.licenseNumber || "",
+            passportNumber: profileData.passportNumber || "",
+            sinNumber: profileData.sinNumber || "",
+            sinExpiry: profileData.sinExpiry || "",
+            workPermitUci: profileData.workPermitUci || "",
+            workPermitExpiry: profileData.workPermitExpiry || "",
+            businessNumber: profileData.businessNumber || "",
+            corporationName: profileData.corporationName || "",
+
+            street: profileData.street || "",
+            city: profileData.city || "",
+            province: profileData.province || "",
+            postalCode: profileData.postalCode || "",
+
+            workPreference: profileData.workPreference || "",
+            bio: profileData.bio || "No bio provided",
+            licenseType: profileData.licenseType || "",
+            experience: profileData.experience || "",
+            manualDriving:
+              (profileData.manualDriving as "Yes" | "No" | "NA") || "NA",
+            availability:
+              (profileData.availability as "Full-Time" | "Part-Time") ||
+              "Full-Time",
+            weekendAvailability: profileData.weekendAvailability || false,
+
+            payrateType:
+              (profileData.payrateType as "Hourly" | "Daily" | "Monthly") ||
+              "Hourly",
+            billRate: profileData.billRate || "0",
+            payRate: profileData.payRate || "",
+            paymentMethod: profileData.paymentMethod || "",
+            hstGst: profileData.hstGst || "",
+            cashDeduction:
+              profileData.paymentMethod === "Cash" ||
+              profileData.paymentMethod === "e-Transfer" ||
+              profileData.paymentMethod === "SIN and cash" ||
+              profileData.paymentMethod === "SIN and e-Transfer"
+                ? profileData.cashDeduction || "0"
+                : "0",
+            sinPayrollHoursCap:
+              profileData.sinPayrollHoursCap != null &&
+              profileData.sinPayrollHoursCap !== ""
+                ? String(profileData.sinPayrollHoursCap)
+                : "",
+            overtimeEnabled: profileData.overtimeEnabled || false,
+            overtimeHours: profileData.overtimeHours || "",
+            overtimeBillRate: profileData.overtimeBillRate || "",
+            overtimePayRate: profileData.overtimePayRate || "",
+
+            documents:
+              profileData.documents?.map((doc) => ({
+                ...doc,
+                id: doc.id || crypto.randomUUID(), // Ensure each document has an ID
+              })) || [],
+          };
+
+          // Reset form with fetched data
+          methods.reset(formData);
+
+          // Reset the initialLoad flag after a delay to prevent auto-submission
+          setTimeout(() => {
+            isInitialLoad.current = false;
+          }, 1000); // Increased from 500ms to 1000ms for more reliability
+        } catch (err) {
+          console.error("Error loading profile for editing:", err);
+          setError(
+            err instanceof Error ? err.message : "Failed to load profile data"
+          );
+        } finally {
+          setLoading("formLoading", false);
+        }
+      };
+
+      fetchProfileData();
+    } else if (isDraftEditMode && profileId) {
+      // In draft edit mode, fetch the specific draft by ID
+      const fetchDraftById = async () => {
+        try {
+          setLoading("formLoading", true);
+          const { draft, currentStep: savedStep } = await getJobseekerDraft(
+            profileId
+          );
+
+          if (draft) {
+            // Ensure default fallback values for compensation fields if empty in draft
+            const sanitizedDraft = {
+              ...methods.formState.defaultValues,
+              ...draft,
+              billRate:
+                draft.billRate && draft.billRate.trim() !== ""
+                  ? draft.billRate
+                  : "0",
+            };
+            // Set form values from draft
+            methods.reset(sanitizedDraft);
+            // Set current step
+            if (savedStep) {
+              setCurrentStep(savedStep);
+            }
+            // Set the draft ID so we can update it later
+            if (draft.id && typeof draft.id === 'string') {
+              setCreatedDraftId(draft.id);
+            }
+          }
+        } catch (error: unknown) {
+          console.error("Error fetching draft by ID:", error);
+          // Check if this is a cancellation error due to duplicate requests
+          if (
+            error instanceof Error &&
+            error.name === "CanceledError" &&
+            error.message?.includes("duplicate in-flight request")
+          ) {
+            console.log(
+              "Ignoring duplicate request cancellation - this is normal"
+            );
+            // Don't set an error state for canceled requests
+          } else {
+            // Only show the error message for genuine errors
+            setError(
+              "Failed to load draft. It may have been deleted or you do not have permission to view it."
+            );
+          }
+        } finally {
+          setLoading("formLoading", false);
+          // Reset the initialLoad flag after loading is complete
+          setTimeout(() => {
+            isInitialLoad.current = false;
+            console.log("Reset isInitialLoad flag after draft load");
+          }, 500);
+        }
+      };
+
+      fetchDraftById();
+    } else if (!isEditMode && !isDraftEditMode && isJobSeeker && !shouldStartWithNewForm) {
+      // For jobseekers creating a new profile, check if they have an existing draft
+      const checkExistingDraft = async () => {
+        try {
+          setLoading("formLoading", true);
+          const draftResponse = await getDraft();
+          
+          if (draftResponse.draft && draftResponse.draft.id && typeof draftResponse.draft.id === 'string') {
+            // User has an existing draft, load it automatically
+            console.log("Found existing draft, loading it automatically");
+            const sanitizedDraft = {
+              ...methods.formState.defaultValues,
+              ...draftResponse.draft,
+              billRate:
+                draftResponse.draft.billRate &&
+                draftResponse.draft.billRate.trim() !== ""
+                  ? draftResponse.draft.billRate
+                  : "0",
+            };
+            methods.reset(sanitizedDraft);
+            if (draftResponse.currentStep) {
+              setCurrentStep(draftResponse.currentStep);
+            }
+            // Set the draft ID so we can update it later
+            setCreatedDraftId(draftResponse.draft.id);
+            // Note: We stay on the same route but load the draft data
+            // The component will handle saving to the existing draft
+          }
+        } catch (error) {
+          // If no draft exists or error fetching, that's fine - just continue with new form
+          console.log("No existing draft found or error fetching draft:", error);
+        } finally {
+          setLoading("formLoading", false);
+        }
+      };
+
+      checkExistingDraft();
+    } else {
+      // When creating a new form, ensure loading state is turned off
+      setLoading("formLoading", false);
+    }
+  }, [
+    isEditMode,
+    isDraftEditMode,
+    shouldStartWithNewForm,
+    profileId,
+    methods,
+    isJobSeeker,
+    user,
+    navigate,
+  ]);
+
+  // Reset email availability state when moving away from step 1
+  useEffect(() => {
+    // Only execute this effect if the step changes
+    if (currentStep !== 1) {
+      // We only need to reset if it's not already null
+      if (isEmailAvailable !== null) {
+        setIsEmailAvailable(null); // Reset when moving to other steps
+      }
+    } else if (
+      currentStep === 1 &&
+      !isEditMode &&
+      !isDraftEditMode &&
+      !isJobSeeker
+    ) {
+      // If returning to step 1 and not in edit mode, only check if:
+      // 1. We have a valid email
+      // 2. We haven't checked already (isEmailAvailable is null)
+      const currentEmail = methods.getValues("email");
+      if (
+        currentEmail &&
+        currentEmail.includes("@") &&
+        currentEmail.length > 5 &&
+        isEmailAvailable === null
+      ) {
+        // Use a flag to prevent duplicate calls
+        let isMounted = true;
+
+        // Check email availability
+        const checkEmail = async () => {
+          try {
+            setLoading("emailChecking", true);
+            const result = await checkEmailAvailability(currentEmail);
+            // Only update state if component is still mounted
+            if (isMounted) {
+              setIsEmailAvailable(result.available);
+            }
+          } catch (error) {
+            console.error("Error checking email availability:", error);
+            // Only update state if component is still mounted
+            if (isMounted) {
+              setIsEmailAvailable(null);
+            }
+          } finally {
+            if (isMounted) {
+              setLoading("emailChecking", false);
+            }
+          }
+        };
+
+        checkEmail();
+
+        // Clean up function
+        return () => {
+          isMounted = false;
+        };
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep, isEditMode, isDraftEditMode]);
+
+  // Add an effect to ensure document validation on final step - but be careful not to trigger submission
+  useEffect(() => {
+    // ONLY run in create mode, never in edit mode
+    if (
+      currentStep === 5 &&
+      userInteracted &&
+      !isEditMode &&
+      !isDraftEditMode
+    ) {
+      console.log("On document step in CREATE mode, triggering validation");
+      // Trigger validation for documents
+      setTimeout(() => {
+        methods.trigger("documents");
+      }, 300);
+    }
+  }, [currentStep, userInteracted, methods, isEditMode, isDraftEditMode]);
+
+  // Track if the component just mounted
+  const justMounted = useRef(true);
+  const isFormLoaded = useRef(false); // Add a new flag to track when form is actually loaded
+
+  useEffect(() => {
+    // Set justMounted to false after component mounts
+    const timer = setTimeout(() => {
+      justMounted.current = false;
+      console.log("justMounted set to false");
+    }, 1500); // Increased from 1000ms to 1500ms for better reliability
+
+    // Track when user has interacted with the form
+    return () => {
+      clearTimeout(timer);
+      previousUserInteraction.current = userInteracted;
+    };
+  }, [userInteracted]);
+
+  // Add a specific effect to handle draft loading completion
+  useEffect(() => {
+    if (
+      isDraftEditMode &&
+      !loadingStates.formLoading &&
+      !isFormLoaded.current
+    ) {
+      console.log("Form loading complete, marking as ready for submission");
+      isFormLoaded.current = true;
+      isInitialLoad.current = false;
+    }
+  }, [isDraftEditMode, loadingStates.formLoading]);
+
+  // Centralized validation function for the current step
+  const validateCurrentStep = async () => {
+    const values = methods.getValues();
+    const currentFields = getStepFields(currentStep);
+
+    // Trigger validation only for fields in the current step
+    const isValid = await methods.trigger(
+      currentFields as Array<keyof JobseekerProfileFormData>
+    );
+
+    // Special case for step 1 (Personal info validation)
+    if (currentStep === 1) {
+      let personalInfoValid = isValid;
+
+      // Check for DOB validation - ensure it's not in the future and user is at least 18
+      if (values.dob) {
+        const dobResult = validateDOB(values.dob);
+        if (!dobResult.isValid && dobResult.errorMessage) {
+          methods.setError("dob", {
+            type: "custom",
+            message: dobResult.errorMessage,
+          });
+          personalInfoValid = false;
+          logValidation(
+            "validateCurrentStep: DOB validation failed: " +
+              dobResult.errorMessage
+          );
+        }
+      }
+
+      // Check for ID document requirement
+      if (
+        personalInfoValid &&
+        !values.licenseNumber &&
+        !values.passportNumber
+      ) {
+        methods.setError("licenseNumber", {
+          type: "custom",
+          message: "Either a license number or passport number is required",
+        });
+        personalInfoValid = false;
+      }
+
+      // Check for valid SIN if provided
+      if (personalInfoValid && values.sinNumber) {
+        const sinResult = validateSIN(values.sinNumber);
+        if (!sinResult.isValid && sinResult.errorMessage) {
+          methods.setError("sinNumber", {
+            type: "custom",
+            message: sinResult.errorMessage,
+          });
+          personalInfoValid = false;
+          logValidation(
+            "validateCurrentStep: SIN validation failed: " +
+              sinResult.errorMessage
+          );
+        }
+
+        // Check if SIN Expiry is required and missing - only for SINs starting with '9' (temporary residents)
+        if (
+          values.sinNumber.trim() !== "" &&
+          values.sinNumber.startsWith("9") &&
+          (!values.sinExpiry || values.sinExpiry.trim() === "")
+        ) {
+          methods.setError("sinExpiry", {
+            type: "custom",
+            message:
+              "SIN Expiry is required for temporary residents (SIN starting with '9')",
+          });
+          personalInfoValid = false;
+          logValidation(
+            "validateCurrentStep: SIN Expiry validation failed - required when SIN starts with '9'"
+          );
+        }
+
+        // Work/study permit fields — Zod object refinements may not run on partial trigger(); enforce here (same as SIN expiry)
+        if (
+          values.sinNumber.trim() !== "" &&
+          values.sinNumber.startsWith("9")
+        ) {
+          const uci = (values.workPermitUci || "").trim();
+          if (!uci) {
+            methods.setError("workPermitUci", {
+              type: "custom",
+              message: validationMessages.workPermitUciRequired,
+            });
+            personalInfoValid = false;
+            logValidation(
+              "validateCurrentStep: Work permit UCI required when SIN starts with '9'"
+            );
+          } else if (!/^\d{8}$|^\d{10}$/.test(uci)) {
+            methods.setError("workPermitUci", {
+              type: "custom",
+              message: validationMessages.workPermitUciInvalid,
+            });
+            personalInfoValid = false;
+            logValidation(
+              "validateCurrentStep: Work permit UCI format invalid"
+            );
+          }
+
+          if (!values.workPermitExpiry || values.workPermitExpiry.trim() === "") {
+            methods.setError("workPermitExpiry", {
+              type: "custom",
+              message: validationMessages.workPermitExpiryRequired,
+            });
+            personalInfoValid = false;
+            logValidation(
+              "validateCurrentStep: Work permit expiry required when SIN starts with '9'"
+            );
+          }
+        }
+      }
+
+      if (!personalInfoValid) {
+        return false;
+      }
+    }
+
+    // Special case for step 4 (compensation validation) for non-jobseekers
+    if (currentStep === 4 && isValid && !isJobSeeker) {
+      // Ensure billRate defaults to "0" since it is a hidden input
+      if (!values.billRate || values.billRate.trim() === "") {
+        methods.setValue("billRate", "0");
+      }
+
+      // For non-jobseekers, validate payrate, payRate, and paymentMethod as required
+      let compensationValid = true;
+
+      if (!values.payrateType) {
+        methods.setError("payrateType", {
+          type: "custom",
+          message: validationMessages.payrateTypeRequired,
+        });
+        compensationValid = false;
+      }
+
+      if (!values.payRate) {
+        methods.setError("payRate", {
+          type: "custom",
+          message: validationMessages.payRateRequired,
+        });
+        compensationValid = false;
+      }
+
+      if (!values.paymentMethod) {
+        methods.setError("paymentMethod", {
+          type: "custom",
+          message: validationMessages.paymentMethodRequired,
+        });
+        compensationValid = false;
+      }
+
+      if (!compensationValid) {
+        return false;
+      }
+    }
+
+    // Special case for step 5 (documents validation)
+    if (currentStep === 5 && isValid) {
+      // Check if documents array exists and has items
+      if (!values.documents || values.documents.length === 0) {
+        methods.setError("documents", {
+          type: "custom",
+          message: "At least one document is required",
+        });
+        return false;
+      }
+
+      // Check each document has required fields
+      let documentsValid = true;
+      values.documents.forEach((doc, index) => {
+        if (!doc.documentType) {
+          methods.setError(
+            `documents.${index}.documentType` as `documents.${number}.documentType`,
+            {
+              type: "custom",
+              message: "Document type is required",
+            }
+          );
+          documentsValid = false;
+        }
+
+        // Check if document has either a file or path
+        if (!doc.documentFile && !doc.documentPath) {
+          methods.setError(
+            `documents.${index}.documentFile` as `documents.${number}.documentFile`,
+            {
+              type: "custom",
+              message: "Document file is required",
+            }
+          );
+          documentsValid = false;
+        }
+      });
+
+      return documentsValid;
+    }
+
+    return isValid;
+  };
+
+  // Helper function to check if the current step is the qualifications step (3)
+  // This avoids direct comparison that's causing TypeScript narrowing errors
+  const isQualificationsStep = () => currentStep === 3;
+
+  // Function to save form data to draft
+  const saveDraft = async () => {
+    // Skip draft saving in regular edit mode
+    if (isEditMode) {
+      console.log("Draft saving skipped in edit mode");
+      return true;
+    }
+
+    try {
+      // Check email availability first if on first step
+      if (currentStep === 1) {
+        const email = methods.getValues("email");
+        if (email) {
+          // Only check if not already validated as available
+          if (isEmailAvailable !== true) {
+            try {
+              setLoading("emailChecking", true);
+              const result = await checkEmailAvailability(email);
+              setIsEmailAvailable(result.available);
+
+              if (!result.available) {
+                setError(
+                  "This email is already in use. Please use a different email to continue."
+                );
+                setLoading("emailChecking", false);
+                return false;
+              }
+            } catch (emailError) {
+              console.error("Error checking email availability:", emailError);
+              setError(
+                "Unable to verify email availability. Please try again."
+              );
+              setLoading("emailChecking", false);
+              return false;
+            } finally {
+              setLoading("emailChecking", false);
+            }
+          }
+        } else {
+          setError("Email is required to save draft.");
+          return false;
+        }
+      }
+
+      setLoading("draftSaving", true);
+      setError(null); // Clear previous errors
+      const formData = methods.getValues();
+
+      // Check if user is authenticated - needed for file uploads
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        // If saving draft requires file upload, user must be logged in.
+        throw new Error(
+          "User must be logged in to save draft with file uploads."
+        );
+      }
+
+      // Create a deep copy of form data to avoid mutating the original
+      const draftData = structuredClone(formData);
+
+      // Handle document uploads before saving draft
+      if (draftData.documents && draftData.documents.length > 0) {
+        for (const doc of draftData.documents) {
+          // Only upload if it's a new file without a path
+          if (doc.documentFile instanceof File && !doc.documentPath) {
+            console.log(
+              `Draft Save: Found file for document ID ${doc.id}, Type: ${doc.documentType}. Uploading...`
+            );
+            setLoading("fileUploading", true);
+
+            const fileToUpload = doc.documentFile;
+            const fileExt = fileToUpload.name.split(".").pop();
+            const uniqueFileName = `${crypto.randomUUID()}.${fileExt}`;
+            const filePath = `${user.id}/${
+              doc.documentType || "uncategorized"
+            }/${uniqueFileName}`;
+
+            console.log(`Draft Save: Uploading to Supabase path: ${filePath}`);
+
+            const { data: uploadData, error: uploadError } =
+              await supabase.storage
+                .from("jobseeker-documents")
+                .upload(filePath, fileToUpload);
+
+            if (uploadError) {
+              console.error(
+                `Draft Save: Supabase upload error for doc ${doc.id}:`,
+                uploadError
+              );
+              // Throw error, stop draft save
+              setLoading("fileUploading", false);
+              throw new Error(
+                `Failed to upload document '${fileToUpload.name}' during draft save: ${uploadError.message}`
+              );
+            } else {
+              // Update document with path info
+              doc.documentPath = uploadData?.path || "";
+              doc.documentFileName = fileToUpload.name; // Store the original file name
+              console.log(
+                `Draft Save: File uploaded successfully to ${doc.documentPath}`
+              );
+            }
+          } else if (doc.documentFile && doc.documentPath) {
+            console.log(
+              `Draft Save: File for document ID ${doc.id} already has a path (${doc.documentPath}), skipping upload.`
+            );
+          } else {
+            console.log(
+              `Draft Save: No new file selected for document ID ${doc.id}, skipping upload.`
+            );
+          }
+
+          // Always remove the file object before saving the draft JSON
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { documentFile, ...docWithoutFile } = doc;
+          Object.assign(doc, docWithoutFile); // Update the object in the array
+          doc.documentFile = undefined; // Explicitly set to undefined
+        }
+        setLoading("fileUploading", false);
+      }
+
+      // Ensure email is explicitly included at the top level
+      const email = draftData.email || "";
+
+      // Save the potentially modified draft data (with documentPaths)
+      let response;
+
+      // For jobseekers, always use the profile draft API which handles existing drafts correctly
+      if (isJobSeeker) {
+        // If we already have a draft ID (from existing draft or created in this session), update it
+        if (createdDraftId) {
+          console.log(`Updating existing draft with ID: ${createdDraftId}`);
+          // Use the jobseeker draft API to update
+          response = await saveJobseekerDraft({
+            ...draftData,
+            id: createdDraftId,
+            currentStep,
+            email,
+          });
+        } else {
+          // For jobseekers, use the profile draft API which checks for existing drafts by user_id
+          // This will update existing draft or create new one
+          response = await saveDraftAPI({
+            ...draftData,
+            currentStep,
+            email,
+          });
+          // If a new draft was created, get its ID from the response
+          // Note: saveDraftAPI doesn't return the draft ID, so we need to fetch it
+          // But since jobseekers can only have one draft, we can fetch it after saving
+          try {
+            const draftResponse = await getDraft();
+            if (draftResponse.draft && draftResponse.draft.id && typeof draftResponse.draft.id === 'string') {
+              setCreatedDraftId(draftResponse.draft.id);
+            }
+          } catch (err) {
+            console.log("Could not fetch draft ID after save:", err);
+          }
+        }
+      } else if (createdDraftId) {
+        // For recruiters/admins, if we already created a draft in this session, use that ID
+        console.log(`Updating existing draft with ID: ${createdDraftId}`);
+        response = await saveJobseekerDraft({
+          ...draftData,
+          id: createdDraftId,
+          currentStep,
+          email,
+        });
+      } else if (isDraftEditMode && profileId && !isNewForm) {
+        // If we're editing a draft, update it with its ID
+        response = await saveJobseekerDraft({
+          ...draftData,
+          id: profileId,
+          currentStep,
+          email,
+        });
+      } else if (isNewForm || !profileId) {
+        // If this is a new form, always create a new draft by explicitly setting id to undefined
+        response = await saveJobseekerDraft({
+          ...draftData,
+          id: undefined, // Force creation of a new draft
+          currentStep,
+          email,
+        });
+
+        // Save the ID of the newly created draft
+        if (response && response.id) {
+          console.log(`New draft created with ID: ${response.id}`);
+          setCreatedDraftId(response.id);
+        }
+      } else {
+        // For a new draft, use the old API in regular mode
+        response = await saveDraftAPI({
+          ...draftData,
+          currentStep,
+          email,
+        });
+      }
+
+      console.log("Draft saved successfully:", response);
+
+      setLoading("draftSaving", false);
+      // Show success message (using whatever toast system is available)
+      console.log("Draft saved successfully (including file uploads if any)");
+
+      return response?.id || true;
+    } catch (error) {
+      console.error("Error saving draft:", error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred while saving draft");
+      }
+      return false;
+    } finally {
+      setLoading("draftSaving", false);
+      setLoading("fileUploading", false);
+    }
+  };
+
+  // Function to handle "Continue" button click
+  const handleContinue = async () => {
+    // Mark user as having interacted with the form
+    setUserInteracted(true);
+    previousUserInteraction.current = true;
+
+    if (currentStep < totalSteps) {
+      // Validate the current step
+      const isValid = await validateCurrentStep();
+
+      if (!isValid) {
+        scrollToError();
+        return;
+      }
+
+      // For the first step, explicitly verify email availability
+      if (currentStep === 1 && !isEditMode && !isDraftEditMode) {
+        const email = methods.getValues("email");
+
+        if (email) {
+          try {
+            // If email is available, proceed to save and continue
+            const saveResult = await saveDraft();
+            // If saveResult is a string/number, it's the draft ID
+            if (saveResult && typeof saveResult !== "boolean") {
+              setCreatedDraftId(saveResult);
+            }
+
+            if (saveResult) {
+              // For jobseekers, if at qualifications step, skip to documents step
+              if (isJobSeeker && isQualificationsStep()) {
+                setCurrentStep(5); // Skip to documents step
+              } else {
+                setCurrentStep((prevStep) => prevStep + 1);
+              }
+            }
+          } catch (error) {
+            console.error("Error checking email availability:", error);
+            setError("Unable to verify email availability. Please try again.");
+          } finally {
+            setLoading("emailChecking", false);
+          }
+        } else {
+          // If no email provided, trigger validation errors
+          await methods.trigger("email");
+          setError("Email is required to continue.");
+        }
+      } else {
+        // For other steps or in edit mode, proceed
+        if (isEditMode) {
+          // In edit mode, just move to the next step without saving draft
+          // For jobseekers, if at qualifications step, skip to documents step
+          if (isJobSeeker && isQualificationsStep()) {
+            setCurrentStep(5); // Skip to documents step
+          } else {
+            setCurrentStep((prevStep) => prevStep + 1);
+          }
+        } else {
+          // For other steps in create mode, save draft and continue
+          const saveResult = await saveDraft();
+          // If saveResult is a string/number, it's the draft ID
+          if (saveResult && typeof saveResult !== "boolean") {
+            setCreatedDraftId(saveResult);
+          }
+
+          if (saveResult) {
+            // For jobseekers, if at qualifications step, skip to documents step
+            if (isJobSeeker && isQualificationsStep()) {
+              setCurrentStep(5); // Skip to documents step
+            } else {
+              setCurrentStep((prevStep) => prevStep + 1);
+            }
+          }
+        }
+      }
+    }
+  };
+
+  // Function to handle "Back" button click with option to save
+  const handleBack = async (saveBeforeBack = true) => {
+    // Mark user as having interacted with the form
+    setUserInteracted(true);
+    previousUserInteraction.current = true;
+
+    if (currentStep > 1) {
+      // For jobseekers, if we're at step 5 (documents), go back to step 3 (qualifications)
+      if (isJobSeeker && currentStep === 5) {
+        if (saveBeforeBack && !isEditMode && !isDraftEditMode) {
+          // Only save draft when going back if not in edit mode
+          await saveDraft();
+        }
+        setCurrentStep(3);
+      } else {
+        if (saveBeforeBack && !isEditMode && !isDraftEditMode) {
+          // Only save draft when going back if not in edit mode
+          await saveDraft();
+        }
+        setCurrentStep((prevStep) => prevStep - 1);
+      }
+    }
+  };
+
+  // Function to handle final form submission
+  const handleSubmit = async (data: JobseekerProfileFormData) => {
+    // AGGRESSIVE protection against auto-submission in edit mode
+    if (isEditMode) {
+      // If component just mounted or initial load
+      if (justMounted.current || isInitialLoad.current) {
+        return;
+      }
+
+      // Additional check - if we haven't seen user interaction
+      if (!userInteracted && !previousUserInteraction.current) {
+        return;
+      }
+    }
+
+    // Validate the final step explicitly
+    if (currentStep === totalSteps) {
+      const isValid = await validateCurrentStep();
+      if (!isValid) {
+        scrollToError();
+        return;
+      }
+    }
+
+    // If this is a jobseeker in edit mode, show confirmation dialog
+    if (isEditMode && isJobSeeker && profileId) {
+      setFormDataToSubmit(data);
+      setIsSubmitConfirmationOpen(true);
+      return;
+    }
+
+    // Otherwise, proceed with normal submission
+    submitFormData(data);
+  };
+
+  const getAuthenticatedUserForFileUpload = async () => {
+    const {
+      data: { user: authenticatedUser },
+    } = await supabase.auth.getUser();
+
+    if (!authenticatedUser) {
+      throw new Error("User not authenticated for file upload");
+    }
+
+    return authenticatedUser;
+  };
+
+  const prepareProfileDataForSubmission = (
+    data: JobseekerProfileFormData
+  ): JobseekerProfileFormData => {
+    const profileData = structuredClone(data);
+
+    if (!profileData.billRate) profileData.billRate = "0";
+
+    if (isJobSeeker) {
+      if (!profileData.payrateType) profileData.payrateType = "Hourly";
+      if (!profileData.payRate) profileData.payRate = "0";
+      if (!profileData.paymentMethod) profileData.paymentMethod = "Cheque";
+    }
+
+    return profileData;
+  };
+
+  const uploadProfileDocuments = async (
+    profileData: JobseekerProfileFormData,
+    authenticatedUserId: string
+  ) => {
+    if (!profileData.documents?.length) {
+      return;
+    }
+
+    setLoading("fileUploading", true);
+
+    try {
+      for (const doc of profileData.documents) {
+        if (!(doc.documentFile instanceof File)) {
+          continue;
+        }
+
+        const fileToUpload = doc.documentFile;
+        const fileExt = fileToUpload.name.split(".").pop();
+        const uniqueFileName = `${crypto.randomUUID()}.${fileExt}`;
+        const filePath = `${authenticatedUserId}/${
+          doc.documentType || "uncategorized"
+        }/${uniqueFileName}`;
+
+        console.log(`Uploading file to: ${filePath}`);
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("jobseeker-documents")
+          .upload(filePath, fileToUpload);
+
+        if (uploadError) {
+          console.error("Supabase upload error:", uploadError);
+          throw new Error(`Failed to upload document: ${uploadError.message}`);
+        }
+
+        doc.documentPath = uploadData?.path || "";
+        doc.documentFileName = fileToUpload.name;
+        console.log(`File uploaded successfully: ${doc.documentPath}`);
+
+        // Remove the File object before sending the payload to the API.
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { documentFile, ...docWithoutFile } = doc;
+        Object.assign(doc, docWithoutFile);
+        doc.documentFile = undefined;
+      }
+    } finally {
+      setLoading("fileUploading", false);
+    }
+  };
+
+  const navigateToAccountCreated = (result: SubmitProfileResponse) => {
+    navigate("/jobseekers/profile/account-created", {
+      state: {
+        email: result.email,
+        password: result.password,
+        profile: result.profile,
+        accountCreated: true,
+      },
+    });
+  };
+
+  const handleCreateProfileSuccess = async (result: SubmitProfileResponse) => {
+    setCreateSubmissionStage("profile");
+    await delay(250);
+
+    if (isJobSeeker) {
+      window.location.reload();
+      navigate("/profile-verification-pending");
+      return;
+    }
+
+    if (result.accountCreated) {
+      navigateToAccountCreated(result);
+      return;
+    }
+
+    showCreateSubmissionSuccess();
+    await delay(1200);
+    navigate("/jobseeker-management", {
+      state: {
+        message: t("profileCreate.profileCreatedSuccess"),
+        type: "success",
+      },
+    });
+  };
+
+  // New function to handle the actual submission after confirmation
+  const submitFormData = async (data: JobseekerProfileFormData) => {
+    try {
+      const isDocumentStep = currentStep === 5;
+      const isLoadingDocuments = loadingStates.fileUploading;
+
+      if (isDocumentStep && isLoadingDocuments) {
+        console.log("Preventing submission while documents are loading");
+        return;
+      }
+
+      setLoading("submitting", true);
+      setError(null);
+
+      const authenticatedUser = await getAuthenticatedUserForFileUpload();
+      const profileData = prepareProfileDataForSubmission(data);
+      const hasPendingUploads =
+        profileData.documents?.some(
+          (doc) => doc.documentFile instanceof File
+        ) ?? false;
+
+      if (!isEditMode) {
+        setCreateSubmissionStage(hasPendingUploads ? "documents" : "account");
+      }
+
+      await uploadProfileDocuments(profileData, authenticatedUser.id);
+
+      if (isEditMode && profileId) {
+        await updateProfile(profileId, profileData);
+
+        if (isJobSeeker) {
+          await updateJobseekerStatus(profileId, "pending");
+          window.location.reload();
+          return;
+        }
+
+        navigate("/jobseeker-management", {
+          state: {
+            message: t("profileCreate.profileUpdatedSuccess"),
+            type: "success",
+          },
+        });
+        return;
+      }
+
+      setCreateSubmissionStage("account");
+
+      const result = await submitProfile(profileData);
+      await handleCreateProfileSuccess(result);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred during submission");
+      }
+    } finally {
+      setLoading("submitting", false);
+      setLoading("fileUploading", false);
+      resetCreateSubmissionOverlay();
+    }
+  };
+
+  // Add this function to control which validation errors are shown
+  const getStepFields = (step: number): string[] => {
+    switch (step) {
+      case 1:
+        return [
+          "firstName",
+          "lastName",
+          "dob",
+          "email",
+          "billingEmail",
+          "mobile",
+          "licenseNumber",
+          "passportNumber",
+          "sinNumber",
+          "sinExpiry",
+          "workPermitUci",
+          "workPermitExpiry",
+          "businessNumber",
+          "corporationName",
+        ];
+      case 2:
+        return ["street", "city", "province", "postalCode"];
+      case 3:
+        return [
+          "licenseType",
+          "experience",
+          "availability",
+          "manualDriving",
+          "workPreference",
+          "bio",
+          "weekendAvailability",
+        ];
+      case 4:
+        return [
+          "payrateType",
+          "billRate",
+          "payRate",
+          "paymentMethod",
+          "hstGst",
+          "cashDeduction",
+          "sinPayrollHoursCap",
+          "overtimeEnabled",
+          "overtimeHours",
+          "overtimeBillRate",
+          "overtimePayRate",
+        ];
+      case 5:
+        return ["documents"];
+      default:
+        return [];
+    }
+  };
+
+  // Render the current step component
+  const renderStep = () => {
+    // For jobseekers, adjust the step display for the document form
+    const displayStep = isJobSeeker && currentStep === 5 ? 4 : currentStep;
+
+    switch (currentStep) {
+      case 1:
+        return (
+          <PersonalInfoForm
+            currentStep={currentStep}
+            allFields={getStepFields(currentStep)}
+            onEmailAvailabilityChange={(isAvailable) =>
+              setIsEmailAvailable(isAvailable)
+            }
+            disableEmail={isJobSeeker || isEditMode || isDraftEditMode}
+            disableMobile={isJobSeeker || isEditMode || isDraftEditMode}
+          />
+        );
+      case 2:
+      case 3:
+        return (
+          <AddressQualificationsForm
+            currentStep={currentStep}
+            allFields={getStepFields(currentStep)}
+          />
+        );
+      case 4:
+        // Skip compensation form for jobseekers (should never reach here for jobseekers)
+        if (isJobSeeker) {
+          // If somehow this is reached by jobseekers, redirect to documents
+          setCurrentStep(5);
+          return null;
+        }
+        return (
+          <CompensationForm
+            currentStep={currentStep}
+            allFields={getStepFields(currentStep)}
+          />
+        );
+      case 5:
+        return (
+          <DocumentUploadForm
+            currentStep={displayStep}
+            allFields={getStepFields(5)}
+            disableSubmit={
+              loadingStates.fileUploading || loadingStates.submitting
+            }
+            isEditMode={isEditMode || isDraftEditMode}
+          />
+        );
+      default:
+        return (
+          <PersonalInfoForm
+            currentStep={1}
+            allFields={getStepFields(1)}
+            onEmailAvailabilityChange={(isAvailable) =>
+              setIsEmailAvailable(isAvailable)
+            }
+            disableEmail={isJobSeeker || isEditMode || isDraftEditMode}
+          />
+        );
+    }
+  };
+
+  // --- Step Indicator Logic ---
+  const renderStepIndicator = () => {
+    // For jobseekers, if on the document step (5), treat it as step 4 for UI
+    const adjustedCurrentStep =
+      isJobSeeker && currentStep === 5 ? 4 : currentStep;
+
+    // Calculate overall progress percentage - width between first and last step
+    const progressWidth =
+      adjustedCurrentStep === 1
+        ? 0
+        : ((adjustedCurrentStep - 1) / (totalSteps - 1)) * 100;
+
+    return (
+      <div className="step-journey-container">
+        {/* Step markers with connector line */}
+        <div className="step-markers">
+          {/* Progress fill that shows completion */}
+          <div
+            className="step-progress-fill"
+            style={{ width: `${progressWidth}%` }}
+          />
+
+          {Array.from({ length: totalSteps }, (_, i) => {
+            const stepNum = i + 1;
+
+            // Check if this step should be active
+            const isActive = stepNum === adjustedCurrentStep;
+
+            // Check if this step should be marked as completed
+            const isCompleted = stepNum < adjustedCurrentStep;
+
+            return (
+              <div
+                key={stepNum}
+                className={`step-marker ${isActive ? "active" : ""} ${
+                  isCompleted ? "completed" : ""
+                }`}
+                style={{ "--index": i } as React.CSSProperties}
+              >
+                <div className="step-bubble">
+                  {isCompleted ? <Check size={20} /> : stepNum}
+                </div>
+                <div className="step-label">{t(getStepLabelKey(stepNum))}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  // Helper function to get step labels (returns translation keys)
+  const getStepLabelKey = (step: number): string => {
+    switch (step) {
+      case 1:
+        return "profileCreate.stepPersonalInfo";
+      case 2:
+        return "profileCreate.stepAddress";
+      case 3:
+        return "profileCreate.stepQualifications";
+      case 4:
+        return "profileCreate.stepCompensation";
+      case 5:
+        return "profileCreate.stepDocuments";
+      default:
+        return "profileCreate.stepGeneric";
+    }
+  };
+
+  const createSubmissionSteps = createSubmissionStageOrder.map((stage) => {
+    const activeStageIndex = createSubmissionStageOrder.indexOf(
+      createSubmissionOverlay.activeStage
+    );
+    const stageIndex = createSubmissionStageOrder.indexOf(stage);
+
+    let status: "pending" | "active" | "complete" = "pending";
+
+    if (createSubmissionOverlay.mode === "success") {
+      status = "complete";
+    } else if (stageIndex < activeStageIndex) {
+      status = "complete";
+    } else if (stageIndex === activeStageIndex) {
+      status = "active";
+    }
+
+    switch (stage) {
+      case "documents":
+        return {
+          key: stage,
+          label: t("profileCreate.submissionStatus.uploadTitle"),
+          description: t("profileCreate.submissionStatus.uploadDescription"),
+          status,
+        };
+      case "account":
+        return {
+          key: stage,
+          label: t("profileCreate.submissionStatus.accountTitle"),
+          description: t("profileCreate.submissionStatus.accountDescription"),
+          status,
+        };
+      case "profile":
+        return {
+          key: stage,
+          label: t("profileCreate.submissionStatus.profileTitle"),
+          description: t("profileCreate.submissionStatus.profileDescription"),
+          status,
+        };
+      default:
+        return {
+          key: stage,
+          label: "",
+          description: "",
+          status,
+        };
+    }
+  });
+
+  // Render loading indicator based on specific loading states
+  const renderLoadingIndicator = () => {
+    if (shouldShowCreateSubmissionOverlay) {
+      return null;
+    }
+
+    if (loadingStates.formLoading) {
+      return (
+        <div className="loading-indicator">
+          {t("profileCreate.loadingDraft")}
+        </div>
+      );
+    }
+    if (loadingStates.fileUploading) {
+      return (
+        <div className="loading-indicator">
+          {t("profileCreate.uploadingFiles")}
+        </div>
+      );
+    }
+    if (loadingStates.draftSaving) {
+      return (
+        <div className="loading-indicator">
+          {t("profileCreate.savingDraft")}
+        </div>
+      );
+    }
+    if (loadingStates.submitting) {
+      return (
+        <div className="loading-indicator">
+          {t("profileCreate.submittingProfile")}
+        </div>
+      );
+    }
+    if (loadingStates.emailChecking) {
+      return (
+        <div className="loading-indicator">
+          {t("profileCreate.checkingEmail")}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="profile-create-container">
+      <AppHeader
+        title={
+          isEditMode
+            ? t("profileCreate.editProfileTitle")
+            : isDraftEditMode
+            ? t("profileCreate.editDraftTitle")
+            : t("profileCreate.createProfileTitle")
+        }
+        actions={
+          <>
+            {!isEditMode && (
+              <button
+                type="button"
+                className="button secondary button-icon"
+                onClick={async () => {
+                  const saveResult = await saveDraft();
+                  // If saveResult is a string/number, it's the draft ID
+                  if (saveResult && typeof saveResult !== "boolean") {
+                    setCreatedDraftId(saveResult);
+                  }
+                }}
+                disabled={
+                  isLoading || (currentStep === 1 && isEmailAvailable === false)
+                }
+                title={
+                  currentStep === 1 && isEmailAvailable === false
+                    ? t("profileCreate.emailInUseTooltip")
+                    : ""
+                }
+              >
+                <Save size={16} />
+                <span>
+                  {loadingStates.draftSaving
+                    ? t("profileCreate.saving")
+                    : t("profileCreate.saveDraft")}
+                </span>
+              </button>
+            )}
+            {!isJobSeeker && (
+              <button
+                className="button button-icon"
+                onClick={() => navigate("/jobseeker-management")}
+              >
+                <ArrowLeft size={16} />
+                <span>{t("jobseekerManagement.backToManagement")}</span>
+              </button>
+            )}
+          </>
+        }
+        statusMessage={
+          error
+            ? error
+            : currentStep === 1 && isEmailAvailable === false
+            ? t("profileCreate.emailInUseMessage")
+            : undefined
+        }
+        statusType={
+          error || (currentStep === 1 && isEmailAvailable === false)
+            ? "error"
+            : undefined
+        }
+      />
+
+      {renderStepIndicator()}
+
+      {recruiterEditRequiresGovernmentId && (
+        <div className="profile-edit-requirement-banner">
+          <p className="profile-edit-requirement-title">
+            {t("profileCreate.missingGovernmentIdBannerTitle")}
+          </p>
+          <p className="profile-edit-requirement-copy">
+            {t("profileCreate.missingGovernmentIdBannerBody")}
+          </p>
+        </div>
+      )}
+
+      {renderLoadingIndicator()}
+      <ProfileSubmissionOverlay
+        isOpen={shouldShowCreateSubmissionOverlay}
+        variant={
+          createSubmissionOverlay.mode === "success" ? "success" : "progress"
+        }
+        title={
+          createSubmissionOverlay.mode === "success"
+            ? t("profileCreate.submissionStatus.successTitle")
+            : t("profileCreate.submissionStatus.progressTitle")
+        }
+        description={
+          createSubmissionOverlay.mode === "success"
+            ? t("profileCreate.submissionStatus.successDescription")
+            : t("profileCreate.submissionStatus.progressDescription")
+        }
+        steps={createSubmissionSteps}
+      />
+
+      <div className={`form-card ${isLoading ? "form-loading" : ""}`}>
+        <FormProvider {...methods}>
+          <form
+            onSubmit={(e) => {
+              // Prevent default form submission and manually handle later
+              e.preventDefault();
+
+              // Mark user interaction
+              setUserInteracted(true);
+              previousUserInteraction.current = true;
+
+              // Only prevent auto-submission if we're REALLY in initial load
+              if (
+                (isEditMode || isDraftEditMode) &&
+                (justMounted.current ||
+                  (isInitialLoad.current && !isFormLoaded.current))
+              ) {
+                return;
+              }
+
+              // Call React Hook Form's handleSubmit
+              methods.handleSubmit(
+                // On valid submission
+                (data) => {
+                  handleSubmit(data);
+                },
+                // On validation error
+                (errors) => {
+                  console.error("Validation errors:", errors);
+                  scrollToError();
+                }
+              )();
+            }}
+            className={isLoading ? "form-loading" : ""}
+          >
+            <div className="form-content">{renderStep()}</div>
+
+            <div className="form-navigation">
+              {currentStep > 1 && (
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => handleBack(true)}
+                  disabled={isLoading}
+                >
+                  {t("buttons.back")}
+                </button>
+              )}
+
+              {currentStep < totalSteps ? (
+                <>
+                  <button
+                    type="button"
+                    className="button primary"
+                    onClick={() => {
+                      setUserInteracted(true);
+                      handleContinue();
+                    }}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <span className="loading-spinner"></span>
+                    ) : (
+                      t("buttons.next")
+                    )}
+                  </button>
+                  {isEditMode && (
+                    <button
+                      type="submit"
+                      className="button primary"
+                      onClick={() => {
+                        setUserInteracted(true);
+                      }}
+                      disabled={
+                        (isLoading && justMounted.current) ||
+                        recruiterEditRequiresGovernmentId
+                      }
+                      title={
+                        recruiterEditRequiresGovernmentId
+                          ? t("profileCreate.missingGovernmentIdSubmitDisabled")
+                          : ""
+                      }
+                    >
+                      {loadingStates.submitting ? (
+                        <span className="loading-spinner"></span>
+                      ) : isEditMode ? (
+                        t("profileCreate.updateProfile")
+                      ) : (
+                        t("profileCreate.createProfile")
+                      )}
+                    </button>
+                  )}
+                </>
+              ) : (
+                <button
+                  type="submit"
+                  className="button primary"
+                  onClick={() => {
+                    setUserInteracted(true);
+                  }}
+                  disabled={
+                    (isLoading && justMounted.current) ||
+                    recruiterEditRequiresGovernmentId
+                  }
+                  title={
+                    recruiterEditRequiresGovernmentId
+                      ? t("profileCreate.missingGovernmentIdSubmitDisabled")
+                      : ""
+                  }
+                >
+                  {loadingStates.submitting ? (
+                    <span className="loading-spinner"></span>
+                  ) : isEditMode ? (
+                    t("profileCreate.updateProfile")
+                  ) : (
+                    t("profileCreate.createProfile")
+                  )}
+                </button>
+              )}
+            </div>
+          </form>
+        </FormProvider>
+      </div>
+
+      {/* Submit Confirmation Modal for Jobseekers */}
+      <ConfirmationModal
+        isOpen={isSubmitConfirmationOpen}
+        title={t("profileCreate.profileStatusChangeNoticeTitle")}
+        message={t("profileCreate.profileStatusChangeNoticeMessage")}
+        confirmText={t("profileCreate.submitChanges")}
+        cancelText={t("buttons.cancel")}
+        confirmButtonClass="primary"
+        onConfirm={() => {
+          setIsSubmitConfirmationOpen(false);
+          if (formDataToSubmit) {
+            submitFormData(formDataToSubmit);
+          }
+        }}
+        onCancel={() => setIsSubmitConfirmationOpen(false)}
+      />
+    </div>
+  );
+}

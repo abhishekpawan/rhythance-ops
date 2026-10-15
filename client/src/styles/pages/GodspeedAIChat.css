@@ -1,0 +1,20 @@
+/* Godspeed AI Chat Page Styles */
+
+.godspeed-ai-chat-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 68px;
+  margin-top: 60px;
+}
+
+.ai-chat-main {
+  flex: 1;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.ai-chat-content {
+  height: calc(100vh - 60px); /* Full height minus header and padding */
+  overflow: hidden;
+}

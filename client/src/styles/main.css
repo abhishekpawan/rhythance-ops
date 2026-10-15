@@ -1,0 +1,15 @@
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* Main CSS Entry Point */
+
+/* Variables and Base Styles */
+@import './variables.css';
+@import './utils.css';
+
+/* Component Styles */
+@import './components/button.css';
+@import './components/form.css';
+@import './components/logo.css';
+@import './components/theme-toggle.css';
+@import './components/header.css';
