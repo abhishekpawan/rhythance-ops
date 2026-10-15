@@ -23,7 +23,7 @@ export function TermsOfService() {
             {t("legal.effectiveDate")}: 09.09.2025
           </p>
           <p className="legal-page-company">
-            {t("legal.company")}: Motion Falcon Group
+            {t("legal.company")}: Rhythence Group
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export function TermsOfService() {
           </p>
 
           <h2>1. Scope of Services</h2>
-          <h3>1.1. Motion Falcon Group provides an online platform for:</h3>
+          <h3>1.1. Rhythence Group provides an online platform for:</h3>
           <ul>
             <li>Candidate sourcing, screening, and placement.</li>
             <li>HR consulting and advisory services.</li>
@@ -101,7 +101,7 @@ export function TermsOfService() {
           </ul>
           <p>
             <strong>4.2.</strong> Employers are solely responsible for final
-            hiring decisions. Motion Falcon Group is not liable for employment
+            hiring decisions. Rhythence Group is not liable for employment
             outcomes, workplace behaviour, or performance of hired candidates.
           </p>
 
@@ -175,7 +175,7 @@ export function TermsOfService() {
           <p>
             <strong>9.1.</strong> All content on our Website and platform —
             including text, graphics, trademarks, and software — remains the
-            property of Motion Falcon Group.
+            property of Rhythence Group.
           </p>
           <p>
             <strong>9.2.</strong> Users may not copy, redistribute, reverse
@@ -210,7 +210,7 @@ export function TermsOfService() {
 
           <h2>12. Indemnification</h2>
           <h3>
-            12.1. You agree to indemnify and hold Motion Falcon Group, its
+            12.1. You agree to indemnify and hold Rhythence Group, its
             directors, employees, and affiliates harmless from any claims,
             damages, or expenses arising from your:
           </h3>
@@ -275,7 +275,7 @@ export function TermsOfService() {
                 contact:
               </p>
               <p>
-                <strong>Motion Falcon Group</strong>
+                <strong>Rhythence Group</strong>
               </p>
               <p>2795 Slough Street, Mississauga, ON L4T 1G2</p>
               <p>info@godspeedxp.com</p>

@@ -23,14 +23,14 @@ export function PrivacyPolicy() {
             {t("legal.effectiveDate")}: 09.09.2025
           </p>
           <p className="legal-page-company">
-            {t("legal.company")}: Motion Falcon Group ("Company," "we," "our,"
+            {t("legal.company")}: Rhythence Group ("Company," "we," "our,"
             "us")
           </p>
         </div>
 
         <div className="legal-page-body">
           <p>
-            Motion Falcon Group is committed to protecting the privacy and
+            Rhythence Group is committed to protecting the privacy and
             personal information of all individuals who use our website and
             Services. This Privacy Policy explains how we collect, use,
             disclose, and safeguard personal information in compliance with the
@@ -216,7 +216,7 @@ export function PrivacyPolicy() {
                 consent, please contact:
               </p>
               <p>
-                <strong>Motion Falcon Group</strong>
+                <strong>Rhythence Group</strong>
               </p>
               <p>2795 Slough Street, Mississauga, ON L4T 1G2</p>
               <p>info@godspeedxp.com</p>

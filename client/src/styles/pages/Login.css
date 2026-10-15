@@ -162,8 +162,9 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* Motion Falcon Footer */
-.motion-falcon-footer {
+/* Rhythence / Motion Falcon Footer */
+.motion-falcon-footer,
+.rhythence-footer {
   position: absolute;
   bottom: 16px;
   display: flex;
@@ -176,26 +177,32 @@
   transition: opacity var(--transition-normal);
 }
 
-.motion-falcon-footer:hover {
+.motion-falcon-footer:hover,
+.rhythence-footer:hover {
   opacity: 1;
 }
 
-.motion-falcon-footer.left {
+.motion-falcon-footer.left,
+.rhythence-footer.left {
   left: 16px;
 }
 
-.motion-falcon-footer.right {
+.motion-falcon-footer.right,
+.rhythence-footer.right {
   right: 16px;
 }
 
-.motion-falcon-logo {
+.motion-falcon-logo,
+.rhythence-logo {
   height: 16px;
   width: auto;
+  border-radius: 3px;
   filter: grayscale(20%);
   transition: filter var(--transition-normal);
 }
 
-.motion-falcon-footer:hover .motion-falcon-logo {
+.motion-falcon-footer:hover .motion-falcon-logo,
+.rhythence-footer:hover .rhythence-logo {
   filter: grayscale(0%);
 }
 

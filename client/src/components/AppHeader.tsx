@@ -1,8 +1,7 @@
 import { ReactNode, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, RefreshCcw } from "lucide-react";
-import godspeedLogo from "../assets/logos/motionfalcon-logo-fulllegth.png";
-import godspeedIconLogo from "../assets/logos/godspped-logo.png";
+import rhythenceLogo from "../assets/logos/rhythence-logo.png";
 import canHireIconLogo from "../assets/logos/canhire-logo.png";
 import allStaffIconLogo from "../assets/logos/allstaff-logo.png";
 import hdGroupIconLogo from "../assets/logos/hdgroup-logo.png";
@@ -141,7 +140,7 @@ export function AppHeader({
           <div className="header-left">
             <div className="logo-container" onClick={() => navigate("/")}>
               <img
-                src={godspeedLogo}
+                src={rhythenceLogo}
                 alt={t("common.godspeedLogo")}
                 className="header-logo"
               />
@@ -159,13 +158,13 @@ export function AppHeader({
                   <div className="trigger-content">
                     <div className="current-portal">
                       <img
-                        src={godspeedIconLogo}
-                        alt="Motion Falcon Logo"
+                        src={rhythenceLogo}
+                        alt="Rhythence Logo"
                         className="portal-logo"
                       />
                       <div className="portal-info">
                         <span className="portal-label">Portal</span>
-                        <span className="portal-name">Motion Falcon Ops</span>
+                        <span className="portal-name">Rhythence Ops</span>
                       </div>
                     </div>
                     <div className="switcher-actions">
