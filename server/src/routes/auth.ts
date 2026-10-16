@@ -368,13 +368,20 @@ router.post('/validate-credentials', async (req, res) => {
       });
 
       if (error) {
-        // Check if the error is due to unconfirmed email
-        if (error.message === 'Email not confirmed' || error.status === 400) {
-          // Get user by email to return user data even if email is not confirmed
+        // Check if the error is specifically due to unconfirmed email (not invalid credentials)
+        const isEmailNotConfirmed =
+          (error.message === 'Email not confirmed' ||
+            (error as any).code === 'email_not_confirmed' ||
+            error.message?.toLowerCase().includes('email not confirmed')) &&
+          (error as any).code !== 'invalid_credentials' &&
+          error.message !== 'Invalid login credentials';
+
+        if (isEmailNotConfirmed) {
+          // Get user by email to verify if email is actually not confirmed
           const { data: { users }, error: listError } = await supabase.auth.admin.listUsers();
           if (!listError && users) {
             const user = users.find(u => u.email === email);
-            if (user) {
+            if (user && !user.email_confirmed_at) {
               return res.status(200).json({
                 message: 'Email not confirmed',
                 requiresTwoFactor: false,
@@ -395,6 +402,7 @@ router.post('/validate-credentials', async (req, res) => {
       return res.status(200).json({
         message: 'Credentials validated - 2FA required',
         requiresTwoFactor: true,
+        emailVerified: true,
         user: data.user,
         // Don't return session data
       });
@@ -407,13 +415,20 @@ router.post('/validate-credentials', async (req, res) => {
     });
 
     if (error) {
-      // Check if the error is due to unconfirmed email
-      if (error.message === 'Email not confirmed' || error.status === 400) {
-        // Get user by email to return user data even if email is not confirmed
+      // Check if the error is specifically due to unconfirmed email (not invalid credentials)
+      const isEmailNotConfirmed =
+        (error.message === 'Email not confirmed' ||
+          (error as any).code === 'email_not_confirmed' ||
+          error.message?.toLowerCase().includes('email not confirmed')) &&
+        (error as any).code !== 'invalid_credentials' &&
+        error.message !== 'Invalid login credentials';
+
+      if (isEmailNotConfirmed) {
+        // Get user by email to verify if email is actually not confirmed
         const { data: { users }, error: listError } = await supabase.auth.admin.listUsers();
         if (!listError && users) {
           const user = users.find(u => u.email === email);
-          if (user) {
+          if (user && !user.email_confirmed_at) {
             return res.status(200).json({
               message: 'Email not confirmed',
               requiresTwoFactor: false,
@@ -430,6 +445,7 @@ router.post('/validate-credentials', async (req, res) => {
     return res.status(200).json({
       message: 'Login successful',
       requiresTwoFactor: false,
+      emailVerified: true,
       user: data.user,
       session: data.session,
     });

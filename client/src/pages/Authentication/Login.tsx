@@ -101,7 +101,15 @@ export function Login() {
       navigate("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message);
+        if (
+          error.message === 'Invalid login credentials' ||
+          error.message.toLowerCase().includes('invalid login credentials') ||
+          error.message.toLowerCase().includes('invalid credential')
+        ) {
+          setError(t('auth.invalidCredentials'));
+        } else {
+          setError(error.message);
+        }
       } else {
         setError(t("auth.invalidCredentials"));
       }
