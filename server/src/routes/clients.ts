@@ -651,12 +651,23 @@ router.post('/',
         });
       }
 
+      // Validate shortCode format and length (2-5 characters) if provided
+      if (clientData.shortCode !== undefined && clientData.shortCode !== null && clientData.shortCode !== '') {
+        const trimmedShortCode = clientData.shortCode.trim();
+        if (trimmedShortCode.length < 2 || trimmedShortCode.length > 5) {
+          return res.status(400).json({ 
+            error: 'Short code must be between 2 and 5 characters',
+            field: 'shortCode'
+          });
+        }
+      }
+
       // Prepare client data for database
       const dbClientData: Omit<DbClientData, 'id' | 'created_at' | 'updated_at'> = {
         // Basic Details
         company_name: clientData.companyName,
         billing_name: clientData.billingName,
-        short_code: clientData.shortCode,
+        short_code: clientData.shortCode ? clientData.shortCode.trim().toUpperCase().slice(0, 5) : clientData.shortCode,
         list_name: clientData.listName,
         website: clientData.website,
         client_manager: clientData.clientManager,
@@ -823,12 +834,23 @@ router.put('/:id',
         });
       }
 
+      // Validate shortCode format and length (2-5 characters) if provided
+      if (clientData.shortCode !== undefined && clientData.shortCode !== null && clientData.shortCode !== '') {
+        const trimmedShortCode = clientData.shortCode.trim();
+        if (trimmedShortCode.length < 2 || trimmedShortCode.length > 5) {
+          return res.status(400).json({ 
+            error: 'Short code must be between 2 and 5 characters',
+            field: 'shortCode'
+          });
+        }
+      }
+
       // Prepare client data for database update
       const dbClientData = {
         // Basic Details
         company_name: clientData.companyName,
         billing_name: clientData.billingName,
-        short_code: clientData.shortCode,
+        short_code: clientData.shortCode ? clientData.shortCode.trim().toUpperCase().slice(0, 5) : clientData.shortCode,
         list_name: clientData.listName,
         website: clientData.website,
         client_manager: clientData.clientManager,
@@ -984,6 +1006,11 @@ router.put('/draft/:id?',
           return acc;
         }, {} as Record<string, any>);
 
+        // Safely slice and uppercase short_code to prevent database length constraint exceptions
+        if (typeof dbUpdateData.short_code === 'string') {
+          dbUpdateData.short_code = dbUpdateData.short_code.trim().toUpperCase().slice(0, 5);
+        }
+
         // Update the draft
         const { data: updatedDraft, error: updateError } = await supabase
           .from('client_drafts')
@@ -1017,6 +1044,11 @@ router.put('/draft/:id?',
           acc[snakeKey] = value;
           return acc;
         }, {} as Record<string, any>);
+
+        // Safely slice and uppercase short_code to prevent database length constraint exceptions
+        if (typeof dbDraftData.short_code === 'string') {
+          dbDraftData.short_code = dbDraftData.short_code.trim().toUpperCase().slice(0, 5);
+        }
 
         // Add required fields
         dbDraftData.id = draftId;
@@ -1217,6 +1249,11 @@ router.post('/draft',
         acc[snakeKey] = value;
         return acc;
       }, {} as Record<string, any>);
+
+      // Safely slice and uppercase short_code to prevent database length constraint exceptions
+      if (typeof dbDraftData.short_code === 'string') {
+        dbDraftData.short_code = dbDraftData.short_code.trim().toUpperCase().slice(0, 5);
+      }
 
       // Add required fields
       dbDraftData.id = draftId;

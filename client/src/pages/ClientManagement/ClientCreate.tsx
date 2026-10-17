@@ -32,7 +32,7 @@ const clientFormSchema = z.object({
   // Basic Details
   companyName: z.string().min(1, { message: 'Company name is required' }),
   billingName: z.string().min(1, { message: 'Billing name is required' }),
-  shortCode: z.string().min(2, { message: 'Short code must be at least 2 characters' }).max(4, { message: 'Short code must be 4 characters or less' }),
+  shortCode: z.string().min(2, { message: 'Short code must be at least 2 characters' }).max(5, { message: 'Short code must be 5 characters or less' }),
   listName: z.string().optional(),
   website: z.string().url({ message: 'Must be a valid URL' }).optional().or(z.literal('')),
   clientManager: z.string().optional(),
@@ -627,14 +627,14 @@ export function ClientCreate({ isEditMode = false, isEditDraftMode = false }: Cl
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="shortCode" className="form-label">
-                      Short Code (2-4 letters)
+                      Short Code (2-5 letters)
                     </label>
                     <input
                       type="text"
                       id="shortCode"
                       className="form-input"
                       placeholder="ABC"
-                      maxLength={4}
+                      maxLength={5}
                       {...methods.register('shortCode')}
                     />
                     {methods.formState.errors.shortCode && (
