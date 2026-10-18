@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { supabase } from "../../lib/supabaseClient";
+import { recordFailedApiCall } from "../../lib/supportContext";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
 
@@ -200,6 +201,17 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
+    if (error?.config) {
+      const rawUrl = error.config.url || "";
+      const path = rawUrl.split("?")[0].split("#")[0];
+      recordFailedApiCall({
+        method: (error.config.method || "GET").toUpperCase(),
+        path,
+        status: error.response?.status || 0,
+        time: new Date().toISOString(),
+      });
+    }
+
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403)

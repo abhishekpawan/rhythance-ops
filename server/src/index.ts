@@ -21,6 +21,7 @@ import calendarRoutes from "./routes/calendar.js";
 import consentRoutes from "./routes/consent.js";
 import dropdownOptionsRoutes from "./routes/dropdownOptions.js";
 import emailTemplateRoutes from "./routes/emailTemplates.js";
+import supportRoutes from "./routes/support/index.js";
 import {
   configureSecurityHeaders,
   forceTLS,
@@ -143,6 +144,9 @@ app.use("/api/email-templates", emailTemplateRoutes);
 
 // Dropdown options routes (client form dropdowns)
 app.use("/api/dropdown-options", dropdownOptionsRoutes);
+
+// Support routes
+app.use("/api/support", supportRoutes);
 
 // Error handling middleware
 app.use(

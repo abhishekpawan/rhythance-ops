@@ -81,6 +81,9 @@ import { ConsentPage } from './pages/Consent/ConsentPage';
 import { OnboardingConsent } from './pages/Consent/OnboardingConsent';
 import { TermsOfService } from './pages/Legal/TermsOfService';
 import { PrivacyPolicy } from './pages/Legal/PrivacyPolicy';
+import { SupportList } from './pages/Support/SupportList';
+import { SupportNew } from './pages/Support/SupportNew';
+import { SupportTicketPage } from './pages/Support/SupportTicket';
 import {
   AI_CHAT_ROLES,
   ALL_USERS_ROLES,
@@ -105,6 +108,7 @@ import {
   RECRUITER_HIERARCHY_ROLES,
   REPORTS_ROLES,
   SIN_WORK_PERMIT_ROLES,
+  SUPPORT_ROLES,
   TIMESHEET_MANAGEMENT_ROLES,
 } from './constants/accessControl';
 
@@ -278,6 +282,12 @@ function App() {
 
                 <Route element={<RoleRoute allowedRoles={INVITE_INTERNAL_USER_ROLES} />}>
                   <Route path="/invite-recruiter" element={<InviteRecruiter />} />
+                </Route>
+
+                <Route element={<RoleRoute allowedRoles={SUPPORT_ROLES} />}>
+                  <Route path="/support" element={<SupportList />} />
+                  <Route path="/support/new" element={<SupportNew />} />
+                  <Route path="/support/:id" element={<SupportTicketPage />} />
                 </Route>
 
                 <Route element={<SuperAdminRoute />}>

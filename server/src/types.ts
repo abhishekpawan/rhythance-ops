@@ -441,3 +441,156 @@ export interface DbPositionData {
   created_by_user_id?: string;
   updated_by_user_id?: string;
 }
+
+// ============================================================================
+// Support Module Types
+// ============================================================================
+
+export type SupportTicketType = 'bug' | 'change' | 'feature' | 'question';
+export type SupportTicketUrgency = 'blocked' | 'annoying' | 'not_urgent';
+export type SupportTicketPriority = 'p1' | 'p2' | 'p3';
+export type SupportTicketStatus = 'open' | 'in_progress' | 'waiting_on_client' | 'resolved' | 'closed';
+export type SupportActorKind = 'requester' | 'agent' | 'system';
+export type SupportConfirmedBy = 'client' | 'auto' | 'agent';
+
+export interface SupportTicketContext {
+  route?: string;
+  fromPage?: string;
+  language?: string;
+  browser?: string;
+  os?: string;
+  build?: string;
+  consoleErrors?: string[];
+  failedRequests?: Array<{
+    method: string;
+    path: string;
+    status: number;
+    time: string;
+  }>;
+  userId?: string;
+  roles?: string[];
+  deployment?: string;
+  [key: string]: unknown;
+}
+
+export interface DbSupportTicket {
+  id: string;
+  ticket_number: number;
+  idempotency_key: string;
+  type: SupportTicketType;
+  area_key: string;
+  area_label: string;
+  page_url?: string | null;
+  title: string;
+  urgency: SupportTicketUrgency;
+  priority: SupportTicketPriority;
+  status: SupportTicketStatus;
+  assigned_to?: string | null;
+  requester_id?: string | null;
+  requester_name: string;
+  requester_email: string;
+  requester_roles: string[];
+  context: SupportTicketContext;
+  locale: string;
+  related_ticket_id?: string | null;
+  effort_minutes?: number | null;
+  resolved_at?: string | null;
+  closed_at?: string | null;
+  confirmed_by?: SupportConfirmedBy | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SupportTicket {
+  id: string;
+  ticketNumber: number;
+  idempotencyKey?: string;
+  isOwner?: boolean;
+  type: SupportTicketType;
+  areaKey: string;
+  areaLabel: string;
+  pageUrl?: string | null;
+  title: string;
+  urgency: SupportTicketUrgency;
+  priority: SupportTicketPriority;
+  status: SupportTicketStatus;
+  assignedTo?: string | null;
+  requesterId?: string | null;
+  requesterName: string;
+  requesterEmail?: string;
+  requesterRoles: string[];
+  context?: SupportTicketContext;
+  locale: string;
+  relatedTicketId?: string | null;
+  effortMinutes?: number | null;
+  resolvedAt?: string | null;
+  closedAt?: string | null;
+  confirmedBy?: SupportConfirmedBy | null;
+  createdAt: string;
+  updatedAt: string;
+  elapsedMinutes?: number;
+  messages?: SupportTicketMessage[];
+  attachments?: SupportTicketAttachmentMetadata[];
+  statusEvents?: SupportTicketStatusEvent[];
+}
+
+export interface DbSupportTicketMessage {
+  id: string;
+  ticket_id: string;
+  author_id?: string | null;
+  author_name: string;
+  author_kind: SupportActorKind;
+  body: string;
+  is_internal: boolean;
+  created_at: string;
+}
+
+export interface SupportTicketMessage {
+  id: string;
+  ticketId: string;
+  authorId?: string | null;
+  authorName: string;
+  authorKind: SupportActorKind;
+  body: string;
+  isInternal?: boolean;
+  createdAt: string;
+}
+
+export interface DbSupportTicketAttachment {
+  id: string;
+  ticket_id: string;
+  message_id?: string | null;
+  storage_path: string;
+  file_name: string;
+  mime_type: string;
+  size_bytes: number;
+  uploaded_by?: string | null;
+  created_at: string;
+}
+
+export interface SupportTicketAttachmentMetadata {
+  id: string;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  createdAt?: string;
+  messageId?: string | null;
+}
+
+export interface DbSupportTicketStatusEvent {
+  id: string;
+  ticket_id: string;
+  from_status?: string | null;
+  to_status: string;
+  changed_by?: string | null;
+  created_at: string;
+}
+
+export interface SupportTicketStatusEvent {
+  id: string;
+  ticketId: string;
+  fromStatus?: string | null;
+  toStatus: string;
+  changedBy?: string | null;
+  createdAt: string;
+}

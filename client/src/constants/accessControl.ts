@@ -165,3 +165,20 @@ export const REMOVE_ASSIGNED_JOBSEEKER_ROLES: AccessRole[] = [
   "recruiter_manager",
   "recruiter_director",
 ];
+
+export const SUPPORT_ROLES: AccessRole[] = [
+  "admin",
+  "recruiter",
+  "bookkeeper",
+  "recruiter_manager",
+  "accountant_manager",
+  "sales",
+  "recruiter_director",
+];
+
+export const SUPPORT_SHARED_VIEW_ROLES: AccessRole[] = [
+  "admin",
+  "recruiter",
+  "recruiter_manager",
+  "recruiter_director",
+];

@@ -3,10 +3,12 @@ import coreEn from "./locales/en.json";
 import timesheetEn from "./locales/en/timesheet.json";
 import reportsEn from "./locales/en/reports.json";
 import profileEn from "./locales/en/profile.json";
+import supportEn from "./locales/en/support.json";
 import coreFr from "./locales/fr.json";
 import timesheetFr from "./locales/fr/timesheet.json";
 import reportsFr from "./locales/fr/reports.json";
 import profileFr from "./locales/fr/profile.json";
+import supportFr from "./locales/fr/support.json";
 import { mergeLocale } from "./mergeLocales";
 
 export type Language = "en" | "fr";
@@ -25,8 +27,8 @@ interface LanguageProviderState {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const translations: Record<Language, Record<string, any>> = {
-  en: mergeLocale(coreEn, timesheetEn, reportsEn, profileEn),
-  fr: mergeLocale(coreFr, timesheetFr, reportsFr, profileFr),
+  en: mergeLocale(coreEn, timesheetEn, reportsEn, profileEn, supportEn),
+  fr: mergeLocale(coreFr, timesheetFr, reportsFr, profileFr, supportFr),
 };
 
 const initialState: LanguageProviderState = {

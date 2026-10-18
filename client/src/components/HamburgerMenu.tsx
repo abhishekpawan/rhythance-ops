@@ -31,6 +31,7 @@ import {
   Calendar,
   CreditCard,
   MailOpen,
+  LifeBuoy,
 } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./LanguageToggle";
@@ -448,6 +449,16 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
     saveMenuScroll();
     navigate("/profile");
     onClose();
+  };
+
+  const handleSupportNavigation = () => {
+    saveMenuScroll();
+    const currentPath = window.location.pathname;
+    if (!currentPath.startsWith("/support")) {
+      sessionStorage.setItem("support.lastPage", currentPath);
+    }
+    onClose();
+    navigate("/support");
   };
 
   // Define all possible menu items
@@ -997,6 +1008,18 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
                     <UserCircle size={16} />
                     <span>{t("navigation.myAccount")}</span>
                   </button>
+                  {!isJobSeeker && (
+                    <>
+                      <div className="dropdown-divider"></div>
+                      <button
+                        className="dropdown-item"
+                        onClick={handleSupportNavigation}
+                      >
+                        <LifeBuoy size={16} />
+                        <span>{t("support.title")}</span>
+                      </button>
+                    </>
+                  )}
                   <div className="dropdown-divider"></div>
                   <button
                     className="dropdown-item logout-item"
