@@ -235,7 +235,6 @@ export const SupportList: React.FC = () => {
                     <tr>
                       <th style={{ width: "110px" }}>{t("support.ticketNumber")}</th>
                       <th>{t("support.tableTitle")}</th>
-                      <th>{t("support.module")}</th>
                       <th style={{ width: "100px" }}>{t("support.type")}</th>
                       <th style={{ width: "160px" }}>{t("support.statusTitle")}</th>
                       {scope === "all" && <th>{t("support.raisedBy")}</th>}
@@ -260,9 +259,6 @@ export const SupportList: React.FC = () => {
                           {formatTicketNumber(ticket.ticketNumber)}
                         </td>
                         <td style={{ fontWeight: 500 }}>{ticket.title}</td>
-                        <td style={{ color: "var(--text-muted)", fontSize: "13px" }}>
-                          {ticket.areaLabel}
-                        </td>
                         <td>
                           <SupportTypeBadge type={ticket.type} />
                         </td>

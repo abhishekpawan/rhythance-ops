@@ -69,9 +69,6 @@ export interface SupportTicket {
   id: string;
   ticketNumber: number;
   type: SupportTicketType;
-  areaKey: string;
-  areaLabel: string;
-  pageUrl?: string | null;
   title: string;
   urgency: SupportTicketUrgency;
   priority: SupportTicketPriority;
@@ -131,9 +128,6 @@ export type CreateAttachmentInput = PendingAttachmentUpload;
 
 export interface CreateTicketInput {
   type: SupportTicketType;
-  areaKey: string;
-  areaLabel: string;
-  pageUrl?: string | null;
   description: string;
   urgency: SupportTicketUrgency;
   context?: SupportContext;

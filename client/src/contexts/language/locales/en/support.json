@@ -14,11 +14,10 @@
     "emptyDesc": "If you are encountering an issue or need assistance, feel free to raise a ticket.",
     "emptyList": "No support tickets found.",
     "emptyListHelper": "If you are encountering an issue or need assistance, feel free to raise a ticket.",
-    "searchPlaceholder": "Search tickets by title, ID, or module...",
+    "searchPlaceholder": "Search tickets by title or ID...",
     "refresh": "Refresh",
     "ticketNumber": "Ticket ID",
     "tableTitle": "Title",
-    "module": "Module",
     "type": "Type",
     "statusTitle": "Status",
     "raisedBy": "Raised by",
@@ -42,7 +41,6 @@
     "col": {
       "ticketId": "Ticket ID",
       "title": "Title",
-      "module": "Module",
       "type": "Type",
       "status": "Status",
       "updated": "Last updated",
@@ -76,17 +74,6 @@
       "typeFeatureDesc": "Suggest brand new capabilities or workflows",
       "typeQuestionTitle": "I have a question",
       "typeQuestionDesc": "Ask how something works or where to find it",
-      "stepModule": "Which part of the portal?",
-      "whichPart": "Which part of the portal?",
-      "moduleLabel": "Module",
-      "modulePlaceholder": "Select a module...",
-      "selectModule": "Select a module...",
-      "pageLabel": "Page",
-      "pagePlaceholder": "Select a page...",
-      "notSure": "Not sure",
-      "stepLink": "Link of the page",
-      "linkOfPage": "Link of the page",
-      "linkHelper": "We filled this in with the page you were on. You can change it or paste another link.",
       "stepDescription": "Tell us what happened",
       "tellUsWhatHappened": "Tell us what happened",
       "descriptionPlaceholder": "Please describe the issue or request in detail...",
@@ -113,7 +100,6 @@
       "uploadingFiles": "Uploading files...",
       "uploadInProgress": "Files are still uploading. Please wait a moment.",
       "screenshotsRequired": "Please upload at least one screenshot or file.",
-      "pageUrlRequired": "Please provide the link of the page.",
       "tooQuick": "You're sending tickets too quickly. Please try again in a little while.",
       "ticketCreated": "Ticket {{ticketId}} created successfully."
     },
@@ -128,7 +114,6 @@
       "openedOn": "Date created",
       "raisedBy": "Raised by",
       "raisedOn": "Date created",
-      "relatedPage": "Link of the page",
       "readOnlyNotice": "You are viewing this ticket read-only.",
       "readOnlyNote": "You are viewing this ticket read-only.",
       "replyTitle": "Leave a reply",
@@ -224,11 +209,6 @@
       "invalidTransition": "Invalid status transition for this ticket.",
       "updateFailed": "Failed to update ticket. Please try again.",
       "reopenWindowExpired": "The 14-day reopen window has expired. Please raise a new ticket."
-    },
-    "area": {
-      "account": "Logging in / My Account",
-      "login": "Login",
-      "other": "Something else"
     }
   },
   "navigation": {

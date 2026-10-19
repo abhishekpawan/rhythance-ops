@@ -14,11 +14,10 @@
     "emptyDesc": "Si vous rencontrez une difficulté ou avez une question, n'hésitez pas à créer un ticket.",
     "emptyList": "Aucun ticket de soutien trouvé.",
     "emptyListHelper": "Si vous rencontrez une difficulté ou avez une question, n'hésitez pas à créer un ticket.",
-    "searchPlaceholder": "Rechercher par titre, identifiant ou module...",
+    "searchPlaceholder": "Rechercher par titre ou identifiant...",
     "refresh": "Actualiser",
     "ticketNumber": "N° de ticket",
     "tableTitle": "Titre",
-    "module": "Module",
     "type": "Type",
     "statusTitle": "Statut",
     "raisedBy": "Créé par",
@@ -42,7 +41,6 @@
     "col": {
       "ticketId": "N° de ticket",
       "title": "Titre",
-      "module": "Module",
       "type": "Type",
       "status": "Statut",
       "updated": "Dernière mise à jour",
@@ -76,17 +74,6 @@
       "typeFeatureDesc": "Suggérer une nouvelle fonctionnalité ou processus",
       "typeQuestionTitle": "J'ai une question",
       "typeQuestionDesc": "Demander comment fonctionne une fonctionnalité",
-      "stepModule": "Dans quelle section du portail ?",
-      "whichPart": "Dans quelle section du portail ?",
-      "moduleLabel": "Module",
-      "modulePlaceholder": "Sélectionnez un module...",
-      "selectModule": "Sélectionnez un module...",
-      "pageLabel": "Page",
-      "pagePlaceholder": "Sélectionnez une page...",
-      "notSure": "Je ne suis pas certain(e)",
-      "stepLink": "Lien de la page",
-      "linkOfPage": "Lien de la page",
-      "linkHelper": "Nous avons prérempli ce champ avec la page où vous étiez. Vous pouvez le modifier ou coller un autre lien.",
       "stepDescription": "Expliquez-nous ce qui s'est passé",
       "tellUsWhatHappened": "Expliquez-nous ce qui s'est passé",
       "descriptionPlaceholder": "Veuillez décrire le problème ou la demande en détail...",
@@ -113,7 +100,6 @@
       "uploadingFiles": "Téléversement des fichiers...",
       "uploadInProgress": "Des fichiers sont toujours en cours de téléversement. Veuillez patienter.",
       "screenshotsRequired": "Veuillez téléverser au moins une capture d'écran ou un fichier.",
-      "pageUrlRequired": "Veuillez indiquer le lien de la page.",
       "tooQuick": "Vous envoyez des tickets trop rapidement. Veuillez patienter un instant avant de réessayer.",
       "ticketCreated": "Le ticket {{ticketId}} a été créé avec succès."
     },
@@ -128,7 +114,6 @@
       "openedOn": "Date de création",
       "raisedBy": "Créé par",
       "raisedOn": "Date de création",
-      "relatedPage": "Lien de la page",
       "readOnlyNotice": "Vous consultez ce ticket en lecture seule.",
       "readOnlyNote": "Vous consultez ce ticket en lecture seule.",
       "replyTitle": "Laisser une réponse",
@@ -224,11 +209,6 @@
       "invalidTransition": "Changement de statut non autorisé pour ce ticket.",
       "updateFailed": "Impossible de mettre à jour le ticket. Veuillez réessayer.",
       "reopenWindowExpired": "Le délai de réouverture de 14 jours est expiré. Veuillez créer un nouveau ticket."
-    },
-    "area": {
-      "account": "Connexion / Mon compte",
-      "login": "Connexion",
-      "other": "Autre chose"
     }
   },
   "navigation": {

@@ -21,10 +21,7 @@ import {
   validateAttachments,
   insertAttachmentRows,
 } from "../../services/support.attachments.js";
-import {
-  stripQueryAndHash,
-  sanitizeSupportContext,
-} from "../../services/support.context.js";
+import { sanitizeSupportContext } from "../../services/support.context.js";
 import {
   handleDbError,
   notFoundResponse,
@@ -51,9 +48,6 @@ router.post(
 
       const {
         type,
-        areaKey,
-        areaLabel,
-        pageUrl,
         description,
         urgency,
         context,
@@ -66,10 +60,6 @@ router.post(
       const allowedTypes = ["bug", "change", "feature", "question"];
       if (!type || !allowedTypes.includes(type)) {
         return res.status(400).json({ success: false, error: "Valid ticket type is required" });
-      }
-
-      if (!areaKey || typeof areaKey !== "string" || !areaLabel || typeof areaLabel !== "string") {
-        return res.status(400).json({ success: false, error: "areaKey and areaLabel are required" });
       }
 
       const allowedUrgencies = ["blocked", "annoying", "not_urgent"];
@@ -136,28 +126,26 @@ router.post(
       const requesterEmail = req.user!.email || "";
       const requesterRoles = resolveSupportUserRoles(req.user);
 
-      // Context & page URL sanitizing
+      // Context & locale sanitizing
       const sanitizedContext = sanitizeSupportContext(context, req.user);
-      const sanitizedPageUrl = typeof pageUrl === "string" ? stripQueryAndHash(pageUrl).slice(0, 500) : null;
       const finalLocale = typeof locale === "string" && locale.trim() ? locale.trim().slice(0, 10) : "en";
 
       // Call RPC support_create_ticket
-      const { data: ticket, error } = await supabase.rpc("support_create_ticket", {
+      const baseParams = {
         p_requester_id: requesterId,
         p_requester_name: requesterName,
         p_requester_email: requesterEmail,
         p_requester_roles: requesterRoles,
         p_type: type,
-        p_area_key: areaKey,
-        p_area_label: areaLabel,
-        p_page_url: sanitizedPageUrl,
         p_title: title,
         p_description: description.trim(),
         p_urgency: urgency,
         p_context: sanitizedContext,
         p_locale: finalLocale,
         p_idempotency_key: idempotencyKey,
-      });
+      };
+
+      const { data: ticket, error } = await supabase.rpc("support_create_ticket", baseParams);
 
       if (error) {
         if (handleDbError(error, res)) return;
@@ -176,7 +164,7 @@ router.post(
       // Skip email notification if ticket's created_at is more than 30 seconds old (race replay)
       const ticketAgeMs = Date.now() - new Date(ticket.created_at).getTime();
       if (ticketAgeMs <= 30000) {
-        sendNewTicketEmail(ticket, attachments?.length || 0).catch((err) => {
+        sendNewTicketEmail(ticket, attachments?.length || 0, description.trim()).catch((err) => {
           console.error("Fire-and-forget sendNewTicketEmail error:", err?.message || err);
         });
       }

@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   RefreshCw,
   AlertCircle,
-  ExternalLink,
 } from "lucide-react";
 import { AppHeader } from "../../components/AppHeader";
 import { useAuth } from "../../contexts/AuthContext";
@@ -300,18 +299,6 @@ export const SupportTicketPage: React.FC = () => {
     }
   };
 
-  // Check if link is same origin
-  const isInternalUrl = (url?: string | null): boolean => {
-    if (!url) return false;
-    if (url.startsWith("/")) return true;
-    try {
-      const parsed = new URL(url, window.location.origin);
-      return parsed.origin === window.location.origin;
-    } catch {
-      return false;
-    }
-  };
-
   if (loading) {
     return (
       <div className="page-container">
@@ -412,10 +399,6 @@ export const SupportTicketPage: React.FC = () => {
 
           <div className="support-ticket-meta-grid">
             <div className="support-meta-item">
-              <span className="support-meta-label">{t("support.module")}</span>
-              <span className="support-meta-value">{ticket.areaLabel}</span>
-            </div>
-            <div className="support-meta-item">
               <span className="support-meta-label">{t("support.ticket.urgency")}</span>
               <span className="support-meta-value">{t(`support.urgency.${ticket.urgency}`)}</span>
             </div>
@@ -427,27 +410,6 @@ export const SupportTicketPage: React.FC = () => {
               <span className="support-meta-label">{t("support.ticket.openedOn")}</span>
               <span className="support-meta-value">{formatDate(ticket.createdAt)}</span>
             </div>
-            {ticket.pageUrl && (
-              <div className="support-meta-item">
-                <span className="support-meta-label">{t("support.new.linkOfPage")}</span>
-                <span className="support-meta-value">
-                  {isInternalUrl(ticket.pageUrl) ? (
-                    <a
-                      href={ticket.pageUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1"
-                      style={{ color: "var(--primary)", textDecoration: "underline" }}
-                    >
-                      <span>{ticket.pageUrl}</span>
-                      <ExternalLink size={12} />
-                    </a>
-                  ) : (
-                    <span>{ticket.pageUrl}</span>
-                  )}
-                </span>
-              </div>
-            )}
           </div>
         </div>
 

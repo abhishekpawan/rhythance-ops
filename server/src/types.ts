@@ -478,9 +478,6 @@ export interface DbSupportTicket {
   ticket_number: number;
   idempotency_key: string;
   type: SupportTicketType;
-  area_key: string;
-  area_label: string;
-  page_url?: string | null;
   title: string;
   urgency: SupportTicketUrgency;
   priority: SupportTicketPriority;
@@ -507,9 +504,6 @@ export interface SupportTicket {
   idempotencyKey?: string;
   isOwner?: boolean;
   type: SupportTicketType;
-  areaKey: string;
-  areaLabel: string;
-  pageUrl?: string | null;
   title: string;
   urgency: SupportTicketUrgency;
   priority: SupportTicketPriority;

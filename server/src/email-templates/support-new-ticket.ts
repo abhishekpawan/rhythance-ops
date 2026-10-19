@@ -18,8 +18,6 @@ export interface SupportNewTicketEmailVars {
   requesterRoles: string[];
   type: string;
   urgency: string;
-  areaLabel: string;
-  pageUrl?: string | null;
   description: string;
   attachmentCount?: number;
   ticketUrl: string;
@@ -36,8 +34,6 @@ export function renderSupportNewTicketEmail(vars: SupportNewTicketEmailVars): { 
   const safeRoles = esc(vars.requesterRoles.join(", ") || "None");
   const safeType = esc(vars.type.toUpperCase());
   const safeUrgency = esc(vars.urgency.toUpperCase());
-  const safeArea = esc(vars.areaLabel);
-  const safeUrl = esc(vars.pageUrl || "N/A");
   const safeDesc = esc(vars.description).replace(/\n/g, "<br>");
   const attCount = vars.attachmentCount || 0;
   const attachmentNote = attCount > 0 ? `<p style="${S.muted}">Attachments: ${attCount} file(s)</p>` : "";
@@ -50,8 +46,6 @@ export function renderSupportNewTicketEmail(vars: SupportNewTicketEmailVars): { 
   <tr><td style="${S.tdLabel}">Title:</td><td style="${S.tdValue}">${safeTitle}</td></tr>
   <tr><td style="${S.tdLabel}">Type:</td><td style="${S.tdValue}"><span style="${S.badge}">${safeType}</span></td></tr>
   <tr><td style="${S.tdLabel}">Urgency:</td><td style="${S.tdValue}"><span style="${S.badge}">${safeUrgency}</span></td></tr>
-  <tr><td style="${S.tdLabel}">Area:</td><td style="${S.tdValue}">${safeArea}</td></tr>
-  <tr><td style="${S.tdLabel}">Page URL:</td><td style="${S.tdValue}">${safeUrl}</td></tr>
   <tr><td style="${S.tdLabel}">Requester Roles:</td><td style="${S.tdValue}">${safeRoles}</td></tr>
 </table>
 
@@ -74,14 +68,10 @@ Requester: ${vars.requesterName} (${vars.requesterEmail})
 Roles: ${vars.requesterRoles.join(", ") || "None"}
 Type: ${vars.type}
 Urgency: ${vars.urgency}
-Area: ${vars.areaLabel}
-Page URL: ${vars.pageUrl || "N/A"}
-
 Description:
 ${vars.description}
 
-${attCount > 0 ? `Attachments: ${attCount} file(s)\n` : ""}
-View ticket: ${vars.ticketUrl}
+${attCount > 0 ? `Attachments: ${attCount} file(s)\n` : ""}View ticket: ${vars.ticketUrl}
 
 ${textFooter(portalName)}
 `;

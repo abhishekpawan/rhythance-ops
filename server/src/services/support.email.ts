@@ -54,7 +54,8 @@ function getAgentRecipients(): { to: string[]; cc?: string[] } | null {
  */
 export async function sendNewTicketEmail(
   ticket: DbSupportTicket | SupportTicket,
-  attachmentCount: number = 0
+  attachmentCount: number = 0,
+  description?: string
 ): Promise<void> {
   const ticketId = ticket.id;
   const ticketNumber = "ticket_number" in ticket ? ticket.ticket_number : ticket.ticketNumber;
@@ -69,8 +70,6 @@ export async function sendNewTicketEmail(
   const requesterName = "requester_name" in ticket ? ticket.requester_name : (ticket as SupportTicket).requesterName;
   const requesterEmail = "requester_email" in ticket ? ticket.requester_email : (ticket as SupportTicket).requesterEmail || "";
   const requesterRoles = "requester_roles" in ticket ? ticket.requester_roles : (ticket as SupportTicket).requesterRoles || [];
-  const areaLabel = "area_label" in ticket ? ticket.area_label : (ticket as SupportTicket).areaLabel;
-  const pageUrl = "page_url" in ticket ? ticket.page_url : (ticket as SupportTicket).pageUrl;
 
   const ticketUrl = `${getClientUrl()}/support/${ticketId}`;
   const subject = buildSubject(ticketNumber, title);
@@ -83,9 +82,7 @@ export async function sendNewTicketEmail(
     requesterRoles,
     type: ticket.type,
     urgency: ticket.urgency,
-    areaLabel,
-    pageUrl,
-    description: title, // title represents the summary/description heading
+    description: description || title,
     attachmentCount,
     ticketUrl,
   });

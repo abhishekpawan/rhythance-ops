@@ -31,7 +31,7 @@ export function convertObjectToCamelCase<T = any>(obj: any): T {
 
 /**
  * Allow-list serializer for non-agent users.
- * Returns ONLY: id, ticketNumber, type, areaKey, areaLabel, pageUrl, title,
+ * Returns ONLY: id, ticketNumber, type, title,
  * urgency, priority, status, requesterName, requesterRoles, locale,
  * relatedTicketId, resolvedAt, closedAt, confirmedBy, createdAt, updatedAt, isOwner.
  * Never includes requesterId, requesterEmail, assignedTo, context, effortMinutes or idempotencyKey.
@@ -45,9 +45,6 @@ export function toPublicTicket(row: any, viewerId?: string) {
     id: row.id,
     ticketNumber: row.ticketNumber !== undefined ? row.ticketNumber : row.ticket_number,
     type: row.type,
-    areaKey: row.areaKey !== undefined ? row.areaKey : row.area_key,
-    areaLabel: row.areaLabel !== undefined ? row.areaLabel : row.area_label,
-    pageUrl: row.pageUrl !== undefined ? row.pageUrl : (row.page_url ?? null),
     title: row.title,
     urgency: row.urgency,
     priority: row.priority,
