@@ -88,13 +88,6 @@ export const SupportNew: React.FC = () => {
       return;
     }
 
-    if (attachments.length === 0) {
-      const msg = t("support.new.screenshotsRequired");
-      setAttachmentError(msg);
-      setSubmitError(msg);
-      return;
-    }
-
     setSubmitting(true);
     setSubmitError(null);
     setAttachmentError(null);
@@ -252,7 +245,6 @@ export const SupportNew: React.FC = () => {
             <div className="form-section">
               <h2 className="form-section-title">
                 <span>{t("support.new.screenshotsOrFiles")}</span>
-                <span className="required-star">*</span>
               </h2>
               <SupportAttachmentUploader
                 onAttachmentsChange={(atts) => {

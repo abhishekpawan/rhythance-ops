@@ -65,6 +65,7 @@ import {
   RECRUITER_HIERARCHY_ROLES,
   REPORTS_ROLES,
   SIN_WORK_PERMIT_ROLES,
+  SUPPORT_ROLES,
   TIMESHEET_MANAGEMENT_ROLES,
   TRAINING_ROLES,
 } from "../constants/accessControl";
@@ -1008,7 +1009,7 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
                     <UserCircle size={16} />
                     <span>{t("navigation.myAccount")}</span>
                   </button>
-                  {!isJobSeeker && (
+                  {!isJobSeeker && hasAnyExactAccessRole(user, SUPPORT_ROLES) && (
                     <>
                       <div className="dropdown-divider"></div>
                       <button

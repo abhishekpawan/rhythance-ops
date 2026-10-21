@@ -60,6 +60,7 @@ These rules map directly to the hamburger menu pages and route guards.
 | --- | --- |
 | All Positions | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `recruiter_director`, `sales` |
 | Create Position | `admin`, `recruiter_manager`, `recruiter_director` |
+| Create Position Subcategory | `admin`, `recruiter_manager`, `recruiter_director` |
 | Draft Positions | `admin`, `recruiter_manager`, `recruiter_director` |
 | Position Matching | `admin`, `recruiter`, `recruiter_manager`, `recruiter_director` |
 
@@ -100,6 +101,15 @@ These rules map directly to the hamburger menu pages and route guards.
 | --- | --- |
 | Reports | `admin`, `bookkeeper`, `accountant_manager`, `recruiter_director`, `sales` |
 
+### Support Tickets
+
+| Page | Allowed roles |
+| --- | --- |
+| Support Tickets | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` |
+
+> [!IMPORTANT]
+> The Support Ticket module is strictly for internal staff (`SUPPORT_ROLES`) and is **hidden from and inaccessible to `jobseeker` usertypes** across all navigation menus/dropdowns, route guards (`RoleRoute`), and backend API endpoints.
+
 ## Non-Menu Route Inheritance
 
 These routes inherit the menu-page access above.
@@ -113,8 +123,9 @@ These routes inherit the menu-page access above.
 - Client draft edit: `/client-management/drafts/edit/:id` uses `Draft Clients`
 - Position view: `/position-management/view/:id` uses `All Positions`
 - Position edit: `/position-management/edit/:id` uses `Create Position`
-- Position create subcategory: `/position-management/create-subcategory` uses `Create Position`
 - Position draft edit: `/position-management/drafts/edit/:id` uses `Draft Positions`
+- Support ticket create: `/support/new` uses `Support Tickets`
+- Support ticket details: `/support/:id` uses `Support Tickets`
 - Consent detail: `/consent-dashboard/:documentId` uses `All Consent Documents`
 - Timesheet detail view: `/timesheet-management/view/:id` uses `Bulk Timesheet List` / `Timesheet Management`
 - Invoice detail view: `/invoice-management/view/:id` uses `Invoice Management`
@@ -147,3 +158,4 @@ These are not the page-level rules. They must be enforced separately inside page
 | Delete Timesheet | `admin`, `bookkeeper`, `recruiter_manager`, `recruiter_director` |
 | Edit Invoice | `admin`, `accountant_manager`, `bookkeeper` |
 | Delete Invoice | `admin`, `accountant_manager`, `bookkeeper` |
+| View All Support Tickets (`scope=all` shared view) | `admin`, `recruiter`, `recruiter_manager`, `recruiter_director` |
