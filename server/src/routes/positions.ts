@@ -1935,31 +1935,61 @@ router.delete(
   authenticateToken,
   authorizeExactRoles(["admin", "recruiter_manager", "recruiter_director"]),
   activityLogger({
-    onSuccess: (req, res) => ({
-      actionType: "remove_jobseeker",
-      actionVerb: "removed",
-      primaryEntityType: "jobseeker",
-      primaryEntityId: req.params.candidateId,
-      primaryEntityName: res.locals.candidateName,
-      secondaryEntityType: "position",
-      secondaryEntityId: req.params.id,
-      secondaryEntityName: res.locals.positionTitle,
-      tertiaryEntityType: "client",
-      tertiaryEntityId: res.locals.clientId,
-      tertiaryEntityName: res.locals.clientName,
-      displayMessage: `Removed candidate \"${res.locals.candidateName}\" from position \"${res.locals.positionTitle}\"`,
-      category: "position_management",
-      priority: "normal",
-      status: "removed",
-      metadata: {
-        removedAssignmentId: res.locals.removedAssignmentId,
-        positionCode: res.locals.positionCode,
-        remainingAssigned: res.locals.remainingAssigned,
-      },
-    }),
+    onSuccess: (req, res) => {
+      const rawSendEmail =
+        req.query.sendEmail !== undefined
+          ? req.query.sendEmail
+          : req.body?.sendEmail;
+      const shouldSendEmail =
+        rawSendEmail !== false &&
+        rawSendEmail !== "false" &&
+        rawSendEmail !== 0 &&
+        rawSendEmail !== "0";
+
+      return {
+        actionType: "remove_jobseeker",
+        actionVerb: "removed",
+        primaryEntityType: "jobseeker",
+        primaryEntityId: req.params.candidateId,
+        primaryEntityName: res.locals.candidateName,
+        secondaryEntityType: "position",
+        secondaryEntityId: req.params.id,
+        secondaryEntityName: res.locals.positionTitle,
+        tertiaryEntityType: "client",
+        tertiaryEntityId: res.locals.clientId,
+        tertiaryEntityName: res.locals.clientName,
+        displayMessage: `Removed candidate \"${res.locals.candidateName}\" from position \"${res.locals.positionTitle}\"`,
+        category: "position_management",
+        priority: "normal",
+        status: "removed",
+        metadata: {
+          removedAssignmentId: res.locals.removedAssignmentId,
+          positionCode: res.locals.positionCode,
+          remainingAssigned: res.locals.remainingAssigned,
+          sendEmail: shouldSendEmail,
+        },
+      };
+    },
   }),
   emailNotifier({
     onSuccessEmail: async (req: Request, res: Response) => {
+      const rawSendEmail =
+        req.query.sendEmail !== undefined
+          ? req.query.sendEmail
+          : req.body?.sendEmail;
+      const shouldSendEmail =
+        rawSendEmail !== false &&
+        rawSendEmail !== "false" &&
+        rawSendEmail !== 0 &&
+        rawSendEmail !== "0";
+
+      if (!shouldSendEmail) {
+        console.log(
+          "[EmailNotifier] sendEmail is false, skipping employee removal email."
+        );
+        return null;
+      }
+
       const candidateName = res.locals.candidateName;
       const candidateId = req.params.candidateId;
       let candidateEmail = res.locals.candidateEmail;
@@ -2054,7 +2084,7 @@ router.delete(
       // Get candidate info
       const { data: candidate, error: candidateError } = await supabase
         .from("jobseeker_profiles")
-        .select("first_name, last_name")
+        .select("first_name, last_name, email")
         .eq("user_id", candidateId)
         .single();
 
@@ -2069,15 +2099,15 @@ router.delete(
         .eq("id", position.client)
         .single();
 
-      // Store data for activity logger
+      // Store data for activity logger & email notifier
       const candidateName =
         `${candidate.first_name} ${candidate.last_name}`.trim();
       res.locals.candidateName = candidateName;
+      res.locals.candidateEmail = candidate.email;
       res.locals.positionTitle = position.title;
       res.locals.positionCode = position.position_code;
       res.locals.clientId = client?.id || null;
-      // No assignment to res.locals.clientName here
-      // No usage of position.client_name or position.number_of_positions in this route
+      res.locals.clientName = client?.company_name || null;
 
       // Check if there's an active assignment for this position-candidate pair
       const { data: activeAssignment, error: assignmentCheckError } =

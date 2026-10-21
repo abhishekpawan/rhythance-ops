@@ -2183,7 +2183,8 @@
       "partTime": "Temps partiel",
       "weekendAvailable": "Disponible le week-end",
       "availableOnly": "Disponibles uniquement",
-      "sendEmailOnAssign": "Envoyer un e-mail à l'employé"
+      "sendEmailOnAssign": "Envoyer un e-mail à l'employé",
+      "sendEmailOnRemove": "Envoyer un e-mail de retrait à l'employé"
     },
     "emptyState": {
       "selectPosition": "Sélectionner un poste",
@@ -2258,7 +2259,11 @@
       "sendEmailCheckbox": "Envoyer les détails du poste par e-mail à l'employé",
       "emailWillBeSent": "Un email avec les détails du poste et le manuel sera envoyé à {{email}}.",
       "emailWillNotBeSent": "Aucun email ne sera envoyé à l'employé.",
-      "removeConfirmation": "Êtes-vous sûr de vouloir retirer \"{{candidateName}}\" du poste \"{{positionTitle}}\" pour le client \"{{clientName}}\" ? Un email sera envoyé à {{candidateEmail}} lors de la confirmation."
+      "removeConfirmation": "Êtes-vous sûr de vouloir retirer \"{{candidateName}}\" du poste \"{{positionTitle}}\" pour le client \"{{clientName}}\" ? Un email sera envoyé à {{candidateEmail}} lors de la confirmation.",
+      "removeConfirmationNoEmail": "Êtes-vous sûr de vouloir retirer \"{{candidateName}}\" du poste \"{{positionTitle}}\" pour le client \"{{clientName}}\" ? Aucun email ne sera envoyé.",
+      "sendRemovalEmailCheckbox": "Envoyer un e-mail de notification de retrait à l'employé",
+      "removalEmailWillBeSent": "Un email de notification concernant le retrait de ce poste sera envoyé à {{email}}.",
+      "removalEmailWillNotBeSent": "Aucun email ne sera envoyé à l'employé."
     },
     "errors": {
       "allPositionsFilled": "Tous les postes sont pourvus pour ce rôle",

@@ -445,7 +445,7 @@ export function PositionMatching() {
   }, [selectedPosition, assignedJobseekers.length, fetchAssignedJobseekers, setStatusWithTimeout, t]);
 
   // Handle candidate removal
-  const handleRemoveCandidate = useCallback(async (candidateId: string) => {
+  const handleRemoveCandidate = useCallback(async (candidateId: string, sendEmail: boolean = true) => {
     if (!selectedPosition?.id) return;
     if (!canRemoveAssignedJobseekers) {
       setStatusWithTimeout(t("positionMatching.errors.removeCandidateFailed"), "error");
@@ -457,7 +457,8 @@ export function PositionMatching() {
     try {
       const response = await removeCandidateFromPosition(
         selectedPosition.id,
-        candidateId
+        candidateId,
+        sendEmail
       );
 
       if (response.success) {
@@ -524,6 +525,7 @@ export function PositionMatching() {
 
   // Email notification control
   const [sendEmailOnAssign, setSendEmailOnAssign] = useState<boolean>(true);
+  const [sendEmailOnRemove, setSendEmailOnRemove] = useState<boolean>(true);
   const [modalSendEmail, setModalSendEmail] = useState<boolean>(true);
 
   // Confirmation modal state
@@ -541,13 +543,15 @@ export function PositionMatching() {
   const openConfirmationModal = useCallback((action: "assign" | "remove", candidate: PositionCandidate | AssignedJobseeker) => {
     if (action === "assign") {
       setModalSendEmail(sendEmailOnAssign);
+    } else if (action === "remove") {
+      setModalSendEmail(sendEmailOnRemove);
     }
     setConfirmationModal({
       isOpen: true,
       action,
       candidate,
     });
-  }, [sendEmailOnAssign]);
+  }, [sendEmailOnAssign, sendEmailOnRemove]);
 
   const closeConfirmationModal = useCallback(() => {
     setConfirmationModal({
@@ -571,16 +575,24 @@ export function PositionMatching() {
         await handleAssignCandidate(candidate as PositionCandidate, shouldSendEmail);
       } else if (action === "remove") {
         const id = (candidate as PositionCandidate).candidateId || (candidate as AssignedJobseeker).userId;
-        await handleRemoveCandidate(id);
+        await handleRemoveCandidate(id, shouldSendEmail);
       }
     }, 0);
   }, [confirmationModal, selectedPosition, modalSendEmail, handleAssignCandidate, handleRemoveCandidate, closeConfirmationModal]);
+
+  // Extracted modal candidate email with fallback
+  const candidateEmailForModal = useMemo(() => {
+    if (!confirmationModal.candidate) return t("positionMatching.candidate");
+    const rawEmail = (confirmationModal.candidate as PositionCandidate).email || (confirmationModal.candidate as AssignedJobseeker).email || "";
+    const isEmailSpecified = rawEmail && rawEmail !== t("positionMatching.notSpecified") && rawEmail.toLowerCase() !== "not specified";
+    return isEmailSpecified ? rawEmail : t("positionMatching.candidate");
+  }, [confirmationModal.candidate, t]);
 
   // Modal message builder
   const getConfirmationMessage = useCallback(() => {
     if (!confirmationModal.candidate || !selectedPosition) return "";
     const candidateName = (confirmationModal.candidate as PositionCandidate).name || (confirmationModal.candidate as AssignedJobseeker).name || "";
-    const candidateEmail = (confirmationModal.candidate as PositionCandidate).email || (confirmationModal.candidate as AssignedJobseeker).email || "";
+    const candidateEmail = candidateEmailForModal;
     const positionTitle = selectedPosition.title || "";
     const clientName = selectedPosition.clientName || t("positionMatching.unknownClient");
     if (confirmationModal.action === "assign") {
@@ -599,15 +611,23 @@ export function PositionMatching() {
         });
       }
     } else if (confirmationModal.action === "remove") {
-      return t("positionMatching.modal.removeConfirmation", {
-        candidateName,
-        positionTitle,
-        clientName,
-        candidateEmail
-      });
+      if (modalSendEmail) {
+        return t("positionMatching.modal.removeConfirmation", {
+          candidateName,
+          positionTitle,
+          clientName,
+          candidateEmail
+        });
+      } else {
+        return t("positionMatching.modal.removeConfirmationNoEmail", {
+          candidateName,
+          positionTitle,
+          clientName
+        });
+      }
     }
     return "";
-  }, [confirmationModal, selectedPosition, modalSendEmail, t]);
+  }, [confirmationModal, selectedPosition, modalSendEmail, candidateEmailForModal, t]);
 
   return (
     <div className="position-matching">
@@ -1183,7 +1203,20 @@ export function PositionMatching() {
 
                   {/* Position Slots */}
                   <div className="position-slots">
-                    <h4>{t("positionMatching.positionSlots")}</h4>
+                    <div className="position-slots-header">
+                      <h4>{t("positionMatching.positionSlots")}</h4>
+                      {canRemoveAssignedJobseekers && (
+                        <label className="checkbox-filter removal-email-toggle">
+                          <input
+                            type="checkbox"
+                            checked={sendEmailOnRemove}
+                            onChange={(e) => setSendEmailOnRemove(e.target.checked)}
+                          />
+                          <Mail size={14} className="email-toggle-icon" />
+                          <span>{t("positionMatching.filters.sendEmailOnRemove")}</span>
+                        </label>
+                      )}
+                    </div>
                     <div className="slots-container">
                       {/* Loading State for Assigned Jobseekers */}
                       {assignedJobseekersLoading && (
@@ -1227,9 +1260,9 @@ export function PositionMatching() {
                                   <button
                                     className="remove-slot-btn"
                                     onClick={() => openConfirmationModal("remove", jobseeker)}
-                                    disabled={assignmentLoading === jobseeker.id}
+                                    disabled={assignmentLoading === jobseeker.userId || assignmentLoading === jobseeker.id}
                                   >
-                                    {assignmentLoading === jobseeker.id ? (
+                                    {assignmentLoading === jobseeker.userId || assignmentLoading === jobseeker.id ? (
                                       <div className="loading-spinner small"></div>
                                     ) : (
                                       <Minus size={14} />
@@ -1305,12 +1338,33 @@ export function PositionMatching() {
             <span className="modal-checkbox-hint">
               {modalSendEmail
                 ? t("positionMatching.modal.emailWillBeSent", {
-                    email:
-                      (confirmationModal.candidate as PositionCandidate)?.email ||
-                      (confirmationModal.candidate as AssignedJobseeker)?.email ||
-                      t("positionMatching.candidate"),
+                    email: candidateEmailForModal,
                   })
                 : t("positionMatching.modal.emailWillNotBeSent")}
+            </span>
+          </div>
+        )}
+        {confirmationModal.action === "remove" && (
+          <div className="modal-checkbox-container">
+            <label className="modal-checkbox-label">
+              <input
+                type="checkbox"
+                checked={modalSendEmail}
+                onChange={(e) => {
+                  setModalSendEmail(e.target.checked);
+                  setSendEmailOnRemove(e.target.checked);
+                }}
+                className="modal-checkbox-input"
+              />
+              <Mail size={16} />
+              <span>{t("positionMatching.modal.sendRemovalEmailCheckbox")}</span>
+            </label>
+            <span className="modal-checkbox-hint">
+              {modalSendEmail
+                ? t("positionMatching.modal.removalEmailWillBeSent", {
+                    email: candidateEmailForModal,
+                  })
+                : t("positionMatching.modal.removalEmailWillNotBeSent")}
             </span>
           </div>
         )}

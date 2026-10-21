@@ -629,7 +629,8 @@ export const assignCandidateToPosition = async (
  */
 export const removeCandidateFromPosition = async (
   positionId: string,
-  candidateId: string
+  candidateId: string,
+  sendEmail: boolean = true
 ): Promise<{
   success: boolean;
   message: string;
@@ -638,7 +639,11 @@ export const removeCandidateFromPosition = async (
 }> => {
   try {
     const response = await api.delete(
-      `/api/positions/${positionId}/assign/${candidateId}`
+      `/api/positions/${positionId}/assign/${candidateId}`,
+      {
+        params: { sendEmail },
+        data: { sendEmail },
+      }
     );
 
     // Clear cache for position assignments after successful removal

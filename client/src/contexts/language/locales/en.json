@@ -2181,7 +2181,8 @@
       "partTime": "Part-Time",
       "weekendAvailable": "Weekend Available",
       "availableOnly": "Available Only",
-      "sendEmailOnAssign": "Send email to employee"
+      "sendEmailOnAssign": "Send email to employee",
+      "sendEmailOnRemove": "Send removal email to employee"
     },
     "emptyState": {
       "selectPosition": "Select a Position",
@@ -2256,7 +2257,11 @@
       "sendEmailCheckbox": "Send position details email to employee",
       "emailWillBeSent": "An email with position details and handbook will be sent to {{email}}.",
       "emailWillNotBeSent": "No email notification will be sent to the employee.",
-      "removeConfirmation": "Are you sure you want to remove \"{{candidateName}}\" from the position \"{{positionTitle}}\" for client \"{{clientName}}\"? Upon confirmation, an email will be sent to {{candidateEmail}}."
+      "removeConfirmation": "Are you sure you want to remove \"{{candidateName}}\" from the position \"{{positionTitle}}\" for client \"{{clientName}}\"? Upon confirmation, an email will be sent to {{candidateEmail}}.",
+      "removeConfirmationNoEmail": "Are you sure you want to remove \"{{candidateName}}\" from the position \"{{positionTitle}}\" for client \"{{clientName}}\"? No email notification will be sent.",
+      "sendRemovalEmailCheckbox": "Send removal notification email to employee",
+      "removalEmailWillBeSent": "An email notification regarding the removal from this position will be sent to {{email}}.",
+      "removalEmailWillNotBeSent": "No email notification will be sent to the employee."
     },
     "errors": {
       "allPositionsFilled": "All positions are filled for this role",
