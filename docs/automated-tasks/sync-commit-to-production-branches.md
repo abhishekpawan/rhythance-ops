@@ -1,21 +1,22 @@
-# Sync commit(s) to all production branches
+# Sync commit(s) to all production branches & public repository
 
 Copy everything below the line into a new chat (or append your commit SHAs at the end). The agent runs this workflow on your behalf using git in the terminal—not a script.
 
 ---
 
-## Task: Cherry-pick shared commit(s) to all production portals
+## Task: Cherry-pick shared commit(s) to all production portals and public repo
 
-You are syncing work from the integration branch to four separate production branches. Each branch deploys a different portal instance; only **shared application code** should be propagated. Do not merge entire branches.
+You are syncing work from the integration branch to four separate production branches and the public repository. Each production branch deploys a different portal instance; only **shared application code** should be propagated. Do not merge entire branches.
 
 ### Repository context
 
-| Role | Branch |
-|------|--------|
-| Where features are built first | `multiple-login-demo` |
-| Production (sync targets, in this order) | `allstaff-production` → `canhire-production` → `godspeed-production` → `hdgroup-production` |
+| Role | Branch | Remote |
+|------|--------|--------|
+| Where features are built first | `multiple-login-demo` | `origin` |
+| Production (sync targets, in this order) | `allstaff-production` → `canhire-production` → `godspeed-production` → `hdgroup-production` | `origin` |
+| Public mirror repo | `public-main` (tracks `public/main`) | `public` (`git@github.com:abhishekpawan/rhythance-ops.git`) |
 
-Remote: `origin`. Workspace: `godspeed-ops-portal`.
+Remotes: `origin` (`godspeed-ops-portal`), `public` (`rhythance-ops`). Workspace: `godspeed-ops-portal`.
 
 ### Input from me
 
@@ -29,8 +30,8 @@ I will provide one or more commit SHAs (full or short). Apply them **oldest firs
 
 Optional flags I may add:
 
-- `no-push` — do **not** push to `origin` (default is to push when there are no conflicts; see §4)
-- `no-pull` — skip `git pull` before cherry-pick (default is to pull each production branch first)
+- `no-push` — do **not** push to remotes (default is to push when there are no conflicts; see §4)
+- `no-pull` — skip `git pull` before cherry-pick (default is to pull each target branch first)
 
 ---
 
@@ -44,15 +45,19 @@ Optional flags I may add:
 
 ### 1. For each commit SHA (in order)
 
-For each production branch in order: **allstaff-production** → **canhire-production** → **godspeed-production** → **hdgroup-production**:
+For each target branch in order: **allstaff-production** → **canhire-production** → **godspeed-production** → **hdgroup-production** → **public-main**:
 
-1. `git fetch origin` (once per session is enough).
-2. `git checkout <production-branch>`
-3. Unless I said `no-pull`: `git pull origin <production-branch>`
+1. Fetch remotes: `git fetch origin` and `git fetch public` (once per session is enough).
+2. Checkout target branch:
+   - Production branches: `git checkout <production-branch>`
+   - Public repo branch: `git checkout public-main`
+3. Unless I said `no-pull`:
+   - Production branches: `git pull origin <production-branch>` (or `git pull`)
+   - Public repo branch: `git pull public main` (or `git pull`)
 4. `git cherry-pick -x <sha>`
    - `-x` appends “cherry picked from …” for traceability.
 
-### 2. On success for all four branches (one commit)
+### 2. On success for all target branches (one commit)
 
 - Briefly note: branch name, new cherry-pick commit hash if useful.
 - Continue to the next commit SHA if I gave more than one.
@@ -64,37 +69,38 @@ For each production branch in order: **allstaff-production** → **canhire-produ
 1. Leave the repo in conflict state on the failing branch.
 2. Report clearly:
    - Which **commit SHA**
-   - Which **production branch**
+   - Which **target branch**
    - Which **files** conflict (`git status`, `git diff --name-only --diff-filter=U`)
-3. Attempt resolution **only if** the conflict is obviously the same logical change across portals (e.g. identical shared component). Safe reuse:
-   - After resolving on the first production branch that conflicted, on the next branches you may try:  
+3. Attempt resolution **only if** the conflict is obviously the same logical change across portals/mirrors. Safe reuse:
+   - After resolving on the first branch that conflicted, on subsequent branches you may try:  
      `git checkout <first-resolved-branch> -- <path>`  
      then `git add` and `git cherry-pick --continue`
 4. If resolution is ambiguous, portal-specific, or touches env/tenant config: **stop**, show me the conflict hunks, and ask how to proceed.
-5. After I confirm or you resolve with high confidence: `git cherry-pick --continue`, then resume the loop on the **remaining** production branches for that same SHA, then any remaining SHAs.
+5. After I confirm or you resolve with high confidence: `git cherry-pick --continue`, then resume the loop on the **remaining** target branches for that same SHA, then any remaining SHAs.
 
-### 4. After all requested commits are applied to all four branches
+### 4. After all requested commits are applied to all branches
 
 1. `git checkout` back to the branch I started on (usually `multiple-login-demo`).
 2. Give a **summary table**:
 
-   | Commit | allstaff | canhire | godspeed | hdgroup | Notes |
-   |--------|----------|---------|----------|---------|-------|
-   | `<short-sha>` | ok / conflict / skipped | … | … | … | |
+   | Commit | allstaff | canhire | godspeed | hdgroup | public-main | Notes |
+   |--------|----------|---------|----------|---------|-------------|-------|
+   | `<short-sha>` | ok / conflict / skipped | … | … | … | … | |
 
 3. **Push (default)** — unless I said `no-push`:
-   - If **every** cherry-pick for **every** requested commit succeeded on **all four** branches with **no unresolved conflicts**, push all four production branches to `origin`:
-     - `git push origin allstaff-production canhire-production godspeed-production hdgroup-production`
+   - If **every** cherry-pick for **every** requested commit succeeded on **all target branches** with **no unresolved conflicts**, push all branches:
+     - Production branches: `git push origin allstaff-production canhire-production godspeed-production hdgroup-production`
+     - Public repo: `git push public public-main:main`
      - Or push each branch individually if a single combined push fails.
    - Report the pushed ref ranges (e.g. `4192d5e..73a0f65`).
-   - If **any** cherry-pick hit a conflict and was not fully completed on all four branches: **do not push** anything. Tell me which branches are ahead locally and wait for my direction.
+   - If **any** cherry-pick hit a conflict and was not fully completed across all branches: **do not push** anything. Tell me which branches are ahead locally and wait for my direction.
    - If some branches succeeded and others conflicted mid-run: push **only** branches that fully completed all requested cherry-picks for this session, and say explicitly which were not pushed.
 
 ### 5. Safety rules (non-negotiable)
 
-- Never `git push --force` to any `*-production` branch.
-- Never merge `multiple-login-demo` into production wholesale.
-- Never amend or rewrite commits on production unless I explicitly ask.
+- Never `git push --force` to any `*-production` or `public` branch.
+- Never merge `multiple-login-demo` into production or public-main wholesale.
+- Never amend or rewrite commits on production/public unless I explicitly ask.
 - Never update git config.
 - Do not commit unrelated fixes while resolving conflicts—only what is required for the cherry-pick.
 - If cherry-pick is in a bad state and we need to abort: `git cherry-pick --abort` only after telling me.
@@ -126,5 +132,5 @@ Commits:
 
 ## Success criteria
 
-- Each given commit exists on all four production branches (new cherry-pick commits with `-x` metadata), **and** those branches are pushed to `origin` (unless `no-push` or a conflict stopped the run), **or**
+- Each given commit exists on all four production branches and `public-main` (new cherry-pick commits with `-x` metadata), **and** those branches are pushed to their remotes (`origin` and `public`, unless `no-push` or a conflict stopped the run), **or**
 - You stopped on the first conflict with a clear report, **did not push** (unless some branches fully completed—in that case only those are pushed), and the repo is in a recoverable state (`cherry-pick --continue` or `--abort` documented).
