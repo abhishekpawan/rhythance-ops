@@ -56,17 +56,17 @@ type CreateSubmissionStage = "documents" | "account" | "profile";
 
 type CreateSubmissionOverlayState =
   | {
-      mode: "idle";
-      activeStage: CreateSubmissionStage;
-    }
+    mode: "idle";
+    activeStage: CreateSubmissionStage;
+  }
   | {
-      mode: "progress";
-      activeStage: CreateSubmissionStage;
-    }
+    mode: "progress";
+    activeStage: CreateSubmissionStage;
+  }
   | {
-      mode: "success";
-      activeStage: CreateSubmissionStage;
-    };
+    mode: "success";
+    activeStage: CreateSubmissionStage;
+  };
 
 const createSubmissionStageOrder: CreateSubmissionStage[] = [
   "documents",
@@ -388,14 +388,14 @@ export function ProfileCreate({
             hstGst: profileData.hstGst || "",
             cashDeduction:
               profileData.paymentMethod === "Cash" ||
-              profileData.paymentMethod === "e-Transfer" ||
-              profileData.paymentMethod === "SIN and cash" ||
-              profileData.paymentMethod === "SIN and e-Transfer"
+                profileData.paymentMethod === "e-Transfer" ||
+                profileData.paymentMethod === "SIN and cash" ||
+                profileData.paymentMethod === "SIN and e-Transfer"
                 ? profileData.cashDeduction || "0"
                 : "0",
             sinPayrollHoursCap:
               profileData.sinPayrollHoursCap != null &&
-              profileData.sinPayrollHoursCap !== ""
+                profileData.sinPayrollHoursCap !== ""
                 ? String(profileData.sinPayrollHoursCap)
                 : "",
             overtimeEnabled: profileData.overtimeEnabled || false,
@@ -493,7 +493,7 @@ export function ProfileCreate({
         try {
           setLoading("formLoading", true);
           const draftResponse = await getDraft();
-          
+
           if (draftResponse.draft && draftResponse.draft.id && typeof draftResponse.draft.id === 'string') {
             // User has an existing draft, load it automatically
             console.log("Found existing draft, loading it automatically");
@@ -502,7 +502,7 @@ export function ProfileCreate({
               ...draftResponse.draft,
               billRate:
                 draftResponse.draft.billRate &&
-                draftResponse.draft.billRate.trim() !== ""
+                  draftResponse.draft.billRate.trim() !== ""
                   ? draftResponse.draft.billRate
                   : "0",
             };
@@ -672,7 +672,7 @@ export function ProfileCreate({
           personalInfoValid = false;
           logValidation(
             "validateCurrentStep: DOB validation failed: " +
-              dobResult.errorMessage
+            dobResult.errorMessage
           );
         }
       }
@@ -701,7 +701,7 @@ export function ProfileCreate({
           personalInfoValid = false;
           logValidation(
             "validateCurrentStep: SIN validation failed: " +
-              sinResult.errorMessage
+            sinResult.errorMessage
           );
         }
 
@@ -928,9 +928,8 @@ export function ProfileCreate({
             const fileToUpload = doc.documentFile;
             const fileExt = fileToUpload.name.split(".").pop();
             const uniqueFileName = `${crypto.randomUUID()}.${fileExt}`;
-            const filePath = `${user.id}/${
-              doc.documentType || "uncategorized"
-            }/${uniqueFileName}`;
+            const filePath = `${user.id}/${doc.documentType || "uncategorized"
+              }/${uniqueFileName}`;
 
             console.log(`Draft Save: Uploading to Supabase path: ${filePath}`);
 
@@ -1193,7 +1192,7 @@ export function ProfileCreate({
     }
 
     // Validate the final step explicitly
-    if (currentStep === totalSteps) {
+    if (currentStep === 5 || currentStep === totalSteps) {
       const isValid = await validateCurrentStep();
       if (!isValid) {
         scrollToError();
@@ -1259,9 +1258,8 @@ export function ProfileCreate({
         const fileToUpload = doc.documentFile;
         const fileExt = fileToUpload.name.split(".").pop();
         const uniqueFileName = `${crypto.randomUUID()}.${fileExt}`;
-        const filePath = `${authenticatedUserId}/${
-          doc.documentType || "uncategorized"
-        }/${uniqueFileName}`;
+        const filePath = `${authenticatedUserId}/${doc.documentType || "uncategorized"
+          }/${uniqueFileName}`;
 
         console.log(`Uploading file to: ${filePath}`);
 
@@ -1539,9 +1537,8 @@ export function ProfileCreate({
             return (
               <div
                 key={stepNum}
-                className={`step-marker ${isActive ? "active" : ""} ${
-                  isCompleted ? "completed" : ""
-                }`}
+                className={`step-marker ${isActive ? "active" : ""} ${isCompleted ? "completed" : ""
+                  }`}
                 style={{ "--index": i } as React.CSSProperties}
               >
                 <div className="step-bubble">
@@ -1558,6 +1555,22 @@ export function ProfileCreate({
 
   // Helper function to get step labels (returns translation keys)
   const getStepLabelKey = (step: number): string => {
+    if (isJobSeeker) {
+      switch (step) {
+        case 1:
+          return "profileCreate.stepPersonalInfo";
+        case 2:
+          return "profileCreate.stepAddress";
+        case 3:
+          return "profileCreate.stepQualifications";
+        case 4:
+        case 5:
+          return "profileCreate.stepDocuments";
+        default:
+          return "profileCreate.stepGeneric";
+      }
+    }
+
     switch (step) {
       case 1:
         return "profileCreate.stepPersonalInfo";
@@ -1690,8 +1703,8 @@ export function ProfileCreate({
           isEditMode
             ? t("profileCreate.editProfileTitle")
             : isDraftEditMode
-            ? t("profileCreate.editDraftTitle")
-            : t("profileCreate.createProfileTitle")
+              ? t("profileCreate.editDraftTitle")
+              : t("profileCreate.createProfileTitle")
         }
         actions={
           <>
@@ -1738,8 +1751,8 @@ export function ProfileCreate({
           error
             ? error
             : currentStep === 1 && isEmailAvailable === false
-            ? t("profileCreate.emailInUseMessage")
-            : undefined
+              ? t("profileCreate.emailInUseMessage")
+              : undefined
         }
         statusType={
           error || (currentStep === 1 && isEmailAvailable === false)

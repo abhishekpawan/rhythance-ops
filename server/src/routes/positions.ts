@@ -75,25 +75,63 @@ function camelToSnakeCase(str: string): string {
 }
 
 /**
+ * Helper function to normalize date string to YYYY-MM-DD
+ */
+function normalizeDateStr(d?: string | null): string | undefined {
+  if (!d) return undefined;
+  return d.split("T")[0];
+}
+
+/**
  * Helper function to sync assigned_jobseekers array with active assignments
  * from position_candidate_assignments table
  */
 async function syncAssignedJobseekers(positionId: string): Promise<string[]> {
   try {
+    const today = new Date().toISOString().split("T")[0];
     const { data: activeAssignments, error } = await supabase
       .from("position_candidate_assignments")
-      .select("candidate_id")
+      .select("id, candidate_id, start_date, end_date, status")
       .eq("position_id", positionId)
-      .eq("status", "active");
+      .in("status", ["active", "upcoming"]);
 
     if (error) {
       console.error("Error getting active assignments:", error);
       return [];
     }
 
-    return activeAssignments
-      ? activeAssignments.map((assignment) => assignment.candidate_id)
-      : [];
+    if (!activeAssignments || activeAssignments.length === 0) {
+      return [];
+    }
+
+    const validCandidateIds: string[] = [];
+    for (const assignment of activeAssignments) {
+      const normEndDate = normalizeDateStr(assignment.end_date);
+      const normStartDate = normalizeDateStr(assignment.start_date);
+
+      if (normEndDate && normEndDate < today) {
+        // Expired assignment - update status to completed in background
+        void supabase
+          .from("position_candidate_assignments")
+          .update({ status: "completed", updated_at: new Date().toISOString() })
+          .eq("id", assignment.id);
+      } else if (
+        assignment.status === "upcoming" &&
+        normStartDate &&
+        normStartDate <= today
+      ) {
+        // Upcoming assignment that has reached start date - promote to active
+        void supabase
+          .from("position_candidate_assignments")
+          .update({ status: "active", updated_at: new Date().toISOString() })
+          .eq("id", assignment.id);
+        validCandidateIds.push(assignment.candidate_id);
+      } else {
+        validCandidateIds.push(assignment.candidate_id);
+      }
+    }
+
+    return Array.from(new Set(validCandidateIds));
   } catch (error) {
     console.error("Error syncing assigned jobseekers:", error);
     return [];
@@ -134,6 +172,87 @@ async function updatePositionAssignedJobseekers(
       .eq("id", positionId);
   } catch (error) {
     console.error("Error updating position assigned jobseekers:", error);
+  }
+}
+
+/**
+ * Helper function to sync assignment dates and statuses when a position's dates change.
+ * If position's end_date is updated, cascade to all active/upcoming assignments.
+ * If new end_date is in the past, update assignment status to 'completed'.
+ */
+async function syncPositionAssignmentsDates(
+  positionId: string,
+  newStartDate?: string,
+  newEndDate?: string
+): Promise<void> {
+  try {
+    const today = new Date().toISOString().split("T")[0];
+
+    // Fetch active or upcoming assignments for this position
+    const { data: assignments, error: fetchErr } = await supabase
+      .from("position_candidate_assignments")
+      .select("id, start_date, end_date, status")
+      .eq("position_id", positionId)
+      .in("status", ["active", "upcoming"]);
+
+    if (fetchErr) {
+      console.error("Error fetching assignments for date sync:", fetchErr);
+      return;
+    }
+
+    if (!assignments || assignments.length === 0) {
+      return;
+    }
+
+    const cleanNewStartDate = normalizeDateStr(newStartDate);
+    const cleanNewEndDate =
+      newEndDate !== undefined ? normalizeDateStr(newEndDate) : undefined;
+
+    for (const assignment of assignments) {
+      const updatedStartDate =
+        cleanNewStartDate || normalizeDateStr(assignment.start_date);
+      const updatedEndDate =
+        cleanNewEndDate !== undefined
+          ? cleanNewEndDate
+          : normalizeDateStr(assignment.end_date);
+
+      let updatedStatus = assignment.status;
+      if (updatedEndDate && updatedEndDate < today) {
+        updatedStatus = "completed";
+      } else if (updatedStartDate && updatedStartDate > today) {
+        updatedStatus = "upcoming";
+      } else if (
+        updatedStartDate &&
+        updatedStartDate <= today &&
+        (!updatedEndDate || updatedEndDate >= today)
+      ) {
+        updatedStatus = "active";
+      }
+
+      const updatePayload: Record<string, any> = {
+        updated_at: new Date().toISOString(),
+        status: updatedStatus,
+      };
+      if (cleanNewStartDate) updatePayload.start_date = cleanNewStartDate;
+      if (cleanNewEndDate !== undefined) updatePayload.end_date = cleanNewEndDate;
+
+      const { error: updateErr } = await supabase
+        .from("position_candidate_assignments")
+        .update(updatePayload)
+        .eq("id", assignment.id);
+
+      if (updateErr) {
+        console.error(
+          `Error updating assignment ${assignment.id} dates:`,
+          updateErr
+        );
+      }
+    }
+
+    // Refresh position's assigned_jobseekers array to keep only active candidates
+    await updatePositionAssignedJobseekers(positionId);
+  } catch (error) {
+    console.error("Error syncing position assignment dates:", error);
   }
 }
 
@@ -818,6 +937,16 @@ router.get(
       const clientName = position.clients?.company_name || null;
       const { clients, ...positionData } = position;
 
+      // Sync assigned_jobseekers with active assignments from position_candidate_assignments table
+      const activeJobseekers = await syncAssignedJobseekers(id);
+      if (
+        JSON.stringify(positionData.assigned_jobseekers || []) !==
+        JSON.stringify(activeJobseekers)
+      ) {
+        await updatePositionAssignedJobseekers(id);
+        positionData.assigned_jobseekers = activeJobseekers;
+      }
+
       let subcategoryPositionDetails: SubcategoryPositionDetailInput[] | undefined;
       if (positionData.is_subcategory && positionData.subcategory_group_id) {
         const { data: detailRows, error: detErr } = await supabase
@@ -1403,6 +1532,29 @@ router.put(
         returnedPosition = updatedPosition;
       }
 
+      // Cascade position start_date / end_date changes to active/upcoming assignments
+      const newStartDate =
+        cleanedData.startDate || (cleanedData as any).start_date;
+      const newEndDate =
+        cleanedData.endDate !== undefined
+          ? cleanedData.endDate
+          : (cleanedData as any).end_date;
+
+      if (newStartDate !== undefined || newEndDate !== undefined) {
+        await syncPositionAssignmentsDates(id, newStartDate, newEndDate);
+
+        // Refresh position data so returnedPosition has the up-to-date assigned_jobseekers array
+        const { data: refreshedPosition } = await supabase
+          .from("positions")
+          .select()
+          .eq("id", id)
+          .maybeSingle();
+
+        if (refreshedPosition) {
+          returnedPosition = refreshedPosition;
+        }
+      }
+
       res.locals.updatedPosition = returnedPosition;
 
       return res.status(200).json({
@@ -1765,14 +1917,16 @@ router.post(
       // Store candidate name for activity logging
       res.locals.candidateName = `${candidate.first_name} ${candidate.last_name}`;
 
-      // Check if there's already an active assignment for this position-candidate pair
+      // Check if there's already an active/upcoming assignment for this position-candidate pair
       const { data: existingAssignment, error: assignmentCheckError } =
         await supabase
           .from("position_candidate_assignments")
-          .select("id, status")
+          .select("id, status, end_date")
           .eq("position_id", positionId)
           .eq("candidate_id", candidateId)
-          .eq("status", "active")
+          .in("status", ["active", "upcoming"])
+          .order("created_at", { ascending: false })
+          .limit(1)
           .maybeSingle();
 
       if (assignmentCheckError) {
@@ -1785,39 +1939,38 @@ router.post(
           .json({ error: "Failed to check existing assignment" });
       }
 
+      const today = new Date().toISOString().split("T")[0];
+
       if (existingAssignment) {
-        return res
-          .status(400)
-          .json({ error: "Candidate already assigned to this position" });
+        const normExistingEndDate = normalizeDateStr(existingAssignment.end_date);
+        if (normExistingEndDate && normExistingEndDate < today) {
+          // Past assignment that was not yet marked completed; mark it completed and allow new assignment
+          await supabase
+            .from("position_candidate_assignments")
+            .update({ status: "completed", updated_at: new Date().toISOString() })
+            .eq("id", existingAssignment.id);
+        } else {
+          return res
+            .status(400)
+            .json({ error: "Candidate already assigned to this position" });
+        }
       }
 
-      // Get current active assignments for this position
-      const { data: activeAssignments, error: activeAssignmentsError } =
-        await supabase
-          .from("position_candidate_assignments")
-          .select("candidate_id")
-          .eq("position_id", positionId)
-          .eq("status", "active");
-
-      if (activeAssignmentsError) {
-        console.error(
-          "Error getting active assignments:",
-          activeAssignmentsError
-        );
-        return res
-          .status(500)
-          .json({ error: "Failed to check position capacity" });
-      }
+      // Get current active assignments for this position (automatically cleans expired ones)
+      const activeCandidateIds = await syncAssignedJobseekers(positionId);
 
       // Check if position has available slots
-      if (
-        activeAssignments &&
-        activeAssignments.length >= position.number_of_positions
-      ) {
+      if (activeCandidateIds.length >= (position.number_of_positions || 1)) {
         return res
           .status(400)
           .json({ error: "No available positions to assign" });
       }
+
+      // Determine initial assignment status based on start_date
+      const cleanStartDate = normalizeDateStr(startDate);
+      const cleanEndDate = normalizeDateStr(endDate);
+      const initialStatus =
+        cleanStartDate && cleanStartDate > today ? "upcoming" : "active";
 
       // Create assignment record
       const { data: newAssignment, error: assignmentError } = await supabase
@@ -1825,9 +1978,9 @@ router.post(
         .insert({
           position_id: positionId,
           candidate_id: candidateId,
-          start_date: startDate,
-          end_date: endDate,
-          status: "active",
+          start_date: cleanStartDate || startDate,
+          end_date: cleanEndDate !== undefined ? cleanEndDate : endDate,
+          status: initialStatus,
           created_by_user_id: userId,
           updated_by_user_id: userId,
         })
@@ -1843,8 +1996,9 @@ router.post(
       res.locals.newAssignment = newAssignment;
 
       // Update the assigned_jobseekers array in positions table for backward compatibility
-      const currentAssigned = position.assigned_jobseekers || [];
-      const updatedAssigned = [...currentAssigned, candidateId];
+      const updatedAssigned = Array.from(
+        new Set([...activeCandidateIds, candidateId])
+      );
 
       // Store total assigned count for activity logging
       res.locals.totalAssigned = updatedAssigned.length;
@@ -2109,13 +2263,16 @@ router.delete(
       res.locals.clientId = client?.id || null;
       res.locals.clientName = client?.company_name || null;
 
-      // Check if there's an active assignment for this position-candidate pair
+      // Check if there's an active or upcoming assignment for this position-candidate pair
       const { data: activeAssignment, error: assignmentCheckError } =
         await supabase
           .from("position_candidate_assignments")
           .select("id")
           .eq("position_id", positionId)
           .eq("candidate_id", candidateId)
+          .in("status", ["active", "upcoming"])
+          .order("created_at", { ascending: false })
+          .limit(1)
           .maybeSingle();
 
       if (assignmentCheckError) {
@@ -2143,9 +2300,9 @@ router.delete(
         return res.status(500).json({ error: "Failed to remove assignment" });
       }
 
-      // Update the assigned_jobseekers array in positions table for backward compatibility
-      const currentAssigned = position.assigned_jobseekers || [];
-      const updatedAssigned = currentAssigned.filter(
+      // Update the assigned_jobseekers array in positions table
+      const remainingCandidateIds = await syncAssignedJobseekers(positionId);
+      const updatedAssigned = remainingCandidateIds.filter(
         (id: string) => id !== candidateId
       );
 
@@ -2239,9 +2396,15 @@ router.get(
   async (req: Request, res: Response) => {
     try {
       const { id: positionId } = req.params;
+      const { status, activeOnly } = req.query as {
+        status?: string;
+        activeOnly?: string;
+      };
 
-      // Get all assignments for this position with jobseeker profile data
-      const { data: assignments, error } = await supabase
+      const today = new Date().toISOString().split("T")[0];
+
+      // Build assignments query for this position
+      let assignmentsQuery = supabase
         .from("position_candidate_assignments")
         .select(
           `
@@ -2257,9 +2420,47 @@ router.get(
         .eq("position_id", positionId)
         .order("created_at", { ascending: false });
 
+      if (status) {
+        assignmentsQuery = assignmentsQuery.eq("status", status);
+      } else if (activeOnly === "true") {
+        assignmentsQuery = assignmentsQuery.in("status", ["active", "upcoming"]);
+      }
+
+      const { data: rawAssignments, error } = await assignmentsQuery;
+
       if (error) {
         console.error("Error fetching assignments:", error);
         return res.status(500).json({ error: "Failed to fetch assignments" });
+      }
+
+      // Filter and sync expired assignments when activeOnly is true
+      let assignments = rawAssignments || [];
+      if (activeOnly === "true") {
+        assignments = assignments.filter((assignment) => {
+          const normEndDate = normalizeDateStr(assignment.end_date);
+          const normStartDate = normalizeDateStr(assignment.start_date);
+
+          if (normEndDate && normEndDate < today) {
+            // Expired assignment - transition status in background
+            void supabase
+              .from("position_candidate_assignments")
+              .update({ status: "completed", updated_at: new Date().toISOString() })
+              .eq("id", assignment.id);
+            return false;
+          } else if (
+            assignment.status === "upcoming" &&
+            normStartDate &&
+            normStartDate <= today
+          ) {
+            // Started upcoming assignment - promote to active
+            void supabase
+              .from("position_candidate_assignments")
+              .update({ status: "active", updated_at: new Date().toISOString() })
+              .eq("id", assignment.id);
+            assignment.status = "active";
+          }
+          return assignment.status === "active" || assignment.status === "upcoming";
+        });
       }
 
       // If no assignments, return empty array
@@ -2395,10 +2596,11 @@ router.get(
         }
       }
 
-      // Get status counts for this candidate
-      const { data: statusCounts, error: statusCountError } = await supabase
+      // Get status counts for this candidate and lazily auto-update expired or upcoming statuses
+      const today = new Date().toISOString().split("T")[0];
+      const { data: statusRecords, error: statusCountError } = await supabase
         .from("position_candidate_assignments")
-        .select("status")
+        .select("id, status, start_date, end_date")
         .eq("candidate_id", candidateId);
 
       if (statusCountError) {
@@ -2406,16 +2608,37 @@ router.get(
         return res.status(500).json({ error: "Failed to get status counts" });
       }
 
-      // Calculate status counts
+      // Calculate status counts, transitioning expired/started records
       const counts = {
         active: 0,
         completed: 0,
         upcoming: 0,
-        total: statusCounts?.length || 0,
+        total: statusRecords?.length || 0,
       };
 
-      if (statusCounts) {
-        statusCounts.forEach((assignment: any) => {
+      if (statusRecords) {
+        for (const assignment of statusRecords) {
+          const normEnd = normalizeDateStr(assignment.end_date);
+          const normStart = normalizeDateStr(assignment.start_date);
+
+          if (assignment.status === "active" && normEnd && normEnd < today) {
+            void supabase
+              .from("position_candidate_assignments")
+              .update({ status: "completed", updated_at: new Date().toISOString() })
+              .eq("id", assignment.id);
+            assignment.status = "completed";
+          } else if (
+            assignment.status === "upcoming" &&
+            normStart &&
+            normStart <= today
+          ) {
+            void supabase
+              .from("position_candidate_assignments")
+              .update({ status: "active", updated_at: new Date().toISOString() })
+              .eq("id", assignment.id);
+            assignment.status = "active";
+          }
+
           if (assignment.status === "active") {
             counts.active++;
           } else if (assignment.status === "completed") {
@@ -2423,7 +2646,7 @@ router.get(
           } else if (assignment.status === "upcoming") {
             counts.upcoming++;
           }
-        });
+        }
       }
 
       // Build the base query for assignments with position details

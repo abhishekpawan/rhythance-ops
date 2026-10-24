@@ -2519,8 +2519,8 @@ router.get(
         filters.province = provinceFilter;
       }
 
-      if (onlyAvailable === "true") {
-        filters.only_available = "true";
+      if (onlyAvailable !== undefined) {
+        filters.only_available = onlyAvailable === "true" ? "true" : "false";
       }
 
       // Call the stored procedure with a large limit to get all matching candidates

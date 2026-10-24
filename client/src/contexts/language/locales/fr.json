@@ -2263,7 +2263,8 @@
       "removeConfirmationNoEmail": "Êtes-vous sûr de vouloir retirer \"{{candidateName}}\" du poste \"{{positionTitle}}\" pour le client \"{{clientName}}\" ? Aucun email ne sera envoyé.",
       "sendRemovalEmailCheckbox": "Envoyer un e-mail de notification de retrait à l'employé",
       "removalEmailWillBeSent": "Un email de notification concernant le retrait de ce poste sera envoyé à {{email}}.",
-      "removalEmailWillNotBeSent": "Aucun email ne sera envoyé à l'employé."
+      "removalEmailWillNotBeSent": "Aucun email ne sera envoyé à l'employé.",
+      "candidateUnavailableWarning": "Avertissement : Ce candidat est actuellement marqué comme indisponible ou a une affectation qui se chevauche pour cette période."
     },
     "errors": {
       "allPositionsFilled": "Tous les postes sont pourvus pour ce rôle",

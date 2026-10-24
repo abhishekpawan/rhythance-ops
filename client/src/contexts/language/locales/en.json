@@ -2261,7 +2261,8 @@
       "removeConfirmationNoEmail": "Are you sure you want to remove \"{{candidateName}}\" from the position \"{{positionTitle}}\" for client \"{{clientName}}\"? No email notification will be sent.",
       "sendRemovalEmailCheckbox": "Send removal notification email to employee",
       "removalEmailWillBeSent": "An email notification regarding the removal from this position will be sent to {{email}}.",
-      "removalEmailWillNotBeSent": "No email notification will be sent to the employee."
+      "removalEmailWillNotBeSent": "No email notification will be sent to the employee.",
+      "candidateUnavailableWarning": "Warning: This candidate is currently marked as unavailable or has an overlapping assignment for this time frame."
     },
     "errors": {
       "allPositionsFilled": "All positions are filled for this role",

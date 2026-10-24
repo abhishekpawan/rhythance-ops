@@ -76,9 +76,9 @@ export function PositionView() {
         // Fetch assigned jobseekers using getPositionAssignments
         setAssignedJobseekersLoading(true);
         try {
-          const response = await getPositionAssignments(id);
+          const response = await getPositionAssignments(id, { activeOnly: true });
           if (response.success) {
-            const assigned = response.assignments.map((assignment) => ({
+            const assigned = (response.assignments || []).map((assignment) => ({
               id: assignment.id,
               name: assignment.jobseekerProfile
                 ? `${assignment.jobseekerProfile.first_name} ${assignment.jobseekerProfile.last_name}`

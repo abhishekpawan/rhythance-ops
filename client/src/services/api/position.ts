@@ -541,8 +541,8 @@ export const getPositionCandidates = async (
     if (params.cityFilter) queryParams.append("cityFilter", params.cityFilter);
     if (params.provinceFilter)
       queryParams.append("provinceFilter", params.provinceFilter);
-    if (params.onlyAvailable)
-      queryParams.append("onlyAvailable", params.onlyAvailable);
+    if (params.onlyAvailable !== undefined)
+      queryParams.append("onlyAvailable", String(params.onlyAvailable));
     if (params.sortBy) queryParams.append("sortBy", params.sortBy);
     if (params.sortOrder) queryParams.append("sortOrder", params.sortOrder);
 
@@ -696,13 +696,24 @@ export interface AssignmentRecord {
   };
 }
 export const getPositionAssignments = async (
-  positionId: string
+  positionId: string,
+  params?: { activeOnly?: boolean; status?: string }
 ): Promise<{
   success: boolean;
   assignments: AssignmentRecord[];
 }> => {
   try {
-    const response = await api.get(`/api/positions/${positionId}/assignments`);
+    const query = new URLSearchParams();
+    if (params?.activeOnly !== undefined) {
+      query.set("activeOnly", String(params.activeOnly));
+    }
+    if (params?.status) {
+      query.set("status", params.status);
+    }
+    const queryString = query.toString() ? `?${query.toString()}` : "";
+    const response = await api.get(
+      `/api/positions/${positionId}/assignments${queryString}`
+    );
 
     return {
       success: response.data.success,

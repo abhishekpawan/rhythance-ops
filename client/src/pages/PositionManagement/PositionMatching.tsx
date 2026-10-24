@@ -25,6 +25,7 @@ import {
   CheckCircle,
   Eye,
   Mail,
+  AlertCircle,
 } from "lucide-react";
 import {
   getClientPositions,
@@ -112,7 +113,7 @@ export function PositionMatching() {
   const [searchTerm, setSearchTerm] = useState("");
   const [experienceFilter, setExperienceFilter] = useState("all");
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
-  const [onlyAvailable] = useState(true);
+  const [onlyAvailable, setOnlyAvailable] = useState<boolean>(true);
   const [weekendAvailabilityOnly, setWeekendAvailabilityOnly] = useState(false);
 
   // Status message state for AppHeader
@@ -298,10 +299,10 @@ export function PositionMatching() {
   const fetchAssignedJobseekers = useCallback(async (positionId: string) => {
     try {
       setAssignedJobseekersLoading(true);
-      const response = await getPositionAssignments(positionId);
+      const response = await getPositionAssignments(positionId, { activeOnly: true });
       
       if (response.success) {
-        const assignedCandidates: AssignedJobseeker[] = (response.assignments).map(
+        const assignedCandidates: AssignedJobseeker[] = (response.assignments || []).map(
           (assignment) => ({
             id: assignment.id,
             userId: assignment.candidate_id,
@@ -347,6 +348,7 @@ export function PositionMatching() {
       setAssignedJobseekers([]);
     }
   }, [selectedClient?.id, fetchClientPositions]);
+
 
   // Auto-select client and position from URL parameters after clients are loaded
   useEffect(() => {
@@ -415,7 +417,7 @@ export function PositionMatching() {
 
     setAssignmentLoading(candidate.candidateId);
     try {
-      if (!selectedPosition.id || !selectedPosition.startDate || !selectedPosition.endDate) {
+      if (!selectedPosition.id || !selectedPosition.startDate) {
         throw new Error("Missing required position data");
       }
 
@@ -423,7 +425,7 @@ export function PositionMatching() {
         selectedPosition.id,
         candidate.candidateId,
         selectedPosition.startDate,
-        selectedPosition.endDate,
+        selectedPosition.endDate || "",
         sendEmail
       );
 
@@ -720,6 +722,24 @@ export function PositionMatching() {
                       </label>
                     </div>
 
+                    <div className="container-form">
+                      <input
+                        type="checkbox"
+                        id="onlyAvailableToggle"
+                        className="toggle-form"
+                        checked={onlyAvailable}
+                        onChange={(e) =>
+                          setOnlyAvailable(e.target.checked)
+                        }
+                      />
+                      <label
+                        htmlFor="onlyAvailableToggle"
+                        className="label-form"
+                      >
+                        {t("positionMatching.filters.availableOnly")}
+                      </label>
+                    </div>
+
                     <label className="checkbox-filter assignment-email-toggle">
                       <input
                         type="checkbox"
@@ -729,17 +749,6 @@ export function PositionMatching() {
                       <Mail size={14} className="email-toggle-icon" />
                       <span>{t("positionMatching.filters.sendEmailOnAssign")}</span>
                     </label>
-
-                    {/* Available Only checkbox - hidden for now
-                    <label className="checkbox-filter">
-                      <input
-                        type="checkbox"
-                        checked={onlyAvailable}
-                        onChange={(e) => setOnlyAvailable(e.target.checked)}
-                      />
-                      {t("positionMatching.filters.availableOnly")}
-                    </label>
-                    */}
                   </div>
                 </div>
               )}
@@ -1322,6 +1331,29 @@ export function PositionMatching() {
       >
         {confirmationModal.action === "assign" && (
           <div className="modal-checkbox-container">
+            {confirmationModal.candidate &&
+              (confirmationModal.candidate as PositionCandidate).isAvailable ===
+                false && (
+                <div
+                  style={{
+                    backgroundColor: "rgba(245, 158, 11, 0.1)",
+                    border: "1px solid #f59e0b",
+                    borderRadius: "6px",
+                    padding: "10px 12px",
+                    marginBottom: "12px",
+                    color: "#f59e0b",
+                    fontSize: "0.85rem",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                  <span>
+                    {t("positionMatching.modal.candidateUnavailableWarning")}
+                  </span>
+                </div>
+              )}
             <label className="modal-checkbox-label">
               <input
                 type="checkbox"
