@@ -26,6 +26,14 @@ const formatCurrency = (value: unknown): string => {
     return "N/A";
   }
 
+  // Multi-position rows carry several rates, e.g. "23.00, 24.00"
+  if (typeof value === "string" && value.includes(",")) {
+    return value
+      .split(",")
+      .map((part) => formatCurrency(part.trim()))
+      .join(", ");
+  }
+
   const numericValue =
     typeof value === "number" ? value : Number.parseFloat(String(value));
 

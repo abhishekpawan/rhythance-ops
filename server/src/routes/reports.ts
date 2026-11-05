@@ -1290,7 +1290,9 @@ function buildEnvelopeItemsForRow(
     jobseeker_is_inactive: isInactiveJp,
   };
 
-  // Resolve position name, category, and rates from bulk_breakdown if is_bulk
+  // Resolve position name, category, and rates from bulk_breakdown if is_bulk.
+  // Rates are display strings: for multi-position (bulk) rows every position's rate is
+  // listed (comma-separated, aligned with the position names) instead of only the first.
   let resolvedPositionName = position.title
     ? `${position.title} [${position.position_number || ""}]`
     : "";
@@ -1298,36 +1300,73 @@ function buildEnvelopeItemsForRow(
   let resolvedPayRate = (Number(row.regular_pay_rate) || 0).toFixed(2);
   let resolvedPremiumRate = (Number(row.premium_pay_rate) || 0).toFixed(2);
   let resolvedOvertimeRate = (Number(row.overtime_pay_rate) || 0).toFixed(2);
+  // Numeric rate used for calculations (hours-weighted across positions for bulk rows)
+  let calcPayRate = Number(row.regular_pay_rate) || 0;
+  // Base regular pay for bulk rows = sum of (hours x rate) over every position
+  let bulkRegularBase: number | null = null;
 
   if (
     row.is_bulk &&
     Array.isArray(row.bulk_breakdown) &&
     row.bulk_breakdown.length > 0
   ) {
+    const allBreakdowns: any[] = row.bulk_breakdown;
+    bulkRegularBase = allBreakdowns.reduce(
+      (sum: number, bd: any) =>
+        sum + (Number(bd.regular_hours) || 0) * (Number(bd.regular_pay_rate) || 0),
+      0
+    );
+    const bulkRegularHours = allBreakdowns.reduce(
+      (sum: number, bd: any) => sum + (Number(bd.regular_hours) || 0),
+      0
+    );
+    if (bulkRegularHours > 0) {
+      calcPayRate = (bulkRegularBase ?? 0) / bulkRegularHours;
+    }
+
     const matchingBreakdowns =
       positionIds.length > 0
-        ? row.bulk_breakdown.filter((bd: any) =>
+        ? allBreakdowns.filter((bd: any) =>
             positionIds.includes(bd.position_id)
           )
-        : row.bulk_breakdown;
+        : allBreakdowns;
 
     if (matchingBreakdowns.length > 0) {
       const names: string[] = [];
       const categories: string[] = [];
+      const payRates: string[] = [];
+      const premiumRates: string[] = [];
+      const overtimeRates: string[] = [];
+      const seen = new Set<string>();
       for (const bd of matchingBreakdowns) {
         const posFromMap = positionsMap[bd.position_id];
         const title = posFromMap?.title || bd.position_title || "";
         const num = posFromMap?.position_number || "";
-        if (title) names.push(num ? `${title} [${num}]` : title);
+        const label = title ? (num ? `${title} [${num}]` : title) : "";
+        const payR = (Number(bd.regular_pay_rate) || 0).toFixed(2);
+        // Breakdowns only store premium/OT rates in some cases; otherwise the
+        // timesheet-level value applies to the whole row and is shown once.
+        const premR = (Number(bd.premium_pay_rate) || 0).toFixed(2);
+        const otR = (Number(bd.overtime_pay_rate) || 0).toFixed(2);
+        const key = `${label}|${payR}|${premR}|${otR}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        if (label) names.push(label);
         if (posFromMap?.position_category)
           categories.push(posFromMap.position_category);
+        payRates.push(payR);
+        premiumRates.push(premR);
+        overtimeRates.push(otR);
       }
       resolvedPositionName = [...new Set(names)].join(", ");
       resolvedPositionCategory = [...new Set(categories)].join(", ");
-      const firstBd = matchingBreakdowns[0];
-      resolvedPayRate = (Number(firstBd.regular_pay_rate) || 0).toFixed(2);
-      resolvedPremiumRate = (Number(firstBd.premium_pay_rate) || 0).toFixed(2);
-      resolvedOvertimeRate = (Number(firstBd.overtime_pay_rate) || 0).toFixed(2);
+      resolvedPayRate = payRates.join(", ");
+      if (matchingBreakdowns.some((bd: any) => bd.premium_pay_rate != null)) {
+        resolvedPremiumRate = premiumRates.join(", ");
+      }
+      if (matchingBreakdowns.some((bd: any) => bd.overtime_pay_rate != null)) {
+        resolvedOvertimeRate = overtimeRates.join(", ");
+      }
     }
   }
 
@@ -1363,13 +1402,13 @@ function buildEnvelopeItemsForRow(
     if (effectivePm.includes("Corporation")) {
       const regH = Number(row.total_regular_hours) || 0;
       const otH = Number(row.total_overtime_hours) || 0;
-      const regR = Number(resolvedPayRate) || 0;
-      const otR = Number(resolvedOvertimeRate) || 0;
+      const otR = Number(row.overtime_pay_rate) || 0;
       const bonusA = Number(row.bonus_amount) || 0;
       const dedA = Number(row.deduction_amount) || 0;
+      const regBase = bulkRegularBase ?? regH * calcPayRate;
 
       // Subtotal before tax
-      lineAmount = Math.max(0, regH * regR + otH * otR + bonusA - dedA);
+      lineAmount = Math.max(0, regBase + otH * otR + bonusA - dedA);
 
       if (typeof jp.hst_gst === "string" || typeof jp.hst_gst === "number") {
         const match = String(jp.hst_gst || "").match(/^([\d.]+)\s*%?$/);
@@ -1415,8 +1454,8 @@ function buildEnvelopeItemsForRow(
 
   const totalRegHours = Number(row.total_regular_hours) || 0;
   const totalOtHours = Number(row.total_overtime_hours) || 0;
-  const regPayRateNum = Number(resolvedPayRate) || 0;
-  const otPayRateNum = Number(resolvedOvertimeRate) || 0;
+  const regPayRateNum = calcPayRate;
+  const otPayRateNum = Number(row.overtime_pay_rate) || 0;
 
   const sinRegular = Math.min(sinCap, totalRegHours);
   const cashRegular = Math.max(0, totalRegHours - sinRegular);
@@ -1481,6 +1520,87 @@ function buildEnvelopeItemsForRow(
   }
 
   return items;
+}
+
+const CONSOLIDATED_PAY_CYCLES = [
+  "1 Week Hold - Biweekly Pay",
+  "2 Week Hold - Biweekly Pay",
+];
+
+/**
+ * For "1 Week Hold - Biweekly Pay" and "2 Week Hold - Biweekly Pay" clients, the selected
+ * weeks are paid together, so collapse every row of a jobseeker (per client) into ONE row:
+ * hours/amounts/tax are summed; pay methods, positions and rates are listed once each.
+ * All other pay cycles are returned untouched.
+ */
+function consolidateBiweeklyEnvelopeRows(items: any[]): any[] {
+  const round2 = (n: number) =>
+    (Math.round((n + Number.EPSILON) * 100) / 100).toFixed(2);
+  const trimNum = (n: number) => String(Math.round((n + Number.EPSILON) * 100) / 100);
+  const uniqJoin = (values: unknown[], splitCommas = false): string => {
+    const out: string[] = [];
+    for (const v of values) {
+      const parts = splitCommas ? String(v ?? "").split(",") : [String(v ?? "")];
+      for (const part of parts) {
+        const t = part.trim();
+        if (t && !out.includes(t)) out.push(t);
+      }
+    }
+    return out.join(", ");
+  };
+
+  const result: any[] = [];
+  const groups = new Map<string, any[]>();
+
+  for (const item of items) {
+    if (!CONSOLIDATED_PAY_CYCLES.includes(item.pay_cycle)) {
+      result.push(item);
+      continue;
+    }
+    const key = `${item.client_name}|${item.jobseeker_id}`;
+    const group = groups.get(key);
+    if (group) {
+      group.push(item);
+    } else {
+      const created = [item];
+      groups.set(key, created);
+      // placeholder keeps the original ordering of the report
+      result.push(created);
+    }
+  }
+
+  return result.map((entry) => {
+    if (!Array.isArray(entry)) return entry;
+    const rows: any[] = entry;
+    if (rows.length === 1) return rows[0];
+
+    const sum = (field: string) =>
+      rows.reduce((acc, r) => acc + (Number(r[field]) || 0), 0);
+    const lineAmount = sum("line_amount");
+    const hstGst = sum("hst_gst");
+    const latest = (field: string) =>
+      rows.map((r) => String(r[field] || "")).filter(Boolean).sort().pop() || "";
+
+    return {
+      ...rows[0],
+      week_ending: latest("week_ending"),
+      payment_due_date: latest("payment_due_date"),
+      invoice_date: latest("invoice_date"),
+      invoice_number: uniqJoin(rows.map((r) => r.invoice_number)),
+      pay_method: uniqJoin(rows.map((r) => r.pay_method)),
+      position_category: uniqJoin(rows.map((r) => r.position_category), true),
+      position_name: uniqJoin(rows.map((r) => r.position_name)),
+      hours: trimNum(sum("hours")),
+      overtime_hours: trimNum(sum("overtime_hours")),
+      regular_pay_rate: uniqJoin(rows.map((r) => r.regular_pay_rate), true),
+      premium_pay_rate: uniqJoin(rows.map((r) => r.premium_pay_rate), true),
+      overtime_pay_rate: uniqJoin(rows.map((r) => r.overtime_pay_rate), true),
+      total_amount: round2(sum("total_amount")),
+      hst_gst: round2(hstGst),
+      line_amount: round2(lineAmount),
+      tax_rate: lineAmount > 0 && hstGst > 0 ? ((hstGst / lineAmount) * 100).toFixed(2) : "0.00",
+    };
+  });
 }
 
 // POST /api/reports/envelope-printing-position
@@ -1717,7 +1837,10 @@ router.post(
         envelopeData.push(...items);
       });
 
-      const numberedEnvelopeData = envelopeData.map((row, index) => {
+      const consolidatedEnvelopeData =
+        consolidateBiweeklyEnvelopeRows(envelopeData);
+
+      const numberedEnvelopeData = consolidatedEnvelopeData.map((row, index) => {
         const sequenceNumber = index + 1;
         return {
           sequence_number: sequenceNumber,
