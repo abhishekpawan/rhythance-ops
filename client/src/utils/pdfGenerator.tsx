@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#FFFFFF",
     padding: 30,
+    paddingBottom: 50, // room for the fixed page number
     fontSize: 10,
     fontFamily: "Helvetica",
   },
@@ -221,11 +222,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  // In normal flow (not absolute) so it can never print over the table rows.
   footer: {
-    position: "absolute",
-    bottom: 20,
-    left: 30,
-    right: 30,
+    marginTop: 10,
     fontSize: 8,
     color: colors.secondary,
   },
@@ -437,122 +436,9 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
 
   const hasItemSummary = Object.keys(itemSummary).length > 0;
 
-  // Calculate how many rows can fit on the first page (accounting for header space)
-  const FIRST_PAGE_ROWS = 10;
-  // Calculate how many rows can fit on continuation pages (more space available)
-  const CONTINUATION_PAGE_ROWS = 17;
-
-  // Calculate pagination
-  const pages: Array<{ items: typeof data.lineItems; isLastPage: boolean }> =
-    [];
-  let remainingItems = [...data.lineItems];
-  let isFirstPage = true;
-
-  while (remainingItems.length > 0) {
-    const rowsForThisPage = isFirstPage
-      ? FIRST_PAGE_ROWS
-      : CONTINUATION_PAGE_ROWS;
-    const itemsForThisPage = remainingItems.slice(0, rowsForThisPage);
-    remainingItems = remainingItems.slice(rowsForThisPage);
-
-    pages.push({
-      items: itemsForThisPage,
-      isLastPage: remainingItems.length === 0,
-    });
-
-    isFirstPage = false;
-  }
-
-  const totalPages = pages.length;
-
-  return (
-    <Document>
-      {pages.map((page, pageIndex) => (
-        <Page key={pageIndex} size="A4" style={styles.page}>
-          {/* Header - only on first page */}
-          {pageIndex === 0 && (
-            <>
-              <View style={styles.header}>
-                <View style={styles.logoSection}>
-                  <Image src={godspeedLogo} style={styles.logoPlaceholder} />
-                </View>
-                <View style={styles.companyInfo}>
-                  <Text style={styles.companyDetails}>
-                    {COMPANY_INFO.name}
-                    {"\n"}
-                    {COMPANY_INFO.address}
-                    {"\n"}
-                    {COMPANY_INFO.address2}
-                    {"\n"}
-                    {COMPANY_INFO.gst}
-                  </Text>
-                </View>
-              </View>
-
-              {/* Bill To and Invoice Details Section */}
-              <View style={styles.billToInvoiceSection}>
-                <View style={styles.clientSection}>
-                  <Text style={styles.sectionTitle}>Bill To:</Text>
-                  <Text style={styles.clientName}>
-                    {data.client.companyName}
-                  </Text>
-                  {data.client.address && (
-                    <Text style={styles.clientDetails}>
-                      {data.client.address.join("\n")}
-                    </Text>
-                  )}
-                  {data.client.email && (
-                    <Text style={styles.clientDetails}>
-                      {data.client.email}
-                    </Text>
-                  )}
-                </View>
-
-                <View style={styles.invoiceDetailsSection}>
-                  <Text style={styles.sectionTitle}>Invoice Details:</Text>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Invoice #:</Text>
-                    <Text style={styles.invoiceDetailValue}>
-                      {data.invoiceNumber}
-                    </Text>
-                  </View>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Invoice Date:</Text>
-                    <Text style={styles.invoiceDetailValue}>
-                      {formatCalendarDate(data.invoiceDate)}
-                    </Text>
-                  </View>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Due Date:</Text>
-                    <Text style={styles.invoiceDetailValue}>
-                      {formatCalendarDate(data.dueDate)}
-                    </Text>
-                  </View>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Term:</Text>
-                    <Text style={styles.invoiceDetailValue}>{data.terms}</Text>
-                  </View>
-                </View>
-              </View>
-            </>
-          )}
-
-          {/* Date Range Section - only on first page */}
-          {pageIndex === 0 &&
-            data.dateRange.startDate &&
-            data.dateRange.endDate && (
-              <View style={styles.dateRangeSection}>
-                <Text style={styles.dateRangeText}>
-                  From {formatDateWithOrdinal(data.dateRange.startDate)} to{" "}
-                  {formatDateWithOrdinal(data.dateRange.endDate)}
-                </Text>
-              </View>
-            )}
-
-          {/* Line Items Table */}
-          <View style={styles.table}>
-            {/* Table Header */}
-            <View style={[styles.tableRow, styles.tableHeader]}>
+  // Table header row, shared by the first page and the repeated continuation header
+  const tableHeaderRow = (
+    <View style={[styles.tableRow, styles.tableHeader]}>
               {hasPosition && (
                 <View style={[styles.tableCol, { width: positionWidth }]}>
                   <Text style={styles.tableCellHeader}>Position Name</Text>
@@ -576,10 +462,15 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
                 <Text style={styles.tableCellHeader}>Amount</Text>
               </View>
             </View>
+  );
 
-            {/* Table Rows for this page */}
-            {page.items.map((item, index) => (
-              <View style={styles.tableRow} key={index}>
+  // Rows that always travel together with the summary (see layout comment below).
+  const TAIL_ROWS = 2;
+  const headRows = data.lineItems.slice(0, Math.max(0, data.lineItems.length - TAIL_ROWS));
+  const tailRows = data.lineItems.slice(headRows.length);
+
+  const renderRow = (item: InvoiceData["lineItems"][number], index: number) => (
+    <View style={styles.tableRow} key={index} wrap={false}>
                 {hasPosition && (
                   <View style={[styles.tableCol, { width: positionWidth }]}>
                     <Text style={styles.tableCell}>
@@ -611,11 +502,9 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
                   </Text>
                 </View>
               </View>
-            ))}
-          </View>
+  );
 
-          {/* Summary and Footer - only on last page */}
-          {page.isLastPage && (
+  const summaryBlock = (
             <View style={styles.footer}>
               <View style={styles.summarySection}>
                 {/* Item Summary - Left Side */}
@@ -720,16 +609,145 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
                 <Text style={styles.footerTerms}>{data.termsOnInvoice}</Text>
               )}
             </View>
+  );
+
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+          {/* Continuation pages (2+): repeat the table header at the top. Renders
+              nothing on page 1, where the real header is part of the flow. */}
+          <View
+            fixed
+            render={({ pageNumber }) =>
+              pageNumber > 1 ? (
+                <View style={[styles.table, { marginBottom: 0 }]}>
+                  {tableHeaderRow}
+                </View>
+              ) : null
+            }
+          />
+          {/* Header - only on first page */}
+          {(
+            <>
+              <View style={styles.header}>
+                <View style={styles.logoSection}>
+                  <Image src={godspeedLogo} style={styles.logoPlaceholder} />
+                </View>
+                <View style={styles.companyInfo}>
+                  <Text style={styles.companyDetails}>
+                    {COMPANY_INFO.name}
+                    {"\n"}
+                    {COMPANY_INFO.address}
+                    {"\n"}
+                    {COMPANY_INFO.address2}
+                    {"\n"}
+                    {COMPANY_INFO.gst}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Bill To and Invoice Details Section */}
+              <View style={styles.billToInvoiceSection}>
+                <View style={styles.clientSection}>
+                  <Text style={styles.sectionTitle}>Bill To:</Text>
+                  <Text style={styles.clientName}>
+                    {data.client.companyName}
+                  </Text>
+                  {data.client.address && (
+                    <Text style={styles.clientDetails}>
+                      {data.client.address.join("\n")}
+                    </Text>
+                  )}
+                  {data.client.email && (
+                    <Text style={styles.clientDetails}>
+                      {data.client.email}
+                    </Text>
+                  )}
+                </View>
+
+                <View style={styles.invoiceDetailsSection}>
+                  <Text style={styles.sectionTitle}>Invoice Details:</Text>
+                  <View style={styles.invoiceDetailItem}>
+                    <Text style={styles.invoiceDetailLabel}>Invoice #:</Text>
+                    <Text style={styles.invoiceDetailValue}>
+                      {data.invoiceNumber}
+                    </Text>
+                  </View>
+                  <View style={styles.invoiceDetailItem}>
+                    <Text style={styles.invoiceDetailLabel}>Invoice Date:</Text>
+                    <Text style={styles.invoiceDetailValue}>
+                      {formatCalendarDate(data.invoiceDate)}
+                    </Text>
+                  </View>
+                  <View style={styles.invoiceDetailItem}>
+                    <Text style={styles.invoiceDetailLabel}>Due Date:</Text>
+                    <Text style={styles.invoiceDetailValue}>
+                      {formatCalendarDate(data.dueDate)}
+                    </Text>
+                  </View>
+                  <View style={styles.invoiceDetailItem}>
+                    <Text style={styles.invoiceDetailLabel}>Term:</Text>
+                    <Text style={styles.invoiceDetailValue}>{data.terms}</Text>
+                  </View>
+                </View>
+              </View>
+            </>
           )}
 
-          {/* Page Number - on every page */}
-          <View style={styles.pageNumber}>
-            <Text style={styles.pageNumberText}>
-              Page {pageIndex + 1} of {totalPages}
-            </Text>
+          {/* Date Range Section - only on first page */}
+          {data.dateRange.startDate &&
+            data.dateRange.endDate && (
+              <View style={styles.dateRangeSection}>
+                <Text style={styles.dateRangeText}>
+                  From {formatDateWithOrdinal(data.dateRange.startDate)} to{" "}
+                  {formatDateWithOrdinal(data.dateRange.endDate)}
+                </Text>
+              </View>
+            )}
+
+          {/* Line Items Table.
+              The rows before the "tail" flow normally and break across pages as the
+              layout engine decides. The last TAIL_ROWS rows and the summary form one
+              unbreakable block, so the summary can never end up alone on a page, and
+              that block is stretched so the summary sits at the bottom of the last page. */}
+          {headRows.length > 0 && (
+            <View style={[styles.table, { marginBottom: 0 }]}>
+              {/* header + first row stay together (no orphaned header) */}
+              <View wrap={false}>
+                {tableHeaderRow}
+                {renderRow(headRows[0], 0)}
+              </View>
+              {headRows.slice(1).map((item, i) => renderRow(item, i + 1))}
+            </View>
+          )}
+
+          <View
+            wrap={false}
+            style={{ flexGrow: 1, justifyContent: "space-between" }}
+          >
+            <View
+              style={[
+                styles.table,
+                { marginBottom: 0 },
+                headRows.length > 0 ? { borderTopWidth: 0 } : {},
+              ]}
+            >
+              {headRows.length === 0 && tableHeaderRow}
+              {tailRows.map((item, i) => renderRow(item, headRows.length + i))}
+            </View>
+            {summaryBlock}
           </View>
-        </Page>
-      ))}
+
+          {/* Page Number - on every page */}
+          <View style={styles.pageNumber} fixed>
+            <Text
+              style={styles.pageNumberText}
+              render={({ pageNumber, totalPages: pdfTotalPages }) =>
+                `Page ${pageNumber} of ${pdfTotalPages}`
+              }
+            />
+          </View>
+      </Page>
     </Document>
   );
 };
