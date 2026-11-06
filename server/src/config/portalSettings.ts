@@ -172,7 +172,7 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     group: "access",
     label: "Staff email: contains",
     description:
-      "Comma-separated text. A sign-up or login whose email contains any of these (for example @company.com) is treated as staff (recruiter/admin side). Empty means nobody is recognised by email.",
+      "Comma-separated text. A sign-up or login whose email contains any of these (for example @company.com; end an entry with $ to match only the end of the email) is treated as staff (recruiter/admin side). Empty means nobody is recognised by email.",
     defaultValue: "",
   },
   {

@@ -51,8 +51,11 @@ const settingList = (key: string): string[] =>
 // from this portal's settings (Portal Settings > Access); nothing is hard-coded.
 const isRecruiterEmail = (email: string): boolean => {
   if (settingList("access.staffEmailExcluded").includes(email)) return false;
+  // An entry ending with "$" must match the end of the email (@email.com$).
   return settingList("access.staffEmailContains").some((part) =>
-    email.includes(part)
+    part.endsWith("$")
+      ? email.endsWith(part.slice(0, -1))
+      : email.includes(part)
   );
 };
 
