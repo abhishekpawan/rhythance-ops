@@ -187,7 +187,8 @@ export interface ActivityData {
   | "create_consent_request"
   | "resend_consent_request"
   | "user_consent_given"
-  | "update_feature_flag";
+  | "update_feature_flag"
+  | "update_portal_settings";
   actionVerb: string;
   primaryEntityType: string;
   primaryEntityId?: string;

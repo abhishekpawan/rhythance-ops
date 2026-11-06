@@ -66,6 +66,7 @@ interface RecentActivity {
     | "create_consent_request"
     | "user_consent_given"
     | "update_feature_flag"
+    | "update_portal_settings"
     | "resend_consent_request";
   action_verb: string;
   actor_name: string;
@@ -199,6 +200,7 @@ const getStatusIcon = (actionType: string) => {
     case "resend_consent_request":
       return <Send size={12} className="status-success" />;
     case "update_feature_flag":
+    case "update_portal_settings":
       return <RefreshCw size={12} className="status-success" />;
 
     default:
@@ -754,6 +756,15 @@ const formatActivityMessage = (activity: RecentActivity): React.ReactNode => {
       return (
         <>
           <ActorName>{actor_name}</ActorName> created consent request <PrimaryEntity>{primary_entity_name}</PrimaryEntity> for {recipientCount} {recipientLabel}{pluralSuffix}
+        </>
+      );
+    }
+
+    case "update_portal_settings": {
+      return (
+        <>
+          <ActorName>{actor_name}</ActorName> updated the{" "}
+          <PrimaryEntity>portal settings</PrimaryEntity>
         </>
       );
     }

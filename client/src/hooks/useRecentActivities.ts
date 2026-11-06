@@ -49,6 +49,7 @@ export interface RecentActivity {
     | "create_consent_request"
     | "user_consent_given"
     | "update_feature_flag"
+    | "update_portal_settings"
     | "resend_consent_request";
   action_verb: string;
   primary_entity_type: string;

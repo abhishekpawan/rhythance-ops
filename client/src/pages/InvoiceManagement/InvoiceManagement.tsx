@@ -43,6 +43,7 @@ import {
 } from "../../services/api/invoice";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { usePortalSettings } from "../../contexts/PortalSettingsContext";
 import { supabase } from "../../lib/supabaseClient";
 import { getPositionDisplayTitle } from "../../utils/positionDisplay";
 import {
@@ -198,6 +199,8 @@ const extractTimesheetDateRange = (invData: any): { startDate: string; endDate: 
 export function InvoiceManagement() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { values: portalSettings, ready: portalSettingsReady } =
+    usePortalSettings();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -1342,6 +1345,13 @@ export function InvoiceManagement() {
       return;
     }
 
+    // The invoice header uses this portal's company details (portal settings). Check
+    // before anything is created so an invoice is never issued with the wrong ones.
+    if (!portalSettingsReady || !portalSettings["company.name"]) {
+      setGenerationError(t("invoiceManagement.companyDetailsNotLoaded"));
+      return;
+    }
+
     // Check if at least one line item has hours > 0
     const hasValidLineItems = lineItems.some(
       (item) =>
@@ -1763,6 +1773,12 @@ export function InvoiceManagement() {
         dateRange: {
           startDate: timesheetStartDate || invoiceDate,
           endDate: timesheetEndDate || dueDate,
+        },
+        company: {
+          name: portalSettings["company.name"],
+          address: portalSettings["company.address"] || "",
+          address2: portalSettings["company.address2"] || "",
+          taxNumber: portalSettings["company.taxNumber"] || "",
         },
         terms: selectedTerms,
         messageOnInvoice: messageOnInvoice,

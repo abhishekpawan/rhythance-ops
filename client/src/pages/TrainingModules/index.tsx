@@ -15,6 +15,7 @@ import {
 import { VideoModal } from "./VideoModal";
 import { ComingSoonModal } from "./ComingSoonModal";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { usePortalSettings } from "../../contexts/PortalSettingsContext";
 import "../../styles/pages/TrainingModules.css";
 import "../../styles/pages/JobSeekerManagement.css";
 
@@ -34,6 +35,8 @@ interface Module {
 export function TrainingModules() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  // The first two mandatory videos are this portal's own (portal settings)
+  const { values: portalSettings } = usePortalSettings();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
@@ -55,7 +58,7 @@ export function TrainingModules() {
       duration: "2 min",
       completed: false,
       icon: <Video className="module-icon video" />,
-      youtubeId: "3uXKmNbTZos",
+      youtubeId: portalSettings["training.video1"],
       mandatory: true,
     },
     {
@@ -67,7 +70,7 @@ export function TrainingModules() {
       duration: "2 min",
       completed: false,
       icon: <Video className="module-icon video" />,
-      youtubeId: "O615tiZ6eOk",
+      youtubeId: portalSettings["training.video2"],
       mandatory: true,
     },
     {

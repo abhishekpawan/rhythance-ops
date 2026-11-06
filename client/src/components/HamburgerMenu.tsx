@@ -33,6 +33,7 @@ import {
   CreditCard,
   MailOpen,
   Flag,
+  SlidersHorizontal,
   LifeBuoy,
 } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
@@ -733,6 +734,14 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
       label: t("navigation.featureFlags"),
       path: "/feature-flags",
       icon: <Flag size={16} />,
+      requiresAuth: true,
+      roles: ["admin"],
+      requiresSuperAdmin: true,
+    },
+    {
+      label: t("navigation.portalSettings"),
+      path: "/portal-settings",
+      icon: <SlidersHorizontal size={16} />,
       requiresAuth: true,
       roles: ["admin"],
       requiresSuperAdmin: true,

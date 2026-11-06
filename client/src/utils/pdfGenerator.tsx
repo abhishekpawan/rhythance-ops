@@ -275,14 +275,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// Company information
-const COMPANY_INFO = {
-  name: "Rhythence Group",
-  address: "240 Humberline Dr",
-  address2: "Etobicoke ON, M9W 5X1",
-  gst: "GST/HST No. 825183387",
-};
-
 // Helper function to format date with ordinal suffix without timezone shift
 const formatDateWithOrdinal = (dateString: string): string => {
   if (!dateString) return "";
@@ -384,6 +376,13 @@ export interface InvoiceData {
   dateRange: {
     startDate: string;
     endDate: string;
+  };
+  /** Company details printed in the header (portal settings). */
+  company: {
+    name: string;
+    address: string;
+    address2: string;
+    taxNumber: string;
   };
   terms: string;
   messageOnInvoice?: string;
@@ -649,13 +648,13 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
               </View>
               <View style={styles.companyInfo}>
                 <Text style={styles.companyDetails}>
-                  {COMPANY_INFO.name}
+                  {data.company.name}
                   {"\n"}
-                  {COMPANY_INFO.address}
+                  {data.company.address}
                   {"\n"}
-                  {COMPANY_INFO.address2}
+                  {data.company.address2}
                   {"\n"}
-                  {COMPANY_INFO.gst}
+                  {data.company.taxNumber}
                 </Text>
               </View>
             </View>

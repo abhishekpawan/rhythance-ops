@@ -1,0 +1,34 @@
+{
+  "portalSettings": {
+    "title": "Paramètres du portail",
+    "subtitle": "Valeurs qui diffèrent d'un portail à l'autre, comme les coordonnées de l'entreprise imprimées sur les factures. Chaque portail conserve les siennes.",
+    "groups": {
+      "company": "Coordonnées de l'entreprise (factures)",
+      "branding": "Image de marque",
+      "training": "Formation"
+    },
+    "source": {
+      "database": "Défini pour ce portail",
+      "environment": "Depuis l'environnement",
+      "default": "Par défaut"
+    },
+    "defaultHint": "Par défaut : {{value}}",
+    "save": "Enregistrer les modifications",
+    "discard": "Annuler",
+    "unsaved": "{{count}} modification(s) non enregistrée(s)",
+    "saved": "Les paramètres du portail ont été enregistrés.",
+    "hint": "Laissez un champ vide pour utiliser sa valeur par défaut.",
+    "lastChanged": "Modifié par {{name}} le {{date}}",
+    "setupNeededTitle": "Configuration requise sur ce portail",
+    "setupNeededMessage": "La table portal_settings n'existe pas encore dans la base de données de ce portail. Exécutez la migration 031_portal_settings.sql. D'ici là, chaque paramètre utilise sa valeur par défaut.",
+    "loadFailedMessage": "Les valeurs enregistrées n'ont pas pu être lues; les valeurs par défaut sont affichées. Réessayez dans un instant.",
+    "loadError": "Échec du chargement des paramètres du portail",
+    "saveError": "Impossible d'enregistrer les paramètres du portail."
+  },
+  "navigation": {
+    "portalSettings": "Paramètres du portail"
+  },
+  "invoiceManagement": {
+    "companyDetailsNotLoaded": "Les coordonnées de l'entreprise ne sont pas encore chargées. Veuillez réessayer dans un instant."
+  }
+}

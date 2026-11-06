@@ -1,0 +1,62 @@
+/* ── Portal Settings (super admin) ─────────────────────── */
+/* Prefix: ps-. Layout, cards and fields come from FeatureFlags.css (ff-). */
+
+.ps-actionbar {
+  position: sticky;
+  top: 68px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.ps-actionbar-text {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+}
+
+.ps-actionbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ps-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-card {
+  display: block;
+}
+
+.ps-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.ps-textarea {
+  height: auto;
+  padding: 10px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .ps-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ps-actionbar {
+    top: 60px;
+  }
+}

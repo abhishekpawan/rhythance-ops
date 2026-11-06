@@ -1,0 +1,34 @@
+{
+  "portalSettings": {
+    "title": "Portal Settings",
+    "subtitle": "Values that differ between portals, such as the company details printed on invoices. Each portal keeps its own.",
+    "groups": {
+      "company": "Company details (invoices)",
+      "branding": "Branding",
+      "training": "Training"
+    },
+    "source": {
+      "database": "Set for this portal",
+      "environment": "From environment",
+      "default": "Default"
+    },
+    "defaultHint": "Default: {{value}}",
+    "save": "Save changes",
+    "discard": "Discard",
+    "unsaved": "{{count}} unsaved change(s)",
+    "saved": "Portal settings saved.",
+    "hint": "Leave a field empty to use its default value.",
+    "lastChanged": "Changed by {{name}} on {{date}}",
+    "setupNeededTitle": "Setup needed on this portal",
+    "setupNeededMessage": "The portal_settings table does not exist in this portal's database yet. Run migration 031_portal_settings.sql. Until then every setting uses its default value.",
+    "loadFailedMessage": "Saved values could not be read, so defaults are being shown. Try again in a moment.",
+    "loadError": "Failed to load portal settings",
+    "saveError": "Could not save the portal settings."
+  },
+  "navigation": {
+    "portalSettings": "Portal Settings"
+  },
+  "invoiceManagement": {
+    "companyDetailsNotLoaded": "Company details are not loaded yet. Please try again in a moment."
+  }
+}

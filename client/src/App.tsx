@@ -7,6 +7,7 @@ import {
 import { ThemeProvider } from "./components/theme-provider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { FeatureFlagsProvider } from "./contexts/FeatureFlagsContext";
+import { PortalSettingsProvider } from "./contexts/PortalSettingsContext";
 import { FeatureGate } from "./components/FeatureGate";
 import {
   ProtectedRoute,
@@ -85,6 +86,7 @@ import { ConsentDetailPage } from "./pages/Consent/ConsentDetailPage";
 import { ConsentTemplatePage } from "./pages/Consent/ConsentTemplatePage";
 import { EmailTemplatePreviewPage } from "./pages/EmailTemplatePreview/EmailTemplatePreviewPage";
 import { FeatureFlagsPage } from "./pages/Admin/FeatureFlagsPage";
+import { PortalSettingsPage } from "./pages/Admin/PortalSettingsPage";
 import { ConsentPage } from "./pages/Consent/ConsentPage";
 import { OnboardingConsent } from "./pages/Consent/OnboardingConsent";
 import { TermsOfService } from "./pages/Legal/TermsOfService";
@@ -126,6 +128,7 @@ function App() {
       <ThemeProvider defaultTheme="light" storageKey="godspeed-theme">
         <AuthProvider>
           <FeatureFlagsProvider>
+            <PortalSettingsProvider>
           <Router>
             <GeometricShapes />
             {/* <FloatingChat /> */}
@@ -502,6 +505,7 @@ function App() {
                     element={<EmailTemplatePreviewPage />}
                   />
                   <Route path="/feature-flags" element={<FeatureFlagsPage />} />
+                  <Route path="/portal-settings" element={<PortalSettingsPage />} />
                 </Route>
 
                 <Route element={<JobSeekerRoute />}>
@@ -526,6 +530,7 @@ function App() {
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
           </Router>
+            </PortalSettingsProvider>
           </FeatureFlagsProvider>
         </AuthProvider>
       </ThemeProvider>
