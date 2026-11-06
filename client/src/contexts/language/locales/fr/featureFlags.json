@@ -31,7 +31,7 @@
       "controls": "Contrôle le comportement",
       "tracking": "Suivi seulement"
     },
-    "intendedTitle": "Prévu par portail",
+    "intendedTitle": "Prévu (pas le réglage actuel)",
     "changedBy": "Modifié par {{name}} le {{date}}",
     "reset": "Rétablir par défaut",
     "resetTitle": "Rétablir la valeur par défaut ({{value}})",
@@ -52,6 +52,7 @@
       "updated": "« {{name}} » est maintenant {{state}}.",
       "reset": "« {{name}} » a été rétabli à sa valeur par défaut.",
       "failed": "Impossible de mettre à jour l'indicateur."
-    }
+    },
+    "thisPortal": "Ce portail : {{state}}"
   }
 }

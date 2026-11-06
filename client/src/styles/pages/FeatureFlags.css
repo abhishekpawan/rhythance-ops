@@ -357,7 +357,7 @@
 }
 
 .ff-portal--on b {
-  color: var(--success);
+  color: var(--text-muted);
 }
 
 .ff-portal--off b {

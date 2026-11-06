@@ -31,7 +31,7 @@
       "controls": "Controls behaviour",
       "tracking": "Tracking only"
     },
-    "intendedTitle": "Intended per portal",
+    "intendedTitle": "Planned (not the current setting)",
     "changedBy": "Changed by {{name}} on {{date}}",
     "reset": "Reset to default",
     "resetTitle": "Reset to the default ({{value}})",
@@ -52,6 +52,7 @@
       "updated": "\"{{name}}\" is now {{state}}.",
       "reset": "\"{{name}}\" was reset to its default.",
       "failed": "Could not update the feature flag."
-    }
+    },
+    "thisPortal": "This portal: {{state}}"
   }
 }

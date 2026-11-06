@@ -333,7 +333,9 @@ export function FeatureFlagsPage() {
                           <span
                             className={`ff-switch-state ${flag.enabled ? "ff-switch-state--on" : ""}`}
                           >
-                            {stateLabel(flag.enabled)}
+                            {t("featureFlags.thisPortal", {
+                              state: stateLabel(flag.enabled),
+                            })}
                           </span>
                           {saving ? (
                             <Loader2 size={20} className="ff-spinner" />
