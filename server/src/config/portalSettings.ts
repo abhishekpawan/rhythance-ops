@@ -35,7 +35,7 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     group: "company",
     label: "Company name",
     description: "Legal company name printed at the top of invoices.",
-    defaultValue: "9084380 Canada Inc. O/A Motion Falcon Group",
+    defaultValue: "Rhythence Group",
   },
   {
     key: "company.address",
@@ -63,7 +63,7 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     group: "branding",
     label: "AI chat page title",
     description: "Title shown on the AI chat page.",
-    defaultValue: "Motion Falcon AI Chat",
+    defaultValue: "Rhythence AI Chat",
   },
   {
     key: "training.video1",
