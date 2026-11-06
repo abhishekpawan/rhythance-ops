@@ -197,7 +197,18 @@ export const getDocumentUploadSchema = (messages: Record<string, string>) =>
   });
 
 // Function to create form schema with translated messages
-export const createFormSchema = (messages: Record<string, string>) => {
+/**
+ * `lightRules` switches to the lighter profile rules (feature flag
+ * jobseeker_profile_godspeed_rules): the driver's licence number is required, the
+ * SIN number and most address/qualification fields are optional, and the mandatory
+ * document is a driver's licence or passport instead of SIN + government ID.
+ */
+export const createFormSchema = (
+  messages: Record<string, string>,
+  lightRules = false
+) => {
+  const optionalText = z.string().optional().or(z.literal(""));
+
   return z
     .object({
       // Personal info fields
@@ -214,34 +225,66 @@ export const createFormSchema = (messages: Record<string, string>) => {
         .string()
         .min(1, { message: messages.mobileRequired })
         .regex(/^[0-9+\-()\s]+$/, { message: "Invalid phone number format" }),
-      licenseNumber: z.string().optional(),
-      passportNumber: z.string().optional(),
-      governmentIdType: z.string().optional(),
-      sinNumber: z.string().min(1, { message: messages.sinNumberRequired }),
-      sinExpiry: z.string().optional(),
-      workPermitUci: z.string().optional(),
-      workPermitExpiry: z.string().optional(),
-      businessNumber: z.string().optional(),
-      corporationName: z.string().optional(),
+      licenseNumber: lightRules
+        ? z.string().min(1, {
+            message:
+              messages.licenseNumberRequired ||
+              "Driver's license number is required",
+          })
+        : z.string().optional(),
+      passportNumber: lightRules ? optionalText : z.string().optional(),
+      governmentIdType: lightRules ? optionalText : z.string().optional(),
+      sinNumber: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.sinNumberRequired }),
+      sinExpiry: lightRules ? optionalText : z.string().optional(),
+      workPermitUci: lightRules ? optionalText : z.string().optional(),
+      workPermitExpiry: lightRules ? optionalText : z.string().optional(),
+      businessNumber: lightRules ? optionalText : z.string().optional(),
+      corporationName: lightRules ? optionalText : z.string().optional(),
 
       // Address & Qualifications fields
-      street: z.string().min(1, { message: messages.streetRequired }),
-      city: z.string().min(1, { message: messages.cityRequired }),
-      province: z.string().min(1, { message: messages.provinceRequired }),
-      postalCode: z.string().min(1, { message: messages.postalCodeRequired }),
-      workPreference: z.string().min(10, {
-        message: messages.workPreferenceRequired,
-      }),
-      bio: z
-        .string()
-        .min(100, {
-          message: messages.bioRequired,
-        })
-        .max(500, { message: messages.bioMaxLength }),
-      licenseType: z.string().min(1, { message: messages.licenseTypeRequired }),
-      experience: z.string().min(1, { message: messages.experienceRequired }),
-      manualDriving: z.enum(["NA", "Yes", "No"]),
-      availability: z.enum(["Full-Time", "Part-Time"]),
+      street: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.streetRequired }),
+      city: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.cityRequired }),
+      province: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.provinceRequired }),
+      postalCode: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.postalCodeRequired }),
+      workPreference: lightRules
+        ? optionalText
+        : z.string().min(10, {
+            message: messages.workPreferenceRequired,
+          }),
+      bio: lightRules
+        ? z
+            .string()
+            .max(500, { message: messages.bioMaxLength })
+            .optional()
+            .or(z.literal(""))
+        : z
+            .string()
+            .min(100, {
+              message: messages.bioRequired,
+            })
+            .max(500, { message: messages.bioMaxLength }),
+      licenseType: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.licenseTypeRequired }),
+      experience: lightRules
+        ? optionalText
+        : z.string().min(1, { message: messages.experienceRequired }),
+      manualDriving: lightRules
+        ? z.enum(["NA", "Yes", "No"]).optional().default("NA")
+        : z.enum(["NA", "Yes", "No"]),
+      availability: lightRules
+        ? z.enum(["Full-Time", "Part-Time"]).optional().or(z.literal(""))
+        : z.enum(["Full-Time", "Part-Time"]),
       weekendAvailability: z.boolean().default(false),
 
       // Compensation fields
@@ -262,46 +305,52 @@ export const createFormSchema = (messages: Record<string, string>) => {
         .array(getSingleDocumentSchema(messages))
         .min(1, { message: messages.atLeastOneDocumentRequired }),
     })
-    .refine((data) => data.licenseNumber || data.passportNumber, {
-      message: messages.licenseOrPassportRequired,
-      path: ["licenseNumber"],
-    })
     .refine(
-      (data) => {
-        // Check if SIN document exists
-        const hasSinDoc = data.documents.some(
-          (doc) =>
-            doc.documentType === "sin" && (doc.documentFile || doc.documentPath)
-        );
-        if (!hasSinDoc) {
-          return false;
-        }
-        return true;
-      },
+      (data) => lightRules || !!(data.licenseNumber || data.passportNumber),
       {
-        message: messages.documentFileRequired || "SIN document is required",
-        path: ["documents"],
+        message: messages.licenseOrPassportRequired,
+        path: ["licenseNumber"],
       }
     )
-    .refine(
-      (data) => {
-        // Check if government ID document exists
-        const hasGovernmentIdDoc = data.documents.some(
+    .superRefine((data, ctx) => {
+      const hasUploaded = (types: string[]) =>
+        data.documents.some(
           (doc) =>
-            doc.documentType === "government_id" &&
+            types.includes(doc.documentType) &&
             (doc.documentFile || doc.documentPath)
         );
-        if (!hasGovernmentIdDoc) {
-          return false;
+
+      if (lightRules) {
+        // Driver's licence or passport (government ID accepted for older profiles)
+        if (!hasUploaded(["drivers_license", "passport", "government_id"])) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              messages.dlOrPassportDocumentRequired ||
+              "Driver's license or passport document is required",
+            path: ["documents"],
+          });
         }
-        return true;
-      },
-      {
-        message:
-          messages.documentFileRequired || "Government ID document is required",
-        path: ["documents"],
+        return;
       }
-    )
+
+      if (!hasUploaded(["sin"])) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: messages.documentFileRequired || "SIN document is required",
+          path: ["documents"],
+        });
+      }
+      if (!hasUploaded(["government_id"])) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            messages.documentFileRequired ||
+            "Government ID document is required",
+          path: ["documents"],
+        });
+      }
+    })
     .refine(
       (data) => {
         // Only require work permit document for temporary residents (SIN starting with '9')

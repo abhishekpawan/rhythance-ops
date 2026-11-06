@@ -100,10 +100,10 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
     key: "jobseeker_profile_godspeed_rules",
     title: "Godspeed jobseeker profile rules",
     description:
-      "Custom mandatory/optional fields and document rules in the jobseeker profile (licence number required, SIN document not required, ID = driver's licence or passport, availability optional).",
+      "Lighter jobseeker profile rules: the driver's licence number is required; SIN, most address/qualification fields and the compensation fields are optional; the mandatory document is a driver's licence or passport (instead of SIN + government ID). Applies to the profile forms and to the server checks.",
     category: "jobseeker_profile",
     defaultEnabled: false,
-    wired: false,
+    wired: true,
     intended: {
       godspeed: true,
       gdworkforce: false,
@@ -111,7 +111,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       allstaff: false,
     },
     notes:
-      "Today this is a code fork in the Godspeed branch (profile forms, schemas, server profile and jobseeker routes). Largest remaining divergence.",
+      "Previously a code fork in the Godspeed branch. Turn on only for portals that want the lighter rules; Godspeed has it on.",
   },
 ];
 

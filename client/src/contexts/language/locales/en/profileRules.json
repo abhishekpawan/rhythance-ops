@@ -1,0 +1,12 @@
+{
+  "profileCreate": {
+    "personalInfo": {
+      "licenseNumberRequired": "Driver's license number is required"
+    },
+    "documents": {
+      "dlOrPassportDocumentRequired": "Driver's license or passport document is required",
+      "dlOrPassportMandatoryTitle": "Driver's License or Passport",
+      "dlOrPassportMandatoryReason": "A Driver's License or Passport is required for identity and qualification verification."
+    }
+  }
+}

@@ -23,6 +23,8 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
   const { t } = useLanguage();
   // Some portals hide the pay rate (and bill rate) from this step; they default to 0.
   const hidePayRate = useFeatureFlag("hide_jobseeker_pay_rate", false);
+  // Light profile rules (jobseeker_profile_godspeed_rules): fewer required markers
+  const lightRules = useFeatureFlag("jobseeker_profile_godspeed_rules", false);
 
   // Watch payment method to conditionally show cash deduction field
   const paymentMethod = watch("paymentMethod");
@@ -102,7 +104,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
           <label
             htmlFor="payrateType"
             className="form-label"
-            data-required={isJobSeeker ? "" : "*"}
+            data-required={lightRules || isJobSeeker ? "" : "*"}
           >
             {t("profileCreate.compensation.payrateType")}
           </label>
@@ -134,7 +136,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
             <label
               htmlFor="payRate"
               className="form-label"
-              data-required={isJobSeeker ? "" : "*"}
+              data-required={lightRules || isJobSeeker ? "" : "*"}
             >
               {t("profileCreate.compensation.payRate")}
             </label>
@@ -173,7 +175,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
           <label
             htmlFor="paymentMethod"
             className="form-label"
-            data-required={isJobSeeker ? "" : "*"}
+            data-required={lightRules || isJobSeeker ? "" : "*"}
           >
             {t("profileCreate.compensation.paymentMethod")}
           </label>

@@ -14,6 +14,7 @@ import {
   profileUsesCashDeduction,
 } from "../utils/paymentMethods.js";
 import { getTodayInCanada, addDaysToDateStr } from "../utils/dateUtils.js";
+import { isFeatureEnabled } from "../services/featureFlags.js";
 
 dotenv.config();
 
@@ -246,14 +247,28 @@ function hasUploadedDocument(
 
 function getRequiredDocumentValidationError(
   documents: DocumentRecord[] | undefined,
-  sinNumber?: string
+  sinNumber?: string,
+  lightRules = false
 ): string | null {
-  if (!hasUploadedDocument(documents, "sin")) {
-    return "SIN document is required";
-  }
+  if (lightRules) {
+    // Light rules (feature flag jobseeker_profile_godspeed_rules): a driver's
+    // licence or passport document instead of SIN + government ID.
+    const hasIdDoc =
+      hasUploadedDocument(documents, "drivers_license") ||
+      hasUploadedDocument(documents, "passport") ||
+      hasUploadedDocument(documents, "government_id");
 
-  if (!hasUploadedDocument(documents, "government_id")) {
-    return "Government ID document is required";
+    if (!hasIdDoc) {
+      return "Driver's license or passport document is required";
+    }
+  } else {
+    if (!hasUploadedDocument(documents, "sin")) {
+      return "SIN document is required";
+    }
+
+    if (!hasUploadedDocument(documents, "government_id")) {
+      return "Government ID document is required";
+    }
   }
 
   if (
@@ -1428,7 +1443,8 @@ router.put(
           : currentProfile?.sin_number;
       const documentValidationError = getRequiredDocumentValidationError(
         effectiveDocuments,
-        effectiveSinNumber
+        effectiveSinNumber,
+        await isFeatureEnabled("jobseeker_profile_godspeed_rules")
       );
       if (documentValidationError) {
         return res.status(400).json({ error: documentValidationError });

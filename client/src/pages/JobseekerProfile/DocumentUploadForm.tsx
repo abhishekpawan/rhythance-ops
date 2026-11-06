@@ -22,6 +22,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import "../../styles/components/form.css";
 import "../../styles/pages/JobseekerProfileStyles.css";
 
@@ -71,6 +72,35 @@ interface PDFCache {
   [key: string]: string | null;
 }
 
+// Order of the document types in the "type" dropdown. Light rules list the
+// identity documents first.
+const STANDARD_DOCUMENT_TYPE_ORDER = [
+  "resume",
+  "drivers_license",
+  "passport",
+  "sin",
+  "government_id",
+  "work_permit",
+  "void_cheque",
+  "hst_registration",
+  "business_registration",
+  "forklift_license",
+  "other",
+];
+const LIGHT_DOCUMENT_TYPE_ORDER = [
+  "drivers_license",
+  "passport",
+  "resume",
+  "sin",
+  "government_id",
+  "work_permit",
+  "void_cheque",
+  "hst_registration",
+  "business_registration",
+  "forklift_license",
+  "other",
+];
+
 // Sub-component for rendering a single document item
 interface DocumentItemProps {
   index: number;
@@ -89,6 +119,8 @@ interface DocumentItemProps {
   isEditMode?: boolean;
   disableSubmit?: boolean;
   requiresWorkPermit?: boolean;
+  /** Light profile rules (jobseeker_profile_godspeed_rules flag). */
+  lightRules?: boolean;
 }
 
 const getMandatoryDocumentSequence = (requiresWorkPermit: boolean): string[] =>
@@ -109,10 +141,44 @@ const getMandatoryDocumentTypeAtIndex = (
 ): string | null =>
   getMandatoryDocumentSequence(requiresWorkPermit)[index] || null;
 
-const normalizeDocumentsForForm = (
+const isIdDocumentType = (documentType?: string): boolean =>
+  documentType === "drivers_license" ||
+  documentType === "passport" ||
+  documentType === "government_id";
+
+// Light rules: one driver's licence / passport document is mandatory (plus a
+// work permit for temporary residents); no SIN or government ID document.
+const normalizeDocumentsForLightRules = (
   documents: DocumentItemData[],
   requiresWorkPermit: boolean
 ): DocumentItemData[] => {
+  let nextDocuments = [...documents];
+
+  if (!nextDocuments.some((doc) => isIdDocumentType(doc.documentType))) {
+    nextDocuments = [
+      createMandatoryDocument("drivers_license"),
+      ...nextDocuments,
+    ];
+  }
+
+  if (
+    requiresWorkPermit &&
+    !nextDocuments.some((doc) => doc.documentType === "work_permit")
+  ) {
+    nextDocuments = [...nextDocuments, createMandatoryDocument("work_permit")];
+  }
+
+  return nextDocuments;
+};
+
+const normalizeDocumentsForForm = (
+  documents: DocumentItemData[],
+  requiresWorkPermit: boolean,
+  lightRules = false
+): DocumentItemData[] => {
+  if (lightRules) {
+    return normalizeDocumentsForLightRules(documents, requiresWorkPermit);
+  }
   const mandatoryTypes = getMandatoryDocumentSequence(requiresWorkPermit);
   const nextDocuments = [...documents];
   const consumedIndexes = new Set<number>();
@@ -268,6 +334,7 @@ function DocumentItem({
   onFileChange,
   disableSubmit = false,
   requiresWorkPermit = false,
+  lightRules = false,
 }: DocumentItemProps) {
   const { t } = useLanguage();
 
@@ -317,24 +384,33 @@ function DocumentItem({
   // Check if we have a field error for the file
   const hasFileError = !!getDocumentFieldError(index, "documentFile");
 
-  const mandatoryDocumentType = getMandatoryDocumentTypeAtIndex(
-    index,
-    requiresWorkPermit
-  );
+  const mandatoryDocumentType = lightRules
+    ? null
+    : getMandatoryDocumentTypeAtIndex(index, requiresWorkPermit);
+  const isIdDocument = lightRules && isIdDocumentType(documentType);
+  const isWorkPermitDocument =
+    lightRules && documentType === "work_permit" && requiresWorkPermit;
   const resolvedDocumentType = documentType || mandatoryDocumentType || "";
   const isMandatoryDocument =
     mandatoryDocumentType !== null &&
     resolvedDocumentType === mandatoryDocumentType;
 
   // Add conditional text/behavior based on edit mode and mandatory status
-  const documentLabel = isMandatoryDocument
-    ? `${t("profileCreate.documents.mandatoryDocument")} ${index + 1} - ${t(
-        `profileCreate.documents.documentTypes.${resolvedDocumentType}`
-      )}`
-    : `${t("profileCreate.documents.documentLabel").replace(
-        "{{number}}",
-        (index + 1).toString()
-      )}`;
+  const documentLabel =
+    isMandatoryDocument || isIdDocument || isWorkPermitDocument
+      ? `${t("profileCreate.documents.mandatoryDocument")} ${index + 1} - ${t(
+          `profileCreate.documents.documentTypes.${
+            isIdDocument
+              ? documentType || "drivers_license"
+              : isWorkPermitDocument
+                ? "work_permit"
+                : resolvedDocumentType
+          }`
+        )}`
+      : `${t("profileCreate.documents.documentLabel").replace(
+          "{{number}}",
+          (index + 1).toString()
+        )}`;
 
   // Update local PDF URL when a new file is selected or from cache when document path changes
   useEffect(() => {
@@ -521,6 +597,18 @@ function DocumentItem({
                   )
                 </span>
               )}
+              {isIdDocument && (
+                <span className="mandatory-indicator">
+                  {" "}
+                  ({t("profileCreate.documents.dlOrPassportMandatoryTitle")})
+                </span>
+              )}
+              {isWorkPermitDocument && (
+                <span className="mandatory-indicator">
+                  {" "}
+                  ({t("profileCreate.documents.documentTypes.work_permit")})
+                </span>
+              )}
             </label>
             {isMandatoryDocument ? (
               // Disabled input for mandatory documents
@@ -562,42 +650,25 @@ function DocumentItem({
                 <option value="">
                   {t("profileCreate.documents.selectType")}
                 </option>
-                <option value="resume">
-                  {t("profileCreate.documents.documentTypes.resume")}
-                </option>
-                <option value="drivers_license">
-                  {t("profileCreate.documents.documentTypes.drivers_license")}
-                </option>
-                <option value="passport">
-                  {t("profileCreate.documents.documentTypes.passport")}
-                </option>
-                <option value="sin">
-                  {t("profileCreate.documents.documentTypes.sin")}
-                </option>
-                <option value="government_id">
-                  {t("profileCreate.documents.documentTypes.government_id")}
-                </option>
-                <option value="work_permit">
-                  {t("profileCreate.documents.documentTypes.work_permit")}
-                </option>
-                <option value="void_cheque">
-                  {t("profileCreate.documents.documentTypes.void_cheque")}
-                </option>
-                <option value="hst_registration">
-                  {t("profileCreate.documents.documentTypes.hst_registration")}
-                </option>
-                <option value="business_registration">
-                  {t(
-                    "profileCreate.documents.documentTypes.business_registration"
-                  )}
-                </option>
-                <option value="forklift_license">
-                  {t("profileCreate.documents.documentTypes.forklift_license")}
-                </option>
-                <option value="other">
-                  {t("profileCreate.documents.documentTypes.other")}
-                </option>
+                {(lightRules
+                  ? LIGHT_DOCUMENT_TYPE_ORDER
+                  : STANDARD_DOCUMENT_TYPE_ORDER
+                ).map((type) => (
+                  <option key={type} value={type}>
+                    {t(`profileCreate.documents.documentTypes.${type}`)}
+                  </option>
+                ))}
               </select>
+            )}
+            {isIdDocument && (
+              <div className="mandatory-reason">
+                {t("profileCreate.documents.dlOrPassportMandatoryReason")}
+              </div>
+            )}
+            {isWorkPermitDocument && (
+              <div className="mandatory-reason">
+                {t("profileCreate.documents.workPermitMandatoryReason")}
+              </div>
             )}
           </div>
 
@@ -754,7 +825,7 @@ function DocumentItem({
         )}
 
         <div className="remove-document-container">
-          {!isMandatoryDocument ? (
+          {(lightRules ? index > 0 : !isMandatoryDocument) ? (
             <button
               type="button"
               className="button attachment-upload-button"
@@ -817,6 +888,8 @@ export function DocumentUploadForm({
   const formValues = useWatch({ control }) as { sinNumber?: string };
   const sinNumber = formValues?.sinNumber;
 
+  const lightRules = useFeatureFlag("jobseeker_profile_godspeed_rules", false);
+
   // Check if SIN starts with 9 (temporary residents need work permit)
   const requiresWorkPermit: boolean = !!(
     sinNumber &&
@@ -830,7 +903,8 @@ export function DocumentUploadForm({
       []) as DocumentItemData[];
     const normalizedDocuments = normalizeDocumentsForForm(
       currentDocuments,
-      requiresWorkPermit
+      requiresWorkPermit,
+      lightRules
     );
 
     if (!areDocumentsEquivalent(currentDocuments, normalizedDocuments)) {
@@ -856,6 +930,7 @@ export function DocumentUploadForm({
     getValues,
     mandatoryDocsInitialized,
     requiresWorkPermit,
+    lightRules,
     replace,
     submitCount,
     isSubmitted,
@@ -1163,24 +1238,34 @@ export function DocumentUploadForm({
           <h3>{t("profileCreate.documents.mandatoryDocumentsInfo")}</h3>
         </div>
         <div className="mandatory-requirements">
-          <div className="mandatory-requirement">
-            <div className="requirement-icon">
-              <FileText size={16} />
+          {!lightRules && (
+            <div className="mandatory-requirement">
+              <div className="requirement-icon">
+                <FileText size={16} />
+              </div>
+              <div className="requirement-content">
+                <strong>
+                  {t("profileCreate.documents.documentTypes.sin")}
+                </strong>
+                <p>{t("profileCreate.documents.sinMandatoryReason")}</p>
+              </div>
             </div>
-            <div className="requirement-content">
-              <strong>{t("profileCreate.documents.documentTypes.sin")}</strong>
-              <p>{t("profileCreate.documents.sinMandatoryReason")}</p>
-            </div>
-          </div>
+          )}
           <div className="mandatory-requirement">
             <div className="requirement-icon">
               <FileText size={16} />
             </div>
             <div className="requirement-content">
               <strong>
-                {t("profileCreate.documents.documentTypes.government_id")}
+                {lightRules
+                  ? t("profileCreate.documents.dlOrPassportMandatoryTitle")
+                  : t("profileCreate.documents.documentTypes.government_id")}
               </strong>
-              <p>{t("profileCreate.documents.governmentIdMandatoryReason")}</p>
+              <p>
+                {lightRules
+                  ? t("profileCreate.documents.dlOrPassportMandatoryReason")
+                  : t("profileCreate.documents.governmentIdMandatoryReason")}
+              </p>
             </div>
           </div>
           {requiresWorkPermit && (
@@ -1235,6 +1320,7 @@ export function DocumentUploadForm({
             isEditMode={isEditMode}
             disableSubmit={disableSubmit}
             requiresWorkPermit={requiresWorkPermit}
+            lightRules={lightRules}
           />
         ))}
       </div>

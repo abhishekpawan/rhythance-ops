@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { LICENSE_TYPES, EXPERIENCE_LEVELS } from "../../constants/formOptions";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import { AddressQualificationsFormData } from "./profileSchemas";
 
 interface AddressQualificationsFormProps {
@@ -16,6 +17,8 @@ export function AddressQualificationsForm({
     useFormContext<AddressQualificationsFormData>();
   const { errors: allErrors } = formState;
   const { t } = useLanguage();
+  // Light profile rules: address and qualification fields are optional
+  const lightRules = useFeatureFlag("jobseeker_profile_godspeed_rules", false);
 
   // Function to check if we should show an error for a specific field
   const shouldShowError = (fieldName: string) => {
@@ -39,7 +42,11 @@ export function AddressQualificationsForm({
           </p>
 
           <div className="form-group">
-            <label htmlFor="street" className="form-label" data-required="*">
+            <label
+              htmlFor="street"
+              className="form-label"
+              data-required={lightRules ? undefined : "*"}
+            >
               {t("profileCreate.address.street")}
             </label>
             <textarea
@@ -55,7 +62,11 @@ export function AddressQualificationsForm({
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="city" className="form-label" data-required="*">
+              <label
+                htmlFor="city"
+                className="form-label"
+                data-required={lightRules ? undefined : "*"}
+              >
                 {t("profileCreate.address.city")}
               </label>
               <input
@@ -74,7 +85,7 @@ export function AddressQualificationsForm({
               <label
                 htmlFor="province"
                 className="form-label"
-                data-required="*"
+                data-required={lightRules ? undefined : "*"}
               >
                 {t("profileCreate.address.province")}
               </label>
@@ -95,7 +106,7 @@ export function AddressQualificationsForm({
             <label
               htmlFor="postalCode"
               className="form-label"
-              data-required="*"
+              data-required={lightRules ? undefined : "*"}
             >
               {t("profileCreate.address.postalCode")}
             </label>
@@ -123,7 +134,7 @@ export function AddressQualificationsForm({
             <label
               htmlFor="workPreference"
               className="form-label"
-              data-required="*"
+              data-required={lightRules ? undefined : "*"}
             >
               {t("profileCreate.qualifications.workPreference")}
             </label>
@@ -144,14 +155,18 @@ export function AddressQualificationsForm({
           </div>
 
           <div className="form-group">
-            <label htmlFor="bio" className="form-label" data-required="*">
+            <label
+              htmlFor="bio"
+              className="form-label"
+              data-required={lightRules ? undefined : "*"}
+            >
               {t("profileCreate.qualifications.bio")}
             </label>
             <textarea
               id="bio"
               className="form-input"
               placeholder={t("profileCreate.qualifications.bioPlaceholder")}
-              minLength={100}
+              minLength={lightRules ? undefined : 100}
               {...register("bio")}
             />
             {shouldShowError("bio") && (
@@ -166,7 +181,7 @@ export function AddressQualificationsForm({
               <label
                 htmlFor="licenseType"
                 className="form-label"
-                data-required="*"
+                data-required={lightRules ? undefined : "*"}
               >
                 {t("profileCreate.qualifications.licenseType")}
               </label>
@@ -195,7 +210,7 @@ export function AddressQualificationsForm({
               <label
                 htmlFor="experience"
                 className="form-label"
-                data-required="*"
+                data-required={lightRules ? undefined : "*"}
               >
                 {t("profileCreate.qualifications.experience")}
               </label>
@@ -244,7 +259,7 @@ export function AddressQualificationsForm({
               <label
                 htmlFor="availability"
                 className="form-label"
-                data-required="*"
+                data-required={lightRules ? undefined : "*"}
               >
                 {t("profileCreate.qualifications.availability")}
               </label>

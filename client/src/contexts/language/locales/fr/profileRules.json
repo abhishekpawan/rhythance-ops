@@ -1,0 +1,12 @@
+{
+  "profileCreate": {
+    "personalInfo": {
+      "licenseNumberRequired": "Le numéro de permis de conduire est obligatoire"
+    },
+    "documents": {
+      "dlOrPassportDocumentRequired": "Un permis de conduire ou un passeport est obligatoire",
+      "dlOrPassportMandatoryTitle": "Permis de conduire ou passeport",
+      "dlOrPassportMandatoryReason": "Un permis de conduire ou un passeport est requis pour vérifier l'identité et les qualifications de conduite."
+    }
+  }
+}

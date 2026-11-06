@@ -25,7 +25,7 @@ export interface ProfileData {
   licenseType?: string;
   experience?: string;
   manualDriving?: "Yes" | "No" | "NA";
-  availability?: "Full-Time" | "Part-Time";
+  availability?: "Full-Time" | "Part-Time" | "";
   weekendAvailability?: boolean;
   payrateType?: "Hourly" | "Daily" | "Monthly";
   billRate?: string;

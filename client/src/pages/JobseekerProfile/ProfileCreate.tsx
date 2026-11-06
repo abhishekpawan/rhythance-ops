@@ -25,6 +25,7 @@ import {
 } from "../../services/api/jobseeker";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import "../../styles/components/form.css";
 import "../../styles/pages/JobseekerProfileStyles.css";
 import "../../styles/components/header.css";
@@ -89,6 +90,11 @@ export function ProfileCreate({
   const navigate = useNavigate();
   const { isJobSeeker, user } = useAuth();
   const { t } = useLanguage();
+  // Per-portal rules (feature flags). Light rules: licence number required, SIN and
+  // most address fields optional, driver's licence/passport document instead of SIN +
+  // government ID. Hidden pay rate: the pay rate and bill rate default to 0.
+  const lightRules = useFeatureFlag("jobseeker_profile_godspeed_rules", false);
+  const hidePayRate = useFeatureFlag("hide_jobseeker_pay_rate", false);
 
   // Create translated validation messages
   const validationMessages = {
@@ -97,6 +103,12 @@ export function ProfileCreate({
     dobRequired: t("profileCreate.personalInfo.dobRequired"),
     emailInvalid: t("profileCreate.personalInfo.emailInvalid"),
     mobileRequired: t("profileCreate.personalInfo.mobileRequired"),
+    licenseNumberRequired: t(
+      "profileCreate.personalInfo.licenseNumberRequired"
+    ),
+    dlOrPassportDocumentRequired: t(
+      "profileCreate.documents.dlOrPassportDocumentRequired"
+    ),
     licenseOrPassportRequired: t(
       "profileCreate.personalInfo.licenseOrPassportRequired"
     ),
@@ -148,7 +160,7 @@ export function ProfileCreate({
   };
 
   // Create form schema with translated messages
-  const formSchema = createFormSchema(validationMessages);
+  const formSchema = createFormSchema(validationMessages, lightRules);
 
   // Check if isNewForm is passed via location state
   const locationIsNewForm = location.state?.isNewForm === true;
@@ -314,7 +326,7 @@ export function ProfileCreate({
       // Compensation defaults
       payrateType: "Hourly",
       billRate: "0",
-      payRate: "",
+      payRate: hidePayRate ? "0" : "",
       paymentMethod: "",
       hstGst: "",
       cashDeduction: "0",
@@ -337,7 +349,11 @@ export function ProfileCreate({
     !(
       watchedDocuments?.some(
         (doc) =>
-          doc.documentType === "government_id" &&
+          (lightRules
+            ? doc.documentType === "drivers_license" ||
+              doc.documentType === "passport" ||
+              doc.documentType === "government_id"
+            : doc.documentType === "government_id") &&
           (!!doc.documentPath || doc.documentFile instanceof File)
       ) ?? false
     );
@@ -709,7 +725,20 @@ export function ProfileCreate({
       }
 
       // Check for ID document requirement
-      if (
+      if (lightRules) {
+        if (
+          personalInfoValid &&
+          (!values.licenseNumber || values.licenseNumber.trim() === "")
+        ) {
+          methods.setError("licenseNumber", {
+            type: "custom",
+            message:
+              validationMessages.licenseNumberRequired ||
+              "Driver's license number is required",
+          });
+          personalInfoValid = false;
+        }
+      } else if (
         personalInfoValid &&
         !values.licenseNumber &&
         !values.passportNumber
@@ -807,35 +836,43 @@ export function ProfileCreate({
         methods.setValue("billRate", "0");
       }
 
+      // Ensure payRate defaults to "0" when it is hidden from the form
+      if (hidePayRate && (!values.payRate || values.payRate.trim() === "")) {
+        methods.setValue("payRate", "0");
+      }
+
       // For non-jobseekers, validate payrate, payRate, and paymentMethod as required
-      let compensationValid = true;
+      // (the light rules do not make compensation mandatory)
+      if (!lightRules) {
+        let compensationValid = true;
 
-      if (!values.payrateType) {
-        methods.setError("payrateType", {
-          type: "custom",
-          message: validationMessages.payrateTypeRequired,
-        });
-        compensationValid = false;
-      }
+        if (!values.payrateType) {
+          methods.setError("payrateType", {
+            type: "custom",
+            message: validationMessages.payrateTypeRequired,
+          });
+          compensationValid = false;
+        }
 
-      if (!values.payRate) {
-        methods.setError("payRate", {
-          type: "custom",
-          message: validationMessages.payRateRequired,
-        });
-        compensationValid = false;
-      }
+        if (!hidePayRate && !values.payRate) {
+          methods.setError("payRate", {
+            type: "custom",
+            message: validationMessages.payRateRequired,
+          });
+          compensationValid = false;
+        }
 
-      if (!values.paymentMethod) {
-        methods.setError("paymentMethod", {
-          type: "custom",
-          message: validationMessages.paymentMethodRequired,
-        });
-        compensationValid = false;
-      }
+        if (!values.paymentMethod) {
+          methods.setError("paymentMethod", {
+            type: "custom",
+            message: validationMessages.paymentMethodRequired,
+          });
+          compensationValid = false;
+        }
 
-      if (!compensationValid) {
-        return false;
+        if (!compensationValid) {
+          return false;
+        }
       }
     }
 
@@ -845,7 +882,10 @@ export function ProfileCreate({
       if (!values.documents || values.documents.length === 0) {
         methods.setError("documents", {
           type: "custom",
-          message: "At least one document is required",
+          message: lightRules
+            ? validationMessages.atLeastOneDocumentRequired ||
+              "At least one document is required"
+            : "At least one document is required",
         });
         return false;
       }
@@ -876,6 +916,48 @@ export function ProfileCreate({
           documentsValid = false;
         }
       });
+
+      if (lightRules) {
+        // Require at least one Driver's License or Passport document (government_id accepted for older profiles)
+        const hasDlOrPassportDoc = values.documents.some(
+          (doc) =>
+            (doc.documentType === "drivers_license" ||
+              doc.documentType === "passport" ||
+              doc.documentType === "government_id") &&
+            (doc.documentFile || doc.documentPath)
+        );
+        if (!hasDlOrPassportDoc) {
+          methods.setError("documents", {
+            type: "custom",
+            message:
+              validationMessages.dlOrPassportDocumentRequired ||
+              "Driver's license or passport document is required",
+          });
+          documentsValid = false;
+        }
+
+        // Work permit document required only for temporary residents (SIN starting with '9')
+        if (
+          values.sinNumber &&
+          values.sinNumber.trim() !== "" &&
+          values.sinNumber.trim().startsWith("9")
+        ) {
+          const hasWorkPermitDoc = values.documents.some(
+            (doc) =>
+              doc.documentType === "work_permit" &&
+              (doc.documentFile || doc.documentPath)
+          );
+          if (!hasWorkPermitDoc) {
+            methods.setError("documents", {
+              type: "custom",
+              message:
+                validationMessages.workPermitUciRequired ||
+                "Work permit document is required for temporary residents",
+            });
+            documentsValid = false;
+          }
+        }
+      }
 
       return documentsValid;
     }
@@ -1268,6 +1350,7 @@ export function ProfileCreate({
     const profileData = structuredClone(data);
 
     if (!profileData.billRate) profileData.billRate = "0";
+    if (hidePayRate && !profileData.payRate) profileData.payRate = "0";
 
     if (isJobSeeker) {
       if (!profileData.payrateType) profileData.payrateType = "Hourly";

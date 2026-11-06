@@ -12,6 +12,7 @@ import { jobseekerWelcomeHtmlTemplate } from "../email-templates/jobseeker-welco
 import { jobseekerWelcomeTextTemplate } from "../email-templates/jobseeker-welcome-txt.js";
 import dotenv from "dotenv";
 import { ProfileData, Document, DbJobseekerProfile } from "../types.js";
+import { isFeatureEnabled } from "../services/featureFlags.js";
 import {
   isHybridPaymentMethod,
   profileUsesCashDeduction,
@@ -55,14 +56,28 @@ function hasUploadedDocument(
 
 function getRequiredDocumentValidationError(
   documents: Document[] | undefined,
-  sinNumber?: string
+  sinNumber?: string,
+  lightRules = false
 ): string | null {
-  if (!hasUploadedDocument(documents, "sin")) {
-    return "SIN document is required";
-  }
+  if (lightRules) {
+    // Light rules (feature flag jobseeker_profile_godspeed_rules): a driver's
+    // licence or passport document instead of SIN + government ID.
+    const hasIdDoc =
+      hasUploadedDocument(documents, "drivers_license") ||
+      hasUploadedDocument(documents, "passport") ||
+      hasUploadedDocument(documents, "government_id");
 
-  if (!hasUploadedDocument(documents, "government_id")) {
-    return "Government ID document is required";
+    if (!hasIdDoc) {
+      return "Driver's license or passport document is required";
+    }
+  } else {
+    if (!hasUploadedDocument(documents, "sin")) {
+      return "SIN document is required";
+    }
+
+    if (!hasUploadedDocument(documents, "government_id")) {
+      return "Government ID document is required";
+    }
   }
 
   if (
@@ -201,6 +216,11 @@ router.post(
       const userId = req.user.id;
       const profileData = req.body;
 
+      // Per-portal profile rules (feature flag)
+      const lightRules = await isFeatureEnabled(
+        "jobseeker_profile_godspeed_rules"
+      );
+
       // Ensure required fields are present
       const requiredFields = [
         "firstName",
@@ -208,6 +228,7 @@ router.post(
         "dob",
         "email",
         "mobile",
+        ...(lightRules ? ["licenseNumber"] : []),
       ];
       for (const field of requiredFields) {
         if (!profileData[field]) {
@@ -222,7 +243,12 @@ router.post(
       const emailNormalized = String(profileData.email).trim().toLowerCase();
 
       // Validate business logic - at least one ID must be present
-      if (!profileData.licenseNumber && !profileData.passportNumber) {
+      // (under the light rules the licence number is already required above)
+      if (
+        !lightRules &&
+        !profileData.licenseNumber &&
+        !profileData.passportNumber
+      ) {
         return res.status(400).json({
           error: "Either license number or passport number is required",
         });
@@ -230,7 +256,8 @@ router.post(
 
       const documentValidationError = getRequiredDocumentValidationError(
         profileData.documents,
-        profileData.sinNumber
+        profileData.sinNumber,
+        lightRules
       );
       if (documentValidationError) {
         return res.status(400).json({ error: documentValidationError });

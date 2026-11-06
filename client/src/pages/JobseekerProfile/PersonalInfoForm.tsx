@@ -11,6 +11,7 @@ import {
   logValidation,
 } from "../../utils/validation";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import { PersonalInfoFormData } from "./profileSchemas";
 
 interface PersonalInfoFormProps {
@@ -28,6 +29,8 @@ export function PersonalInfoForm({
   disableMobile = false,
 }: PersonalInfoFormProps) {
   const { t } = useLanguage();
+  // Light profile rules: SIN is optional and the driver's licence number is required
+  const lightRules = useFeatureFlag("jobseeker_profile_godspeed_rules", false);
   const { register, formState, watch, setError, clearErrors } =
     useFormContext<PersonalInfoFormData>();
   const { errors: allErrors } = formState;
@@ -95,6 +98,11 @@ export function PersonalInfoForm({
 
   // SIN validation wrapper for react-hook-form with debouncing
   const validateSinNumber = (value: string | undefined) => {
+    if (lightRules && (!value || value.trim() === "")) {
+      clearErrors("sinNumber");
+      return true; // SIN is not mandatory under the light rules
+    }
+
     if (!value) {
       setError("sinNumber", {
         type: "manual",
@@ -461,12 +469,18 @@ export function PersonalInfoForm({
       </div>
 
       <div className="form-row license-row">
-        <div className="form-info" data-required="*">
-          <small>{t("profileCreate.personalInfo.atLeastOneId")}</small>
-        </div>
+        {!lightRules && (
+          <div className="form-info" data-required="*">
+            <small>{t("profileCreate.personalInfo.atLeastOneId")}</small>
+          </div>
+        )}
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="licenseNumber" className="form-label">
+            <label
+              htmlFor="licenseNumber"
+              className="form-label"
+              data-required={lightRules ? "*" : undefined}
+            >
               {t("profileCreate.personalInfo.licenseNumber")}
             </label>
             <input
@@ -515,7 +529,11 @@ export function PersonalInfoForm({
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="sinNumber" className="form-label" data-required="*">
+            <label
+              htmlFor="sinNumber"
+              className="form-label"
+              data-required={lightRules ? undefined : "*"}
+            >
               {t("profileCreate.personalInfo.sinNumber")}
             </label>
             <input
