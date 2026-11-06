@@ -205,13 +205,23 @@ function App() {
                   />
                 </Route>
 
+                {/* A jobseeker opens their own profile here; the server only returns their own record. */}
                 <Route
-                  element={<RoleRoute allowedRoles={JOBSEEKER_LIST_ROLES} />}
+                  element={
+                    <RoleRoute
+                      allowedRoles={["jobseeker", ...JOBSEEKER_LIST_ROLES]}
+                    />
+                  }
                 >
                   <Route
                     path="/jobseekers/:id"
                     element={<JobSeekerProfile />}
                   />
+                </Route>
+
+                <Route
+                  element={<RoleRoute allowedRoles={JOBSEEKER_LIST_ROLES} />}
+                >
                   <Route
                     path="/jobseeker-management"
                     element={<JobSeekerManagement />}
