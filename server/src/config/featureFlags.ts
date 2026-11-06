@@ -81,6 +81,23 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       "Today this is hard-coded: the route, menu item and dropdown option are commented out in the Godspeed and GD Workforce branches.",
   },
   {
+    key: "attach_handbook_to_assignment_email",
+    title: "Employee handbook on assignment email",
+    description:
+      "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+    category: "positions",
+    defaultEnabled: false,
+    wired: true,
+    intended: {
+      godspeed: true,
+      gdworkforce: false,
+      canhire: false,
+      allstaff: false,
+    },
+    notes:
+      "Previously hard-coded for Godspeed. The file path and attachment name are still Godspeed's (employeeHandbook/employeeHandbook2024.pdf); moving them into portal settings is a later step.",
+  },
+  {
     key: "hide_jobseeker_pay_rate",
     title: "Hide pay rate in jobseeker compensation",
     description:

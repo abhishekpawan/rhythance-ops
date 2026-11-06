@@ -8,6 +8,7 @@ import {
 } from "../middleware/auth.js";
 import { sanitizeInputs, apiRateLimiter } from "../middleware/security.js";
 import { activityLogger } from "../middleware/activityLogger.js";
+import { isFeatureEnabled } from "../services/featureFlags.js";
 import dotenv from "dotenv";
 import { PositionData, SubcategoryPositionDetailInput } from "../types.js";
 import {
@@ -1811,58 +1812,67 @@ router.post(
       }
       if (!candidateEmail) return null;
 
-      // Download employee handbook from Supabase storage
+      // Employee handbook attachment: only for portals where the
+      // attach_handbook_to_assignment_email feature flag is on.
+      const attachHandbook = await isFeatureEnabled(
+        "attach_handbook_to_assignment_email"
+      );
       let handbookAttachment = null;
-      try {
-        // Try different possible file paths
-        const documentPath = "employeeHandbook/employeeHandbook2024.pdf";
+      if (attachHandbook) {
+        // Download employee handbook from Supabase storage
+        try {
+          // Try different possible file paths
+          const documentPath = "employeeHandbook/employeeHandbook2024.pdf";
 
-        let handbookData = null;
-        let handbookError = null;
+          let handbookData = null;
+          let handbookError = null;
 
-        console.log(
-          `[EmailNotifier] Trying to download handbook from path: ${documentPath}`
-        );
-        const { data, error } = await supabase.storage
-          .from("default-documents")
-          .download(documentPath);
-
-        if (!error && data) {
-          handbookData = data;
           console.log(
-            `[EmailNotifier] Successfully downloaded handbook from: ${documentPath}`
+            `[EmailNotifier] Trying to download handbook from path: ${documentPath}`
           );
-        } else {
-          console.log(
-            `[EmailNotifier] Failed to download from ${documentPath}:`,
+          const { data, error } = await supabase.storage
+            .from("default-documents")
+            .download(documentPath);
+
+          if (!error && data) {
+            handbookData = data;
+            console.log(
+              `[EmailNotifier] Successfully downloaded handbook from: ${documentPath}`
+            );
+          } else {
+            console.log(
+              `[EmailNotifier] Failed to download from ${documentPath}:`,
+              error
+            );
+            handbookError = error;
+          }
+
+          if (handbookData) {
+            // Convert to base64 for email attachment
+            const handbookBuffer = Buffer.from(
+              await handbookData.arrayBuffer()
+            );
+            handbookAttachment = {
+              content: handbookBuffer.toString("base64"),
+              filename: "Godspeed_Employee_Handbook_2024.pdf",
+              type: "application/pdf",
+              disposition: "attachment",
+            };
+            console.log(
+              "[EmailNotifier] Employee handbook prepared for attachment"
+            );
+          } else {
+            console.error(
+              "[EmailNotifier] Failed to download employee handbook from any path:",
+              handbookError
+            );
+          }
+        } catch (error) {
+          console.error(
+            "[EmailNotifier] Error downloading employee handbook:",
             error
           );
-          handbookError = error;
         }
-
-        if (handbookData) {
-          // Convert to base64 for email attachment
-          const handbookBuffer = Buffer.from(await handbookData.arrayBuffer());
-          handbookAttachment = {
-            content: handbookBuffer.toString("base64"),
-            filename: "Godspeed_Employee_Handbook_2024.pdf",
-            type: "application/pdf",
-            disposition: "attachment",
-          };
-          console.log(
-            "[EmailNotifier] Employee handbook prepared for attachment"
-          );
-        } else {
-          console.error(
-            "[EmailNotifier] Failed to download employee handbook from any path:",
-            handbookError
-          );
-        }
-      } catch (error) {
-        console.error(
-          "[EmailNotifier] Error downloading employee handbook:",
-          error
-        );
       }
 
       // Prepare variables for template
@@ -1909,7 +1919,7 @@ router.post(
         console.log(
           "[EmailNotifier] Added employee handbook attachment to email"
         );
-      } else {
+      } else if (attachHandbook) {
         console.log(
           "[EmailNotifier] No handbook attachment available, sending email without attachment"
         );
