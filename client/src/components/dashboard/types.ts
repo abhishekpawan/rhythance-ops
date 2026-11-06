@@ -11,7 +11,13 @@ export interface MetricData {
   currentValue: number; // current period value
   previousValue: number; // comparison period value
   unit?: string; // 'jobs', '$', '%', 'days', etc.
-  formatType?: "number" | "currency" | "percentage" | "duration";
+  formatType?:
+    | "number"
+    | "currency"
+    | "percentage"
+    | "duration"
+    | "decimal" // exact value with thousands separators, up to 2 decimals (no K/M)
+    | "currency_precise"; // exact dollars and cents
 
   historicalData: HistoricalDataPoint[];
   redirectTo?: string;

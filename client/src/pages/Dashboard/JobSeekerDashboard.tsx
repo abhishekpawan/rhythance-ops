@@ -4,6 +4,8 @@ import {
   RotateCcw,
   Calendar,
   BarChart3,
+  Clock,
+  DollarSign,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { supabase } from "../../lib/supabaseClient";
@@ -17,6 +19,7 @@ import { getJobseekerMetrics } from "../../services/api/jobseekerMetrics";
 import { MetricData } from "../../components/dashboard/types";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from '../../contexts/language/language-provider';
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import { formatDateTimeCanada } from "../../utils/dateUtils";
 
 interface UserData {
@@ -106,6 +109,12 @@ export function JobSeekerDashboard() {
   // Track which cards have expanded graphs for grid layout
   const [expandedGraphs, setExpandedGraphs] = useState<Set<string>>(new Set());
   const { t } = useLanguage();
+  // "Total No. Hours" and "Gross Amount" cards are switched on per portal.
+  const payrollSummaryEnabled = useFeatureFlag("jobseeker_payroll_summary");
+  // Once loaded, show exactly what the server sent; before that, reserve the
+  // right number of placeholder cards.
+  const metricsGridSize =
+    metricsData.length > 0 ? metricsData.length : payrollSummaryEnabled ? 6 : 4;
 
   useEffect(() => {
     if (user) {
@@ -184,13 +193,18 @@ export function JobSeekerDashboard() {
         active_jobs: { color: "#FF9800", icon: <RotateCcw size={20} /> },
         upcoming_jobs: { color: "#2196F3", icon: <Calendar size={20} /> },
         total_assignments: { color: "#795548", icon: <BarChart3 size={20} /> },
+        total_hours: { color: "#009688", icon: <Clock size={20} /> },
+        gross_amount: { color: "#3F51B5", icon: <DollarSign size={20} /> },
       };
+      const translatedMetricIds = ["total_hours", "gross_amount"];
 
       // Transform API response to MetricData format
       const transformedMetrics: MetricData[] = response.metrics.map(
         (metric) => ({
           id: metric.id,
-          label: metric.label,
+          label: translatedMetricIds.includes(metric.id)
+            ? t(`jobseekerDashboard.metrics.${metric.id}`)
+            : metric.label,
           currentValue: metric.currentValue,
           previousValue: metric.previousValue,
           unit: metric.unit,
@@ -198,7 +212,9 @@ export function JobSeekerDashboard() {
             | "number"
             | "currency"
             | "percentage"
-            | "duration",
+            | "duration"
+            | "decimal"
+            | "currency_precise",
           color:
             metricConfig[metric.id as keyof typeof metricConfig]?.color ||
             "#666666",
@@ -283,7 +299,7 @@ export function JobSeekerDashboard() {
             onMetricClick={handleMetricClick}
             onToggleGraph={handleToggleGraph}
             onRetry={() => userData?.id && fetchJobseekerMetrics(userData.id)}
-            gridSize={4}
+            gridSize={metricsGridSize}
             size="sm"
             loading={metricsLoading}
             error={metricsError}

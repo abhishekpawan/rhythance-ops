@@ -21,6 +21,19 @@ export const formatValue = (
         maximumFractionDigits: value >= 1000 ? 0 : 2,
       }).format(value);
 
+    case 'currency_precise':
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value);
+
+    case 'decimal':
+      return `${new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: 2,
+      }).format(value)}${unit ? ` ${unit}` : ''}`;
+
     case 'percentage':
       return `${value.toFixed(1)}%`;
 

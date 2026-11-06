@@ -5,12 +5,14 @@ import reportsEn from "./locales/en/reports.json";
 import profileEn from "./locales/en/profile.json";
 import supportEn from "./locales/en/support.json";
 import featureFlagsEn from "./locales/en/featureFlags.json";
+import jobseekerDashboardEn from "./locales/en/jobseekerDashboard.json";
 import coreFr from "./locales/fr.json";
 import timesheetFr from "./locales/fr/timesheet.json";
 import reportsFr from "./locales/fr/reports.json";
 import profileFr from "./locales/fr/profile.json";
 import supportFr from "./locales/fr/support.json";
 import featureFlagsFr from "./locales/fr/featureFlags.json";
+import jobseekerDashboardFr from "./locales/fr/jobseekerDashboard.json";
 import { mergeLocale } from "./mergeLocales";
 
 export type Language = "en" | "fr";
@@ -35,7 +37,8 @@ const translations: Record<Language, Record<string, any>> = {
     reportsEn,
     profileEn,
     supportEn,
-    featureFlagsEn
+    featureFlagsEn,
+    jobseekerDashboardEn
   ),
   fr: mergeLocale(
     coreFr,
@@ -43,7 +46,8 @@ const translations: Record<Language, Record<string, any>> = {
     reportsFr,
     profileFr,
     supportFr,
-    featureFlagsFr
+    featureFlagsFr,
+    jobseekerDashboardFr
   ),
 };
 

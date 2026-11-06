@@ -53,7 +53,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       'Shows "Total No. Hours" and "Gross Amount" cards on the Jobseeker dashboard.',
     category: "dashboard",
     defaultEnabled: false,
-    wired: false,
+    wired: true,
     intended: {
       canhire: true,
       gdworkforce: true,
@@ -61,7 +61,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       allstaff: false,
     },
     notes:
-      "Requested for CanHire and GD Workforce only. Becomes switchable once the dashboard cards are built.",
+      "Requested for CanHire and GD Workforce only. Turn it on from this page for those portals. Hours = regular + overtime; Gross Amount = pay before deductions.",
   },
   {
     key: "subcategory_positions",

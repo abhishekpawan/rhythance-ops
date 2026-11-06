@@ -1,6 +1,16 @@
 import { Router, Request, Response } from "express";
-import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
+import {
+  authenticateToken,
+  authorizeRoles,
+  hasAccessRole,
+} from "../middleware/auth.js";
 import { formatMonthName } from "../utils/dateUtils.js";
+import { isFeatureEnabled } from "../services/featureFlags.js";
+import {
+  buildPayrollMetrics,
+  summarizePayroll,
+  type DashboardMetric,
+} from "../services/jobseekerPayroll.js";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
@@ -172,6 +182,14 @@ router.get(
       const { candidateId } = req.params;
       const { timeRange = "12" } = req.query as { timeRange?: string };
 
+      // Jobseekers may only read their own metrics (candidateId is the auth user
+      // id). Admins and recruiters can read anyone's.
+      const isStaff =
+        hasAccessRole(req.user, "admin") || hasAccessRole(req.user, "recruiter");
+      if (!isStaff && req.user?.id !== candidateId) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
       const monthsBack = parseInt(timeRange) || 12;
 
       // Verify candidate exists
@@ -338,7 +356,7 @@ router.get(
       };
 
       // Build metrics response
-      const metrics = [
+      const metrics: DashboardMetric[] = [
         {
           id: "jobs_completed",
           label: "Jobs Completed",
@@ -384,6 +402,26 @@ router.get(
           redirectTo: "/my-positions"
         },
       ];
+
+      // "Total No. Hours" and "Gross Amount": only for portals where the
+      // jobseeker_payroll_summary feature flag is on.
+      if (await isFeatureEnabled("jobseeker_payroll_summary")) {
+        const { data: timesheetRows, error: timesheetError } = await supabase
+          .from("timesheets")
+          .select(
+            "week_end_date, total_regular_hours, total_overtime_hours, regular_pay_rate, premium_pay_rate, overtime_pay_rate, bonus_amount, is_bulk, bulk_breakdown"
+          )
+          .eq("jobseeker_profile_id", candidate.id);
+
+        if (timesheetError) {
+          // Do not fail the whole dashboard because of the two payroll cards.
+          console.error("Error fetching timesheets for payroll summary:", timesheetError);
+        } else {
+          metrics.push(
+            ...buildPayrollMetrics(summarizePayroll(timesheetRows || []))
+          );
+        }
+      }
 
       res.json({
         candidate: {
