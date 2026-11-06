@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { AppHeader } from "../../components/AppHeader";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import {
   getDropdownOptions,
   createDropdownOption,
@@ -33,6 +34,13 @@ const POSITION_LIST_TYPES: DropdownListType[] = [
 
 export function DropdownOptionsManagement() {
   const { t } = useLanguage();
+  const subcategoryPositionsEnabled = useFeatureFlag(
+    "subcategory_positions",
+    true
+  );
+  const positionListTypes = POSITION_LIST_TYPES.filter(
+    (type) => type !== "subcategory_position" || subcategoryPositionsEnabled
+  );
   const [selectedListType, setSelectedListType] =
     useState<DropdownListType>("client_manager");
   const [options, setOptions] = useState<ClientDropdownOption[]>([]);
@@ -181,7 +189,7 @@ export function DropdownOptionsManagement() {
                 {t("dropdownOptions.positionOptions")}
               </span>
               <div className="dopts-tab-group-buttons">
-                {POSITION_LIST_TYPES.map((type) => (
+                {positionListTypes.map((type) => (
                   <button
                     key={type}
                     type="button"

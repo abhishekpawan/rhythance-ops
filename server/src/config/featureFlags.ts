@@ -70,7 +70,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
     category: "positions",
     defaultEnabled: true,
-    wired: false,
+    wired: true,
     intended: {
       godspeed: false,
       gdworkforce: false,
@@ -87,7 +87,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       "Hides the pay rate and bill rate inputs on the jobseeker profile Compensation step (values default to 0).",
     category: "jobseeker_profile",
     defaultEnabled: false,
-    wired: false,
+    wired: true,
     intended: {
       gdworkforce: true,
       godspeed: false,

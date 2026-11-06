@@ -14,6 +14,8 @@ interface FeatureFlagsContextValue {
   /** Effective on/off value per flag key. Empty until loaded. */
   flags: Record<string, boolean>;
   loading: boolean;
+  /** True once the first load has finished (successfully or not). */
+  ready: boolean;
   /**
    * Whether a flag is on. While flags are loading, or if loading failed, the
    * `fallback` is returned. Pass the flag's default as the fallback so a failed
@@ -26,6 +28,7 @@ interface FeatureFlagsContextValue {
 const FeatureFlagsContext = createContext<FeatureFlagsContextValue>({
   flags: {},
   loading: false,
+  ready: false,
   isEnabled: (_key, fallback = false) => fallback,
   refresh: async () => {},
 });
@@ -34,6 +37,7 @@ export function FeatureFlagsProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
   const [flags, setFlags] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
+  const [ready, setReady] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const refresh = useCallback(async () => {
@@ -46,6 +50,7 @@ export function FeatureFlagsProvider({ children }: { children: ReactNode }) {
       console.error("Failed to load feature flags:", error);
     } finally {
       setLoading(false);
+      setReady(true);
     }
   }, []);
 
@@ -55,6 +60,7 @@ export function FeatureFlagsProvider({ children }: { children: ReactNode }) {
     } else {
       setFlags({});
       setLoaded(false);
+      setReady(false);
     }
   }, [isAuthenticated, refresh]);
 
@@ -62,11 +68,12 @@ export function FeatureFlagsProvider({ children }: { children: ReactNode }) {
     () => ({
       flags,
       loading,
+      ready,
       isEnabled: (key, fallback = false) =>
         loaded && key in flags ? flags[key] : fallback,
       refresh,
     }),
-    [flags, loaded, loading, refresh]
+    [flags, loaded, loading, ready, refresh]
   );
 
   return (

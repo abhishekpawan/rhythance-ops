@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { useFeatureFlag } from "../../contexts/FeatureFlagsContext";
 import { PAYRATE_TYPES, PAYMENT_METHODS } from "../../constants/formOptions";
 import { CompensationFormData } from "./profileSchemas";
 import {
@@ -20,6 +21,8 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
   const { errors: allErrors } = formState;
   const { isJobSeeker } = useAuth();
   const { t } = useLanguage();
+  // Some portals hide the pay rate (and bill rate) from this step; they default to 0.
+  const hidePayRate = useFeatureFlag("hide_jobseeker_pay_rate", false);
 
   // Watch payment method to conditionally show cash deduction field
   const paymentMethod = watch("paymentMethod");
@@ -45,6 +48,14 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
       setValue("billRate", "0");
     }
   }, [billRate, setValue]);
+
+  // When the pay rate is hidden, make sure it still defaults to "0" if empty
+  const payRate = watch("payRate");
+  useEffect(() => {
+    if (hidePayRate && (!payRate || payRate.trim() === "")) {
+      setValue("payRate", "0");
+    }
+  }, [hidePayRate, payRate, setValue]);
 
   // Function to check if we should show an error for a specific field
   const shouldShowError = (fieldName: string) => {
@@ -111,28 +122,36 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
           )}
         </div>
 
-        <div className="form-group">
-          <input type="hidden" {...register("billRate")} value="0" />
-          <label
-            htmlFor="payRate"
-            className="form-label"
-            data-required={isJobSeeker ? "" : "*"}
-          >
-            {t("profileCreate.compensation.payRate")}
-          </label>
-          <input
-            id="payRate"
-            type="number"
-            min="0"
-            step="0.01"
-            className="form-input"
-            placeholder={t("profileCreate.compensation.payRatePlaceholder")}
-            {...register("payRate")}
-          />
-          {shouldShowError("payRate") && (
-            <p className="error-message">{allErrors.payRate?.message}</p>
-          )}
-        </div>
+        {hidePayRate ? (
+          <>
+            {/* Hidden payRate and billRate inputs (both default to 0) */}
+            <input type="hidden" {...register("billRate")} value="0" />
+            <input type="hidden" {...register("payRate")} value="0" />
+          </>
+        ) : (
+          <div className="form-group">
+            <input type="hidden" {...register("billRate")} value="0" />
+            <label
+              htmlFor="payRate"
+              className="form-label"
+              data-required={isJobSeeker ? "" : "*"}
+            >
+              {t("profileCreate.compensation.payRate")}
+            </label>
+            <input
+              id="payRate"
+              type="number"
+              min="0"
+              step="0.01"
+              className="form-input"
+              placeholder={t("profileCreate.compensation.payRatePlaceholder")}
+              {...register("payRate")}
+            />
+            {shouldShowError("payRate") && (
+              <p className="error-message">{allErrors.payRate?.message}</p>
+            )}
+          </div>
+        )}
 
         <div className="form-group">
           <label htmlFor="hstGst" className="form-label">

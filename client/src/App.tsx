@@ -7,6 +7,7 @@ import {
 import { ThemeProvider } from "./components/theme-provider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { FeatureFlagsProvider } from "./contexts/FeatureFlagsContext";
+import { FeatureGate } from "./components/FeatureGate";
 import {
   ProtectedRoute,
   PublicRoute,
@@ -304,7 +305,11 @@ function App() {
                   />
                   <Route
                     path="/position-management/create-subcategory"
-                    element={<PositionCreate defaultSubcategory={true} />}
+                    element={
+                      <FeatureGate flag="subcategory_positions" defaultEnabled>
+                        <PositionCreate defaultSubcategory={true} />
+                      </FeatureGate>
+                    }
                   />
                   <Route
                     path="/position-management/edit/:id"

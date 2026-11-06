@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useLanguage } from "../contexts/language/language-provider";
+import { useFeatureFlag } from "../contexts/FeatureFlagsContext";
 import {
   Home,
   Users,
@@ -371,6 +372,10 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
     profileVerificationStatus,
   } = useAuth();
   const { t } = useLanguage();
+  const subcategoryPositionsEnabled = useFeatureFlag(
+    "subcategory_positions",
+    true
+  );
   const navigate = useNavigate();
   const menuRef = useRef<HTMLElement>(null);
   const menuItemsRef = useRef<HTMLUListElement>(null);
@@ -658,14 +663,18 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
           roles: POSITION_CREATE_ROLES,
           fullPageLoad: true,
         },
-        {
-          label: t("navigation.createPositionSubcategory"),
-          path: "/position-management/create-subcategory",
-          icon: <PlusCircle size={16} />,
-          exact: true,
-          roles: POSITION_CREATE_ROLES,
-          fullPageLoad: true,
-        },
+        ...(subcategoryPositionsEnabled
+          ? [
+              {
+                label: t("navigation.createPositionSubcategory"),
+                path: "/position-management/create-subcategory",
+                icon: <PlusCircle size={16} />,
+                exact: true,
+                roles: POSITION_CREATE_ROLES,
+                fullPageLoad: true,
+              },
+            ]
+          : []),
         {
           label: t("navigation.draftPositions"),
           path: "/position-management/drafts",
