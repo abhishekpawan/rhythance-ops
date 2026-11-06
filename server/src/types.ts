@@ -1,5 +1,5 @@
 /**
- * Type definitions for the Rhythence Ops Portal
+ * Type definitions for the Ops Portal
  */
 
 /**
@@ -23,38 +23,41 @@ export interface ProfileData {
   lastName: string;
   dob: string;
   email: string;
+  billingEmail?: string;
   mobile: string;
   licenseNumber?: string;
   passportNumber?: string;
   sinNumber?: string;
   sinExpiry?: string;
+  workPermitUci?: string;
+  workPermitExpiry?: string;
   businessNumber?: string;
   corporationName?: string;
 
-  // Address fields
-  street: string;
-  city: string;
-  province: string;
-  postalCode: string;
+  // Address fields (non-mandatory)
+  street?: string;
+  city?: string;
+  province?: string;
+  postalCode?: string;
 
-  // Qualifications fields
+  // Qualifications fields (non-mandatory)
   workPreference?: string;
-  bio?: string; // Brief professional description (max 100 chars)
-  licenseType: string;
-  experience: string;
-  manualDriving: "Yes" | "No" | "NA";
-  availability: "Full-Time" | "Part-Time";
-  weekendAvailability: boolean;
+  bio?: string;
+  licenseType?: string;
+  experience?: string;
+  manualDriving?: "Yes" | "No" | "NA";
+  availability?: "Full-Time" | "Part-Time" | "";
+  weekendAvailability?: boolean;
 
-  // Compensation fields
-  payrateType: "Hourly" | "Daily" | "Monthly";
-  billRate: string;
-  payRate: string;
-  paymentMethod: string;
+  // Compensation fields (non-mandatory)
+  payrateType?: "Hourly" | "Daily" | "Monthly" | string;
+  billRate?: string;
+  payRate?: string;
+  paymentMethod?: string;
   hstGst?: string;
   cashDeduction?: string;
-  sinPayrollHoursCap?: string;
-  overtimeEnabled: boolean;
+  sinPayrollHoursCap?: string | number | null;
+  overtimeEnabled?: boolean;
   overtimeHours?: string;
   overtimeBillRate?: string;
   overtimePayRate?: string;
@@ -82,6 +85,7 @@ export interface DbJobseekerProfile {
   last_name: string;
   dob: string;
   email: string;
+  billing_email?: string | null;
   mobile: string;
   license_number?: string;
   passport_number?: string;
@@ -92,30 +96,30 @@ export interface DbJobseekerProfile {
   business_number?: string;
   corporation_name?: string;
 
-  // Address fields
-  street: string;
-  city: string;
-  province: string;
-  postal_code: string;
+  // Address fields (non-mandatory)
+  street?: string;
+  city?: string;
+  province?: string;
+  postal_code?: string;
 
-  // Qualifications fields
+  // Qualifications fields (non-mandatory)
   work_preference?: string;
-  bio?: string; // Brief professional description (max 100 chars)
-  license_type: string;
-  experience: string;
-  manual_driving: string;
-  availability: string;
-  weekend_availability: boolean;
+  bio?: string;
+  license_type?: string;
+  experience?: string;
+  manual_driving?: string;
+  availability?: string;
+  weekend_availability?: boolean;
 
-  // Compensation fields
-  payrate_type: string;
-  bill_rate: string;
-  pay_rate: string;
-  payment_method: string;
+  // Compensation fields (non-mandatory)
+  payrate_type?: string;
+  bill_rate?: string;
+  pay_rate?: string;
+  payment_method?: string;
   hst_gst?: string;
   cash_deduction?: string;
   sin_payroll_hours_cap?: number | string | null;
-  overtime_enabled: boolean;
+  overtime_enabled?: boolean;
   overtime_hours?: string;
   overtime_bill_rate?: string;
   overtime_pay_rate?: string;
