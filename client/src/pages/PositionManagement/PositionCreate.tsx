@@ -122,8 +122,10 @@ export function PositionCreate({
   });
   const { control, formState, handleSubmit, reset, watch } = methods;
   const { isDirty } = formState;
-  const { fields: subcategoryDetailFields, replace: replaceSubcategoryDetails } =
-    useFieldArray({ control, name: "subcategoryPositionDetails" });
+  const {
+    fields: subcategoryDetailFields,
+    replace: replaceSubcategoryDetails,
+  } = useFieldArray({ control, name: "subcategoryPositionDetails" });
   const watchedSubcategoryPosition = watch("subcategoryPosition");
   const watchedSubcategoryDetails = watch("subcategoryPositionDetails");
   const { clients, clientLoading, clientOptions, copyFromClientOptions } =
@@ -151,74 +153,165 @@ export function PositionCreate({
   const [activePositionPreset, setActivePositionPreset] = useState("forklift");
 
   const handleAutoFillPosition = async () => {
-    const preset = POSITION_PRESETS[activePositionPreset]?.data || POSITION_PRESETS.forklift.data;
+    const preset =
+      POSITION_PRESETS[activePositionPreset]?.data ||
+      POSITION_PRESETS.forklift.data;
 
     if (clientOptions && clientOptions.length > 0) {
       const selectedOption = clientOptions[0];
       await handleClientSelect(selectedOption);
     } else {
-      methods.setValue("streetAddress", preset.streetAddress, { shouldValidate: true, shouldDirty: true });
-      methods.setValue("city", preset.city, { shouldValidate: true, shouldDirty: true });
-      methods.setValue("province", preset.province, { shouldValidate: true, shouldDirty: true });
-      methods.setValue("postalCode", preset.postalCode, { shouldValidate: true, shouldDirty: true });
+      methods.setValue("streetAddress", preset.streetAddress, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      methods.setValue("city", preset.city, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      methods.setValue("province", preset.province, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      methods.setValue("postalCode", preset.postalCode, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
     }
 
     if (titleOptions && titleOptions.length > 0) {
       const match =
         titleOptions.find((o) =>
-          String(o.value || "").toLowerCase().includes(preset.title.toLowerCase())
+          String(o.value || "")
+            .toLowerCase()
+            .includes(preset.title.toLowerCase())
         ) || titleOptions[0];
       handleTitleSelect(match);
     } else {
-      methods.setValue("title", preset.title, { shouldValidate: true, shouldDirty: true });
+      methods.setValue("title", preset.title, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
     }
 
-    methods.setValue("description", preset.description, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("startDate", preset.startDate, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("endDate", preset.endDate, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("showOnJobPortal", preset.showOnJobPortal, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("stat", preset.stat, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("description", preset.description, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("startDate", preset.startDate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("endDate", preset.endDate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("showOnJobPortal", preset.showOnJobPortal, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("stat", preset.stat, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
 
-    methods.setValue("employmentTerm", preset.employmentTerm, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("employmentType", preset.employmentType, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("positionCategory", preset.positionCategory, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("experience", preset.experience, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("employmentTerm", preset.employmentTerm, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("employmentType", preset.employmentType, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("positionCategory", preset.positionCategory, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("experience", preset.experience, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
 
-    methods.setValue("numberOfPositions", preset.numberOfPositions, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("payrateType", preset.payrateType, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("regularPayRate", preset.regularPayRate, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("premiumPayRate", preset.premiumPayRate, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("markup", preset.markup, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("billRate", preset.billRate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("numberOfPositions", preset.numberOfPositions, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("payrateType", preset.payrateType, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("regularPayRate", preset.regularPayRate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("premiumPayRate", preset.premiumPayRate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("markup", preset.markup, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("billRate", preset.billRate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
 
-    methods.setValue("overtimeEnabled", preset.overtimeEnabled, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("overtimeHours", preset.overtimeHours, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("overtimeBillRate", preset.overtimeBillRate, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("overtimePayRate", preset.overtimePayRate, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("overtimeEnabled", preset.overtimeEnabled, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("overtimeHours", preset.overtimeHours, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("overtimeBillRate", preset.overtimeBillRate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("overtimePayRate", preset.overtimePayRate, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
 
-    methods.setValue("preferredPaymentMethod", preset.preferredPaymentMethod, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("terms", preset.terms, { shouldValidate: true, shouldDirty: true });
-    methods.setValue("notes", preset.notes, { shouldValidate: true, shouldDirty: true });
+    methods.setValue("preferredPaymentMethod", preset.preferredPaymentMethod, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("terms", preset.terms, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setValue("notes", preset.notes, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
 
-    methods.setValue("documentsRequired", {
-      license: preset.documentsRequired.license,
-      driverAbstract: false,
-      tdgCertificate: false,
-      sin: preset.documentsRequired.sin,
-      immigrationStatus: false,
-      passport: false,
-      cvor: false,
-      resume: preset.documentsRequired.resume,
-      articlesOfIncorporation: false,
-      directDeposit: false,
-    }, { shouldValidate: true, shouldDirty: true });
+    methods.setValue(
+      "documentsRequired",
+      {
+        license: preset.documentsRequired.license,
+        driverAbstract: false,
+        tdgCertificate: false,
+        sin: preset.documentsRequired.sin,
+        immigrationStatus: false,
+        passport: false,
+        cvor: false,
+        resume: preset.documentsRequired.resume,
+        articlesOfIncorporation: false,
+        directDeposit: false,
+      },
+      { shouldValidate: true, shouldDirty: true }
+    );
 
     methods.clearErrors();
     setHasUnsavedChanges(true);
   };
 
   function navigateBack() {
-    navigate(isEditDraftMode ? "/position-management/drafts" : "/position-management");
+    navigate(
+      isEditDraftMode ? "/position-management/drafts" : "/position-management"
+    );
   }
 
   async function fetchClientDetails(clientId: string) {
@@ -332,7 +425,10 @@ export function PositionCreate({
         delete (dataToSubmit as Record<string, unknown>).clientName;
       }
       if (isEditMode && positionId) {
-        await updatePosition(positionId, dataToSubmit as unknown as PositionData);
+        await updatePosition(
+          positionId,
+          dataToSubmit as unknown as PositionData
+        );
         setSuccess(t("positionCreate.messages.positionUpdated"));
       } else {
         await createPosition(dataToSubmit as unknown as PositionData);
@@ -372,7 +468,8 @@ export function PositionCreate({
   }
 
   function handleCreateClick(event: MouseEvent<HTMLButtonElement>) {
-    const selectedSubcategoryTypes = methods.getValues("subcategoryPosition") || [];
+    const selectedSubcategoryTypes =
+      methods.getValues("subcategoryPosition") || [];
     const isMissingSubcategoryType =
       isSubcategory &&
       selectedSubcategoryTypes
@@ -404,7 +501,10 @@ export function PositionCreate({
   useEffect(() => {
     if ((isEditMode || isEditDraftMode) && clients.length > 0) {
       const currentClientValue = methods.getValues("client");
-      if (currentClientValue && clients.some((client) => client.id === currentClientValue)) {
+      if (
+        currentClientValue &&
+        clients.some((client) => client.id === currentClientValue)
+      ) {
         methods.setValue("client", currentClientValue);
       }
     }
@@ -612,7 +712,9 @@ export function PositionCreate({
             )}
             <button className="button button-icon" onClick={handleCancel}>
               <ArrowLeft size={16} />
-              <span>{t("positionCreate.buttons.backToPositionManagement")}</span>
+              <span>
+                {t("positionCreate.buttons.backToPositionManagement")}
+              </span>
             </button>
           </>
         }
@@ -726,8 +828,8 @@ export function PositionCreate({
                     ? t("positionCreate.buttons.updating")
                     : t("positionCreate.buttons.creating")
                   : isEditMode
-                  ? t("positionCreate.buttons.updatePosition")
-                  : t("positionCreate.buttons.createPosition")}
+                    ? t("positionCreate.buttons.updatePosition")
+                    : t("positionCreate.buttons.createPosition")}
               </button>
             </div>
           </form>

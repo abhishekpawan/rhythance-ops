@@ -46,7 +46,10 @@ export interface JobseekerDemoData {
   overtimePayRate: string;
 }
 
-export const JOBSEEKER_PRESETS: Record<string, { name: string; badge: string; data: JobseekerDemoData }> = {
+export const JOBSEEKER_PRESETS: Record<
+  string,
+  { name: string; badge: string; data: JobseekerDemoData }
+> = {
   alex: {
     name: "Alexander (Forklift)",
     badge: "Warehouse & Forklift",
@@ -66,7 +69,8 @@ export const JOBSEEKER_PRESETS: Record<string, { name: string; badge: string; da
       province: "Ontario",
       postalCode: "L4W 1V7",
 
-      workPreference: "General labour, warehouse operations, order picking, forklift material handling",
+      workPreference:
+        "General labour, warehouse operations, order picking, forklift material handling",
       bio: "Experienced warehouse and logistics associate with over 4 years of proven track record in inventory sorting, RF scanning, forklift operation, and timely dispatching across high-volume distribution centers.",
       licenseType: "Forklifter",
       experience: "3-4 Years",
@@ -106,7 +110,8 @@ export const JOBSEEKER_PRESETS: Record<string, { name: string; badge: string; da
       province: "Ontario",
       postalCode: "L9T 5C4",
 
-      workPreference: "AZ commercial truck driving, long haul, regional delivery, flatbed, temperature-controlled freight",
+      workPreference:
+        "AZ commercial truck driving, long haul, regional delivery, flatbed, temperature-controlled freight",
       bio: "Dedicated AZ commercial driver with clean CVOR abstract and 5+ years of cross-border and regional hauling experience. Strong safety record, skilled in electronic logbooks and preventative inspections.",
       licenseType: "AZ",
       experience: "5+ Years",
@@ -133,7 +138,8 @@ export function getJobseekerFieldsForStep(
   step: number,
   presetKey: string = "alex"
 ): DemoFieldPreview[] {
-  const preset = JOBSEEKER_PRESETS[presetKey]?.data || JOBSEEKER_PRESETS.alex.data;
+  const preset =
+    JOBSEEKER_PRESETS[presetKey]?.data || JOBSEEKER_PRESETS.alex.data;
 
   switch (step) {
     case 1:
@@ -184,55 +190,152 @@ export function autoFillJobseekerStep(
   setValue: UseFormSetValue<any>,
   presetKey: string = "alex"
 ) {
-  const preset = JOBSEEKER_PRESETS[presetKey]?.data || JOBSEEKER_PRESETS.alex.data;
+  const preset =
+    JOBSEEKER_PRESETS[presetKey]?.data || JOBSEEKER_PRESETS.alex.data;
 
   switch (step) {
     case 1:
-      setValue("firstName", preset.firstName, { shouldValidate: true, shouldDirty: true });
-      setValue("lastName", preset.lastName, { shouldValidate: true, shouldDirty: true });
+      setValue("firstName", preset.firstName, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("lastName", preset.lastName, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setValue("dob", preset.dob, { shouldValidate: true, shouldDirty: true });
-      setValue("email", preset.email, { shouldValidate: true, shouldDirty: true });
-      setValue("mobile", preset.mobile, { shouldValidate: true, shouldDirty: true });
-      setValue("sinNumber", preset.sinNumber, { shouldValidate: true, shouldDirty: true });
-      setValue("licenseNumber", preset.licenseNumber, { shouldValidate: true, shouldDirty: true });
-      setValue("passportNumber", preset.passportNumber, { shouldValidate: true, shouldDirty: true });
-      setValue("billingEmail", preset.billingEmail, { shouldValidate: true, shouldDirty: true });
-      setValue("businessNumber", "", { shouldValidate: true, shouldDirty: true });
-      setValue("corporationName", "", { shouldValidate: true, shouldDirty: true });
-      setValue("workPermitUci", "", { shouldValidate: true, shouldDirty: true });
-      setValue("workPermitExpiry", "", { shouldValidate: true, shouldDirty: true });
+      setValue("email", preset.email, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("mobile", preset.mobile, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("sinNumber", preset.sinNumber, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("licenseNumber", preset.licenseNumber, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("passportNumber", preset.passportNumber, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("billingEmail", preset.billingEmail, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("businessNumber", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("corporationName", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("workPermitUci", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("workPermitExpiry", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setValue("sinExpiry", "", { shouldValidate: true, shouldDirty: true });
       break;
 
     case 2:
-      setValue("street", preset.street, { shouldValidate: true, shouldDirty: true });
-      setValue("city", preset.city, { shouldValidate: true, shouldDirty: true });
-      setValue("province", preset.province, { shouldValidate: true, shouldDirty: true });
-      setValue("postalCode", preset.postalCode, { shouldValidate: true, shouldDirty: true });
+      setValue("street", preset.street, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("city", preset.city, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("province", preset.province, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("postalCode", preset.postalCode, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       break;
 
     case 3:
-      setValue("workPreference", preset.workPreference, { shouldValidate: true, shouldDirty: true });
+      setValue("workPreference", preset.workPreference, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setValue("bio", preset.bio, { shouldValidate: true, shouldDirty: true });
-      setValue("licenseType", preset.licenseType, { shouldValidate: true, shouldDirty: true });
-      setValue("experience", preset.experience, { shouldValidate: true, shouldDirty: true });
-      setValue("manualDriving", preset.manualDriving, { shouldValidate: true, shouldDirty: true });
-      setValue("availability", preset.availability, { shouldValidate: true, shouldDirty: true });
-      setValue("weekendAvailability", preset.weekendAvailability, { shouldValidate: true, shouldDirty: true });
+      setValue("licenseType", preset.licenseType, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("experience", preset.experience, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("manualDriving", preset.manualDriving, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("availability", preset.availability, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("weekendAvailability", preset.weekendAvailability, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       break;
 
     case 4:
-      setValue("payrateType", preset.payrateType, { shouldValidate: true, shouldDirty: true });
+      setValue("payrateType", preset.payrateType, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setValue("billRate", "0", { shouldValidate: true, shouldDirty: true });
-      setValue("payRate", preset.payRate, { shouldValidate: true, shouldDirty: true });
-      setValue("paymentMethod", preset.paymentMethod, { shouldValidate: true, shouldDirty: true });
-      setValue("hstGst", preset.hstGst, { shouldValidate: true, shouldDirty: true });
-      setValue("cashDeduction", "0", { shouldValidate: true, shouldDirty: true });
-      setValue("sinPayrollHoursCap", "", { shouldValidate: true, shouldDirty: true });
-      setValue("overtimeEnabled", preset.overtimeEnabled, { shouldValidate: true, shouldDirty: true });
-      setValue("overtimeHours", preset.overtimeHours, { shouldValidate: true, shouldDirty: true });
-      setValue("overtimeBillRate", "0", { shouldValidate: true, shouldDirty: true });
-      setValue("overtimePayRate", preset.overtimePayRate, { shouldValidate: true, shouldDirty: true });
+      setValue("payRate", preset.payRate, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("paymentMethod", preset.paymentMethod, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("hstGst", preset.hstGst, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("cashDeduction", "0", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("sinPayrollHoursCap", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("overtimeEnabled", preset.overtimeEnabled, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("overtimeHours", preset.overtimeHours, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("overtimeBillRate", "0", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("overtimePayRate", preset.overtimePayRate, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       break;
   }
 }
@@ -285,12 +388,16 @@ const getFutureDateFormatted = (monthsAhead: number) => {
   return d.toISOString().split("T")[0];
 };
 
-export const POSITION_PRESETS: Record<string, { name: string; data: PositionDemoData }> = {
+export const POSITION_PRESETS: Record<
+  string,
+  { name: string; data: PositionDemoData }
+> = {
   forklift: {
     name: "Forklift Operator (Mississauga)",
     data: {
       title: "Forklift Operator",
-      description: "Certified Counterbalance and Raymond Reach forklift operator needed for cross-dock distribution operations. Responsibilities include safe freight staging, truck loading/unloading, and RF inventory scanning.",
+      description:
+        "Certified Counterbalance and Raymond Reach forklift operator needed for cross-dock distribution operations. Responsibilities include safe freight staging, truck loading/unloading, and RF inventory scanning.",
       startDate: getTodayFormatted(),
       endDate: getFutureDateFormatted(12),
       showOnJobPortal: true,
@@ -315,7 +422,8 @@ export const POSITION_PRESETS: Record<string, { name: string; data: PositionDemo
       overtimePayRate: "36.00",
       preferredPaymentMethod: "Direct Deposit",
       terms: "Net 30",
-      notes: "Day shift: Mon-Fri 07:00 - 15:30. CSA green triangle safety footwear mandatory. Safety vest provided.",
+      notes:
+        "Day shift: Mon-Fri 07:00 - 15:30. CSA green triangle safety footwear mandatory. Safety vest provided.",
       documentsRequired: {
         license: true,
         sin: true,
@@ -327,7 +435,8 @@ export const POSITION_PRESETS: Record<string, { name: string; data: PositionDemo
     name: "General Labour (Brampton)",
     data: {
       title: "General Labour",
-      description: "Reliable warehouse packaging and order sorting associates needed for dynamic logistics facility. Light packaging, labeling, pallet wrapping, and quality checks.",
+      description:
+        "Reliable warehouse packaging and order sorting associates needed for dynamic logistics facility. Light packaging, labeling, pallet wrapping, and quality checks.",
       startDate: getTodayFormatted(),
       endDate: getFutureDateFormatted(6),
       showOnJobPortal: true,
@@ -352,7 +461,8 @@ export const POSITION_PRESETS: Record<string, { name: string; data: PositionDemo
       overtimePayRate: "27.75",
       preferredPaymentMethod: "Direct Deposit",
       terms: "Net 15",
-      notes: "Afternoon shift: 15:30 - 23:30. Light lifting up to 30 lbs. Friendly team atmosphere.",
+      notes:
+        "Afternoon shift: 15:30 - 23:30. Light lifting up to 30 lbs. Friendly team atmosphere.",
       documentsRequired: {
         license: false,
         sin: true,
@@ -362,18 +472,26 @@ export const POSITION_PRESETS: Record<string, { name: string; data: PositionDemo
   },
 };
 
-export function getPositionPreviewFields(presetKey: string = "forklift"): DemoFieldPreview[] {
+export function getPositionPreviewFields(
+  presetKey: string = "forklift"
+): DemoFieldPreview[] {
   const p = POSITION_PRESETS[presetKey]?.data || POSITION_PRESETS.forklift.data;
   return [
     { label: "Job Title", value: p.title },
     { label: "Category", value: p.positionCategory },
     { label: "No. of Positions", value: p.numberOfPositions },
-    { label: "Term & Type", value: `${p.employmentTerm} • ${p.employmentType}` },
+    {
+      label: "Term & Type",
+      value: `${p.employmentTerm} • ${p.employmentType}`,
+    },
     { label: "Location", value: `${p.city}, ${p.province}` },
     { label: "Pay Rate", value: `$${p.regularPayRate}/hr` },
     { label: "Bill Rate", value: `$${p.billRate}/hr` },
     { label: "Markup", value: `${p.markup}%` },
-    { label: "Overtime", value: `${p.overtimeHours}h cap • $${p.overtimePayRate}/hr` },
+    {
+      label: "Overtime",
+      value: `${p.overtimeHours}h cap • $${p.overtimePayRate}/hr`,
+    },
     { label: "Start Date", value: p.startDate },
     { label: "End Date", value: p.endDate },
     { label: "Portal Visible", value: p.showOnJobPortal },
@@ -415,7 +533,10 @@ export interface ClientDemoData {
   notes: string;
 }
 
-export const CLIENT_PRESETS: Record<string, { name: string; data: ClientDemoData }> = {
+export const CLIENT_PRESETS: Record<
+  string,
+  { name: string; data: ClientDemoData }
+> = {
   apex: {
     name: "Apex Global Logistics",
     data: {
@@ -446,7 +567,8 @@ export const CLIENT_PRESETS: Record<string, { name: string; data: ClientDemoData
       terms: "Net 30",
       payCycle: "1 Week Hold - Weekly Pay",
       creditLimit: "50000",
-      notes: "Key enterprise client. Weekly invoice schedule with consolidated job order reporting.",
+      notes:
+        "Key enterprise client. Weekly invoice schedule with consolidated job order reporting.",
     },
   },
   northline: {
@@ -479,12 +601,15 @@ export const CLIENT_PRESETS: Record<string, { name: string; data: ClientDemoData
       terms: "Net 15",
       payCycle: "2 Week Hold - Biweekly Pay",
       creditLimit: "75000",
-      notes: "Refrigerated and cold-chain facility. Thermal PPE equipment provided on site.",
+      notes:
+        "Refrigerated and cold-chain facility. Thermal PPE equipment provided on site.",
     },
   },
 };
 
-export function getClientPreviewFields(presetKey: string = "apex"): DemoFieldPreview[] {
+export function getClientPreviewFields(
+  presetKey: string = "apex"
+): DemoFieldPreview[] {
   const c = CLIENT_PRESETS[presetKey]?.data || CLIENT_PRESETS.apex.data;
   return [
     { label: "Company Name", value: c.companyName },

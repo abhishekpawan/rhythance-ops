@@ -56,17 +56,17 @@ type CreateSubmissionStage = "documents" | "account" | "profile";
 
 type CreateSubmissionOverlayState =
   | {
-    mode: "idle";
-    activeStage: CreateSubmissionStage;
-  }
+      mode: "idle";
+      activeStage: CreateSubmissionStage;
+    }
   | {
-    mode: "progress";
-    activeStage: CreateSubmissionStage;
-  }
+      mode: "progress";
+      activeStage: CreateSubmissionStage;
+    }
   | {
-    mode: "success";
-    activeStage: CreateSubmissionStage;
-  };
+      mode: "success";
+      activeStage: CreateSubmissionStage;
+    };
 
 const createSubmissionStageOrder: CreateSubmissionStage[] = [
   "documents",
@@ -203,13 +203,33 @@ export function ProfileCreate({
     autoFillJobseekerStep(currentStep, methods.setValue, activeDemoPreset);
     if (currentStep === 1) {
       setIsEmailAvailable(true);
-      methods.clearErrors(["email", "dob", "sinNumber", "licenseNumber", "passportNumber"]);
+      methods.clearErrors([
+        "email",
+        "dob",
+        "sinNumber",
+        "licenseNumber",
+        "passportNumber",
+      ]);
     } else if (currentStep === 2) {
       methods.clearErrors(["street", "city", "province", "postalCode"]);
     } else if (currentStep === 3) {
-      methods.clearErrors(["workPreference", "bio", "licenseType", "experience", "manualDriving", "availability"]);
+      methods.clearErrors([
+        "workPreference",
+        "bio",
+        "licenseType",
+        "experience",
+        "manualDriving",
+        "availability",
+      ]);
     } else if (currentStep === 4) {
-      methods.clearErrors(["payrateType", "payRate", "paymentMethod", "hstGst", "overtimeHours", "overtimePayRate"]);
+      methods.clearErrors([
+        "payrateType",
+        "payRate",
+        "paymentMethod",
+        "hstGst",
+        "overtimeHours",
+        "overtimePayRate",
+      ]);
     }
   };
 
@@ -388,14 +408,14 @@ export function ProfileCreate({
             hstGst: profileData.hstGst || "",
             cashDeduction:
               profileData.paymentMethod === "Cash" ||
-                profileData.paymentMethod === "e-Transfer" ||
-                profileData.paymentMethod === "SIN and cash" ||
-                profileData.paymentMethod === "SIN and e-Transfer"
+              profileData.paymentMethod === "e-Transfer" ||
+              profileData.paymentMethod === "SIN and cash" ||
+              profileData.paymentMethod === "SIN and e-Transfer"
                 ? profileData.cashDeduction || "0"
                 : "0",
             sinPayrollHoursCap:
               profileData.sinPayrollHoursCap != null &&
-                profileData.sinPayrollHoursCap !== ""
+              profileData.sinPayrollHoursCap !== ""
                 ? String(profileData.sinPayrollHoursCap)
                 : "",
             overtimeEnabled: profileData.overtimeEnabled || false,
@@ -433,9 +453,8 @@ export function ProfileCreate({
       const fetchDraftById = async () => {
         try {
           setLoading("formLoading", true);
-          const { draft, currentStep: savedStep } = await getJobseekerDraft(
-            profileId
-          );
+          const { draft, currentStep: savedStep } =
+            await getJobseekerDraft(profileId);
 
           if (draft) {
             // Ensure default fallback values for compensation fields if empty in draft
@@ -454,7 +473,7 @@ export function ProfileCreate({
               setCurrentStep(savedStep);
             }
             // Set the draft ID so we can update it later
-            if (draft.id && typeof draft.id === 'string') {
+            if (draft.id && typeof draft.id === "string") {
               setCreatedDraftId(draft.id);
             }
           }
@@ -487,14 +506,23 @@ export function ProfileCreate({
       };
 
       fetchDraftById();
-    } else if (!isEditMode && !isDraftEditMode && isJobSeeker && !shouldStartWithNewForm) {
+    } else if (
+      !isEditMode &&
+      !isDraftEditMode &&
+      isJobSeeker &&
+      !shouldStartWithNewForm
+    ) {
       // For jobseekers creating a new profile, check if they have an existing draft
       const checkExistingDraft = async () => {
         try {
           setLoading("formLoading", true);
           const draftResponse = await getDraft();
 
-          if (draftResponse.draft && draftResponse.draft.id && typeof draftResponse.draft.id === 'string') {
+          if (
+            draftResponse.draft &&
+            draftResponse.draft.id &&
+            typeof draftResponse.draft.id === "string"
+          ) {
             // User has an existing draft, load it automatically
             console.log("Found existing draft, loading it automatically");
             const sanitizedDraft = {
@@ -502,7 +530,7 @@ export function ProfileCreate({
               ...draftResponse.draft,
               billRate:
                 draftResponse.draft.billRate &&
-                  draftResponse.draft.billRate.trim() !== ""
+                draftResponse.draft.billRate.trim() !== ""
                   ? draftResponse.draft.billRate
                   : "0",
             };
@@ -517,7 +545,10 @@ export function ProfileCreate({
           }
         } catch (error) {
           // If no draft exists or error fetching, that's fine - just continue with new form
-          console.log("No existing draft found or error fetching draft:", error);
+          console.log(
+            "No existing draft found or error fetching draft:",
+            error
+          );
         } finally {
           setLoading("formLoading", false);
         }
@@ -672,7 +703,7 @@ export function ProfileCreate({
           personalInfoValid = false;
           logValidation(
             "validateCurrentStep: DOB validation failed: " +
-            dobResult.errorMessage
+              dobResult.errorMessage
           );
         }
       }
@@ -701,7 +732,7 @@ export function ProfileCreate({
           personalInfoValid = false;
           logValidation(
             "validateCurrentStep: SIN validation failed: " +
-            sinResult.errorMessage
+              sinResult.errorMessage
           );
         }
 
@@ -748,7 +779,10 @@ export function ProfileCreate({
             );
           }
 
-          if (!values.workPermitExpiry || values.workPermitExpiry.trim() === "") {
+          if (
+            !values.workPermitExpiry ||
+            values.workPermitExpiry.trim() === ""
+          ) {
             methods.setError("workPermitExpiry", {
               type: "custom",
               message: validationMessages.workPermitExpiryRequired,
@@ -928,8 +962,9 @@ export function ProfileCreate({
             const fileToUpload = doc.documentFile;
             const fileExt = fileToUpload.name.split(".").pop();
             const uniqueFileName = `${crypto.randomUUID()}.${fileExt}`;
-            const filePath = `${user.id}/${doc.documentType || "uncategorized"
-              }/${uniqueFileName}`;
+            const filePath = `${user.id}/${
+              doc.documentType || "uncategorized"
+            }/${uniqueFileName}`;
 
             console.log(`Draft Save: Uploading to Supabase path: ${filePath}`);
 
@@ -1006,7 +1041,11 @@ export function ProfileCreate({
           // But since jobseekers can only have one draft, we can fetch it after saving
           try {
             const draftResponse = await getDraft();
-            if (draftResponse.draft && draftResponse.draft.id && typeof draftResponse.draft.id === 'string') {
+            if (
+              draftResponse.draft &&
+              draftResponse.draft.id &&
+              typeof draftResponse.draft.id === "string"
+            ) {
               setCreatedDraftId(draftResponse.draft.id);
             }
           } catch (err) {
@@ -1258,8 +1297,9 @@ export function ProfileCreate({
         const fileToUpload = doc.documentFile;
         const fileExt = fileToUpload.name.split(".").pop();
         const uniqueFileName = `${crypto.randomUUID()}.${fileExt}`;
-        const filePath = `${authenticatedUserId}/${doc.documentType || "uncategorized"
-          }/${uniqueFileName}`;
+        const filePath = `${authenticatedUserId}/${
+          doc.documentType || "uncategorized"
+        }/${uniqueFileName}`;
 
         console.log(`Uploading file to: ${filePath}`);
 
@@ -1537,8 +1577,9 @@ export function ProfileCreate({
             return (
               <div
                 key={stepNum}
-                className={`step-marker ${isActive ? "active" : ""} ${isCompleted ? "completed" : ""
-                  }`}
+                className={`step-marker ${isActive ? "active" : ""} ${
+                  isCompleted ? "completed" : ""
+                }`}
                 style={{ "--index": i } as React.CSSProperties}
               >
                 <div className="step-bubble">
@@ -1688,7 +1729,11 @@ export function ProfileCreate({
         totalSteps={totalSteps}
         fields={getJobseekerFieldsForStep(currentStep, activeDemoPreset)}
         onAutoFill={handleAutoFillJobseeker}
-        onAutoFillAndNext={currentStep < totalSteps && currentStep < 5 ? handleAutoFillAndNext : undefined}
+        onAutoFillAndNext={
+          currentStep < totalSteps && currentStep < 5
+            ? handleAutoFillAndNext
+            : undefined
+        }
         presets={[
           { id: "alex", name: "Alexander (Forklift)" },
           { id: "priya", name: "Priya (AZ Driver)" },

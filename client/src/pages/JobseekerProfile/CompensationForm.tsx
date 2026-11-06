@@ -76,9 +76,9 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
 
   return (
     <div className="form-step-container">
-      <h2>{t('profileCreate.compensation.sectionTitle')}</h2>
+      <h2>{t("profileCreate.compensation.sectionTitle")}</h2>
       <p className="form-description">
-        {t('profileCreate.compensation.sectionDescription')}
+        {t("profileCreate.compensation.sectionDescription")}
         {isJobSeeker && (
           <span className="text-info">
             {" "}
@@ -93,7 +93,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
             className="form-label"
             data-required={isJobSeeker ? "" : "*"}
           >
-            {t('profileCreate.compensation.payrateType')}
+            {t("profileCreate.compensation.payrateType")}
           </label>
           <select
             id="payrateType"
@@ -118,7 +118,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
             className="form-label"
             data-required={isJobSeeker ? "" : "*"}
           >
-            {t('profileCreate.compensation.payRate')}
+            {t("profileCreate.compensation.payRate")}
           </label>
           <input
             id="payRate"
@@ -126,7 +126,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
             min="0"
             step="0.01"
             className="form-input"
-            placeholder={t('profileCreate.compensation.payRatePlaceholder')}
+            placeholder={t("profileCreate.compensation.payRatePlaceholder")}
             {...register("payRate")}
           />
           {shouldShowError("payRate") && (
@@ -136,7 +136,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
 
         <div className="form-group">
           <label htmlFor="hstGst" className="form-label">
-            {t('profileCreate.compensation.hstGst')}
+            {t("profileCreate.compensation.hstGst")}
           </label>
           <select id="hstGst" className="form-input" {...register("hstGst")}>
             <option value="">None</option>
@@ -156,7 +156,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
             className="form-label"
             data-required={isJobSeeker ? "" : "*"}
           >
-            {t('profileCreate.compensation.paymentMethod')}
+            {t("profileCreate.compensation.paymentMethod")}
           </label>
           <select
             id="paymentMethod"
@@ -206,7 +206,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
         {showCashDeduction && (
           <div className="form-group">
             <label htmlFor="cashDeduction" className="form-label">
-              {t('profileCreate.compensation.cashDeduction')}
+              {t("profileCreate.compensation.cashDeduction")}
             </label>
             <select
               id="cashDeduction"
@@ -221,7 +221,9 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
               <option value="5">5%</option>
             </select>
             {shouldShowError("cashDeduction") && (
-              <p className="error-message">{allErrors.cashDeduction?.message}</p>
+              <p className="error-message">
+                {allErrors.cashDeduction?.message}
+              </p>
             )}
           </div>
         )}
@@ -238,7 +240,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
             {...register("overtimeEnabled")}
           />
           <label htmlFor="overtimeEnabled" className="label-form">
-            {t('profileCreate.compensation.overtimeEnabled')}
+            {t("profileCreate.compensation.overtimeEnabled")}
           </label>
           {shouldShowError("overtimeEnabled") && (
             <p className="error-message">
@@ -256,13 +258,15 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
                   className="form-label"
                   data-required="*"
                 >
-                  {t('profileCreate.compensation.overtimeHours')}
+                  {t("profileCreate.compensation.overtimeHours")}
                 </label>
                 <input
                   id="overtimeHours"
                   type="text"
                   className="form-input"
-                  placeholder={t('profileCreate.compensation.overtimeHoursPlaceholder')}
+                  placeholder={t(
+                    "profileCreate.compensation.overtimeHoursPlaceholder"
+                  )}
                   {...register("overtimeHours")}
                 />
                 {shouldShowError("overtimeHours") && (
@@ -278,7 +282,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
                   className="form-label"
                   data-required="*"
                 >
-                  {t('profileCreate.compensation.overtimeBillRate')}
+                  {t("profileCreate.compensation.overtimeBillRate")}
                 </label>
                 <input
                   id="overtimeBillRate"
@@ -286,7 +290,9 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
                   min="0"
                   step="0.01"
                   className="form-input"
-                  placeholder={t('profileCreate.compensation.overtimeBillRatePlaceholder')}
+                  placeholder={t(
+                    "profileCreate.compensation.overtimeBillRatePlaceholder"
+                  )}
                   {...register("overtimeBillRate")}
                 />
                 {shouldShowError("overtimeBillRate") && (
@@ -302,7 +308,7 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
                   className="form-label"
                   data-required="*"
                 >
-                  {t('profileCreate.compensation.overtimePayRate')}
+                  {t("profileCreate.compensation.overtimePayRate")}
                 </label>
                 <input
                   id="overtimePayRate"
@@ -310,7 +316,9 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
                   min="0"
                   step="0.01"
                   className="form-input"
-                  placeholder={t('profileCreate.compensation.overtimePayRatePlaceholder')}
+                  placeholder={t(
+                    "profileCreate.compensation.overtimePayRatePlaceholder"
+                  )}
                   {...register("overtimePayRate")}
                 />
                 {shouldShowError("overtimePayRate") && (

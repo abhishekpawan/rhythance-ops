@@ -397,11 +397,12 @@ export function Signup() {
                   {t("signup.checkingPhone")}
                 </p>
               )}
-              {(phoneValidationError || errors.phoneNumber) && !checkingPhone && (
-                <p className="error-message">
-                  {phoneValidationError || errors.phoneNumber?.message}
-                </p>
-              )}
+              {(phoneValidationError || errors.phoneNumber) &&
+                !checkingPhone && (
+                  <p className="error-message">
+                    {phoneValidationError || errors.phoneNumber?.message}
+                  </p>
+                )}
 
               {isPhoneValid && phoneAvailable && !isPhoneVerified && (
                 <button

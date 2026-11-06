@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { authenticateToken, authorizeExactRoles, isAdminOrRecruiter } from "../middleware/auth.js";
+import {
+  authenticateToken,
+  authorizeExactRoles,
+  isAdminOrRecruiter,
+} from "../middleware/auth.js";
 import { activityLogger } from "../middleware/activityLogger.js";
 // Do not import the ANON client here, we'll create a service client
 // import { supabase } from '../utils/supabaseClient.js';
@@ -252,7 +256,10 @@ function getRequiredDocumentValidationError(
     return "Government ID document is required";
   }
 
-  if (sinNumber?.trim().startsWith("9") && !hasUploadedDocument(documents, "work_permit")) {
+  if (
+    sinNumber?.trim().startsWith("9") &&
+    !hasUploadedDocument(documents, "work_permit")
+  ) {
     return "Work permit document is required for temporary residents";
   }
 
@@ -476,30 +483,32 @@ router.get("/", isAdminOrRecruiter, async (req, res) => {
     const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
     const formattedProfiles: JobSeekerProfile[] = dbProfiles.map(
       (profile: DbJobseekerProfileListView) => {
-        const lastActivity = profile.last_activity_at ? new Date(profile.last_activity_at) : new Date(profile.created_at);
+        const lastActivity = profile.last_activity_at
+          ? new Date(profile.last_activity_at)
+          : new Date(profile.created_at);
         return {
-        id: profile.id,
-        userId: profile.user_id,
-        name: formatName(profile),
-        email: profile.email,
-        phoneNumber: profile.mobile || null, // Use mobile from profile directly
-        status: profile.verification_status || "pending",
-        createdAt: profile.created_at,
-        experience: profile.experience,
-        location: extractLocation(profile),
-        employeeId: profile.employee_id,
-        sinNumber: profile.sin_number,
-        sinExpiry: profile.sin_expiry,
-        workPermitUci: profile.work_permit_uci,
-        workPermitExpiry: profile.work_permit_expiry,
-        billingEmail: profile.billing_email,
-        lastActivityAt: profile.last_activity_at,
-        isInactive: lastActivity < sixtyDaysAgo,
-        paymentMethod: profile.payment_method,
-        cashDeduction: profile.cash_deduction,
-        sinPayrollHoursCap: profile.sin_payroll_hours_cap,
-        hstGst: profile.hst_gst,
-      };
+          id: profile.id,
+          userId: profile.user_id,
+          name: formatName(profile),
+          email: profile.email,
+          phoneNumber: profile.mobile || null, // Use mobile from profile directly
+          status: profile.verification_status || "pending",
+          createdAt: profile.created_at,
+          experience: profile.experience,
+          location: extractLocation(profile),
+          employeeId: profile.employee_id,
+          sinNumber: profile.sin_number,
+          sinExpiry: profile.sin_expiry,
+          workPermitUci: profile.work_permit_uci,
+          workPermitExpiry: profile.work_permit_expiry,
+          billingEmail: profile.billing_email,
+          lastActivityAt: profile.last_activity_at,
+          isInactive: lastActivity < sixtyDaysAgo,
+          paymentMethod: profile.payment_method,
+          cashDeduction: profile.cash_deduction,
+          sinPayrollHoursCap: profile.sin_payroll_hours_cap,
+          hstGst: profile.hst_gst,
+        };
       }
     );
 
@@ -817,13 +826,16 @@ router.get("/profile/:id", async (req, res) => {
           // Don't fail the whole request if we can't get validation data
         } else if (aiValidations && aiValidations.length > 0) {
           // Create a map of document_id to validation data for quick lookup
-          const validationMap = aiValidations.reduce((map, validation) => {
-            map[validation.document_id] = {
-              ...validation.ai_response,
-              document_status: validation.document_status,
-            };
-            return map;
-          }, {} as { [key: string]: any });
+          const validationMap = aiValidations.reduce(
+            (map, validation) => {
+              map[validation.document_id] = {
+                ...validation.ai_response,
+                document_status: validation.document_status,
+              };
+              return map;
+            },
+            {} as { [key: string]: any }
+          );
 
           // Update documents with validation data where available
           formattedProfile.documents = formattedProfile.documents.map(
@@ -970,7 +982,9 @@ router.put(
 
       if (error) {
         console.error("Error activating profile:", error);
-        return res.status(500).json({ error: "Failed to mark profile as active" });
+        return res
+          .status(500)
+          .json({ error: "Failed to mark profile as active" });
       }
 
       res.json({ message: "Profile marked as active successfully" });
@@ -1257,14 +1271,14 @@ router.put(
           updatedProfile.first_name && updatedProfile.last_name
             ? `${updatedProfile.first_name} ${updatedProfile.last_name}`.trim()
             : profileData.firstName && profileData.lastName
-            ? `${profileData.firstName} ${profileData.lastName}`.trim()
-            : updatedProfile.email || profileData.email || "Unknown",
+              ? `${profileData.firstName} ${profileData.lastName}`.trim()
+              : updatedProfile.email || profileData.email || "Unknown",
         displayMessage: `Updated jobseeker profile for ${
           updatedProfile.first_name && updatedProfile.last_name
             ? `${updatedProfile.first_name} ${updatedProfile.last_name}`.trim()
             : profileData.firstName && profileData.lastName
-            ? `${profileData.firstName} ${profileData.lastName}`.trim()
-            : updatedProfile.email || profileData.email || "Unknown"
+              ? `${profileData.firstName} ${profileData.lastName}`.trim()
+              : updatedProfile.email || profileData.email || "Unknown"
         }`,
         category: "candidate_management",
         priority: "normal",
@@ -1491,9 +1505,7 @@ router.put(
       } else if (profileData.sinPayrollHoursCap !== undefined) {
         const raw = profileData.sinPayrollHoursCap;
         updateData.sin_payroll_hours_cap =
-          raw === "" || raw === null
-            ? null
-            : Number.parseFloat(String(raw));
+          raw === "" || raw === null ? null : Number.parseFloat(String(raw));
       }
       if (profileData.overtimeEnabled !== undefined)
         updateData.overtime_enabled = profileData.overtimeEnabled;
@@ -2072,7 +2084,10 @@ router.post("/drafts", async (req, res) => {
         .maybeSingle();
 
     if (userDraftCheckError) {
-      console.error("Error checking for user's existing draft:", userDraftCheckError);
+      console.error(
+        "Error checking for user's existing draft:",
+        userDraftCheckError
+      );
       return res.status(500).json({ error: "Failed to check draft status" });
     }
 
@@ -2083,11 +2098,12 @@ router.post("/drafts", async (req, res) => {
       // If email has changed, check if it exists in profiles or other drafts
       if (email && email !== existingUserDraft.email) {
         // Check profiles
-        const { data: emailExists, error: emailCheckError } = await supabaseAdmin
-          .from("jobseeker_profiles")
-          .select("id")
-          .eq("email", email)
-          .maybeSingle();
+        const { data: emailExists, error: emailCheckError } =
+          await supabaseAdmin
+            .from("jobseeker_profiles")
+            .select("id")
+            .eq("email", email)
+            .maybeSingle();
 
         if (emailCheckError) {
           console.error(

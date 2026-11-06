@@ -51,7 +51,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .demo-modal-close:hover:not(:disabled) {
@@ -175,4 +177,3 @@
     opacity: 1;
   }
 }
-

@@ -1,5 +1,12 @@
 import Handlebars from "handlebars";
-import { wrapInLayout, ensureHelpers, S, getPortalName, textFooter, ACCENT_BLUE } from "./_layout.js";
+import {
+  wrapInLayout,
+  ensureHelpers,
+  S,
+  getPortalName,
+  textFooter,
+  ACCENT_BLUE,
+} from "./_layout.js";
 
 ensureHelpers();
 
@@ -62,7 +69,12 @@ const compiledBody = Handlebars.compile(bodySource);
 export function invoiceHtmlTemplate(vars: InvoiceEmailTemplateVars): string {
   const portalName = getPortalName();
   const body = compiledBody({ ...vars, portalName });
-  return wrapInLayout(`Invoice #${vars.invoiceNumber}`, body, portalName, ACCENT_BLUE);
+  return wrapInLayout(
+    `Invoice #${vars.invoiceNumber}`,
+    body,
+    portalName,
+    ACCENT_BLUE
+  );
 }
 
 export function invoiceTextTemplate(vars: InvoiceEmailTemplateVars): string {
@@ -86,4 +98,4 @@ Best regards,
 The Team at ${portalName}
 
 ${textFooter(portalName)}`.trim();
-} 
+}

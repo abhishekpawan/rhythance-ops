@@ -298,20 +298,36 @@ const formatDateWithOrdinal = (dateString: string): string => {
       const monthIdx = parseInt(parts[1], 10) - 1;
       day = parseInt(parts[2], 10);
       const monthNames = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
       ];
       monthStr = monthNames[monthIdx] || "";
     } else {
       const date = new Date(dateString);
       day = date.getUTCDate();
-      monthStr = date.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
+      monthStr = date.toLocaleDateString("en-US", {
+        month: "short",
+        timeZone: "UTC",
+      });
       year = date.getUTCFullYear();
     }
   } else {
     const date = new Date(dateString);
     day = date.getUTCDate();
-    monthStr = date.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
+    monthStr = date.toLocaleDateString("en-US", {
+      month: "short",
+      timeZone: "UTC",
+    });
     year = date.getUTCFullYear();
   }
 
@@ -382,7 +398,9 @@ const hasValue = (val?: string | null): boolean => {
 // PDF Document Component
 const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
   // If ANY row contains data for a column, keep that column; otherwise remove it completely
-  const hasPosition = data.lineItems.some((item) => hasValue(item.positionName));
+  const hasPosition = data.lineItems.some((item) =>
+    hasValue(item.positionName)
+  );
   const hasCandidate = data.lineItems.some((item) => hasValue(item.candidate));
 
   // Calculate dynamic column widths based on whether Position Name and Candidate exist
@@ -421,332 +439,323 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
   }
 
   // Calculate item summary (group by position name only if valid position exists)
-  const itemSummary = data.lineItems.reduce((acc, item) => {
-    const positionName = item.positionName?.trim();
-    if (!positionName) {
+  const itemSummary = data.lineItems.reduce(
+    (acc, item) => {
+      const positionName = item.positionName?.trim();
+      if (!positionName) {
+        return acc;
+      }
+      if (!acc[positionName]) {
+        acc[positionName] = { count: 0, totalHours: 0 };
+      }
+      acc[positionName].count += 1;
+      acc[positionName].totalHours += item.hours;
       return acc;
-    }
-    if (!acc[positionName]) {
-      acc[positionName] = { count: 0, totalHours: 0 };
-    }
-    acc[positionName].count += 1;
-    acc[positionName].totalHours += item.hours;
-    return acc;
-  }, {} as Record<string, { count: number; totalHours: number }>);
+    },
+    {} as Record<string, { count: number; totalHours: number }>
+  );
 
   const hasItemSummary = Object.keys(itemSummary).length > 0;
 
   // Table header row, shared by the first page and the repeated continuation header
   const tableHeaderRow = (
     <View style={[styles.tableRow, styles.tableHeader]}>
-              {hasPosition && (
-                <View style={[styles.tableCol, { width: positionWidth }]}>
-                  <Text style={styles.tableCellHeader}>Position Name</Text>
-                </View>
-              )}
-              {hasCandidate && (
-                <View style={[styles.tableCol, { width: candidateWidth }]}>
-                  <Text style={styles.tableCellHeader}>Candidate</Text>
-                </View>
-              )}
-              <View style={[styles.tableCol, { width: descriptionWidth }]}>
-                <Text style={styles.tableCellHeader}>Description</Text>
-              </View>
-              <View style={[styles.tableCol, { width: hoursWidth }]}>
-                <Text style={styles.tableCellHeader}>Hours</Text>
-              </View>
-              <View style={[styles.tableCol, { width: rateWidth }]}>
-                <Text style={styles.tableCellHeader}>Rate</Text>
-              </View>
-              <View style={[styles.tableCol, { width: amountWidth }]}>
-                <Text style={styles.tableCellHeader}>Amount</Text>
-              </View>
-            </View>
+      {hasPosition && (
+        <View style={[styles.tableCol, { width: positionWidth }]}>
+          <Text style={styles.tableCellHeader}>Position Name</Text>
+        </View>
+      )}
+      {hasCandidate && (
+        <View style={[styles.tableCol, { width: candidateWidth }]}>
+          <Text style={styles.tableCellHeader}>Candidate</Text>
+        </View>
+      )}
+      <View style={[styles.tableCol, { width: descriptionWidth }]}>
+        <Text style={styles.tableCellHeader}>Description</Text>
+      </View>
+      <View style={[styles.tableCol, { width: hoursWidth }]}>
+        <Text style={styles.tableCellHeader}>Hours</Text>
+      </View>
+      <View style={[styles.tableCol, { width: rateWidth }]}>
+        <Text style={styles.tableCellHeader}>Rate</Text>
+      </View>
+      <View style={[styles.tableCol, { width: amountWidth }]}>
+        <Text style={styles.tableCellHeader}>Amount</Text>
+      </View>
+    </View>
   );
 
   // Rows that always travel together with the summary (see layout comment below).
   const TAIL_ROWS = 2;
-  const headRows = data.lineItems.slice(0, Math.max(0, data.lineItems.length - TAIL_ROWS));
+  const headRows = data.lineItems.slice(
+    0,
+    Math.max(0, data.lineItems.length - TAIL_ROWS)
+  );
   const tailRows = data.lineItems.slice(headRows.length);
 
   const renderRow = (item: InvoiceData["lineItems"][number], index: number) => (
     <View style={styles.tableRow} key={index} wrap={false}>
-                {hasPosition && (
-                  <View style={[styles.tableCol, { width: positionWidth }]}>
-                    <Text style={styles.tableCell}>
-                      {item.positionName?.trim() || ""}
-                    </Text>
-                  </View>
-                )}
-                {hasCandidate && (
-                  <View style={[styles.tableCol, { width: candidateWidth }]}>
-                    <Text style={styles.tableCell}>
-                      {item.candidate?.trim() || ""}
-                    </Text>
-                  </View>
-                )}
-                <View style={[styles.tableCol, { width: descriptionWidth }]}>
-                  <Text style={styles.tableCell}>
-                    {item.description || ""}
-                  </Text>
-                </View>
-                <View style={[styles.tableCol, { width: hoursWidth }]}>
-                  <Text style={styles.tableCell}>{item.hours.toFixed(2)}</Text>
-                </View>
-                <View style={[styles.tableCol, { width: rateWidth }]}>
-                  <Text style={styles.tableCell}>${item.rate.toFixed(2)}</Text>
-                </View>
-                <View style={[styles.tableCol, { width: amountWidth }]}>
-                  <Text style={styles.tableCell}>
-                    ${item.amount.toFixed(2)}
-                  </Text>
-                </View>
-              </View>
+      {hasPosition && (
+        <View style={[styles.tableCol, { width: positionWidth }]}>
+          <Text style={styles.tableCell}>
+            {item.positionName?.trim() || ""}
+          </Text>
+        </View>
+      )}
+      {hasCandidate && (
+        <View style={[styles.tableCol, { width: candidateWidth }]}>
+          <Text style={styles.tableCell}>{item.candidate?.trim() || ""}</Text>
+        </View>
+      )}
+      <View style={[styles.tableCol, { width: descriptionWidth }]}>
+        <Text style={styles.tableCell}>{item.description || ""}</Text>
+      </View>
+      <View style={[styles.tableCol, { width: hoursWidth }]}>
+        <Text style={styles.tableCell}>{item.hours.toFixed(2)}</Text>
+      </View>
+      <View style={[styles.tableCol, { width: rateWidth }]}>
+        <Text style={styles.tableCell}>${item.rate.toFixed(2)}</Text>
+      </View>
+      <View style={[styles.tableCol, { width: amountWidth }]}>
+        <Text style={styles.tableCell}>${item.amount.toFixed(2)}</Text>
+      </View>
+    </View>
   );
 
   const summaryBlock = (
-            <View style={styles.footer}>
-              <View style={styles.summarySection}>
-                {/* Item Summary - Left Side */}
-                {hasItemSummary ? (
-                  <View style={styles.itemSummaryTable}>
-                    <Text style={styles.itemSummaryTitle}>Item Summary:</Text>
-                    <View style={styles.itemSummaryRow}>
-                      <Text style={styles.itemSummaryText}>
-                        {Object.entries(itemSummary)
-                          .map(
-                            ([posName, summaryData]) =>
-                              `${posName} - ${summaryData.count}`
-                          )
-                          .join(", ")}
-                        {", "}Total Hrs: {data.summary.totalHours.toFixed(2)}
-                      </Text>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={styles.itemSummaryTable} />
-                )}
-
-                {/* Financial Summary - Right Side */}
-                <View style={styles.summaryTable}>
-                  <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>
-                      {hasPosition ? "Positions:" : "Items:"}
-                    </Text>
-                    <Text style={styles.summaryValue}>
-                      {data.lineItems.length}
-                    </Text>
-                  </View>
-                  <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Total Hours:</Text>
-                    <Text style={styles.summaryValue}>
-                      {data.summary.totalHours.toFixed(2)}
-                    </Text>
-                  </View>
-                  <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Subtotal:</Text>
-                    <Text style={styles.summaryValue}>
-                      ${data.summary.subtotal.toFixed(2)}
-                    </Text>
-                  </View>
-                  {data.summary.totalHST > 0 && (
-                    <View style={styles.summaryRow}>
-                      <Text style={styles.summaryLabel}>
-                        HST @ {data.summary.hstPercentage?.toFixed(2) || "0.00"}
-                        %:
-                      </Text>
-                      <Text style={styles.summaryValue}>
-                        ${data.summary.totalHST.toFixed(2)}
-                      </Text>
-                    </View>
-                  )}
-                  {data.summary.totalGST > 0 && (
-                    <View style={styles.summaryRow}>
-                      <Text style={styles.summaryLabel}>
-                        GST @ {data.summary.gstPercentage?.toFixed(2) || "0.00"}
-                        %:
-                      </Text>
-                      <Text style={styles.summaryValue}>
-                        ${data.summary.totalGST.toFixed(2)}
-                      </Text>
-                    </View>
-                  )}
-                  {data.summary.totalQST > 0 && (
-                    <View style={styles.summaryRow}>
-                      <Text style={styles.summaryLabel}>
-                        QST @ {data.summary.qstPercentage?.toFixed(2) || "0.00"}
-                        %:
-                      </Text>
-                      <Text style={styles.summaryValue}>
-                        ${data.summary.totalQST.toFixed(2)}
-                      </Text>
-                    </View>
-                  )}
-                  <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Total Tax:</Text>
-                    <Text style={styles.summaryValue}>
-                      ${data.summary.totalTax.toFixed(2)}
-                    </Text>
-                  </View>
-                  <View style={[styles.summaryRow, styles.totalRow]}>
-                    <Text style={[styles.summaryLabel, { color: "white" }]}>
-                      Grand Total:
-                    </Text>
-                    <Text style={[styles.summaryValue, { color: "white" }]}>
-                      ${data.summary.grandTotal.toFixed(2)}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              {/* Footer Messages */}
-              {data.messageOnInvoice && (
-                <Text style={styles.footerMessage}>
-                  {data.messageOnInvoice}
-                </Text>
-              )}
-              {data.termsOnInvoice && (
-                <Text style={styles.footerTerms}>{data.termsOnInvoice}</Text>
-              )}
+    <View style={styles.footer}>
+      <View style={styles.summarySection}>
+        {/* Item Summary - Left Side */}
+        {hasItemSummary ? (
+          <View style={styles.itemSummaryTable}>
+            <Text style={styles.itemSummaryTitle}>Item Summary:</Text>
+            <View style={styles.itemSummaryRow}>
+              <Text style={styles.itemSummaryText}>
+                {Object.entries(itemSummary)
+                  .map(
+                    ([posName, summaryData]) =>
+                      `${posName} - ${summaryData.count}`
+                  )
+                  .join(", ")}
+                {", "}Total Hrs: {data.summary.totalHours.toFixed(2)}
+              </Text>
             </View>
+          </View>
+        ) : (
+          <View style={styles.itemSummaryTable} />
+        )}
+
+        {/* Financial Summary - Right Side */}
+        <View style={styles.summaryTable}>
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>
+              {hasPosition ? "Positions:" : "Items:"}
+            </Text>
+            <Text style={styles.summaryValue}>{data.lineItems.length}</Text>
+          </View>
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Total Hours:</Text>
+            <Text style={styles.summaryValue}>
+              {data.summary.totalHours.toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Subtotal:</Text>
+            <Text style={styles.summaryValue}>
+              ${data.summary.subtotal.toFixed(2)}
+            </Text>
+          </View>
+          {data.summary.totalHST > 0 && (
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>
+                HST @ {data.summary.hstPercentage?.toFixed(2) || "0.00"}
+                %:
+              </Text>
+              <Text style={styles.summaryValue}>
+                ${data.summary.totalHST.toFixed(2)}
+              </Text>
+            </View>
+          )}
+          {data.summary.totalGST > 0 && (
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>
+                GST @ {data.summary.gstPercentage?.toFixed(2) || "0.00"}
+                %:
+              </Text>
+              <Text style={styles.summaryValue}>
+                ${data.summary.totalGST.toFixed(2)}
+              </Text>
+            </View>
+          )}
+          {data.summary.totalQST > 0 && (
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>
+                QST @ {data.summary.qstPercentage?.toFixed(2) || "0.00"}
+                %:
+              </Text>
+              <Text style={styles.summaryValue}>
+                ${data.summary.totalQST.toFixed(2)}
+              </Text>
+            </View>
+          )}
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Total Tax:</Text>
+            <Text style={styles.summaryValue}>
+              ${data.summary.totalTax.toFixed(2)}
+            </Text>
+          </View>
+          <View style={[styles.summaryRow, styles.totalRow]}>
+            <Text style={[styles.summaryLabel, { color: "white" }]}>
+              Grand Total:
+            </Text>
+            <Text style={[styles.summaryValue, { color: "white" }]}>
+              ${data.summary.grandTotal.toFixed(2)}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Footer Messages */}
+      {data.messageOnInvoice && (
+        <Text style={styles.footerMessage}>{data.messageOnInvoice}</Text>
+      )}
+      {data.termsOnInvoice && (
+        <Text style={styles.footerTerms}>{data.termsOnInvoice}</Text>
+      )}
+    </View>
   );
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-          {/* Continuation pages (2+): repeat the table header at the top. Renders
+        {/* Continuation pages (2+): repeat the table header at the top. Renders
               nothing on page 1, where the real header is part of the flow. */}
-          <View
-            fixed
-            render={({ pageNumber }) =>
-              pageNumber > 1 ? (
-                <View style={[styles.table, { marginBottom: 0 }]}>
-                  {tableHeaderRow}
-                </View>
-              ) : null
-            }
-          />
-          {/* Header - only on first page */}
-          {(
-            <>
-              <View style={styles.header}>
-                <View style={styles.logoSection}>
-                  <Image src={godspeedLogo} style={styles.logoPlaceholder} />
-                </View>
-                <View style={styles.companyInfo}>
-                  <Text style={styles.companyDetails}>
-                    {COMPANY_INFO.name}
-                    {"\n"}
-                    {COMPANY_INFO.address}
-                    {"\n"}
-                    {COMPANY_INFO.address2}
-                    {"\n"}
-                    {COMPANY_INFO.gst}
-                  </Text>
-                </View>
+        <View
+          fixed
+          render={({ pageNumber }) =>
+            pageNumber > 1 ? (
+              <View style={[styles.table, { marginBottom: 0 }]}>
+                {tableHeaderRow}
               </View>
-
-              {/* Bill To and Invoice Details Section */}
-              <View style={styles.billToInvoiceSection}>
-                <View style={styles.clientSection}>
-                  <Text style={styles.sectionTitle}>Bill To:</Text>
-                  <Text style={styles.clientName}>
-                    {data.client.companyName}
-                  </Text>
-                  {data.client.address && (
-                    <Text style={styles.clientDetails}>
-                      {data.client.address.join("\n")}
-                    </Text>
-                  )}
-                  {data.client.email && (
-                    <Text style={styles.clientDetails}>
-                      {data.client.email}
-                    </Text>
-                  )}
-                </View>
-
-                <View style={styles.invoiceDetailsSection}>
-                  <Text style={styles.sectionTitle}>Invoice Details:</Text>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Invoice #:</Text>
-                    <Text style={styles.invoiceDetailValue}>
-                      {data.invoiceNumber}
-                    </Text>
-                  </View>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Invoice Date:</Text>
-                    <Text style={styles.invoiceDetailValue}>
-                      {formatCalendarDate(data.invoiceDate)}
-                    </Text>
-                  </View>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Due Date:</Text>
-                    <Text style={styles.invoiceDetailValue}>
-                      {formatCalendarDate(data.dueDate)}
-                    </Text>
-                  </View>
-                  <View style={styles.invoiceDetailItem}>
-                    <Text style={styles.invoiceDetailLabel}>Term:</Text>
-                    <Text style={styles.invoiceDetailValue}>{data.terms}</Text>
-                  </View>
-                </View>
+            ) : null
+          }
+        />
+        {/* Header - only on first page */}
+        {
+          <>
+            <View style={styles.header}>
+              <View style={styles.logoSection}>
+                <Image src={godspeedLogo} style={styles.logoPlaceholder} />
               </View>
-            </>
-          )}
-
-          {/* Date Range Section - only on first page */}
-          {data.dateRange.startDate &&
-            data.dateRange.endDate && (
-              <View style={styles.dateRangeSection}>
-                <Text style={styles.dateRangeText}>
-                  From {formatDateWithOrdinal(data.dateRange.startDate)} to{" "}
-                  {formatDateWithOrdinal(data.dateRange.endDate)}
+              <View style={styles.companyInfo}>
+                <Text style={styles.companyDetails}>
+                  {COMPANY_INFO.name}
+                  {"\n"}
+                  {COMPANY_INFO.address}
+                  {"\n"}
+                  {COMPANY_INFO.address2}
+                  {"\n"}
+                  {COMPANY_INFO.gst}
                 </Text>
               </View>
-            )}
+            </View>
 
-          {/* Line Items Table.
+            {/* Bill To and Invoice Details Section */}
+            <View style={styles.billToInvoiceSection}>
+              <View style={styles.clientSection}>
+                <Text style={styles.sectionTitle}>Bill To:</Text>
+                <Text style={styles.clientName}>{data.client.companyName}</Text>
+                {data.client.address && (
+                  <Text style={styles.clientDetails}>
+                    {data.client.address.join("\n")}
+                  </Text>
+                )}
+                {data.client.email && (
+                  <Text style={styles.clientDetails}>{data.client.email}</Text>
+                )}
+              </View>
+
+              <View style={styles.invoiceDetailsSection}>
+                <Text style={styles.sectionTitle}>Invoice Details:</Text>
+                <View style={styles.invoiceDetailItem}>
+                  <Text style={styles.invoiceDetailLabel}>Invoice #:</Text>
+                  <Text style={styles.invoiceDetailValue}>
+                    {data.invoiceNumber}
+                  </Text>
+                </View>
+                <View style={styles.invoiceDetailItem}>
+                  <Text style={styles.invoiceDetailLabel}>Invoice Date:</Text>
+                  <Text style={styles.invoiceDetailValue}>
+                    {formatCalendarDate(data.invoiceDate)}
+                  </Text>
+                </View>
+                <View style={styles.invoiceDetailItem}>
+                  <Text style={styles.invoiceDetailLabel}>Due Date:</Text>
+                  <Text style={styles.invoiceDetailValue}>
+                    {formatCalendarDate(data.dueDate)}
+                  </Text>
+                </View>
+                <View style={styles.invoiceDetailItem}>
+                  <Text style={styles.invoiceDetailLabel}>Term:</Text>
+                  <Text style={styles.invoiceDetailValue}>{data.terms}</Text>
+                </View>
+              </View>
+            </View>
+          </>
+        }
+
+        {/* Date Range Section - only on first page */}
+        {data.dateRange.startDate && data.dateRange.endDate && (
+          <View style={styles.dateRangeSection}>
+            <Text style={styles.dateRangeText}>
+              From {formatDateWithOrdinal(data.dateRange.startDate)} to{" "}
+              {formatDateWithOrdinal(data.dateRange.endDate)}
+            </Text>
+          </View>
+        )}
+
+        {/* Line Items Table.
               The rows before the "tail" flow normally and break across pages as the
               layout engine decides. The last TAIL_ROWS rows and the summary form one
               unbreakable block, so the summary can never end up alone on a page, and
               that block is stretched so the summary sits at the bottom of the last page. */}
-          {headRows.length > 0 && (
-            <View style={[styles.table, { marginBottom: 0 }]}>
-              {/* header + first row stay together (no orphaned header) */}
-              <View wrap={false}>
-                {tableHeaderRow}
-                {renderRow(headRows[0], 0)}
-              </View>
-              {headRows.slice(1).map((item, i) => renderRow(item, i + 1))}
+        {headRows.length > 0 && (
+          <View style={[styles.table, { marginBottom: 0 }]}>
+            {/* header + first row stay together (no orphaned header) */}
+            <View wrap={false}>
+              {tableHeaderRow}
+              {renderRow(headRows[0], 0)}
             </View>
-          )}
+            {headRows.slice(1).map((item, i) => renderRow(item, i + 1))}
+          </View>
+        )}
 
+        <View
+          wrap={false}
+          style={{ flexGrow: 1, justifyContent: "space-between" }}
+        >
           <View
-            wrap={false}
-            style={{ flexGrow: 1, justifyContent: "space-between" }}
+            style={[
+              styles.table,
+              { marginBottom: 0 },
+              headRows.length > 0 ? { borderTopWidth: 0 } : {},
+            ]}
           >
-            <View
-              style={[
-                styles.table,
-                { marginBottom: 0 },
-                headRows.length > 0 ? { borderTopWidth: 0 } : {},
-              ]}
-            >
-              {headRows.length === 0 && tableHeaderRow}
-              {tailRows.map((item, i) => renderRow(item, headRows.length + i))}
-            </View>
-            {summaryBlock}
+            {headRows.length === 0 && tableHeaderRow}
+            {tailRows.map((item, i) => renderRow(item, headRows.length + i))}
           </View>
+          {summaryBlock}
+        </View>
 
-          {/* Page Number - on every page */}
-          <View style={styles.pageNumber} fixed>
-            <Text
-              style={styles.pageNumberText}
-              render={({ pageNumber, totalPages: pdfTotalPages }) =>
-                `Page ${pageNumber} of ${pdfTotalPages}`
-              }
-            />
-          </View>
+        {/* Page Number - on every page */}
+        <View style={styles.pageNumber} fixed>
+          <Text
+            style={styles.pageNumberText}
+            render={({ pageNumber, totalPages: pdfTotalPages }) =>
+              `Page ${pageNumber} of ${pdfTotalPages}`
+            }
+          />
+        </View>
       </Page>
     </Document>
   );

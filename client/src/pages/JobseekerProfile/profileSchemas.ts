@@ -14,7 +14,10 @@ export const getPersonalInfoSchema = (messages: Record<string, string>) =>
         .email({ message: messages.emailInvalid })
         .optional()
         .or(z.literal("")),
-      mobile: z.string().min(1, { message: messages.mobileRequired }).regex(/^[0-9+\-()\s]+$/, { message: "Invalid phone number format" }),
+      mobile: z
+        .string()
+        .min(1, { message: messages.mobileRequired })
+        .regex(/^[0-9+\-()\s]+$/, { message: "Invalid phone number format" }),
       licenseNumber: z.string().optional(),
       passportNumber: z.string().optional(),
       governmentIdType: z.string().optional(),
@@ -207,7 +210,10 @@ export const createFormSchema = (messages: Record<string, string>) => {
         .email({ message: messages.emailInvalid })
         .optional()
         .or(z.literal("")),
-      mobile: z.string().min(1, { message: messages.mobileRequired }).regex(/^[0-9+\-()\s]+$/, { message: "Invalid phone number format" }),
+      mobile: z
+        .string()
+        .min(1, { message: messages.mobileRequired })
+        .regex(/^[0-9+\-()\s]+$/, { message: "Invalid phone number format" }),
       licenseNumber: z.string().optional(),
       passportNumber: z.string().optional(),
       governmentIdType: z.string().optional(),
@@ -264,7 +270,8 @@ export const createFormSchema = (messages: Record<string, string>) => {
       (data) => {
         // Check if SIN document exists
         const hasSinDoc = data.documents.some(
-          (doc) => doc.documentType === "sin" && (doc.documentFile || doc.documentPath)
+          (doc) =>
+            doc.documentType === "sin" && (doc.documentFile || doc.documentPath)
         );
         if (!hasSinDoc) {
           return false;
@@ -280,7 +287,9 @@ export const createFormSchema = (messages: Record<string, string>) => {
       (data) => {
         // Check if government ID document exists
         const hasGovernmentIdDoc = data.documents.some(
-          (doc) => doc.documentType === "government_id" && (doc.documentFile || doc.documentPath)
+          (doc) =>
+            doc.documentType === "government_id" &&
+            (doc.documentFile || doc.documentPath)
         );
         if (!hasGovernmentIdDoc) {
           return false;
@@ -288,7 +297,8 @@ export const createFormSchema = (messages: Record<string, string>) => {
         return true;
       },
       {
-        message: messages.documentFileRequired || "Government ID document is required",
+        message:
+          messages.documentFileRequired || "Government ID document is required",
         path: ["documents"],
       }
     )
@@ -312,7 +322,9 @@ export const createFormSchema = (messages: Record<string, string>) => {
         return true;
       },
       {
-        message: messages.workPermitUciRequired || "Work permit document is required for temporary residents",
+        message:
+          messages.workPermitUciRequired ||
+          "Work permit document is required for temporary residents",
         path: ["documents"],
       }
     )

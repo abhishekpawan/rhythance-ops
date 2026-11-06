@@ -1,7 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppHeader } from "../../components/AppHeader";
-import { BookOpen, FileText, Video, Award, ChevronRight, ArrowLeft, Search, Play, Clock } from "lucide-react";
+import {
+  BookOpen,
+  FileText,
+  Video,
+  Award,
+  ChevronRight,
+  ArrowLeft,
+  Search,
+  Play,
+  Clock,
+} from "lucide-react";
 import { VideoModal } from "./VideoModal";
 import { ComingSoonModal } from "./ComingSoonModal";
 import { useLanguage } from "../../contexts/language/language-provider";
@@ -29,8 +39,10 @@ export function TrainingModules() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
   const [currentVideoId, setCurrentVideoId] = useState<string>("");
   const [currentVideoTitle, setCurrentVideoTitle] = useState<string>("");
-  const [isComingSoonModalOpen, setIsComingSoonModalOpen] = useState<boolean>(false);
-  const [currentComingSoonModule, setCurrentComingSoonModule] = useState<Module | null>(null);
+  const [isComingSoonModalOpen, setIsComingSoonModalOpen] =
+    useState<boolean>(false);
+  const [currentComingSoonModule, setCurrentComingSoonModule] =
+    useState<Module | null>(null);
 
   // Sample training modules data - Mandatory videos first, then other videos, then other types
   // In a real application, this would come from an API
@@ -44,18 +56,19 @@ export function TrainingModules() {
       completed: false,
       icon: <Video className="module-icon video" />,
       youtubeId: "3uXKmNbTZos",
-      mandatory: true
+      mandatory: true,
     },
     {
       id: "tm-002",
       titleKey: "training.modules.workplaceViolenceHarassment.title",
-      descriptionKey: "training.modules.workplaceViolenceHarassment.description",
+      descriptionKey:
+        "training.modules.workplaceViolenceHarassment.description",
       type: "video",
       duration: "2 min",
       completed: false,
       icon: <Video className="module-icon video" />,
       youtubeId: "O615tiZ6eOk",
-      mandatory: true
+      mandatory: true,
     },
     {
       id: "tm-003",
@@ -65,7 +78,7 @@ export function TrainingModules() {
       duration: "5 min",
       completed: false,
       icon: <Video className="module-icon video" />,
-      youtubeId: "H8pKkyP9FvY"
+      youtubeId: "H8pKkyP9FvY",
     },
     {
       id: "tm-004",
@@ -75,7 +88,7 @@ export function TrainingModules() {
       duration: "6 min",
       completed: false,
       icon: <Video className="module-icon video" />,
-      youtubeId: "cuZ8xNY4TWo"
+      youtubeId: "cuZ8xNY4TWo",
     },
     {
       id: "tm-005",
@@ -85,7 +98,7 @@ export function TrainingModules() {
       duration: "15 min",
       completed: false,
       icon: <FileText className="module-icon document" />,
-      comingSoon: true
+      comingSoon: true,
     },
     {
       id: "tm-006",
@@ -95,7 +108,7 @@ export function TrainingModules() {
       duration: "45 min",
       completed: false,
       icon: <BookOpen className="module-icon interactive" />,
-      comingSoon: true
+      comingSoon: true,
     },
     {
       id: "tm-007",
@@ -105,7 +118,7 @@ export function TrainingModules() {
       duration: "20 min",
       completed: false,
       icon: <FileText className="module-icon document" />,
-      comingSoon: true
+      comingSoon: true,
     },
     {
       id: "tm-008",
@@ -115,22 +128,21 @@ export function TrainingModules() {
       duration: "30 min",
       completed: false,
       icon: <BookOpen className="module-icon interactive" />,
-      comingSoon: true
-    }
+      comingSoon: true,
+    },
   ];
 
   // Filter modules based on selected category and search query
-  const filteredModules = trainingModules.filter(module => {
-    const matchesCategory = 
-      selectedCategory === "all" || 
-      selectedCategory === module.type;
-    
+  const filteredModules = trainingModules.filter((module) => {
+    const matchesCategory =
+      selectedCategory === "all" || selectedCategory === module.type;
+
     const title = t(module.titleKey);
     const description = t(module.descriptionKey);
-    const matchesSearch = 
+    const matchesSearch =
       title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     return matchesCategory && matchesSearch;
   });
 
@@ -165,15 +177,12 @@ export function TrainingModules() {
   return (
     <div className="dashboard-container">
       {/* Header */}
-      <AppHeader 
-        title={t('training.title')}
+      <AppHeader
+        title={t("training.title")}
         actions={
           <>
-            <button
-              className="button button-icon"
-              onClick={() => navigate(-1)}
-            >
-              <ArrowLeft size={16} className="icon" /> {t('buttons.back')}
+            <button className="button button-icon" onClick={() => navigate(-1)}>
+              <ArrowLeft size={16} className="icon" /> {t("buttons.back")}
             </button>
           </>
         }
@@ -182,50 +191,48 @@ export function TrainingModules() {
       {/* Main content */}
       <main className="training-modules-main">
         <div className="dashboard-heading">
-          <h1 className="dashboard-title">{t('training.subtitle')}</h1>
+          <h1 className="dashboard-title">{t("training.subtitle")}</h1>
           <div className="user-role-badge">
             <Award className="role-icon" />
-            <span>{t('training.learningPortal')}</span>
+            <span>{t("training.learningPortal")}</span>
           </div>
         </div>
-        <p className="dashboard-subtitle">
-          {t('training.description')}
-        </p>
+        <p className="dashboard-subtitle">{t("training.description")}</p>
 
         {/* Filters and search */}
         <div className="module-filters">
           <div className="category-filters">
-            <button 
-              className={`filter-button ${selectedCategory === 'all' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('all')}
+            <button
+              className={`filter-button ${selectedCategory === "all" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("all")}
             >
-              {t('training.categories.all')}
+              {t("training.categories.all")}
             </button>
-            <button 
-              className={`filter-button ${selectedCategory === 'video' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('video')}
+            <button
+              className={`filter-button ${selectedCategory === "video" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("video")}
             >
-              {t('training.categories.videos')}
+              {t("training.categories.videos")}
             </button>
-            <button 
-              className={`filter-button ${selectedCategory === 'document' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('document')}
+            <button
+              className={`filter-button ${selectedCategory === "document" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("document")}
             >
-              {t('training.categories.documents')}
+              {t("training.categories.documents")}
             </button>
-            <button 
-              className={`filter-button ${selectedCategory === 'interactive' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('interactive')}
+            <button
+              className={`filter-button ${selectedCategory === "interactive" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("interactive")}
             >
-              {t('training.categories.interactive')}
+              {t("training.categories.interactive")}
             </button>
           </div>
-          
+
           <div className="search-box">
-          <Search size={18} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder={t('training.searchPlaceholder')}
+            <Search size={18} className="search-icon" />
+            <input
+              type="text"
+              placeholder={t("training.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
@@ -237,30 +244,32 @@ export function TrainingModules() {
         <div className="modules-grid">
           {filteredModules.length > 0 ? (
             filteredModules.map((module) => (
-              <div 
-                key={module.id} 
-                className={`module-card ${module.completed ? 'completed' : ''} ${module.youtubeId ? 'video-module' : ''} ${module.comingSoon ? 'coming-soon-module' : ''} ${module.mandatory ? 'mandatory-module' : ''}`}
+              <div
+                key={module.id}
+                className={`module-card ${module.completed ? "completed" : ""} ${module.youtubeId ? "video-module" : ""} ${module.comingSoon ? "coming-soon-module" : ""} ${module.mandatory ? "mandatory-module" : ""}`}
                 onClick={() => handleModuleClick(module)}
               >
                 <div className="module-card-header">
                   {module.icon}
-                  <span className="module-type">{t(`training.types.${module.type}`)}</span>
+                  <span className="module-type">
+                    {t(`training.types.${module.type}`)}
+                  </span>
                   {module.completed && (
                     <span className="completion-badge">
                       <Award size={14} />
-                      {t('training.completed')}
+                      {t("training.completed")}
                     </span>
                   )}
                   {module.comingSoon && (
                     <span className="coming-soon-badge">
                       <Clock size={14} />
-                      {t('training.comingSoon')}
+                      {t("training.comingSoon")}
                     </span>
                   )}
                   {module.mandatory && (
                     <span className="mandatory-badge">
                       <Award size={14} />
-                      {t('training.mandatory')}
+                      {t("training.mandatory")}
                     </span>
                   )}
                 </div>
@@ -284,15 +293,15 @@ export function TrainingModules() {
             ))
           ) : (
             <div className="no-modules-message">
-              <p>{t('training.noModulesMessage')}</p>
-              <button 
+              <p>{t("training.noModulesMessage")}</p>
+              <button
                 className="button outline"
                 onClick={() => {
-                  setSelectedCategory('all');
-                  setSearchQuery('');
+                  setSelectedCategory("all");
+                  setSearchQuery("");
                 }}
               >
-                {t('training.resetFilters')}
+                {t("training.resetFilters")}
               </button>
             </div>
           )}
@@ -315,4 +324,4 @@ export function TrainingModules() {
       />
     </div>
   );
-} 
+}

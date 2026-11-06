@@ -91,9 +91,7 @@ interface DocumentItemProps {
   requiresWorkPermit?: boolean;
 }
 
-const getMandatoryDocumentSequence = (
-  requiresWorkPermit: boolean
-): string[] =>
+const getMandatoryDocumentSequence = (requiresWorkPermit: boolean): string[] =>
   requiresWorkPermit
     ? ["sin", "government_id", "work_permit"]
     : ["sin", "government_id"];
@@ -108,7 +106,8 @@ const createMandatoryDocument = (documentType: string): DocumentItemData => ({
 const getMandatoryDocumentTypeAtIndex = (
   index: number,
   requiresWorkPermit: boolean
-): string | null => getMandatoryDocumentSequence(requiresWorkPermit)[index] || null;
+): string | null =>
+  getMandatoryDocumentSequence(requiresWorkPermit)[index] || null;
 
 const normalizeDocumentsForForm = (
   documents: DocumentItemData[],
@@ -324,14 +323,13 @@ function DocumentItem({
   );
   const resolvedDocumentType = documentType || mandatoryDocumentType || "";
   const isMandatoryDocument =
-    mandatoryDocumentType !== null && resolvedDocumentType === mandatoryDocumentType;
+    mandatoryDocumentType !== null &&
+    resolvedDocumentType === mandatoryDocumentType;
 
   // Add conditional text/behavior based on edit mode and mandatory status
   const documentLabel = isMandatoryDocument
     ? `${t("profileCreate.documents.mandatoryDocument")} ${index + 1} - ${t(
-        `profileCreate.documents.documentTypes.${
-          resolvedDocumentType
-        }`
+        `profileCreate.documents.documentTypes.${resolvedDocumentType}`
       )}`
     : `${t("profileCreate.documents.documentLabel").replace(
         "{{number}}",
@@ -547,10 +545,11 @@ function DocumentItem({
                   {mandatoryDocumentType === "sin"
                     ? t("profileCreate.documents.sinMandatoryReason")
                     : mandatoryDocumentType === "government_id"
-                    ? t("profileCreate.documents.governmentIdMandatoryReason")
-                    : mandatoryDocumentType === "work_permit" && requiresWorkPermit
-                    ? t("profileCreate.documents.workPermitMandatoryReason")
-                    : ""}
+                      ? t("profileCreate.documents.governmentIdMandatoryReason")
+                      : mandatoryDocumentType === "work_permit" &&
+                          requiresWorkPermit
+                        ? t("profileCreate.documents.workPermitMandatoryReason")
+                        : ""}
                 </div>
               </div>
             ) : (
@@ -819,10 +818,16 @@ export function DocumentUploadForm({
   const sinNumber = formValues?.sinNumber;
 
   // Check if SIN starts with 9 (temporary residents need work permit)
-  const requiresWorkPermit: boolean = !!(sinNumber && typeof sinNumber === "string" && sinNumber.trim() !== "" && sinNumber.trim().startsWith("9"));
+  const requiresWorkPermit: boolean = !!(
+    sinNumber &&
+    typeof sinNumber === "string" &&
+    sinNumber.trim() !== "" &&
+    sinNumber.trim().startsWith("9")
+  );
 
   useEffect(() => {
-    const currentDocuments = (getValues("documents") || []) as DocumentItemData[];
+    const currentDocuments = (getValues("documents") ||
+      []) as DocumentItemData[];
     const normalizedDocuments = normalizeDocumentsForForm(
       currentDocuments,
       requiresWorkPermit
@@ -831,7 +836,12 @@ export function DocumentUploadForm({
     if (!areDocumentsEquivalent(currentDocuments, normalizedDocuments)) {
       replace(normalizedDocuments);
 
-      if (mandatoryDocsInitialized || userInteracted || isSubmitted || submitCount > 0) {
+      if (
+        mandatoryDocsInitialized ||
+        userInteracted ||
+        isSubmitted ||
+        submitCount > 0
+      ) {
         setTimeout(() => {
           trigger("documents");
         }, 100);
@@ -1167,7 +1177,9 @@ export function DocumentUploadForm({
               <FileText size={16} />
             </div>
             <div className="requirement-content">
-              <strong>{t("profileCreate.documents.documentTypes.government_id")}</strong>
+              <strong>
+                {t("profileCreate.documents.documentTypes.government_id")}
+              </strong>
               <p>{t("profileCreate.documents.governmentIdMandatoryReason")}</p>
             </div>
           </div>

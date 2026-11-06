@@ -7,7 +7,7 @@
   border-radius: var(--border-radius);
   background: var(--text);
   color: var(--background);
-  font-size: .8rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all var(--transition-normal);
   position: relative;
@@ -35,7 +35,7 @@
 }
 
 .button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;

@@ -52,19 +52,20 @@ export function Login() {
     try {
       // Use the new secure credential validation
       const result = await validateCredentials(data.email, data.password);
-      
+
       // Check if email is verified - check both emailVerified flag and user metadata
-      const isEmailVerified = result.emailVerified !== false && 
-                            result.user?.email_confirmed_at && 
-                            result.user.user_metadata?.email_verified !== false;
-      
+      const isEmailVerified =
+        result.emailVerified !== false &&
+        result.user?.email_confirmed_at &&
+        result.user.user_metadata?.email_verified !== false;
+
       if (!isEmailVerified) {
         // If not verified, redirect to verification pending page
-        navigate('/verification-pending', { 
-          state: { 
+        navigate("/verification-pending", {
+          state: {
             email: result.email || data.email,
-            fromLogin: true 
-          } 
+            fromLogin: true,
+          },
         });
         return;
       }
@@ -102,11 +103,11 @@ export function Login() {
     } catch (error) {
       if (error instanceof Error) {
         if (
-          error.message === 'Invalid login credentials' ||
-          error.message.toLowerCase().includes('invalid login credentials') ||
-          error.message.toLowerCase().includes('invalid credential')
+          error.message === "Invalid login credentials" ||
+          error.message.toLowerCase().includes("invalid login credentials") ||
+          error.message.toLowerCase().includes("invalid credential")
         ) {
-          setError(t('auth.invalidCredentials'));
+          setError(t("auth.invalidCredentials"));
         } else {
           setError(error.message);
         }
@@ -315,4 +316,4 @@ export function Login() {
       />
     </div>
   );
-} 
+}

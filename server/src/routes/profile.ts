@@ -65,7 +65,10 @@ function getRequiredDocumentValidationError(
     return "Government ID document is required";
   }
 
-  if (sinNumber?.trim().startsWith("9") && !hasUploadedDocument(documents, "work_permit")) {
+  if (
+    sinNumber?.trim().startsWith("9") &&
+    !hasUploadedDocument(documents, "work_permit")
+  ) {
     return "Work permit document is required for temporary residents";
   }
 
@@ -390,7 +393,8 @@ router.post(
 
       if (!profileUserId) {
         return res.status(400).json({
-          error: "Could not determine user account for this profile. Please try again.",
+          error:
+            "Could not determine user account for this profile. Please try again.",
         });
       }
 
@@ -510,35 +514,35 @@ router.post(
       // Create onboarding employment agreement consent record for the jobseeker
       try {
         const { data: employmentTemplate } = await supabase
-          .from('consent_document_templates')
-          .select('*')
-          .eq('template_name', 'employmentAgreement')
-          .eq('is_active', true)
+          .from("consent_document_templates")
+          .select("*")
+          .eq("template_name", "employmentAgreement")
+          .eq("is_active", true)
           .single();
 
         if (employmentTemplate) {
           // Find or create the shared onboarding consent document
           let { data: onboardingDoc } = await supabase
-            .from('consent_documents')
-            .select('*')
-            .eq('is_jobseeker_onboarding', true)
-            .eq('template_id', employmentTemplate.id)
-            .eq('is_active', true)
+            .from("consent_documents")
+            .select("*")
+            .eq("is_jobseeker_onboarding", true)
+            .eq("template_id", employmentTemplate.id)
+            .eq("is_active", true)
             .single();
 
           if (!onboardingDoc) {
             const { data: newDoc } = await supabase
-              .from('consent_documents')
+              .from("consent_documents")
               .insert({
                 file_name: employmentTemplate.file_name,
                 file_path: employmentTemplate.file_path,
-                consent_mode: 'autofill',
+                consent_mode: "autofill",
                 autofill_fields: employmentTemplate.field_mappings,
                 template_id: employmentTemplate.id,
                 uploaded_by: userId,
                 is_jobseeker_onboarding: true,
                 is_active: true,
-                version: 1
+                version: 1,
               })
               .select()
               .single();
@@ -547,30 +551,38 @@ router.post(
 
           if (onboardingDoc) {
             // Generate consent token
-            const crypto = await import('crypto');
-            const consentToken = crypto.randomBytes(32).toString('hex');
+            const crypto = await import("crypto");
+            const consentToken = crypto.randomBytes(32).toString("hex");
 
-            await supabase
-              .from('consent_records')
-              .insert({
-                document_id: onboardingDoc.id,
-                consentable_id: profileUserId,
-                consentable_type: 'user',
-                status: 'pending',
-                consent_token: consentToken,
-                is_jobseeker_onboarding: true,
-                sent_at: new Date().toISOString()
-              });
+            await supabase.from("consent_records").insert({
+              document_id: onboardingDoc.id,
+              consentable_id: profileUserId,
+              consentable_type: "user",
+              status: "pending",
+              consent_token: consentToken,
+              is_jobseeker_onboarding: true,
+              sent_at: new Date().toISOString(),
+            });
 
-            console.log(`Created onboarding consent record for user ${profileUserId}`);
+            console.log(
+              `Created onboarding consent record for user ${profileUserId}`
+            );
 
             // Send employment agreement email to the jobseeker
             try {
-              const { employmentAgreementHtmlTemplate, employmentAgreementTextTemplate } = await import('../email-templates/employment-agreement-html.js');
-              const { default: sgMail } = await import('@sendgrid/mail');
-              const { getNoReplyFromEmail } = await import('../middleware/emailNotifier.js');
+              const {
+                employmentAgreementHtmlTemplate,
+                employmentAgreementTextTemplate,
+              } = await import(
+                "../email-templates/employment-agreement-html.js"
+              );
+              const { default: sgMail } = await import("@sendgrid/mail");
+              const { getNoReplyFromEmail } = await import(
+                "../middleware/emailNotifier.js"
+              );
 
-              const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
+              const clientURL =
+                process.env.CLIENT_URL || "http://localhost:5173";
               const recipientName = `${profileData.firstName} ${profileData.lastName}`;
               const consentUrl = `${clientURL}/consent?token=${consentToken}`;
               const loginUrl = `${clientURL}/login`;
@@ -579,21 +591,39 @@ router.post(
               await sgMail.send({
                 to: emailNormalized,
                 from: fromEmail,
-                subject: 'Action Required: Sign Your Employment Agreement',
-                html: employmentAgreementHtmlTemplate({ recipientName, consentUrl, loginUrl }),
-                text: employmentAgreementTextTemplate({ recipientName, consentUrl, loginUrl })
+                subject: "Action Required: Sign Your Employment Agreement",
+                html: employmentAgreementHtmlTemplate({
+                  recipientName,
+                  consentUrl,
+                  loginUrl,
+                }),
+                text: employmentAgreementTextTemplate({
+                  recipientName,
+                  consentUrl,
+                  loginUrl,
+                }),
               });
-              console.log(`✉️ Employment agreement email sent to ${emailNormalized}`);
+              console.log(
+                `✉️ Employment agreement email sent to ${emailNormalized}`
+              );
             } catch (emailErr) {
-              console.error('Error sending employment agreement email:', emailErr);
+              console.error(
+                "Error sending employment agreement email:",
+                emailErr
+              );
             }
           }
         } else {
-          console.log('Employment agreement template not found, skipping onboarding consent creation');
+          console.log(
+            "Employment agreement template not found, skipping onboarding consent creation"
+          );
         }
       } catch (consentError) {
         // Don't fail profile creation if consent setup fails
-        console.error('Error creating onboarding consent record:', consentError);
+        console.error(
+          "Error creating onboarding consent record:",
+          consentError
+        );
       }
 
       // If there was a draft, we can delete it now

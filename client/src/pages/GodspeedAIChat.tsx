@@ -13,10 +13,7 @@ export function GodspeedAIChat() {
 
       <main className="ai-chat-main">
         <div className="ai-chat-content">
-          <IframeViewer
-            url={AI_CHAT_URL}
-            title="Rhythence AI Chat"
-          />
+          <IframeViewer url={AI_CHAT_URL} title="Rhythence AI Chat" />
         </div>
       </main>
     </div>

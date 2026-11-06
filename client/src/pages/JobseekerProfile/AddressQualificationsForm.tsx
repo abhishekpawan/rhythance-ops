@@ -33,19 +33,19 @@ export function AddressQualificationsForm({
       {isAddressStep ? (
         // STEP 2: ADDRESS FORM
         <>
-          <h2>{t('profileCreate.address.sectionTitle')}</h2>
+          <h2>{t("profileCreate.address.sectionTitle")}</h2>
           <p className="form-description">
-            {t('profileCreate.address.sectionDescription')}
+            {t("profileCreate.address.sectionDescription")}
           </p>
 
           <div className="form-group">
             <label htmlFor="street" className="form-label" data-required="*">
-              {t('profileCreate.address.street')}
+              {t("profileCreate.address.street")}
             </label>
             <textarea
               id="street"
               className="form-input"
-              placeholder={t('profileCreate.address.streetPlaceholder')}
+              placeholder={t("profileCreate.address.streetPlaceholder")}
               {...register("street")}
             />
             {shouldShowError("street") && (
@@ -56,13 +56,13 @@ export function AddressQualificationsForm({
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="city" className="form-label" data-required="*">
-                {t('profileCreate.address.city')}
+                {t("profileCreate.address.city")}
               </label>
               <input
                 id="city"
                 type="text"
                 className="form-input"
-                placeholder={t('profileCreate.address.cityPlaceholder')}
+                placeholder={t("profileCreate.address.cityPlaceholder")}
                 {...register("city")}
               />
               {shouldShowError("city") && (
@@ -76,13 +76,13 @@ export function AddressQualificationsForm({
                 className="form-label"
                 data-required="*"
               >
-                {t('profileCreate.address.province')}
+                {t("profileCreate.address.province")}
               </label>
               <input
                 id="province"
                 type="text"
                 className="form-input"
-                placeholder={t('profileCreate.address.provincePlaceholder')}
+                placeholder={t("profileCreate.address.provincePlaceholder")}
                 {...register("province")}
               />
               {shouldShowError("province") && (
@@ -97,13 +97,13 @@ export function AddressQualificationsForm({
               className="form-label"
               data-required="*"
             >
-              {t('profileCreate.address.postalCode')}
+              {t("profileCreate.address.postalCode")}
             </label>
             <input
               id="postalCode"
               type="text"
               className="form-input"
-              placeholder={t('profileCreate.address.postalCodePlaceholder')}
+              placeholder={t("profileCreate.address.postalCodePlaceholder")}
               {...register("postalCode")}
             />
             {shouldShowError("postalCode") && (
@@ -114,9 +114,9 @@ export function AddressQualificationsForm({
       ) : (
         // STEP 3: QUALIFICATIONS FORM
         <>
-          <h2>{t('profileCreate.qualifications.sectionTitle')}</h2>
+          <h2>{t("profileCreate.qualifications.sectionTitle")}</h2>
           <p className="form-description">
-            {t('profileCreate.qualifications.sectionDescription')}
+            {t("profileCreate.qualifications.sectionDescription")}
           </p>
 
           <div className="form-group">
@@ -125,13 +125,15 @@ export function AddressQualificationsForm({
               className="form-label"
               data-required="*"
             >
-              {t('profileCreate.qualifications.workPreference')}
+              {t("profileCreate.qualifications.workPreference")}
             </label>
             <input
               id="workPreference"
               type="text"
               className="form-input"
-              placeholder={t('profileCreate.qualifications.workPreferencePlaceholder')}
+              placeholder={t(
+                "profileCreate.qualifications.workPreferencePlaceholder"
+              )}
               {...register("workPreference")}
             />
             {shouldShowError("workPreference") && (
@@ -143,12 +145,12 @@ export function AddressQualificationsForm({
 
           <div className="form-group">
             <label htmlFor="bio" className="form-label" data-required="*">
-              {t('profileCreate.qualifications.bio')}
+              {t("profileCreate.qualifications.bio")}
             </label>
             <textarea
               id="bio"
               className="form-input"
-              placeholder={t('profileCreate.qualifications.bioPlaceholder')}
+              placeholder={t("profileCreate.qualifications.bioPlaceholder")}
               minLength={100}
               {...register("bio")}
             />
@@ -156,7 +158,7 @@ export function AddressQualificationsForm({
               <p className="error-message">{allErrors.bio?.message}</p>
             )}
             <p className="character-count">
-              <small>{t('profileCreate.qualifications.bioNote')}</small>
+              <small>{t("profileCreate.qualifications.bioNote")}</small>
             </p>
           </div>
           <div className="form-row">
@@ -166,14 +168,16 @@ export function AddressQualificationsForm({
                 className="form-label"
                 data-required="*"
               >
-                {t('profileCreate.qualifications.licenseType')}
+                {t("profileCreate.qualifications.licenseType")}
               </label>
               <select
                 id="licenseType"
                 className="form-input"
                 {...register("licenseType")}
               >
-                <option value="">{t('profileCreate.qualifications.licenseTypePlaceholder')}</option>
+                <option value="">
+                  {t("profileCreate.qualifications.licenseTypePlaceholder")}
+                </option>
                 {LICENSE_TYPES.map((license) => (
                   <option key={license} value={license}>
                     {license}
@@ -193,14 +197,16 @@ export function AddressQualificationsForm({
                 className="form-label"
                 data-required="*"
               >
-                {t('profileCreate.qualifications.experience')}
+                {t("profileCreate.qualifications.experience")}
               </label>
               <select
                 id="experience"
                 className="form-input"
                 {...register("experience")}
               >
-                <option value="">{t('profileCreate.qualifications.experiencePlaceholder')}</option>
+                <option value="">
+                  {t("profileCreate.qualifications.experiencePlaceholder")}
+                </option>
                 {EXPERIENCE_LEVELS.map((level) => (
                   <option key={level} value={level}>
                     {level}
@@ -216,7 +222,7 @@ export function AddressQualificationsForm({
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="manualDriving" className="form-label">
-                {t('profileCreate.qualifications.manualDriving')}
+                {t("profileCreate.qualifications.manualDriving")}
               </label>
               <select
                 id="manualDriving"
@@ -224,8 +230,8 @@ export function AddressQualificationsForm({
                 {...register("manualDriving")}
               >
                 <option value="NA">NA</option>
-                <option value="Yes">{t('common.yes')}</option>
-                <option value="No">{t('common.no')}</option>
+                <option value="Yes">{t("common.yes")}</option>
+                <option value="No">{t("common.no")}</option>
               </select>
               {shouldShowError("manualDriving") && (
                 <p className="error-message">
@@ -240,7 +246,7 @@ export function AddressQualificationsForm({
                 className="form-label"
                 data-required="*"
               >
-                {t('profileCreate.qualifications.availability')}
+                {t("profileCreate.qualifications.availability")}
               </label>
               <select
                 id="availability"
@@ -266,7 +272,7 @@ export function AddressQualificationsForm({
               {...register("weekendAvailability")}
             />
             <label htmlFor="weekendAvailability" className="checkbox-label">
-              {t('profileCreate.qualifications.weekendAvailability')}
+              {t("profileCreate.qualifications.weekendAvailability")}
             </label>
             {shouldShowError("weekendAvailability") && (
               <p className="error-message">

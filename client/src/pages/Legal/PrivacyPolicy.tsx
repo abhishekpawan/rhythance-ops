@@ -23,19 +23,18 @@ export function PrivacyPolicy() {
             {t("legal.effectiveDate")}: 09.09.2025
           </p>
           <p className="legal-page-company">
-            {t("legal.company")}: Rhythence Group ("Company," "we," "our,"
-            "us")
+            {t("legal.company")}: Rhythence Group ("Company," "we," "our," "us")
           </p>
         </div>
 
         <div className="legal-page-body">
           <p>
-            Rhythence Group is committed to protecting the privacy and
-            personal information of all individuals who use our website and
-            Services. This Privacy Policy explains how we collect, use,
-            disclose, and safeguard personal information in compliance with the
-            Personal Information Protection and Electronic Documents Act
-            (PIPEDA) and other applicable Canadian laws.
+            Rhythence Group is committed to protecting the privacy and personal
+            information of all individuals who use our website and Services.
+            This Privacy Policy explains how we collect, use, disclose, and
+            safeguard personal information in compliance with the Personal
+            Information Protection and Electronic Documents Act (PIPEDA) and
+            other applicable Canadian laws.
           </p>
 
           <h2>1. Information We Collect</h2>

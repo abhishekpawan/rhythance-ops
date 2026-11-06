@@ -71,10 +71,7 @@ import {
 } from "../constants/accessControl";
 import "../styles/components/hamburgerMenu.css";
 import { supabase } from "../lib/supabaseClient";
-import {
-  restoreMenuScroll,
-  setMenuScrollTop,
-} from "../lib/menuScrollState";
+import { restoreMenuScroll, setMenuScrollTop } from "../lib/menuScrollState";
 
 // Interface for menu item structure
 interface MenuItem {
@@ -158,8 +155,8 @@ function MenuItemComponent({
       const currentPathname = location.pathname;
       const currentSearch = location.search;
       const currentFullPath = currentPathname + currentSearch;
-      
-      return activePaths.some(activePath => {
+
+      return activePaths.some((activePath) => {
         // For activePaths, we require exact matching to avoid conflicts
         return currentFullPath === activePath;
       });
@@ -232,7 +229,14 @@ function MenuItemComponent({
               to={item.path}
               className={() =>
                 // Use our custom active detection for main menu items
-                isPathActive(item.path, item.exact, item.activePattern, item.activePaths) ? "active" : ""
+                isPathActive(
+                  item.path,
+                  item.exact,
+                  item.activePattern,
+                  item.activePaths
+                )
+                  ? "active"
+                  : ""
               }
               onMouseDown={onSaveScroll}
               onClick={handleNavInteraction}
@@ -245,7 +249,12 @@ function MenuItemComponent({
           ) : (
             <button
               className={`menu-action-button ${
-                isPathActive(undefined, false, item.activePattern, item.activePaths)
+                isPathActive(
+                  undefined,
+                  false,
+                  item.activePattern,
+                  item.activePaths
+                )
                   ? "active"
                   : ""
               }`}
@@ -313,7 +322,14 @@ function MenuItemComponent({
                     to={subItem.path || "#"}
                     className={() =>
                       // Use our custom active detection for submenu items
-                      isPathActive(subItem.path, subItem.exact, subItem.activePattern, subItem.activePaths) ? "active" : ""
+                      isPathActive(
+                        subItem.path,
+                        subItem.exact,
+                        subItem.activePattern,
+                        subItem.activePaths
+                      )
+                        ? "active"
+                        : ""
                     }
                     onMouseDown={onSaveScroll}
                     onClick={handleNavInteraction}
@@ -516,7 +532,7 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
           icon: <Users size={16} />,
           exact: true,
           roles: ALL_USERS_ROLES,
-          activePaths: ["/all-users-management"]
+          activePaths: ["/all-users-management"],
         },
         {
           label: t("navigation.recruiterHierarchy"),
@@ -586,7 +602,11 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
       label: t("navigation.clientManagement"),
       icon: <Building2 size={16} />,
       requiresAuth: true,
-      roles: [...CLIENT_LIST_ROLES, ...CLIENT_CREATE_ROLES, ...CLIENT_DRAFT_ROLES],
+      roles: [
+        ...CLIENT_LIST_ROLES,
+        ...CLIENT_CREATE_ROLES,
+        ...CLIENT_DRAFT_ROLES,
+      ],
       submenu: [
         {
           label: t("navigation.allClients"),
@@ -791,56 +811,58 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
 
   // Filter menu items based on authentication status and user role
   const getFilteredMenuItems = (): MenuItem[] => {
-    return allMenuItems.filter((item) => {
-      if (item.requiresSuperAdmin && !isSuperAdmin) {
-        return false;
-      }
-
-      // Handle authentication requirement
-      if (isAuthenticated) {
-        if (item.requiresAuth === false) return false; // Don't show login/signup when authenticated
-      } else {
-        if (item.requiresAuth === true) return false; // Don't show protected items when not authenticated
-      }
-
-      // Handle role-based access
-      if (item.roles && item.roles.length > 0) {
-        // For jobseekers, check verification status
-        if (isJobSeeker && item.roles.includes("jobseeker")) {
-          // Only show menu items if profile is verified
-          return profileVerificationStatus === "verified";
+    return allMenuItems
+      .filter((item) => {
+        if (item.requiresSuperAdmin && !isSuperAdmin) {
+          return false;
         }
 
-        return hasAnyExactAccessRole(user, item.roles);
-      }
+        // Handle authentication requirement
+        if (isAuthenticated) {
+          if (item.requiresAuth === false) return false; // Don't show login/signup when authenticated
+        } else {
+          if (item.requiresAuth === true) return false; // Don't show protected items when not authenticated
+        }
 
-      return true;
-    }).map((item) => {
-      // Filter submenu items based on user role
-      if (item.submenu && item.submenu.length > 0) {
-        const filteredSubmenu = item.submenu.filter((subItem) => {
-          if (subItem.requiresSuperAdmin && !isSuperAdmin) {
-            return false;
-          }
-
-          // If submenu item has no role restrictions, show it
-          if (!subItem.roles || subItem.roles.length === 0) return true;
-
-          if (isJobSeeker && subItem.roles.includes("jobseeker")) {
+        // Handle role-based access
+        if (item.roles && item.roles.length > 0) {
+          // For jobseekers, check verification status
+          if (isJobSeeker && item.roles.includes("jobseeker")) {
+            // Only show menu items if profile is verified
             return profileVerificationStatus === "verified";
           }
 
-          return hasAnyExactAccessRole(user, subItem.roles);
-        });
+          return hasAnyExactAccessRole(user, item.roles);
+        }
 
-        return {
-          ...item,
-          submenu: filteredSubmenu,
-        };
-      }
+        return true;
+      })
+      .map((item) => {
+        // Filter submenu items based on user role
+        if (item.submenu && item.submenu.length > 0) {
+          const filteredSubmenu = item.submenu.filter((subItem) => {
+            if (subItem.requiresSuperAdmin && !isSuperAdmin) {
+              return false;
+            }
 
-      return item;
-    });
+            // If submenu item has no role restrictions, show it
+            if (!subItem.roles || subItem.roles.length === 0) return true;
+
+            if (isJobSeeker && subItem.roles.includes("jobseeker")) {
+              return profileVerificationStatus === "verified";
+            }
+
+            return hasAnyExactAccessRole(user, subItem.roles);
+          });
+
+          return {
+            ...item,
+            submenu: filteredSubmenu,
+          };
+        }
+
+        return item;
+      });
   };
 
   const menuItems = getFilteredMenuItems();
@@ -962,8 +984,8 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
             <X size={24} />
           </button>
           <div className="menu-toggle-container">
-          {isOpen && <LanguageToggle />}
-          <ThemeToggle />
+            {isOpen && <LanguageToggle />}
+            <ThemeToggle />
           </div>
         </div>
 
@@ -1009,18 +1031,19 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
                     <UserCircle size={16} />
                     <span>{t("navigation.myAccount")}</span>
                   </button>
-                  {!isJobSeeker && hasAnyExactAccessRole(user, SUPPORT_ROLES) && (
-                    <>
-                      <div className="dropdown-divider"></div>
-                      <button
-                        className="dropdown-item"
-                        onClick={handleSupportNavigation}
-                      >
-                        <LifeBuoy size={16} />
-                        <span>{t("support.title")}</span>
-                      </button>
-                    </>
-                  )}
+                  {!isJobSeeker &&
+                    hasAnyExactAccessRole(user, SUPPORT_ROLES) && (
+                      <>
+                        <div className="dropdown-divider"></div>
+                        <button
+                          className="dropdown-item"
+                          onClick={handleSupportNavigation}
+                        >
+                          <LifeBuoy size={16} />
+                          <span>{t("support.title")}</span>
+                        </button>
+                      </>
+                    )}
                   <div className="dropdown-divider"></div>
                   <button
                     className="dropdown-item logout-item"

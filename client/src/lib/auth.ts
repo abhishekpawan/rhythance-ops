@@ -12,56 +12,56 @@ import { getAuthUserByIdAPI } from "../services/api/user";
 import type { AllAuthUserListItem } from "../types/auth";
 
 // Core account types stored in user_metadata.user_type
-export type UserRole = 'jobseeker' | 'recruiter' | 'admin';
+export type UserRole = "jobseeker" | "recruiter" | "admin";
 
 // Effective access roles used for feature access and UI display
 export type AccessRole =
   | UserRole
-  | 'bookkeeper'
-  | 'recruiter_manager'
-  | 'accountant_manager'
-  | 'sales'
-  | 'recruiter_director';
+  | "bookkeeper"
+  | "recruiter_manager"
+  | "accountant_manager"
+  | "sales"
+  | "recruiter_director";
 
 const ROLE_DISPLAY_ORDER: AccessRole[] = [
-  'admin',
-  'recruiter_director',
-  'recruiter_manager',
-  'accountant_manager',
-  'bookkeeper',
-  'sales',
-  'recruiter',
-  'jobseeker',
+  "admin",
+  "recruiter_director",
+  "recruiter_manager",
+  "accountant_manager",
+  "bookkeeper",
+  "sales",
+  "recruiter",
+  "jobseeker",
 ];
 
 const RECRUITER_ACCESS_ROLES: AccessRole[] = [
-  'recruiter',
-  'bookkeeper',
-  'recruiter_manager',
-  'accountant_manager',
-  'sales',
-  'recruiter_director',
+  "recruiter",
+  "bookkeeper",
+  "recruiter_manager",
+  "accountant_manager",
+  "sales",
+  "recruiter_director",
 ];
 
 const LEGACY_ROLE_ALIASES: Record<string, AccessRole> = {
-  manager: 'recruiter_manager',
-  accountant: 'bookkeeper',
+  manager: "recruiter_manager",
+  accountant: "bookkeeper",
 };
 
 function normalizeAccessRole(role: unknown): AccessRole | null {
-  if (typeof role === 'string' && role in LEGACY_ROLE_ALIASES) {
+  if (typeof role === "string" && role in LEGACY_ROLE_ALIASES) {
     return LEGACY_ROLE_ALIASES[role];
   }
 
   if (
-    role === 'jobseeker' ||
-    role === 'recruiter' ||
-    role === 'admin' ||
-    role === 'bookkeeper' ||
-    role === 'recruiter_manager' ||
-    role === 'accountant_manager' ||
-    role === 'sales' ||
-    role === 'recruiter_director'
+    role === "jobseeker" ||
+    role === "recruiter" ||
+    role === "admin" ||
+    role === "bookkeeper" ||
+    role === "recruiter_manager" ||
+    role === "accountant_manager" ||
+    role === "sales" ||
+    role === "recruiter_director"
   ) {
     return role;
   }
@@ -118,13 +118,16 @@ export function getUserRoles(user: User | null): string[] {
     .map((role) => normalizeAccessRole(role) ?? role);
 }
 
-function resolveUserRoles(userType: UserRole, rawRoles: string[]): AccessRole[] {
-  if (userType === 'jobseeker') {
-    return ['jobseeker'];
+function resolveUserRoles(
+  userType: UserRole,
+  rawRoles: string[]
+): AccessRole[] {
+  if (userType === "jobseeker") {
+    return ["jobseeker"];
   }
 
-  if (userType === 'admin') {
-    return ['admin'];
+  if (userType === "admin") {
+    return ["admin"];
   }
 
   const resolvedRoles = rawRoles
@@ -132,7 +135,7 @@ function resolveUserRoles(userType: UserRole, rawRoles: string[]): AccessRole[] 
     .filter((role): role is AccessRole => role !== null);
 
   if (resolvedRoles.length === 0) {
-    return ['recruiter'];
+    return ["recruiter"];
   }
 
   return sortAccessRoles(resolvedRoles);
@@ -145,20 +148,22 @@ export function getResolvedUserRoles(user: User | null): AccessRole[] {
 
 // Resolve effective roles from a raw user object returned by the API
 export function getResolvedUserRolesFromRaw(raw: unknown): AccessRole[] {
-  if (!raw || typeof raw !== 'object') {
+  if (!raw || typeof raw !== "object") {
     return [];
   }
 
   const root = raw as Record<string, unknown>;
-  const meta = root['user_metadata'] ?? root['raw_user_meta_data'];
-  if (!meta || typeof meta !== 'object') {
+  const meta = root["user_metadata"] ?? root["raw_user_meta_data"];
+  if (!meta || typeof meta !== "object") {
     return [];
   }
 
   const metaObj = meta as Record<string, unknown>;
-  const rawUserType = metaObj['user_type'];
+  const rawUserType = metaObj["user_type"];
   const userType: UserRole =
-    rawUserType === 'admin' || rawUserType === 'recruiter' ? rawUserType : 'jobseeker';
+    rawUserType === "admin" || rawUserType === "recruiter"
+      ? rawUserType
+      : "jobseeker";
   const roles = getUserRolesFromRaw(raw);
 
   return resolveUserRoles(userType, roles);
@@ -168,7 +173,7 @@ export function getResolvedUserRolesFromRaw(raw: unknown): AccessRole[] {
 export function hasAccessRole(user: User | null, role: AccessRole): boolean {
   const resolvedRoles = getResolvedUserRoles(user);
 
-  if (role === 'recruiter') {
+  if (role === "recruiter") {
     return resolvedRoles.some((resolvedRole) =>
       RECRUITER_ACCESS_ROLES.includes(resolvedRole)
     );
@@ -177,15 +182,24 @@ export function hasAccessRole(user: User | null, role: AccessRole): boolean {
   return resolvedRoles.includes(role);
 }
 
-export function hasAnyAccessRole(user: User | null, roles: AccessRole[]): boolean {
+export function hasAnyAccessRole(
+  user: User | null,
+  roles: AccessRole[]
+): boolean {
   return roles.some((role) => hasAccessRole(user, role));
 }
 
-export function hasExactAccessRole(user: User | null, role: AccessRole): boolean {
+export function hasExactAccessRole(
+  user: User | null,
+  role: AccessRole
+): boolean {
   return getResolvedUserRoles(user).includes(role);
 }
 
-export function hasAnyExactAccessRole(user: User | null, roles: AccessRole[]): boolean {
+export function hasAnyExactAccessRole(
+  user: User | null,
+  roles: AccessRole[]
+): boolean {
   return roles.some((role) => hasExactAccessRole(user, role));
 }
 
@@ -201,17 +215,17 @@ export function isSuperAdmin(user: User | null): boolean {
 
 // Check if user is admin
 export function isAdmin(user: User | null): boolean {
-  return hasAccessRole(user, 'admin');
+  return hasAccessRole(user, "admin");
 }
 
 // Check if user is recruiter
 export function isRecruiter(user: User | null): boolean {
-  return hasAccessRole(user, 'recruiter');
+  return hasAccessRole(user, "recruiter");
 }
 
 // Check if user is jobseeker
 export function isJobSeeker(user: User | null): boolean {
-  return hasAccessRole(user, 'jobseeker');
+  return hasAccessRole(user, "jobseeker");
 }
 
 // Check if jobseeker has created a profile
@@ -250,8 +264,8 @@ export async function getJobseekerVerificationStatus(
 export function getUserRolesFromRaw(raw: unknown): string[] {
   if (!raw || typeof raw !== "object") return [];
   const root = raw as Record<string, unknown>;
-  const meta = root['user_metadata'] ?? root['raw_user_meta_data'];
-  if (!meta || typeof meta !== 'object') return [];
+  const meta = root["user_metadata"] ?? root["raw_user_meta_data"];
+  if (!meta || typeof meta !== "object") return [];
   const metaObj = meta as Record<string, unknown>;
   const roles = metaObj["user_role"];
   if (!Array.isArray(roles)) return [];
@@ -347,11 +361,11 @@ export const loginUser = async (
 // New function: Validate credentials for 2FA flow
 export const validateCredentials = async (email: string, password: string) => {
   const result = await validateCredentialsAPI(email, password);
-  
+
   // Check if email is verified from the response
-  const isEmailVerified = result.emailVerified !== false && 
-                         result.user?.email_confirmed_at;
-  
+  const isEmailVerified =
+    result.emailVerified !== false && result.user?.email_confirmed_at;
+
   // Only set session if email is verified
   if (!result.requiresTwoFactor && isEmailVerified) {
     // For non-recruiters with verified email, we get a session back - set it in Supabase

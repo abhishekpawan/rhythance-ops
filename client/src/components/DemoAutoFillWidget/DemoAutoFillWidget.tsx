@@ -80,7 +80,9 @@ export const DemoAutoFillWidget: React.FC<DemoAutoFillWidgetProps> = ({
   const renderValue = (val: string | number | boolean) => {
     if (typeof val === "boolean") {
       return (
-        <span className={`demo-autofill-boolean-badge ${val ? "true" : "false"}`}>
+        <span
+          className={`demo-autofill-boolean-badge ${val ? "true" : "false"}`}
+        >
           {val ? "Yes" : "No"}
         </span>
       );
@@ -163,7 +165,9 @@ export const DemoAutoFillWidget: React.FC<DemoAutoFillWidgetProps> = ({
 
           {/* Preview list */}
           <div className="demo-autofill-body">
-            <div className="demo-autofill-preview-label">Sample Data to Fill:</div>
+            <div className="demo-autofill-preview-label">
+              Sample Data to Fill:
+            </div>
             {fields.map((f, i) => (
               <div key={`${f.label}-${i}`} className="demo-autofill-field-row">
                 <span className="demo-autofill-field-key">{f.label}</span>
@@ -188,22 +192,27 @@ export const DemoAutoFillWidget: React.FC<DemoAutoFillWidgetProps> = ({
                 </>
               ) : (
                 <span>
-                  {currentStep ? `Auto-Fill Step ${currentStep}` : `Auto-Fill Form`}
+                  {currentStep
+                    ? `Auto-Fill Step ${currentStep}`
+                    : `Auto-Fill Form`}
                 </span>
               )}
             </button>
 
-            {onAutoFillAndNext && currentStep && totalSteps && currentStep < totalSteps && (
-              <button
-                type="button"
-                className="demo-autofill-btn-next"
-                onClick={handleFillAndNext}
-                disabled={isNextLoading}
-              >
-                <span>Fill & Next Step</span>
-                <ChevronRight size={14} />
-              </button>
-            )}
+            {onAutoFillAndNext &&
+              currentStep &&
+              totalSteps &&
+              currentStep < totalSteps && (
+                <button
+                  type="button"
+                  className="demo-autofill-btn-next"
+                  onClick={handleFillAndNext}
+                  disabled={isNextLoading}
+                >
+                  <span>Fill & Next Step</span>
+                  <ChevronRight size={14} />
+                </button>
+              )}
 
             <p className="demo-autofill-hint">
               Demo Mode • Rapid form population for client presentations

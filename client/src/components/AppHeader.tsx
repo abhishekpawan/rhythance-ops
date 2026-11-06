@@ -7,7 +7,7 @@ import allStaffIconLogo from "../assets/logos/allstaff-logo.png";
 import hdGroupIconLogo from "../assets/logos/hdgroup-logo.png";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { useLanguage } from "../contexts/language/language-provider";
-import { Toast } from './Toast';
+import { Toast } from "./Toast";
 import "../styles/components/header.css";
 
 // Company data
@@ -218,13 +218,13 @@ export function AppHeader({
           </div>
         </div>
       </header>
-      
+
       <Toast
-        message={statusMessage || ''}
+        message={statusMessage || ""}
         type={statusType}
         isVisible={showToast && !!statusMessage}
         onClose={() => setShowToast(false)}
-        onRefresh={statusType === 'error' ? handleRefreshPage : undefined}
+        onRefresh={statusType === "error" ? handleRefreshPage : undefined}
         duration={6000}
       />
       <div className="page-title-container">

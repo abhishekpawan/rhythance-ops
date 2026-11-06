@@ -1,7 +1,11 @@
 import { Router, Request, Response } from "express";
 import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import { authenticateToken, authorizeExactRoles, authorizeRoles } from "../middleware/auth.js";
+import {
+  authenticateToken,
+  authorizeExactRoles,
+  authorizeRoles,
+} from "../middleware/auth.js";
 import { sanitizeInputs, apiRateLimiter } from "../middleware/security.js";
 import { activityLogger } from "../middleware/activityLogger.js";
 import dotenv from "dotenv";
@@ -13,7 +17,10 @@ import {
   dbDetailRowToApi,
   orderDetailRowsForResponse,
 } from "../subcategoryPositionDetails.js";
-import { emailNotifier, getAssignmentFromEmail } from "../middleware/emailNotifier.js";
+import {
+  emailNotifier,
+  getAssignmentFromEmail,
+} from "../middleware/emailNotifier.js";
 import { jobseekerAssignmentTextTemplate } from "../email-templates/jobseeker-assignment-txt.js";
 import { jobseekerAssignmentHtmlTemplate } from "../email-templates/jobseeker-assignment-html.js";
 import { jobseekerRemovalHtmlTemplate } from "../email-templates/jobseeker-removal-html.js";
@@ -234,7 +241,8 @@ async function syncPositionAssignmentsDates(
         status: updatedStatus,
       };
       if (cleanNewStartDate) updatePayload.start_date = cleanNewStartDate;
-      if (cleanNewEndDate !== undefined) updatePayload.end_date = cleanNewEndDate;
+      if (cleanNewEndDate !== undefined)
+        updatePayload.end_date = cleanNewEndDate;
 
       const { error: updateErr } = await supabase
         .from("position_candidate_assignments")
@@ -361,7 +369,9 @@ router.get(
         .from("positions")
         .select("*", { count: "exact", head: true });
       if (showAllSiblings !== "true") {
-        totalCountQuery = totalCountQuery.or('is_subcategory.eq.false,is_primary_subcategory.eq.true');
+        totalCountQuery = totalCountQuery.or(
+          "is_subcategory.eq.false,is_primary_subcategory.eq.true"
+        );
       }
       const { count: totalCount, error: countError } = await totalCountQuery;
 
@@ -431,17 +441,21 @@ router.get(
 
       // Transform the response to include clientName and convert snake_case to camelCase
       // Batch fetch client last_activity_at for inactivity check
-      const clientIds = [...new Set(positions.map((p: any) => p.client).filter(Boolean))];
+      const clientIds = [
+        ...new Set(positions.map((p: any) => p.client).filter(Boolean)),
+      ];
       const clientInactiveMap = new Map<string, boolean>();
       if (clientIds.length > 0) {
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         const { data: clientActivities } = await supabase
-          .from('clients')
-          .select('id, last_activity_at, created_at')
-          .in('id', clientIds as string[]);
+          .from("clients")
+          .select("id, last_activity_at, created_at")
+          .in("id", clientIds as string[]);
         if (clientActivities) {
           clientActivities.forEach((c: any) => {
-            const lastActivity = c.last_activity_at ? new Date(c.last_activity_at) : new Date(c.created_at);
+            const lastActivity = c.last_activity_at
+              ? new Date(c.last_activity_at)
+              : new Date(c.created_at);
             clientInactiveMap.set(c.id, lastActivity < thirtyDaysAgo);
           });
         }
@@ -477,7 +491,10 @@ router.get(
               acc[camelKey] = value;
               return acc;
             },
-            { clientName, clientIsInactive: clientInactiveMap.get(position.client) || false } as Record<string, any>
+            {
+              clientName,
+              clientIsInactive: clientInactiveMap.get(position.client) || false,
+            } as Record<string, any>
           );
 
           return formattedPosition;
@@ -640,7 +657,9 @@ router.get(
         .select("*", { count: "exact", head: true })
         .eq("client", clientId);
       if (showAllSiblings !== "true") {
-        totalCountQuery = totalCountQuery.or('is_subcategory.eq.false,is_primary_subcategory.eq.true');
+        totalCountQuery = totalCountQuery.or(
+          "is_subcategory.eq.false,is_primary_subcategory.eq.true"
+        );
       }
       const { count: totalCount, error: countError } = await totalCountQuery;
 
@@ -718,8 +737,12 @@ router.get(
       }
 
       // Transform the response to include clientName and convert snake_case to camelCase
-      const thirtyDaysAgoClient = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-      const clientLastActivity = client.last_activity_at ? new Date(client.last_activity_at) : new Date(client.created_at);
+      const thirtyDaysAgoClient = new Date(
+        Date.now() - 30 * 24 * 60 * 60 * 1000
+      );
+      const clientLastActivity = client.last_activity_at
+        ? new Date(client.last_activity_at)
+        : new Date(client.created_at);
       const isClientInactive = clientLastActivity < thirtyDaysAgoClient;
 
       const formattedPositions = await Promise.all(
@@ -752,7 +775,10 @@ router.get(
               acc[camelKey] = value;
               return acc;
             },
-            { clientName, clientIsInactive: isClientInactive } as Record<string, any>
+            { clientName, clientIsInactive: isClientInactive } as Record<
+              string,
+              any
+            >
           );
 
           return formattedPosition;
@@ -902,7 +928,7 @@ function applyPositionFilters(
 
   // Hide sibling subcategory types from lists to visually group them unless explicitly requested
   if (showAllSiblingsFilter !== "true") {
-    query = query.or('is_subcategory.eq.false,is_primary_subcategory.eq.true');
+    query = query.or("is_subcategory.eq.false,is_primary_subcategory.eq.true");
   }
 
   return query;
@@ -947,29 +973,31 @@ router.get(
         positionData.assigned_jobseekers = activeJobseekers;
       }
 
-      let subcategoryPositionDetails: SubcategoryPositionDetailInput[] | undefined;
+      let subcategoryPositionDetails:
+        | SubcategoryPositionDetailInput[]
+        | undefined;
       if (positionData.is_subcategory && positionData.subcategory_group_id) {
         const { data: detailRows, error: detErr } = await supabase
           .from("positions")
           .select("*")
           .eq("subcategory_group_id", positionData.subcategory_group_id);
-          
+
         if (detErr) {
           console.error("Error fetching subcategory positions:", detErr);
         } else if (detailRows && detailRows.length > 0) {
-          subcategoryPositionDetails = detailRows.map(row => ({
+          subcategoryPositionDetails = detailRows.map((row) => ({
             subcategoryPosition: row.subcategory_position,
             payrateType: row.payrate_type,
             numberOfPositions: row.number_of_positions,
             regularPayRate: row.regular_pay_rate,
             premiumPayRate: row.premium_pay_rate,
             markup: row.markup,
-            billRate: row.bill_rate
+            billRate: row.bill_rate,
           }));
-          
+
           // Fix title to not include the suffix for the edit form
-          if (positionData.title.includes(' - ')) {
-             positionData.title = positionData.title.split(' - ')[0];
+          if (positionData.title.includes(" - ")) {
+            positionData.title = positionData.title.split(" - ")[0];
           }
         }
       }
@@ -1096,12 +1124,17 @@ router.post(
       }
 
       const detailPayload = (cleanedData as Record<string, unknown>)
-        .subcategoryPositionDetails as SubcategoryPositionDetailInput[] | undefined;
-      delete (cleanedData as Record<string, unknown>).subcategoryPositionDetails;
+        .subcategoryPositionDetails as
+        | SubcategoryPositionDetailInput[]
+        | undefined;
+      delete (cleanedData as Record<string, unknown>)
+        .subcategoryPositionDetails;
 
       delete (cleanedData as Record<string, unknown>).isSubcategoryForm;
 
-      let orderedSubcategoryDetails: SubcategoryPositionDetailInput[] | undefined;
+      let orderedSubcategoryDetails:
+        | SubcategoryPositionDetailInput[]
+        | undefined;
 
       // Handle empty date fields
       if (cleanedData.startDate === "") cleanedData.startDate = undefined;
@@ -1138,7 +1171,10 @@ router.post(
           return res.status(400).json({ error: v.error });
         }
         orderedSubcategoryDetails = v.orderedRows;
-        applyFirstSubcategoryDetailToMainPosition(cleanedData, v.orderedRows[0]);
+        applyFirstSubcategoryDetailToMainPosition(
+          cleanedData,
+          v.orderedRows[0]
+        );
       } else {
         orderedSubcategoryDetails = undefined;
       }
@@ -1223,7 +1259,11 @@ router.post(
 
       let insertData: any[] = [];
       let newGroupId: string | null = null;
-      if (cleanedData.isSubcategory && orderedSubcategoryDetails && orderedSubcategoryDetails.length > 0) {
+      if (
+        cleanedData.isSubcategory &&
+        orderedSubcategoryDetails &&
+        orderedSubcategoryDetails.length > 0
+      ) {
         newGroupId = crypto.randomUUID();
         let isFirst = true;
         insertData = orderedSubcategoryDetails.map((det) => {
@@ -1328,12 +1368,17 @@ router.put(
       }
 
       const detailPayloadPut = (cleanedData as Record<string, unknown>)
-        .subcategoryPositionDetails as SubcategoryPositionDetailInput[] | undefined;
-      delete (cleanedData as Record<string, unknown>).subcategoryPositionDetails;
+        .subcategoryPositionDetails as
+        | SubcategoryPositionDetailInput[]
+        | undefined;
+      delete (cleanedData as Record<string, unknown>)
+        .subcategoryPositionDetails;
 
       delete (cleanedData as Record<string, unknown>).isSubcategoryForm;
 
-      let orderedSubcategoryDetailsPut: SubcategoryPositionDetailInput[] | undefined;
+      let orderedSubcategoryDetailsPut:
+        | SubcategoryPositionDetailInput[]
+        | undefined;
 
       // Handle empty date fields
       if (cleanedData.startDate === "") cleanedData.startDate = undefined;
@@ -1373,7 +1418,10 @@ router.put(
           return res.status(400).json({ error: v.error });
         }
         orderedSubcategoryDetailsPut = v.orderedRows;
-        applyFirstSubcategoryDetailToMainPosition(cleanedData, v.orderedRows[0]);
+        applyFirstSubcategoryDetailToMainPosition(
+          cleanedData,
+          v.orderedRows[0]
+        );
       } else {
         orderedSubcategoryDetailsPut = undefined;
       }
@@ -1469,21 +1517,42 @@ router.put(
       dbPositionData.client_name = client.company_name;
 
       // Check if this position is part of a subcategory group
-      const { data: posGroupData } = await supabase.from("positions").select("subcategory_group_id").eq("id", id).single();
+      const { data: posGroupData } = await supabase
+        .from("positions")
+        .select("subcategory_group_id")
+        .eq("id", id)
+        .single();
       const groupId = posGroupData?.subcategory_group_id;
 
       let returnedPosition = null;
 
-      if (cleanedData.isSubcategory && groupId && orderedSubcategoryDetailsPut && orderedSubcategoryDetailsPut.length > 0) {
+      if (
+        cleanedData.isSubcategory &&
+        groupId &&
+        orderedSubcategoryDetailsPut &&
+        orderedSubcategoryDetailsPut.length > 0
+      ) {
         // Fetch all existing rows in the group
-        const { data: existingGroupRows } = await supabase.from("positions").select("id, subcategory_position").eq("subcategory_group_id", groupId);
-        const existingMap = new Map((existingGroupRows || []).map(r => [r.subcategory_position, r.id]));
-        const incomingTypes = new Set(orderedSubcategoryDetailsPut.map(d => d.subcategoryPosition));
+        const { data: existingGroupRows } = await supabase
+          .from("positions")
+          .select("id, subcategory_position")
+          .eq("subcategory_group_id", groupId);
+        const existingMap = new Map(
+          (existingGroupRows || []).map((r) => [r.subcategory_position, r.id])
+        );
+        const incomingTypes = new Set(
+          orderedSubcategoryDetailsPut.map((d) => d.subcategoryPosition)
+        );
 
         // Delete rows that are no longer in the incoming types
-        const typesToDelete = [...existingMap.keys()].filter(t => !incomingTypes.has(t));
+        const typesToDelete = [...existingMap.keys()].filter(
+          (t) => !incomingTypes.has(t)
+        );
         for (const type of typesToDelete) {
-          await supabase.from("positions").delete().eq("id", existingMap.get(type));
+          await supabase
+            .from("positions")
+            .delete()
+            .eq("id", existingMap.get(type));
         }
 
         // Update existing or Insert new
@@ -1503,17 +1572,26 @@ router.put(
           detailData.bill_rate = det.billRate;
 
           if (existingMap.has(det.subcategoryPosition)) {
-             const rowId = existingMap.get(det.subcategoryPosition);
-             const { data: updated, error: updErr } = await supabase.from("positions").update(detailData).eq("id", rowId).select().single();
-             if (updErr) console.error("Update subcategory error:", updErr);
-             if (rowId === id) returnedPosition = updated;
+            const rowId = existingMap.get(det.subcategoryPosition);
+            const { data: updated, error: updErr } = await supabase
+              .from("positions")
+              .update(detailData)
+              .eq("id", rowId)
+              .select()
+              .single();
+            if (updErr) console.error("Update subcategory error:", updErr);
+            if (rowId === id) returnedPosition = updated;
           } else {
-             delete detailData.id; // Crucial: remove id so Postgres generates a new one
-             detailData.created_by_user_id = userId; // Required by not-null constraint on new rows
-             detailData.created_at = new Date().toISOString();
-             const { data: inserted, error: insErr } = await supabase.from("positions").insert([detailData]).select().single();
-             if (insErr) console.error("Insert subcategory error:", insErr);
-             if (!returnedPosition) returnedPosition = inserted;
+            delete detailData.id; // Crucial: remove id so Postgres generates a new one
+            detailData.created_by_user_id = userId; // Required by not-null constraint on new rows
+            detailData.created_at = new Date().toISOString();
+            const { data: inserted, error: insErr } = await supabase
+              .from("positions")
+              .insert([detailData])
+              .select()
+              .single();
+            if (insErr) console.error("Insert subcategory error:", insErr);
+            if (!returnedPosition) returnedPosition = inserted;
           }
         }
       } else {
@@ -1623,13 +1701,23 @@ router.delete(
       res.locals.deletedPosition = existingPosition;
 
       // First check if it has a subcategory_group_id
-      const { data: posToDelete } = await supabase.from("positions").select("subcategory_group_id").eq("id", id).single();
+      const { data: posToDelete } = await supabase
+        .from("positions")
+        .select("subcategory_group_id")
+        .eq("id", id)
+        .single();
       let deleteError = null;
       if (posToDelete?.subcategory_group_id) {
-        const { error: groupError } = await supabase.from("positions").delete().eq("subcategory_group_id", posToDelete.subcategory_group_id);
+        const { error: groupError } = await supabase
+          .from("positions")
+          .delete()
+          .eq("subcategory_group_id", posToDelete.subcategory_group_id);
         deleteError = groupError;
       } else {
-        const { error: singleError } = await supabase.from("positions").delete().eq("id", id);
+        const { error: singleError } = await supabase
+          .from("positions")
+          .delete()
+          .eq("id", id);
         deleteError = singleError;
       }
 
@@ -1658,7 +1746,12 @@ router.delete(
 router.post(
   "/:id/assign",
   authenticateToken,
-  authorizeExactRoles(["admin", "recruiter", "recruiter_manager", "recruiter_director"]),
+  authorizeExactRoles([
+    "admin",
+    "recruiter",
+    "recruiter_manager",
+    "recruiter_director",
+  ]),
   sanitizeInputs,
   activityLogger({
     onSuccess: (req, res) => ({
@@ -1686,7 +1779,8 @@ router.post(
         assignmentId: res.locals.newAssignment?.id,
         positionCode: res.locals.positionCode,
         totalAssignedCandidates: res.locals.totalAssigned,
-        sendEmail: req.body.sendEmail !== false && req.body.sendEmail !== "false",
+        sendEmail:
+          req.body.sendEmail !== false && req.body.sendEmail !== "false",
       },
     }),
   }),
@@ -1877,7 +1971,8 @@ router.post(
       // Block assignment for subcategory positions
       if (position.is_subcategory) {
         return res.status(400).json({
-          error: "Cannot assign jobseekers to subcategory positions. Subcategory positions are for invoicing purposes only.",
+          error:
+            "Cannot assign jobseekers to subcategory positions. Subcategory positions are for invoicing purposes only.",
         });
       }
 
@@ -1942,12 +2037,17 @@ router.post(
       const today = new Date().toISOString().split("T")[0];
 
       if (existingAssignment) {
-        const normExistingEndDate = normalizeDateStr(existingAssignment.end_date);
+        const normExistingEndDate = normalizeDateStr(
+          existingAssignment.end_date
+        );
         if (normExistingEndDate && normExistingEndDate < today) {
           // Past assignment that was not yet marked completed; mark it completed and allow new assignment
           await supabase
             .from("position_candidate_assignments")
-            .update({ status: "completed", updated_at: new Date().toISOString() })
+            .update({
+              status: "completed",
+              updated_at: new Date().toISOString(),
+            })
             .eq("id", existingAssignment.id);
         } else {
           return res
@@ -2423,7 +2523,10 @@ router.get(
       if (status) {
         assignmentsQuery = assignmentsQuery.eq("status", status);
       } else if (activeOnly === "true") {
-        assignmentsQuery = assignmentsQuery.in("status", ["active", "upcoming"]);
+        assignmentsQuery = assignmentsQuery.in("status", [
+          "active",
+          "upcoming",
+        ]);
       }
 
       const { data: rawAssignments, error } = await assignmentsQuery;
@@ -2444,7 +2547,10 @@ router.get(
             // Expired assignment - transition status in background
             void supabase
               .from("position_candidate_assignments")
-              .update({ status: "completed", updated_at: new Date().toISOString() })
+              .update({
+                status: "completed",
+                updated_at: new Date().toISOString(),
+              })
               .eq("id", assignment.id);
             return false;
           } else if (
@@ -2455,11 +2561,16 @@ router.get(
             // Started upcoming assignment - promote to active
             void supabase
               .from("position_candidate_assignments")
-              .update({ status: "active", updated_at: new Date().toISOString() })
+              .update({
+                status: "active",
+                updated_at: new Date().toISOString(),
+              })
               .eq("id", assignment.id);
             assignment.status = "active";
           }
-          return assignment.status === "active" || assignment.status === "upcoming";
+          return (
+            assignment.status === "active" || assignment.status === "upcoming"
+          );
         });
       }
 
@@ -2503,7 +2614,11 @@ router.get(
       const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
       const enrichedAssignments = assignments.map((assignment) => {
         const profile = profilesMap.get(assignment.candidate_id);
-        const lastActivity = profile?.last_activity_at ? new Date(profile.last_activity_at) : (profile?.created_at ? new Date(profile.created_at) : new Date());
+        const lastActivity = profile?.last_activity_at
+          ? new Date(profile.last_activity_at)
+          : profile?.created_at
+            ? new Date(profile.created_at)
+            : new Date();
         return {
           ...assignment,
           jobseekerProfile: profile
@@ -2624,7 +2739,10 @@ router.get(
           if (assignment.status === "active" && normEnd && normEnd < today) {
             void supabase
               .from("position_candidate_assignments")
-              .update({ status: "completed", updated_at: new Date().toISOString() })
+              .update({
+                status: "completed",
+                updated_at: new Date().toISOString(),
+              })
               .eq("id", assignment.id);
             assignment.status = "completed";
           } else if (
@@ -2634,7 +2752,10 @@ router.get(
           ) {
             void supabase
               .from("position_candidate_assignments")
-              .update({ status: "active", updated_at: new Date().toISOString() })
+              .update({
+                status: "active",
+                updated_at: new Date().toISOString(),
+              })
               .eq("id", assignment.id);
             assignment.status = "active";
           }

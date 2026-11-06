@@ -119,7 +119,12 @@ export function DropdownOptionsManagement() {
   };
 
   const handleDelete = async (opt: ClientDropdownOption) => {
-    if (!window.confirm(t("dropdownOptions.confirmDelete", { name: opt.name }) || `Delete "${opt.name}"?`))
+    if (
+      !window.confirm(
+        t("dropdownOptions.confirmDelete", { name: opt.name }) ||
+          `Delete "${opt.name}"?`
+      )
+    )
       return;
 
     try {
@@ -132,8 +137,7 @@ export function DropdownOptionsManagement() {
     }
   };
 
-  const currentLabel =
-    LIST_TYPE_LABELS[selectedListType] || selectedListType;
+  const currentLabel = LIST_TYPE_LABELS[selectedListType] || selectedListType;
 
   return (
     <div className="page-container recruiter-hierarchy dropdown-options-management">
@@ -156,7 +160,9 @@ export function DropdownOptionsManagement() {
         <div className="card dopts-card">
           <div className="dopts-tabs" role="tablist">
             <div className="dopts-tab-group">
-              <span className="dopts-tab-group-label">{t("dropdownOptions.clientOptions")}</span>
+              <span className="dopts-tab-group-label">
+                {t("dropdownOptions.clientOptions")}
+              </span>
               <div className="dopts-tab-group-buttons">
                 {CLIENT_LIST_TYPES.map((type) => (
                   <button
@@ -171,7 +177,9 @@ export function DropdownOptionsManagement() {
               </div>
             </div>
             <div className="dopts-tab-group">
-              <span className="dopts-tab-group-label">{t("dropdownOptions.positionOptions")}</span>
+              <span className="dopts-tab-group-label">
+                {t("dropdownOptions.positionOptions")}
+              </span>
               <div className="dopts-tab-group-buttons">
                 {POSITION_LIST_TYPES.map((type) => (
                   <button
@@ -189,7 +197,10 @@ export function DropdownOptionsManagement() {
 
           <div className="card-body dopts-card-body">
             <div className="dopts-add-section">
-              <h3 className="dopts-section-title">{t("dropdownOptions.addNew", { list: currentLabel }) || `Add new ${currentLabel}`}</h3>
+              <h3 className="dopts-section-title">
+                {t("dropdownOptions.addNew", { list: currentLabel }) ||
+                  `Add new ${currentLabel}`}
+              </h3>
               <form onSubmit={handleAdd} className="dopts-add-form">
                 <div className="form-group dopts-form-group">
                   <input
@@ -223,7 +234,10 @@ export function DropdownOptionsManagement() {
             </div>
 
             <div className="dopts-list-section">
-              <h3 className="dopts-section-title">{t("dropdownOptions.currentList", { list: currentLabel }) || `Current ${currentLabel} list`}</h3>
+              <h3 className="dopts-section-title">
+                {t("dropdownOptions.currentList", { list: currentLabel }) ||
+                  `Current ${currentLabel} list`}
+              </h3>
               {loading ? (
                 <div className="dopts-loading">
                   <span className="loading-spinner" />

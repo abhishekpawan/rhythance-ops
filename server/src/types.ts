@@ -446,12 +446,17 @@ export interface DbPositionData {
 // Support Module Types
 // ============================================================================
 
-export type SupportTicketType = 'bug' | 'change' | 'feature' | 'question';
-export type SupportTicketUrgency = 'blocked' | 'annoying' | 'not_urgent';
-export type SupportTicketPriority = 'p1' | 'p2' | 'p3';
-export type SupportTicketStatus = 'open' | 'in_progress' | 'waiting_on_client' | 'resolved' | 'closed';
-export type SupportActorKind = 'requester' | 'agent' | 'system';
-export type SupportConfirmedBy = 'client' | 'auto' | 'agent';
+export type SupportTicketType = "bug" | "change" | "feature" | "question";
+export type SupportTicketUrgency = "blocked" | "annoying" | "not_urgent";
+export type SupportTicketPriority = "p1" | "p2" | "p3";
+export type SupportTicketStatus =
+  | "open"
+  | "in_progress"
+  | "waiting_on_client"
+  | "resolved"
+  | "closed";
+export type SupportActorKind = "requester" | "agent" | "system";
+export type SupportConfirmedBy = "client" | "auto" | "agent";
 
 export interface SupportTicketContext {
   route?: string;
