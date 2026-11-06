@@ -1,6 +1,6 @@
 # Jobseeker & Client Management — Marketing Technical Report
 
-This report reflects **what exists in the codebase today**, not roadmap items. Sources: [`client/src/constants/accessControl.ts`](../client/src/constants/accessControl.ts), [`client/src/App.tsx`](../client/src/App.tsx), [`server/src/routes/jobseekers.ts`](../server/src/routes/jobseekers.ts), [`server/src/routes/profile.ts`](../server/src/routes/profile.ts), [`server/src/routes/clients.ts`](../server/src/routes/clients.ts), [`docs/email-triggers-documentation.txt`](email-triggers-documentation.txt).
+This report reflects **what exists in the codebase today**, not roadmap items. Sources: [`client/src/constants/accessControl.ts`](../../../client/src/constants/accessControl.ts), [`client/src/App.tsx`](../../../client/src/App.tsx), [`server/src/routes/jobseekers.ts`](../../../server/src/routes/jobseekers.ts), [`server/src/routes/profile.ts`](../../../server/src/routes/profile.ts), [`server/src/routes/clients.ts`](../../../server/src/routes/clients.ts), [`docs/email-triggers.md`](../../email-triggers.md).
 
 ---
 
@@ -12,43 +12,43 @@ This report reflects **what exists in the codebase today**, not roadmap items. S
 
 | Purpose | Path |
 |---------|------|
-| List / search / delete entry | [`client/src/pages/JobseekerManagement/JobSeekerManagement.tsx`](../client/src/pages/JobseekerManagement/JobSeekerManagement.tsx) |
-| Profile detail, verify/reject, AI display | [`client/src/pages/JobseekerManagement/JobSeekerProfile.tsx`](../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
-| SIN & work permit focused list | [`client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx`](../client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx) |
-| Self-service assigned positions | [`client/src/pages/JobseekerManagement/JobSeekerPositions.tsx`](../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx) |
-| Pending / rejected messaging | [`client/src/pages/JobseekerManagement/ProfileVerificationPending.tsx`](../client/src/pages/JobseekerManagement/ProfileVerificationPending.tsx), [`ProfileVerificationRejected.tsx`](../client/src/pages/JobseekerManagement/ProfileVerificationRejected.tsx) |
-| Multi-step create/edit | [`client/src/pages/JobseekerProfile/ProfileCreate.tsx`](../client/src/pages/JobseekerProfile/ProfileCreate.tsx) |
-| Edit wrapper | [`client/src/pages/JobseekerProfile/ProfileEdit.tsx`](../client/src/pages/JobseekerProfile/ProfileEdit.tsx) |
-| Form steps | [`PersonalInfoForm.tsx`](../client/src/pages/JobseekerProfile/PersonalInfoForm.tsx), [`AddressQualificationsForm.tsx`](../client/src/pages/JobseekerProfile/AddressQualificationsForm.tsx), [`CompensationForm.tsx`](../client/src/pages/JobseekerProfile/CompensationForm.tsx), [`DocumentUploadForm.tsx`](../client/src/pages/JobseekerProfile/DocumentUploadForm.tsx) |
-| Validation schemas | [`client/src/pages/JobseekerProfile/profileSchemas.ts`](../client/src/pages/JobseekerProfile/profileSchemas.ts) |
-| Recruiter drafts | [`JobseekerDrafts.tsx`](../client/src/pages/JobseekerProfile/JobseekerDrafts.tsx), [`JobseekerProfileDraftEdit.tsx`](../client/src/pages/JobseekerProfile/JobseekerProfileDraftEdit.tsx) |
-| Post-submit screens | [`ProfileAccountCreated.tsx`](../client/src/pages/JobseekerProfile/ProfileAccountCreated.tsx), [`ProfileSuccess.tsx`](../client/src/pages/JobseekerProfile/ProfileSuccess.tsx) |
-| Jobseeker dashboard | [`client/src/pages/Dashboard/JobSeekerDashboard.tsx`](../client/src/pages/Dashboard/JobSeekerDashboard.tsx) |
-| Onboarding consent gate | [`client/src/pages/Consent/OnboardingConsent.tsx`](../client/src/pages/Consent/OnboardingConsent.tsx) |
-| Route gating | [`client/src/components/ProtectedRoute.tsx`](../client/src/components/ProtectedRoute.tsx) |
-| Expiry dashboard widget | [`client/src/components/dashboard/ExpiryStatusOverview.tsx`](../client/src/components/dashboard/ExpiryStatusOverview.tsx) |
-| Profile completion widget | [`client/src/components/dashboard/ProfileCompletion.tsx`](../client/src/components/dashboard/ProfileCompletion.tsx) |
+| List / search / delete entry | [`client/src/pages/JobseekerManagement/JobSeekerManagement.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerManagement.tsx) |
+| Profile detail, verify/reject, AI display | [`client/src/pages/JobseekerManagement/JobSeekerProfile.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
+| SIN & work permit focused list | [`client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx`](../../../client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx) |
+| Self-service assigned positions | [`client/src/pages/JobseekerManagement/JobSeekerPositions.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx) |
+| Pending / rejected messaging | [`client/src/pages/JobseekerManagement/ProfileVerificationPending.tsx`](../../../client/src/pages/JobseekerManagement/ProfileVerificationPending.tsx), [`ProfileVerificationRejected.tsx`](../../../client/src/pages/JobseekerManagement/ProfileVerificationRejected.tsx) |
+| Multi-step create/edit | [`client/src/pages/JobseekerProfile/ProfileCreate.tsx`](../../../client/src/pages/JobseekerProfile/ProfileCreate.tsx) |
+| Edit wrapper | [`client/src/pages/JobseekerProfile/ProfileEdit.tsx`](../../../client/src/pages/JobseekerProfile/ProfileEdit.tsx) |
+| Form steps | [`PersonalInfoForm.tsx`](../../../client/src/pages/JobseekerProfile/PersonalInfoForm.tsx), [`AddressQualificationsForm.tsx`](../../../client/src/pages/JobseekerProfile/AddressQualificationsForm.tsx), [`CompensationForm.tsx`](../../../client/src/pages/JobseekerProfile/CompensationForm.tsx), [`DocumentUploadForm.tsx`](../../../client/src/pages/JobseekerProfile/DocumentUploadForm.tsx) |
+| Validation schemas | [`client/src/pages/JobseekerProfile/profileSchemas.ts`](../../../client/src/pages/JobseekerProfile/profileSchemas.ts) |
+| Recruiter drafts | [`JobseekerDrafts.tsx`](../../../client/src/pages/JobseekerProfile/JobseekerDrafts.tsx), [`JobseekerProfileDraftEdit.tsx`](../../../client/src/pages/JobseekerProfile/JobseekerProfileDraftEdit.tsx) |
+| Post-submit screens | [`ProfileAccountCreated.tsx`](../../../client/src/pages/JobseekerProfile/ProfileAccountCreated.tsx), [`ProfileSuccess.tsx`](../../../client/src/pages/JobseekerProfile/ProfileSuccess.tsx) |
+| Jobseeker dashboard | [`client/src/pages/Dashboard/JobSeekerDashboard.tsx`](../../../client/src/pages/Dashboard/JobSeekerDashboard.tsx) |
+| Onboarding consent gate | [`client/src/pages/Consent/OnboardingConsent.tsx`](../../../client/src/pages/Consent/OnboardingConsent.tsx) |
+| Route gating | [`client/src/components/ProtectedRoute.tsx`](../../../client/src/components/ProtectedRoute.tsx) |
+| Expiry dashboard widget | [`client/src/components/dashboard/ExpiryStatusOverview.tsx`](../../../client/src/components/dashboard/ExpiryStatusOverview.tsx) |
+| Profile completion widget | [`client/src/components/dashboard/ProfileCompletion.tsx`](../../../client/src/components/dashboard/ProfileCompletion.tsx) |
 
 **API clients**
 
-- [`client/src/services/api/jobseeker.ts`](../client/src/services/api/jobseeker.ts)
-- [`client/src/services/api/profile.ts`](../client/src/services/api/profile.ts)
-- [`client/src/services/api/jobseekerMetrics.ts`](../client/src/services/api/jobseekerMetrics.ts)
+- [`client/src/services/api/jobseeker.ts`](../../../client/src/services/api/jobseeker.ts)
+- [`client/src/services/api/profile.ts`](../../../client/src/services/api/profile.ts)
+- [`client/src/services/api/jobseekerMetrics.ts`](../../../client/src/services/api/jobseekerMetrics.ts)
 
 **Backend**
 
 | Mount | File |
 |-------|------|
-| `/api/jobseekers` | [`server/src/routes/jobseekers.ts`](../server/src/routes/jobseekers.ts) (global `authenticateToken`) |
-| `/api/profile` | [`server/src/routes/profile.ts`](../server/src/routes/profile.ts) |
-| `/api/metrics/jobseekers` | [`server/src/routes/jobseekerMetrics.ts`](../server/src/routes/jobseekerMetrics.ts) |
-| Position assign emails | [`server/src/routes/positions.ts`](../server/src/routes/positions.ts) |
-| Onboarding employment agreement | [`server/src/routes/consent.ts`](../server/src/routes/consent.ts) |
+| `/api/jobseekers` | [`server/src/routes/jobseekers.ts`](../../../server/src/routes/jobseekers.ts) (global `authenticateToken`) |
+| `/api/profile` | [`server/src/routes/profile.ts`](../../../server/src/routes/profile.ts) |
+| `/api/metrics/jobseekers` | [`server/src/routes/jobseekerMetrics.ts`](../../../server/src/routes/jobseekerMetrics.ts) |
+| Position assign emails | [`server/src/routes/positions.ts`](../../../server/src/routes/positions.ts) |
+| Onboarding employment agreement | [`server/src/routes/consent.ts`](../../../server/src/routes/consent.ts) |
 
 **Schema / migrations**
 
-- [`server/src/db/migration_v2/002_jobseeker_profiles.sql`](../server/src/db/migration_v2/002_jobseeker_profiles.sql)
-- [`server/src/db/migrations/20230826_update_jobseeker_profile_drafts.sql`](../server/src/db/migrations/20230826_update_jobseeker_profile_drafts.sql)
+- [`server/src/db/migration_v2/002_jobseeker_profiles.sql`](../../../server/src/db/migration_v2/002_jobseeker_profiles.sql)
+- [`server/src/db/migrations/20230826_update_jobseeker_profile_drafts.sql`](../../../server/src/db/migrations/20230826_update_jobseeker_profile_drafts.sql)
 - Storage: `jobseeker-documents` bucket
 
 ---
@@ -57,7 +57,7 @@ This report reflects **what exists in the codebase today**, not roadmap items. S
 
 **Four steps:** Personal → Address & qualifications → Compensation → Documents.
 
-**Step 1 — Personal** ([`profileSchemas.ts`](../client/src/pages/JobseekerProfile/profileSchemas.ts))
+**Step 1 — Personal** ([`profileSchemas.ts`](../../../client/src/pages/JobseekerProfile/profileSchemas.ts))
 
 | Field | Required | Notes |
 |-------|----------|--------|
@@ -109,14 +109,14 @@ Per document: type, title, file/path, filename, notes, optional `id` (UUID for A
 | Status | Behavior | Who sets it |
 |--------|----------|-------------|
 | **pending** | Default on create; blocks jobseeker to pending page | System; also set when a **rejected** profile is updated (resubmit for review) |
-| **verified** | Full portal access; auto-generates `employee_id` if missing | Staff via `PUT /api/jobseekers/profile/:id/status` — UI on [`JobSeekerProfile.tsx`](../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
+| **verified** | Full portal access; auto-generates `employee_id` if missing | Staff via `PUT /api/jobseekers/profile/:id/status` — UI on [`JobSeekerProfile.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
 | **rejected** | Jobseeker sees reason; can edit profile | Same endpoint; `rejectionReason` required |
 
 **No email** on verify, reject, or return to pending.
 
 **Activity log:** `verify_jobseeker`, `reject_jobseeker`, `pending_jobseeker` in `recent_activities`.
 
-**Jobseeker routing** ([`ProtectedRoute.tsx`](../client/src/components/ProtectedRoute.tsx)):
+**Jobseeker routing** ([`ProtectedRoute.tsx`](../../../client/src/components/ProtectedRoute.tsx)):
 
 ```mermaid
 flowchart TD
@@ -143,7 +143,7 @@ flowchart TD
 | Jobseeker self-draft | `PUT/GET /api/profile/draft` | `jobseeker_profile_drafts` by `user_id` |
 | Recruiter drafts | `POST/PUT/GET/DELETE /api/jobseekers/drafts*` | Same table |
 
-- **Recruiter UI:** [`/jobseekers/drafts`](../client/src/pages/JobseekerProfile/JobseekerDrafts.tsx) — filters: search, email, creator, updater, dates.
+- **Recruiter UI:** [`/jobseekers/drafts`](../../../client/src/pages/JobseekerProfile/JobseekerDrafts.tsx) — filters: search, email, creator, updater, dates.
 - **Draft save skipped** in profile **edit** mode (existing published profile).
 - Files uploaded to Supabase before draft save.
 
@@ -163,7 +163,7 @@ flowchart TD
 
 **Read:** `GET /api/jobseekers/profile/:id` joins `ai_validation` per document: `document_authentication_percentage`, `is_tampered`, `is_blurry`, `is_text_clear`, `is_resubmission_required`, `notes`, `document_status`.
 
-**UI:** [`JobSeekerProfile.tsx`](../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) per-document; list row flag in [`JobSeekerManagement.tsx`](../client/src/pages/JobseekerManagement/JobSeekerManagement.tsx); “in progress” when no row yet.
+**UI:** [`JobSeekerProfile.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) per-document; list row flag in [`JobSeekerManagement.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerManagement.tsx); “in progress” when no row yet.
 
 **Partial:** AI insights time-series in dashboard metrics commented out / TODO.
 
@@ -173,9 +173,9 @@ flowchart TD
 
 **DB fields:** `sin_expiry`, `work_permit_expiry` (plus `sin_number`, `work_permit_uci`).
 
-**Dashboard:** [`ExpiryStatusOverview.tsx`](../client/src/components/dashboard/ExpiryStatusOverview.tsx) → `GET /api/metrics/jobseekers/expiry-status-counts` — buckets: expired, ≤30/60/90 days, after 90, no data (SIN and work permit separately). Clicks through to SIN/work permit page.
+**Dashboard:** [`ExpiryStatusOverview.tsx`](../../../client/src/components/dashboard/ExpiryStatusOverview.tsx) → `GET /api/metrics/jobseekers/expiry-status-counts` — buckets: expired, ≤30/60/90 days, after 90, no data (SIN and work permit separately). Clicks through to SIN/work permit page.
 
-**Dedicated page:** [`SinWorkPermitManagement.tsx`](../client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx) — full expiry status filters on list API.
+**Dedicated page:** [`SinWorkPermitManagement.tsx`](../../../client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx) — full expiry status filters on list API.
 
 **Main jobseeker list:** does **not** expose SIN/expiry column filters (API supports them).
 
@@ -194,7 +194,7 @@ flowchart TD
 | Pending / rejected UX | `/profile-verification-pending`, `/profile-verification-rejected` | By status |
 | Fix rejected profile | `/jobseekers/:id/edit` | Rejected only |
 | Assigned positions | `/my-positions` | Verified |
-| Dashboard | `/dashboard` + [`JobSeekerDashboard.tsx`](../client/src/pages/Dashboard/JobSeekerDashboard.tsx) | Verified |
+| Dashboard | `/dashboard` + [`JobSeekerDashboard.tsx`](../../../client/src/pages/Dashboard/JobSeekerDashboard.tsx) | Verified |
 | Profile completion widget | Dashboard | Verified; uses Supabase + API |
 | Account settings | `/profile` | Authenticated |
 | Training / metric examples | Allowed while pending/rejected | Utility routes in `ProtectedRoute` |
@@ -202,7 +202,7 @@ flowchart TD
 
 **Cannot (by design):** `/jobseeker-management`, recruiter drafts, verify others, delete profiles.
 
-Nav items largely require `profileVerificationStatus === "verified"` in [`HamburgerMenu.tsx`](../client/src/components/HamburgerMenu.tsx).
+Nav items largely require `profileVerificationStatus === "verified"` in [`HamburgerMenu.tsx`](../../../client/src/components/HamburgerMenu.tsx).
 
 ---
 
@@ -322,24 +322,24 @@ Server uses **Supabase service role** on jobseeker routes (bypasses RLS).
 
 | Purpose | Path |
 |---------|------|
-| List | [`client/src/pages/ClientManagement/ClientManagement.tsx`](../client/src/pages/ClientManagement/ClientManagement.tsx) |
-| Create / edit / draft (shared form) | [`client/src/pages/ClientManagement/ClientCreate.tsx`](../client/src/pages/ClientManagement/ClientCreate.tsx) |
-| Edit wrapper | [`ClientEdit.tsx`](../client/src/pages/ClientManagement/ClientEdit.tsx) |
-| Draft edit wrapper | [`ClientDraftEdit.tsx`](../client/src/pages/ClientManagement/ClientDraftEdit.tsx) |
-| Draft list | [`ClientDrafts.tsx`](../client/src/pages/ClientManagement/ClientDrafts.tsx) |
-| Read-only view + consent | [`ClientView.tsx`](../client/src/pages/ClientManagement/ClientView.tsx) |
-| API client | [`client/src/services/api/client.ts`](../client/src/services/api/client.ts) |
-| Backend (monolithic route file) | [`server/src/routes/clients.ts`](../server/src/routes/clients.ts) → `/api/clients` |
-| Schema | [`server/src/db/migration_v2/004_clients_and_positions.sql`](../server/src/db/migration_v2/004_clients_and_positions.sql), [`014_inactivity_monitor.sql`](../server/src/db/migration_v2/014_inactivity_monitor.sql) |
-| Clients report | [`client/src/pages/Reports/ClientsReport.tsx`](../client/src/pages/Reports/ClientsReport.tsx) + `POST /api/reports/clients` |
+| List | [`client/src/pages/ClientManagement/ClientManagement.tsx`](../../../client/src/pages/ClientManagement/ClientManagement.tsx) |
+| Create / edit / draft (shared form) | [`client/src/pages/ClientManagement/ClientCreate.tsx`](../../../client/src/pages/ClientManagement/ClientCreate.tsx) |
+| Edit wrapper | [`ClientEdit.tsx`](../../../client/src/pages/ClientManagement/ClientEdit.tsx) |
+| Draft edit wrapper | [`ClientDraftEdit.tsx`](../../../client/src/pages/ClientManagement/ClientDraftEdit.tsx) |
+| Draft list | [`ClientDrafts.tsx`](../../../client/src/pages/ClientManagement/ClientDrafts.tsx) |
+| Read-only view + consent | [`ClientView.tsx`](../../../client/src/pages/ClientManagement/ClientView.tsx) |
+| API client | [`client/src/services/api/client.ts`](../../../client/src/services/api/client.ts) |
+| Backend (monolithic route file) | [`server/src/routes/clients.ts`](../../../server/src/routes/clients.ts) → `/api/clients` |
+| Schema | [`server/src/db/migration_v2/004_clients_and_positions.sql`](../../../server/src/db/migration_v2/004_clients_and_positions.sql), [`014_inactivity_monitor.sql`](../../../server/src/db/migration_v2/014_inactivity_monitor.sql) |
+| Clients report | [`client/src/pages/Reports/ClientsReport.tsx`](../../../client/src/pages/Reports/ClientsReport.tsx) + `POST /api/reports/clients` |
 
-**Routes** ([`App.tsx`](../client/src/App.tsx)): `/client-management`, `/view/:id`, `/create`, `/edit/:id`, `/drafts`, `/drafts/edit/:id`.
+**Routes** ([`App.tsx`](../../../client/src/App.tsx)): `/client-management`, `/view/:id`, `/create`, `/edit/:id`, `/drafts`, `/drafts/edit/:id`.
 
 ---
 
 ### 2.2 Client form — all fields
 
-Implemented in [`ClientCreate.tsx`](../client/src/pages/ClientManagement/ClientCreate.tsx) (Zod `clientFormSchema`).
+Implemented in [`ClientCreate.tsx`](../../../client/src/pages/ClientManagement/ClientCreate.tsx) (Zod `clientFormSchema`).
 
 **Company**
 
@@ -372,7 +372,7 @@ Primary required: `streetAddress1`, `city1`, `province1`, `postalCode1`; seconda
 
 **Payment & billing**
 
-`preferredPaymentMethod`, `terms`, `payCycle`, `creditLimit`, `notes` — from [`client/src/constants/formOptions.ts`](../client/src/constants/formOptions.ts).
+`preferredPaymentMethod`, `terms`, `payCycle`, `creditLimit`, `notes` — from [`client/src/constants/formOptions.ts`](../../../client/src/constants/formOptions.ts).
 
 **No client status enum** on form — only computed inactivity badge.
 
@@ -382,7 +382,7 @@ Primary required: `streetAddress1`, `city1`, `province1`, `postalCode1`; seconda
 
 - **Denormalized:** numbered columns on `clients` / `client_drafts`, not child tables.
 - UI always shows three contact and three address sections.
-- **Invoice CC flags** drive CC list when sending invoices ([`server/src/routes/invoices.ts`](../server/src/routes/invoices.ts)).
+- **Invoice CC flags** drive CC list when sending invoices ([`server/src/routes/invoices.ts`](../../../server/src/routes/invoices.ts)).
 - **Consent** uses `email_address1` + `company_name` for `consentable_type = 'client'`.
 
 ---
@@ -411,14 +411,14 @@ Primary required: `streetAddress1`, `city1`, `province1`, `postalCode1`; seconda
 
 - **No** `status` / `active` column on `clients`.
 - `last_activity_at` maintained by DB triggers on clients, positions, timesheets, invoices, assignments.
-- **`isInactive`:** `last_activity_at` (or `created_at`) older than **30 days** — badge on list and [`ClientView.tsx`](../client/src/pages/ClientManagement/ClientView.tsx).
+- **`isInactive`:** `last_activity_at` (or `created_at`) older than **30 days** — badge on list and [`ClientView.tsx`](../../../client/src/pages/ClientManagement/ClientView.tsx).
 - No manual deactivate workflow or dedicated inactivity admin screen.
 
 ---
 
 ### 2.6 Consent history on client profile
 
-- **Section:** “Digital Consent Records” on [`ClientView.tsx`](../client/src/pages/ClientManagement/ClientView.tsx).
+- **Section:** “Digital Consent Records” on [`ClientView.tsx`](../../../client/src/pages/ClientManagement/ClientView.tsx).
 - **API:** `GET /api/consent/entity-records/:id?consentableType=client` — cards with file name, version, status (`pending` / `completed` / `expired`), dates, link to consent dashboard.
 - **Creating consent** is on Consent module (`CreateConsentPage`), not embedded on client profile.
 - **Auth gap:** entity-records endpoint is **`authenticateToken` only** (no role guard matching client pages).
@@ -513,7 +513,7 @@ Primary required: `streetAddress1`, `city1`, `province1`, `postalCode1`; seconda
 
 ## Part 4 — Role reference (exact frontend lists)
 
-From [`accessControl.ts`](../client/src/constants/accessControl.ts):
+From [`accessControl.ts`](../../../client/src/constants/accessControl.ts):
 
 - **Jobseeker list:** admin, recruiter, bookkeeper, recruiter_manager, accountant_manager, recruiter_director
 - **Jobseeker create:** above staff subset + **jobseeker**

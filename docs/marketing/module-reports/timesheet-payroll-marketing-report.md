@@ -1,6 +1,6 @@
 # Timesheet and Payroll — Functional & Technical Summary
 
-This report reflects **what exists in the codebase today**, not roadmap items. Sources: [`client/src/pages/TimesheetManagement/`](../client/src/pages/TimesheetManagement/), [`server/src/routes/timesheet.routes.ts`](../server/src/routes/timesheet.routes.ts), [`server/src/services/timesheet.service.ts`](../server/src/services/timesheet.service.ts), [`client/src/lib/hybridPayrollSplit.ts`](../client/src/lib/hybridPayrollSplit.ts), and related files.
+This report reflects **what exists in the codebase today**, not roadmap items. Sources: [`client/src/pages/TimesheetManagement/`](../../../client/src/pages/TimesheetManagement/), [`server/src/routes/timesheet.routes.ts`](../../../server/src/routes/timesheet.routes.ts), [`server/src/services/timesheet.service.ts`](../../../server/src/services/timesheet.service.ts), [`client/src/lib/hybridPayrollSplit.ts`](../../../client/src/lib/hybridPayrollSplit.ts), and related files.
 
 ---
 
@@ -36,24 +36,24 @@ flowchart LR
 
 | Area | Key paths |
 |------|-----------|
-| Routes (UI) | [`client/src/App.tsx`](../client/src/App.tsx) |
-| Access control | [`client/src/constants/accessControl.ts`](../client/src/constants/accessControl.ts) |
-| Single entry page | [`client/src/pages/TimesheetManagement/TimesheetManagement.tsx`](../client/src/pages/TimesheetManagement/TimesheetManagement.tsx) |
-| Read-only view page | [`client/src/pages/TimesheetManagement/TimesheetView.tsx`](../client/src/pages/TimesheetManagement/TimesheetView.tsx) |
-| Bulk by client | [`client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx`](../client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx) |
-| Bulk by jobseeker | [`client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx`](../client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx) |
-| All timesheets list | [`client/src/pages/TimesheetManagement/TimesheetList.tsx`](../client/src/pages/TimesheetManagement/TimesheetList.tsx) |
-| Payroll engine | [`client/src/lib/hybridPayrollSplit.ts`](../client/src/lib/hybridPayrollSplit.ts), [`client/src/pages/TimesheetManagement/functions/timesheetCalculations.ts`](../client/src/pages/TimesheetManagement/functions/timesheetCalculations.ts) |
-| Submit orchestration | [`client/src/pages/TimesheetManagement/functions/timesheetSubmit.ts`](../client/src/pages/TimesheetManagement/functions/timesheetSubmit.ts) |
-| Week/prefill helpers | [`client/src/pages/TimesheetManagement/functions/timesheetWeek.ts`](../client/src/pages/TimesheetManagement/functions/timesheetWeek.ts) |
-| Client API | [`client/src/services/api/timesheet.ts`](../client/src/services/api/timesheet.ts) |
-| Server routes | [`server/src/routes/timesheet.routes.ts`](../server/src/routes/timesheet.routes.ts) |
-| Server controller | [`server/src/controllers/timesheet.controller.ts`](../server/src/controllers/timesheet.controller.ts) |
-| Server service | [`server/src/services/timesheet.service.ts`](../server/src/services/timesheet.service.ts) |
-| Versioning service | [`server/src/services/timesheet.version.ts`](../server/src/services/timesheet.version.ts) |
-| Email builders | [`server/src/services/timesheet.email.ts`](../server/src/services/timesheet.email.ts), [`server/src/email-templates/timesheet-html.ts`](../server/src/email-templates/timesheet-html.ts), [`server/src/email-templates/timesheet-txt.ts`](../server/src/email-templates/timesheet-txt.ts) |
-| DB schema | [`server/src/db/migration_v2/005_timesheets.sql`](../server/src/db/migration_v2/005_timesheets.sql), [`018_hybrid_payment_timesheets.sql`](../server/src/db/migration_v2/018_hybrid_payment_timesheets.sql), [`024_timesheets_bulk_jobseeker.sql`](../server/src/db/migration_v2/024_timesheets_bulk_jobseeker.sql), [`025_timesheets_tax_amount.sql`](../server/src/db/migration_v2/025_timesheets_tax_amount.sql) |
-| i18n | [`client/src/contexts/language/locales/en/timesheet.json`](../client/src/contexts/language/locales/en/timesheet.json), [`fr/timesheet.json`](../client/src/contexts/language/locales/fr/timesheet.json) |
+| Routes (UI) | [`client/src/App.tsx`](../../../client/src/App.tsx) |
+| Access control | [`client/src/constants/accessControl.ts`](../../../client/src/constants/accessControl.ts) |
+| Single entry page | [`client/src/pages/TimesheetManagement/TimesheetManagement.tsx`](../../../client/src/pages/TimesheetManagement/TimesheetManagement.tsx) |
+| Read-only view page | [`client/src/pages/TimesheetManagement/TimesheetView.tsx`](../../../client/src/pages/TimesheetManagement/TimesheetView.tsx) |
+| Bulk by client | [`client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx`](../../../client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx) |
+| Bulk by jobseeker | [`client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx`](../../../client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx) |
+| All timesheets list | [`client/src/pages/TimesheetManagement/TimesheetList.tsx`](../../../client/src/pages/TimesheetManagement/TimesheetList.tsx) |
+| Payroll engine | [`client/src/lib/hybridPayrollSplit.ts`](../../../client/src/lib/hybridPayrollSplit.ts), [`client/src/pages/TimesheetManagement/functions/timesheetCalculations.ts`](../../../client/src/pages/TimesheetManagement/functions/timesheetCalculations.ts) |
+| Submit orchestration | [`client/src/pages/TimesheetManagement/functions/timesheetSubmit.ts`](../../../client/src/pages/TimesheetManagement/functions/timesheetSubmit.ts) |
+| Week/prefill helpers | [`client/src/pages/TimesheetManagement/functions/timesheetWeek.ts`](../../../client/src/pages/TimesheetManagement/functions/timesheetWeek.ts) |
+| Client API | [`client/src/services/api/timesheet.ts`](../../../client/src/services/api/timesheet.ts) |
+| Server routes | [`server/src/routes/timesheet.routes.ts`](../../../server/src/routes/timesheet.routes.ts) |
+| Server controller | [`server/src/controllers/timesheet.controller.ts`](../../../server/src/controllers/timesheet.controller.ts) |
+| Server service | [`server/src/services/timesheet.service.ts`](../../../server/src/services/timesheet.service.ts) |
+| Versioning service | [`server/src/services/timesheet.version.ts`](../../../server/src/services/timesheet.version.ts) |
+| Email builders | [`server/src/services/timesheet.email.ts`](../../../server/src/services/timesheet.email.ts), [`server/src/email-templates/timesheet-html.ts`](../../../server/src/email-templates/timesheet-html.ts), [`server/src/email-templates/timesheet-txt.ts`](../../../server/src/email-templates/timesheet-txt.ts) |
+| DB schema | [`server/src/db/migration_v2/005_timesheets.sql`](../../../server/src/db/migration_v2/005_timesheets.sql), [`018_hybrid_payment_timesheets.sql`](../../../server/src/db/migration_v2/018_hybrid_payment_timesheets.sql), [`024_timesheets_bulk_jobseeker.sql`](../../../server/src/db/migration_v2/024_timesheets_bulk_jobseeker.sql), [`025_timesheets_tax_amount.sql`](../../../server/src/db/migration_v2/025_timesheets_tax_amount.sql) |
+| i18n | [`client/src/contexts/language/locales/en/timesheet.json`](../../../client/src/contexts/language/locales/en/timesheet.json), [`fr/timesheet.json`](../../../client/src/contexts/language/locales/fr/timesheet.json) |
 
 ---
 
@@ -68,13 +68,13 @@ flowchart LR
 | `/bulk-timesheet-management/jobseeker` | `admin`, `bookkeeper` |
 | `/timesheet-management/list` | `admin`, `bookkeeper` |
 
-Constants: `TIMESHEET_MANAGEMENT_ROLES`, `BULK_TIMESHEET_ROLES` in [`accessControl.ts`](../client/src/constants/accessControl.ts).
+Constants: `TIMESHEET_MANAGEMENT_ROLES`, `BULK_TIMESHEET_ROLES` in [`accessControl.ts`](../../../client/src/constants/accessControl.ts).
 
 Frontend uses **exact role matching** — no expansion.
 
 ### Backend API (`authorizeRoles(["admin", "recruiter", "jobseeker"])` on all timesheet routes)
 
-The `"recruiter"` token expands via `RECRUITER_ACCESS_ROLES` in [`server/src/middleware/auth.ts`](../server/src/middleware/auth.ts) to also include: **bookkeeper**, **recruiter_manager**, **accountant_manager**, **sales**, **recruiter_director**.
+The `"recruiter"` token expands via `RECRUITER_ACCESS_ROLES` in [`server/src/middleware/auth.ts`](../../../server/src/middleware/auth.ts) to also include: **bookkeeper**, **recruiter_manager**, **accountant_manager**, **sales**, **recruiter_director**.
 
 **Effective API access:** admin + all expanded internal roles + jobseekers (scoped to own data on reads/writes).
 
@@ -84,7 +84,7 @@ The `"recruiter"` token expands via `RECRUITER_ACCESS_ROLES` in [`server/src/mid
 - **Bulk UI vs API:** Bulk create pages are admin/bookkeeper only; API create/update is available to all expanded internal roles.
 - **Single timesheet UI vs API:** UI lists recruiter roles explicitly; **sales** and **accountant_manager** have API access but no timesheet UI route.
 - **Jobseeker:** No timesheet UI routes; API scoped to own `jobseeker_user_id`.
-- **Delete:** `DELETE /api/timesheets/:id` works on backend; list UI delete is stubbed (see List section).
+- **Delete:** `DELETE /api/timesheets/:id` is wired from the list (see List section).
 
 ---
 
@@ -375,8 +375,8 @@ Same `useBulkTimesheetSubmit` hook and `timesheetSubmit.ts` — identical duplic
 
 ### Delete
 
-- **UI:** `ConfirmationModal` exists in `TimesheetList.tsx` but **no delete button in table**; `handleConfirmDelete` in hook is an **empty placeholder**
-- **Backend:** `DELETE /api/timesheets/:id` fully implemented with activity log — **not wired from list UI**
+- **UI:** the table shows a delete button to the roles in `DELETE_TIMESHEET_ROLES` (admin, bookkeeper, recruiter manager, recruiter director); `ConfirmationModal` asks first, `handleConfirmDelete` calls the API and refreshes the list *(updated Nov 2026)*
+- **Backend:** `DELETE /api/timesheets/:id` fully implemented with activity log
 
 ### Header shortcuts
 
@@ -385,12 +385,12 @@ Same `useBulkTimesheetSubmit` hook and `timesheetSubmit.ts` — identical duplic
 
 ### Other gaps
 
-- No row click / edit navigation from list — editing requires returning to single or bulk entry pages
+- Each row has View (read-only `/timesheet-management/view/:id`) and Edit (opens the single or jobseeker-bulk entry page pre-filled) buttons *(updated Nov 2026)*
 - "Total Pay" column header is **hardcoded English** (not translated)
 
 ### Status
 
-List, filters, pagination, email send/resend: **fully working**. Delete from list: **stubbed**. Row edit from list: **not present**.
+List, filters, pagination, email send/resend: **fully working**. Delete from list: **fully working**. View and Edit from list: **fully working**.
 
 ---
 
@@ -466,7 +466,7 @@ Confirmed fields in both HTML and plain text:
 | Navigation/menu labels | Translated in `en.json` / `fr.json` |
 | Email templates | **English only** |
 
-French locale file exists: [`client/src/contexts/language/locales/fr/timesheet.json`](../client/src/contexts/language/locales/fr/timesheet.json)
+French locale file exists: [`client/src/contexts/language/locales/fr/timesheet.json`](../../../client/src/contexts/language/locales/fr/timesheet.json)
 
 ---
 
@@ -503,8 +503,8 @@ French locale file exists: [`client/src/contexts/language/locales/fr/timesheet.j
 | All timesheets list + filters + pagination | **Fully working** |
 | Invoice number generation | **Fully working** |
 | EN/FR UI localization | **Mostly working** (one hardcoded string; emails EN-only) |
-| List delete | **Stubbed** (modal/hook shell; API ready) |
-| List row edit navigation | **Not present** |
+| List delete | **Fully working** (button, confirmation, API, refresh) |
+| List row view / edit buttons | **Fully working** |
 | Timesheet PDF attachment | **Not implemented** (API column exists) |
 | Document upload on timesheet pages | **Not wired** |
 | Client dropdown assignment filter (single entry) | **Not implemented** (shows all clients) |
@@ -515,7 +515,7 @@ French locale file exists: [`client/src/contexts/language/locales/fr/timesheet.j
 
 ## 8. API endpoint reference
 
-All under `/api/timesheets`, mounted in [`server/src/routes/timesheet.routes.ts`](../server/src/routes/timesheet.routes.ts):
+All under `/api/timesheets`, mounted in [`server/src/routes/timesheet.routes.ts`](../../../server/src/routes/timesheet.routes.ts):
 
 | Method | Path | Purpose |
 |--------|------|---------|
@@ -527,6 +527,6 @@ All under `/api/timesheets`, mounted in [`server/src/routes/timesheet.routes.ts`
 | PUT | `/:id` | Update |
 | PATCH | `/:id/document` | Attach document path (unused in UI) |
 | POST | `/send-email/:id` | Manual email send/resend |
-| DELETE | `/:id` | Delete (unused in list UI) |
+| DELETE | `/:id` | Delete (used by the list) |
 
 Related: `GET /api/positions/:id/assignments` (bulk client flow).

@@ -3,8 +3,8 @@
 **Scope:** Verified against `client/src` and `server/src` only. No speculation on roadmap items.
 
 **Auth model (applies throughout):**
-- **Frontend `RoleRoute`:** exact role match via `hasAnyExactAccessRole` ([`client/src/components/ProtectedRoute.tsx`](../client/src/components/ProtectedRoute.tsx), [`client/src/lib/auth.ts`](../client/src/lib/auth.ts)).
-- **Backend `authorizeRoles(["recruiter"])`:** expands `recruiter` to all of `RECRUITER_ACCESS_ROLES`: `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` ([`server/src/middleware/auth.ts`](../server/src/middleware/auth.ts)).
+- **Frontend `RoleRoute`:** exact role match via `hasAnyExactAccessRole` ([`client/src/components/ProtectedRoute.tsx`](../../../client/src/components/ProtectedRoute.tsx), [`client/src/lib/auth.ts`](../../../client/src/lib/auth.ts)).
+- **Backend `authorizeRoles(["recruiter"])`:** expands `recruiter` to all of `RECRUITER_ACCESS_ROLES`: `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` ([`server/src/middleware/auth.ts`](../../../server/src/middleware/auth.ts)).
 
 ---
 
@@ -15,10 +15,10 @@
 | Item | Detail |
 |------|--------|
 | **Route** | `/reports` |
-| **Page** | [`client/src/pages/Reports/Reports.tsx`](../client/src/pages/Reports/Reports.tsx) |
-| **Styles** | [`client/src/styles/pages/Reports.css`](../client/src/styles/pages/Reports.css) |
-| **Routes** | [`client/src/App.tsx`](../client/src/App.tsx) — wrapped in `RoleRoute` with `REPORTS_ROLES` |
-| **Menu** | [`client/src/components/HamburgerMenu.tsx`](../client/src/components/HamburgerMenu.tsx) — "Reports & Analytics" → `/reports` |
+| **Page** | [`client/src/pages/Reports/Reports.tsx`](../../../client/src/pages/Reports/Reports.tsx) |
+| **Styles** | [`client/src/styles/pages/Reports.css`](../../../client/src/styles/pages/Reports.css) |
+| **Routes** | [`client/src/App.tsx`](../../../client/src/App.tsx) — wrapped in `RoleRoute` with `REPORTS_ROLES` |
+| **Menu** | [`client/src/components/HamburgerMenu.tsx`](../../../client/src/components/HamburgerMenu.tsx) — "Reports & Analytics" → `/reports` |
 
 **Structure:** Three categories with clickable cards (no separate `ReportHub` component):
 
@@ -28,13 +28,13 @@
 
 **User sees:** Header, subtitle, category headings, cards with icon/title/description; click navigates to report route.
 
-**Frontend access (`REPORTS_ROLES` in [`client/src/constants/accessControl.ts`](../client/src/constants/accessControl.ts)):**
+**Frontend access (`REPORTS_ROLES` in [`client/src/constants/accessControl.ts`](../../../client/src/constants/accessControl.ts)):**
 - `admin`
 - `bookkeeper`
 - `accountant_manager`
 - `recruiter_director`
 
-**Backend access (all `POST /api/reports/*`):** `authorizeRoles(["admin", "recruiter"])` → admin + expanded recruiter family ([`server/src/routes/reports.ts`](../server/src/routes/reports.ts)).
+**Backend access (all `POST /api/reports/*`):** `authorizeRoles(["admin", "recruiter"])` → admin + expanded recruiter family ([`server/src/routes/reports.ts`](../../../server/src/routes/reports.ts)).
 
 **Role mismatches (marketing caution):**
 
@@ -56,10 +56,10 @@
 
 | Concern | Implementation |
 |---------|----------------|
-| API client | [`client/src/services/api/reports.ts`](../client/src/services/api/reports.ts) |
-| Server router | [`server/src/routes/reports.ts`](../server/src/routes/reports.ts) — mounted at `/api/reports` in [`server/src/index.ts`](../server/src/index.ts) |
-| UI styles | [`client/src/styles/pages/CommonReportsStyles.css`](../client/src/styles/pages/CommonReportsStyles.css) |
-| CSV export | **Client-side only** — [`client/src/utils/csvExport.ts`](../client/src/utils/csvExport.ts); "Download CSV" when rows exist; **no server CSV endpoints** |
+| API client | [`client/src/services/api/reports.ts`](../../../client/src/services/api/reports.ts) |
+| Server router | [`server/src/routes/reports.ts`](../../../server/src/routes/reports.ts) — mounted at `/api/reports` in [`server/src/index.ts`](../../../server/src/index.ts) |
+| UI styles | [`client/src/styles/pages/CommonReportsStyles.css`](../../../client/src/styles/pages/CommonReportsStyles.css) |
+| CSV export | **Client-side only** — [`client/src/utils/csvExport.ts`](../../../client/src/utils/csvExport.ts); "Download CSV" when rows exist; **no server CSV endpoints** |
 | Inactive highlighting | Several reports flag `client_is_inactive` (30-day rule) and `jobseeker_is_inactive` (60-day rule) in server logic |
 
 ---
@@ -67,7 +67,7 @@
 ### 1.3 Individual reports (all nine working)
 
 #### Weekly Timesheet
-- **Route:** `/reports/weekly-timesheet` — [`client/src/pages/Reports/WeeklyTimesheet.tsx`](../client/src/pages/Reports/WeeklyTimesheet.tsx)
+- **Route:** `/reports/weekly-timesheet` — [`client/src/pages/Reports/WeeklyTimesheet.tsx`](../../../client/src/pages/Reports/WeeklyTimesheet.tsx)
 - **API:** `POST /api/reports/timesheet`
 - **Required filters:** Job seeker; at least one week period
 - **Optional filters:** Clients, pay cycle, list name
@@ -76,7 +76,7 @@
 - **Smart behavior:** Cash/e-Transfer deduction aligned with timesheet email logic; week-period OR filtering
 
 #### Deduction Report
-- **Route:** `/reports/deduction` — [`DeductionReport.tsx`](../client/src/pages/Reports/DeductionReport.tsx)
+- **Route:** `/reports/deduction` — [`DeductionReport.tsx`](../../../client/src/pages/Reports/DeductionReport.tsx)
 - **API:** `POST /api/reports/deduction`
 - **Required:** Start date, end date
 - **Columns:** Invoice #, client, accounting person, total amount, jobseeker deductions, total deductions, invoice date
@@ -84,7 +84,7 @@
 - **Data:** Invoice lines with negative bill rates
 
 #### Invoice Report
-- **Route:** `/reports/invoice` — [`InvoiceReport.tsx`](../client/src/pages/Reports/InvoiceReport.tsx)
+- **Route:** `/reports/invoice` — [`InvoiceReport.tsx`](../../../client/src/pages/Reports/InvoiceReport.tsx)
 - **API:** `POST /api/reports/invoice`
 - **Required:** Start date, end date
 - **Optional:** Clients (multi-select)
@@ -92,7 +92,7 @@
 - **CSV:** `Invoice Report.csv` — **works**
 
 #### Sales Report
-- **Route:** `/reports/sales` — [`SalesReport.tsx`](../client/src/pages/Reports/SalesReport.tsx)
+- **Route:** `/reports/sales` — [`SalesReport.tsx`](../../../client/src/pages/Reports/SalesReport.tsx)
 - **API:** `POST /api/reports/sales`
 - **Required:** At least one client
 - **Optional:** Start/end date, jobseekers, sales persons
@@ -100,14 +100,14 @@
 - **CSV:** `Sales Report.csv` — **works**
 
 #### Rate List
-- **Route:** `/reports/rate-list` — [`RateList.tsx`](../client/src/pages/Reports/RateList.tsx)
+- **Route:** `/reports/rate-list` — [`RateList.tsx`](../../../client/src/pages/Reports/RateList.tsx)
 - **API:** `POST /api/reports/rate-list`
 - **UI requires:** At least one client (API can return all non-draft positions if client list empty)
 - **Columns:** Client, position details, category, bill/pay/premium/overtime rates; client inactive flag
 - **CSV:** `Rate List.csv` — **works**
 
 #### Margin Report
-- **Route:** `/reports/margin` — [`MarginReport.tsx`](../client/src/pages/Reports/MarginReport.tsx)
+- **Route:** `/reports/margin` — [`MarginReport.tsx`](../../../client/src/pages/Reports/MarginReport.tsx)
 - **API:** `POST /api/reports/margin`
 - **Required:** Start date, end date
 - **Columns:** Invoice #, client, accounting person, total billed, paid amount, paid breakdown by payment method (cash, corp cheque, corp DD, e-Transfer, DD, cheque), margin amount/%, invoice date
@@ -115,7 +115,7 @@
 - **Smart behavior:** Margin from subtotal vs jobseeker pay with payment-method splits
 
 #### Envelope Printing (Position Details)
-- **Route:** `/reports/envelope-printing-position` — [`EnvelopePrintingReport.tsx`](../client/src/pages/Reports/EnvelopePrintingReport.tsx)
+- **Route:** `/reports/envelope-printing-position` — [`EnvelopePrintingReport.tsx`](../../../client/src/pages/Reports/EnvelopePrintingReport.tsx)
 - **API:** `POST /api/reports/envelope-printing-position`
 - **Required:** At least one client
 - **Optional:** Start/end date (defaults last month → today), list name, pay cycle
@@ -124,7 +124,7 @@
 - **Smart behavior:** Matches timesheet lines to invoices; builds envelope serial numbers; payment due date computation
 
 #### Envelope Printing (By Due Date)
-- **Route:** `/reports/envelope-printing-by-due-date` — [`EnvelopePrintingByDueDateReport.tsx`](../client/src/pages/Reports/EnvelopePrintingByDueDateReport.tsx)
+- **Route:** `/reports/envelope-printing-by-due-date` — [`EnvelopePrintingByDueDateReport.tsx`](../../../client/src/pages/Reports/EnvelopePrintingByDueDateReport.tsx)
 - **API:** `POST /api/reports/envelope-printing-by-due-date`
 - **Required:** At least one client
 - **Optional:** Payment due date range, list name, pay cycle
@@ -133,7 +133,7 @@
 - **Smart behavior:** Groups timesheets and envelope batches by invoice payment due date for financial distribution workflows
 
 #### Clients Report
-- **Route:** `/reports/clients` — [`ClientsReport.tsx`](../client/src/pages/Reports/ClientsReport.tsx)
+- **Route:** `/reports/clients` — [`ClientsReport.tsx`](../../../client/src/pages/Reports/ClientsReport.tsx)
 - **API:** `POST /api/reports/clients`
 - **Filters:** Loads all non-draft clients on mount; optional client manager, payment method, terms (defaults: all payment methods and terms selected)
 - **Columns:** Company/billing name, short code, list, accounting/sales/client manager, contact, email, mobile, address, payment method, pay cycle, terms, notes
@@ -147,17 +147,17 @@
 
 | File | Role |
 |------|------|
-| [`client/src/pages/Dashboard/Dashboard.tsx`](../client/src/pages/Dashboard/Dashboard.tsx) | Picks dashboard by auth flags |
-| [`client/src/App.tsx`](../client/src/App.tsx) | `/dashboard` under `ProtectedRoute` only (no `RoleRoute`) |
+| [`client/src/pages/Dashboard/Dashboard.tsx`](../../../client/src/pages/Dashboard/Dashboard.tsx) | Picks dashboard by auth flags |
+| [`client/src/App.tsx`](../../../client/src/App.tsx) | `/dashboard` under `ProtectedRoute` only (no `RoleRoute`) |
 
 **Selection order (important for buyers):**
-1. If `isRecruiter` → **RecruiterDashboard** ([`RecruiterDashboard.tsx`](../client/src/pages/Dashboard/RecruiterDashboard.tsx))
-2. Else if `isAdmin` → **AdminDashboard** ([`AdminDashboard.tsx`](../client/src/pages/Dashboard/AdminDashboard.tsx))
-3. Else → **JobSeekerDashboard** ([`JobSeekerDashboard.tsx`](../client/src/pages/Dashboard/JobSeekerDashboard.tsx))
+1. If `isRecruiter` → **RecruiterDashboard** ([`RecruiterDashboard.tsx`](../../../client/src/pages/Dashboard/RecruiterDashboard.tsx))
+2. Else if `isAdmin` → **AdminDashboard** ([`AdminDashboard.tsx`](../../../client/src/pages/Dashboard/AdminDashboard.tsx))
+3. Else → **JobSeekerDashboard** ([`JobSeekerDashboard.tsx`](../../../client/src/pages/Dashboard/JobSeekerDashboard.tsx))
 
 `isRecruiter` matches **all** `RECRUITER_ACCESS_ROLES` (bookkeeper, sales, managers, etc.). **Recruiter is checked before admin** — a user with both admin and recruiter-family roles sees **Recruiter**, not Admin.
 
-**Menu:** `DASHBOARD_ROLES` = all internal staff + jobseeker ([`accessControl.ts`](../client/src/constants/accessControl.ts)).
+**Menu:** `DASHBOARD_ROLES` = all internal staff + jobseeker ([`accessControl.ts`](../../../client/src/constants/accessControl.ts)).
 
 ---
 
@@ -178,11 +178,11 @@
 | AI insights | `MetricGrid` + `AISummary` | `GET /api/ai/insights`, `GET /api/ai/insights/timerange` | **Partial** (§2.6) |
 | Client metrics (1 horizontal card) | `MetricCard` `showGraph={true}` | `GET /api/metrics/recruiters/clients` | Total clients; graph on by default |
 
-**Invoice metric IDs** ([`server/src/routes/invoiceMetrics.ts`](../server/src/routes/invoiceMetrics.ts)): total invoices, total billed, hours billed, invoices with/without email sent; 12-month history.
+**Invoice metric IDs** ([`server/src/routes/invoiceMetrics.ts`](../../../server/src/routes/invoiceMetrics.ts)): total invoices, total billed, hours billed, invoices with/without email sent; 12-month history.
 
-**Timesheet metric IDs** ([`server/src/routes/timesheetMetrics.ts`](../server/src/routes/timesheetMetrics.ts)): total timesheets, total jobseeker pay, bonus, deduction, regular hours, overtime hours; 12-month history.
+**Timesheet metric IDs** ([`server/src/routes/timesheetMetrics.ts`](../../../server/src/routes/timesheetMetrics.ts)): total timesheets, total jobseeker pay, bonus, deduction, regular hours, overtime hours; 12-month history.
 
-**Charts/trends:** API returns `historicalData`. Grid cards default `showGraph={false}`; user expands per card to see `MetricChart` ([`client/src/components/dashboard/MetricChart.tsx`](../client/src/components/dashboard/MetricChart.tsx)).
+**Charts/trends:** API returns `historicalData`. Grid cards default `showGraph={false}`; user expands per card to see `MetricChart` ([`client/src/components/dashboard/MetricChart.tsx`](../../../client/src/components/dashboard/MetricChart.tsx)).
 
 **Admin-only quirks:**
 - `DataViewToggle` labels imply "all recruiters" but **always loads org-wide** APIs (no toggle wiring).
@@ -208,9 +208,9 @@
 | Client metrics | Same | **Working** toggle |
 | Invoice / timesheet metrics | **Absent** | — |
 
-**Client APIs:** [`client/src/services/api/recruiterMetrics.ts`](../client/src/services/api/recruiterMetrics.ts), [`timesheetMetrics.ts`](../client/src/services/api/timesheetMetrics.ts), [`invoiceMetrics.ts`](../client/src/services/api/invoiceMetrics.ts), [`aiInsights.ts`](../client/src/services/api/aiInsights.ts).
+**Client APIs:** [`client/src/services/api/recruiterMetrics.ts`](../../../client/src/services/api/recruiterMetrics.ts), [`timesheetMetrics.ts`](../../../client/src/services/api/timesheetMetrics.ts), [`invoiceMetrics.ts`](../../../client/src/services/api/invoiceMetrics.ts), [`aiInsights.ts`](../../../client/src/services/api/aiInsights.ts).
 
-**Server:** [`server/src/routes/recruiterMetrics.ts`](../server/src/routes/recruiterMetrics.ts), [`jobseekerMetrics.ts`](../server/src/routes/jobseekerMetrics.ts), [`timesheetMetrics.ts`](../server/src/routes/timesheetMetrics.ts), [`invoiceMetrics.ts`](../server/src/routes/invoiceMetrics.ts), [`aiInsights.ts`](../server/src/routes/aiInsights.ts).
+**Server:** [`server/src/routes/recruiterMetrics.ts`](../../../server/src/routes/recruiterMetrics.ts), [`jobseekerMetrics.ts`](../../../server/src/routes/jobseekerMetrics.ts), [`timesheetMetrics.ts`](../../../server/src/routes/timesheetMetrics.ts), [`invoiceMetrics.ts`](../../../server/src/routes/invoiceMetrics.ts), [`aiInsights.ts`](../../../server/src/routes/aiInsights.ts).
 
 ---
 
@@ -218,9 +218,9 @@
 
 | Layer | Path |
 |-------|------|
-| Hook | [`client/src/hooks/useRecentActivities.ts`](../client/src/hooks/useRecentActivities.ts) |
-| UI | [`client/src/components/dashboard/RecentActivities.tsx`](../client/src/components/dashboard/RecentActivities.tsx) |
-| Writer | [`server/src/middleware/activityLogger.ts`](../server/src/middleware/activityLogger.ts) |
+| Hook | [`client/src/hooks/useRecentActivities.ts`](../../../client/src/hooks/useRecentActivities.ts) |
+| UI | [`client/src/components/dashboard/RecentActivities.tsx`](../../../client/src/components/dashboard/RecentActivities.tsx) |
+| Writer | [`server/src/middleware/activityLogger.ts`](../../../server/src/middleware/activityLogger.ts) |
 
 **How it works:**
 1. Initial load: Supabase `recent_activities`, `is_deleted = false`, newest first, limit 10.
@@ -244,9 +244,9 @@
 
 | Item | Path |
 |------|------|
-| Component | [`client/src/components/dashboard/ExpiryStatusOverview.tsx`](../client/src/components/dashboard/ExpiryStatusOverview.tsx) |
-| API | `GET /api/metrics/jobseekers/expiry-status-counts` — [`server/src/routes/jobseekerMetrics.ts`](../server/src/routes/jobseekerMetrics.ts) |
-| Client | [`client/src/services/api/jobseekerMetrics.ts`](../client/src/services/api/jobseekerMetrics.ts) |
+| Component | [`client/src/components/dashboard/ExpiryStatusOverview.tsx`](../../../client/src/components/dashboard/ExpiryStatusOverview.tsx) |
+| API | `GET /api/metrics/jobseekers/expiry-status-counts` — [`server/src/routes/jobseekerMetrics.ts`](../../../server/src/routes/jobseekerMetrics.ts) |
+| Client | [`client/src/services/api/jobseekerMetrics.ts`](../../../client/src/services/api/jobseekerMetrics.ts) |
 
 **User sees:** Two panels (SIN, Work Permit) with buckets: expired, ≤30/60/90 days, after 90 days, plus profiles-with-data count.
 
@@ -263,8 +263,8 @@
 | Layer | Path |
 |-------|------|
 | UI | `AISummary` + metric cards in Admin/Recruiter dashboards |
-| Server | [`server/src/routes/aiInsights.ts`](../server/src/routes/aiInsights.ts) — `/api/ai/insights`, `/api/ai/insights/timerange` |
-| Client | [`client/src/services/api/aiInsights.ts`](../client/src/services/api/aiInsights.ts) |
+| Server | [`server/src/routes/aiInsights.ts`](../../../server/src/routes/aiInsights.ts) — `/api/ai/insights`, `/api/ai/insights/timerange` |
+| Client | [`client/src/services/api/aiInsights.ts`](../../../client/src/services/api/aiInsights.ts) |
 
 **What works:**
 - **Summary (`AISummary`):** `totalDocumentsScanned` = row count of `ai_validation`; `totalJobseekersMatched` = sum of `positions.number_of_positions`.
@@ -272,7 +272,7 @@
 - **Monthly chart for "jobseekers matched":** Built from `positions.created_at` in timerange — **works**.
 
 **What is partial / misleading for marketing:**
-- **"Documents scanned" monthly trend:** Aggregation code is **commented out** with a stale TODO; monthly `documentsScanned` stays **0** in charts even though migration `012` defines `ai_validation.created_at` ([`server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql`](../server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql)).
+- **"Documents scanned" monthly trend:** Aggregation code is **commented out** with a stale TODO; monthly `documentsScanned` stays **0** in charts even though migration `012` defines `ai_validation.created_at` ([`server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql`](../../../server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql)).
 - **Label "jobseekers matched":** Counts **position slot totals**, not embedding matches or assignments.
 - **Recruiter dashboard:** AI block has **no** personal/org toggle — always organization-wide.
 
@@ -284,11 +284,11 @@
 
 ### 2.7 Jobseeker dashboard (brief)
 
-**Path:** [`JobSeekerDashboard.tsx`](../client/src/pages/Dashboard/JobSeekerDashboard.tsx)
+**Path:** [`JobSeekerDashboard.tsx`](../../../client/src/pages/Dashboard/JobSeekerDashboard.tsx)
 
 **Shows:** Assignment metrics (`GET /api/metrics/jobseekers/:candidateId`), `ProfileCompletion` — **no** activity feed, expiry widget, AI insights, invoice/timesheet.
 
-**Status:** **Working** for verified jobseekers with profile.
+**Status:** **Working** for verified jobseekers with profile. A jobseeker can read only their own metrics (403 for anyone else's id). Since Nov 2026, portals with the `jobseeker_payroll_summary` flag on also show **Total No. Hours** and **Gross Amount** cards.
 
 ---
 
@@ -336,17 +336,17 @@ sequenceDiagram
 
 | Item | Path |
 |------|------|
-| Trigger (create) | [`server/src/routes/profile.ts`](../server/src/routes/profile.ts) — `POST /api/profile/submit` |
-| Trigger (update) | [`server/src/routes/jobseekers.ts`](../server/src/routes/jobseekers.ts) — `PUT /api/jobseekers/profile/:id/update` |
+| Trigger (create) | [`server/src/routes/profile.ts`](../../../server/src/routes/profile.ts) — `POST /api/profile/submit` |
+| Trigger (update) | [`server/src/routes/jobseekers.ts`](../../../server/src/routes/jobseekers.ts) — `PUT /api/jobseekers/profile/:id/update` |
 | Read merge | `GET /api/jobseekers/profile/:id` in same file |
-| External URL | `AI_VERIFICATION_URL` or default Heroku `analyze-profile-documents` ([`server/.env.example`](../server/.env.example)) |
-| Schema | [`server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql`](../server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql) |
+| External URL | `AI_VERIFICATION_URL` or default Heroku `analyze-profile-documents` ([`server/.env.example`](../../../server/.env.example)) |
+| Schema | [`server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql`](../../../server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql) |
 
-**Returns to UI (`ai_response` fields used):** `document_authentication_percentage`, `is_tampered`, `is_blurry`, `is_text_clear`, `is_resubmission_required`, `notes`; types in [`client/src/types/jobseeker.ts`](../client/src/types/jobseeker.ts).
+**Returns to UI (`ai_response` fields used):** `document_authentication_percentage`, `is_tampered`, `is_blurry`, `is_text_clear`, `is_resubmission_required`, `notes`; types in [`client/src/types/jobseeker.ts`](../../../client/src/types/jobseeker.ts).
 
 **Where results appear:**
-- [`client/src/pages/JobseekerManagement/JobSeekerProfile.tsx`](../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) — per-document gauge, quality flags, notes; profile-level "needs attention" badge.
-- [`client/src/pages/JobseekerManagement/JobSeekerManagement.tsx`](../client/src/pages/JobseekerManagement/JobSeekerManagement.tsx) — list "needs attention" for pending profiles **likely broken** because list API does not include `documents` / `aiValidation`.
+- [`client/src/pages/JobseekerManagement/JobSeekerProfile.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) — per-document gauge, quality flags, notes; profile-level "needs attention" badge.
+- [`client/src/pages/JobseekerManagement/JobSeekerManagement.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerManagement.tsx) — list "needs attention" for pending profiles **likely broken** because list API does not include `documents` / `aiValidation`.
 
 **Manual verification (not AI):** Recruiters set `verification_status` via `PUT /api/jobseekers/profile/:id/status`; employee ID on verify.
 
@@ -364,10 +364,10 @@ sequenceDiagram
 
 | Item | Path |
 |------|------|
-| RPC | [`server/src/db/functions/find_matching_candidates.sql`](../server/src/db/functions/find_matching_candidates.sql) |
-| API | `GET /api/jobseekers/position-candidates/:positionId` — [`server/src/routes/jobseekers.ts`](../server/src/routes/jobseekers.ts) |
-| UI | [`client/src/pages/PositionManagement/PositionMatching.tsx`](../client/src/pages/PositionManagement/PositionMatching.tsx) |
-| Embeddings | [`server/src/db/migration_v2/011_embeddings.sql`](../server/src/db/migration_v2/011_embeddings.sql) |
+| RPC | [`server/src/db/functions/find_matching_candidates.sql`](../../../server/src/db/functions/find_matching_candidates.sql) |
+| API | `GET /api/jobseekers/position-candidates/:positionId` — [`server/src/routes/jobseekers.ts`](../../../server/src/routes/jobseekers.ts) |
+| UI | [`client/src/pages/PositionManagement/PositionMatching.tsx`](../../../client/src/pages/PositionManagement/PositionMatching.tsx) |
+| Embeddings | [`server/src/db/migration_v2/011_embeddings.sql`](../../../server/src/db/migration_v2/011_embeddings.sql) |
 
 **Mechanism:** Cosine similarity on `bio_embedding` / `job_embedding` (pgvector), not in-request LLM.
 
@@ -387,11 +387,11 @@ sequenceDiagram
 
 | Item | Detail |
 |------|--------|
-| Page | [`client/src/pages/GodspeedAIChat.tsx`](../client/src/pages/GodspeedAIChat.tsx) |
-| Component | [`client/src/components/IframeViewer.tsx`](../client/src/components/IframeViewer.tsx) |
-| Route | `/ai-chat` — [`client/src/App.tsx`](../client/src/App.tsx) |
+| Page | [`client/src/pages/GodspeedAIChat.tsx`](../../../client/src/pages/GodspeedAIChat.tsx) |
+| Component | [`client/src/components/IframeViewer.tsx`](../../../client/src/components/IframeViewer.tsx) |
+| Route | `/ai-chat` — [`client/src/App.tsx`](../../../client/src/App.tsx) |
 | URL | `VITE_AI_CHAT_URL` or default `https://godspeed-ops-ai-mhbl.onrender.com/` |
-| Menu title | "AllStaff AI Chat" |
+| Menu title | "{brand} AI Chat" (per portal; the page title is the Portal Setting `branding.aiChatTitle`) |
 
 **Frontend access:** `AI_CHAT_ROLES` = all `INTERNAL_STAFF_ROLES` (admin, recruiter, bookkeeper, recruiter_manager, accountant_manager, sales, recruiter_director).
 
@@ -407,9 +407,9 @@ sequenceDiagram
 
 | Item | Detail |
 |------|--------|
-| Component | [`client/src/components/FloatingChat.tsx`](../client/src/components/FloatingChat.tsx) |
-| Styles | [`client/src/styles/components/floating-chat.css`](../client/src/styles/components/floating-chat.css) |
-| Mount | **Commented out** in [`client/src/App.tsx`](../client/src/App.tsx) (`{/* <FloatingChat /> */}`) |
+| Component | [`client/src/components/FloatingChat.tsx`](../../../client/src/components/FloatingChat.tsx) |
+| Styles | [`client/src/styles/components/floating-chat.css`](../../../client/src/styles/components/floating-chat.css) |
+| Mount | **Commented out** in [`client/src/App.tsx`](../../../client/src/App.tsx) (`{/* <FloatingChat /> */}`) |
 | API | `POST https://godspeed-ops-ai-1ba0.onrender.com/chat/stream` (SSE-style) |
 | Auth | Supabase Bearer per message |
 | Payload | `session_id`, `user_type`, `user_question`, `message_history` (last 10) |

@@ -4,7 +4,7 @@ This report reflects **what exists in the codebase today**, not roadmap items. P
 
 **Terminology:** The product uses `is_subcategory` (“invoicing-only” / subcategory positions). There is no separate `invoice-only` column.
 
-**Sources:** [`client/src/pages/PositionManagement/`](../client/src/pages/PositionManagement/), [`client/src/pages/Calendar/`](../client/src/pages/Calendar/), [`client/src/pages/JobseekerManagement/JobSeekerPositions.tsx`](../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx), [`server/src/routes/positions.ts`](../server/src/routes/positions.ts), [`server/src/routes/positionDrafts.ts`](../server/src/routes/positionDrafts.ts), [`server/src/routes/calendar.ts`](../server/src/routes/calendar.ts), [`server/src/routes/jobseekers.ts`](../server/src/routes/jobseekers.ts), [`client/src/constants/accessControl.ts`](../client/src/constants/accessControl.ts), [`server/src/db/functions/find_matching_candidates.sql`](../server/src/db/functions/find_matching_candidates.sql).
+**Sources:** [`client/src/pages/PositionManagement/`](../../../client/src/pages/PositionManagement/), [`client/src/pages/Calendar/`](../../../client/src/pages/Calendar/), [`client/src/pages/JobseekerManagement/JobSeekerPositions.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx), [`server/src/routes/positions.ts`](../../../server/src/routes/positions.ts), [`server/src/routes/positionDrafts.ts`](../../../server/src/routes/positionDrafts.ts), [`server/src/routes/calendar.ts`](../../../server/src/routes/calendar.ts), [`server/src/routes/jobseekers.ts`](../../../server/src/routes/jobseekers.ts), [`client/src/constants/accessControl.ts`](../../../client/src/constants/accessControl.ts), [`server/src/db/functions/find_matching_candidates.sql`](../../../server/src/db/functions/find_matching_candidates.sql).
 
 ---
 
@@ -24,24 +24,24 @@ This report reflects **what exists in the codebase today**, not roadmap items. P
 
 | Layer | Paths |
 |-------|--------|
-| **Routes (App)** | [`client/src/App.tsx`](../client/src/App.tsx) (~L201–218 positions; ~L151–153 calendar; ~L285 `/my-positions`) |
-| **Pages** | [`PositionManagement.tsx`](../client/src/pages/PositionManagement/PositionManagement.tsx), [`PositionView.tsx`](../client/src/pages/PositionManagement/PositionView.tsx), [`PositionCreate.tsx`](../client/src/pages/PositionManagement/PositionCreate.tsx), [`PositionEdit.tsx`](../client/src/pages/PositionManagement/PositionEdit.tsx), [`PositionDrafts.tsx`](../client/src/pages/PositionManagement/PositionDrafts.tsx), [`PositionDraftEdit.tsx`](../client/src/pages/PositionManagement/PositionDraftEdit.tsx), [`PositionMatching.tsx`](../client/src/pages/PositionManagement/PositionMatching.tsx) |
-| **Form sections** | [`client/src/pages/PositionManagement/components/`](../client/src/pages/PositionManagement/components/) — `BasicDetailsSection`, `AddressDetailsSection`, `EmploymentCategorizationSection`, `DocumentsRequiredSection`, `NormalPositionDetailsSection`, `SubcategoryPositionDetailsSection`, `OvertimeSection`, `NotesTasksSection`, `CopyFromPositionCard` |
-| **Schema / utils** | [`positionCreateSchema.ts`](../client/src/pages/PositionManagement/positionCreateSchema.ts), [`positionCreateUtils.ts`](../client/src/pages/PositionManagement/positionCreateUtils.ts) |
-| **Hooks** | [`usePositionClients.ts`](../client/src/pages/PositionManagement/hooks/usePositionClients.ts), [`usePositionCreateOptions.ts`](../client/src/pages/PositionManagement/hooks/usePositionCreateOptions.ts), [`usePositionRateCalculations.ts`](../client/src/pages/PositionManagement/hooks/usePositionRateCalculations.ts), [`useCopyFromPosition.ts`](../client/src/pages/PositionManagement/hooks/useCopyFromPosition.ts) |
-| **API client** | [`client/src/services/api/position.ts`](../client/src/services/api/position.ts) |
-| **Access constants** | [`client/src/constants/accessControl.ts`](../client/src/constants/accessControl.ts) |
-| **Route guards** | [`client/src/components/ProtectedRoute.tsx`](../client/src/components/ProtectedRoute.tsx) (`RoleRoute`, `JobSeekerRoute`) |
-| **Server routes** | [`server/src/routes/positions.ts`](../server/src/routes/positions.ts), [`server/src/routes/positionDrafts.ts`](../server/src/routes/positionDrafts.ts) |
-| **Auth middleware** | [`server/src/middleware/auth.ts`](../server/src/middleware/auth.ts) (`authorizeRoles`, `authorizeExactRoles`, `RECRUITER_ACCESS_ROLES`) |
-| **Subcategory helpers** | [`server/src/subcategoryPositionDetails.ts`](../server/src/subcategoryPositionDetails.ts) |
-| **DB** | [`server/src/db/migration_v2/004_clients_and_positions.sql`](../server/src/db/migration_v2/004_clients_and_positions.sql), [`server/src/db/migrations/add_is_subcategory_to_positions.sql`](../server/src/db/migrations/add_is_subcategory_to_positions.sql), [`server/src/db/migrations/add_position_code_constraints.sql`](../server/src/db/migrations/add_position_code_constraints.sql) |
-| **Styles** | [`PositionManagement.css`](../client/src/styles/pages/PositionManagement.css), [`PositionMatching.css`](../client/src/styles/pages/PositionMatching.css) |
-| **Nav** | [`client/src/components/HamburgerMenu.tsx`](../client/src/components/HamburgerMenu.tsx) |
+| **Routes (App)** | [`client/src/App.tsx`](../../../client/src/App.tsx) (~L201–218 positions; ~L151–153 calendar; ~L285 `/my-positions`) |
+| **Pages** | [`PositionManagement.tsx`](../../../client/src/pages/PositionManagement/PositionManagement.tsx), [`PositionView.tsx`](../../../client/src/pages/PositionManagement/PositionView.tsx), [`PositionCreate.tsx`](../../../client/src/pages/PositionManagement/PositionCreate.tsx), [`PositionEdit.tsx`](../../../client/src/pages/PositionManagement/PositionEdit.tsx), [`PositionDrafts.tsx`](../../../client/src/pages/PositionManagement/PositionDrafts.tsx), [`PositionDraftEdit.tsx`](../../../client/src/pages/PositionManagement/PositionDraftEdit.tsx), [`PositionMatching.tsx`](../../../client/src/pages/PositionManagement/PositionMatching.tsx) |
+| **Form sections** | [`client/src/pages/PositionManagement/components/`](../../../client/src/pages/PositionManagement/components/) — `BasicDetailsSection`, `AddressDetailsSection`, `EmploymentCategorizationSection`, `DocumentsRequiredSection`, `NormalPositionDetailsSection`, `SubcategoryPositionDetailsSection`, `OvertimeSection`, `NotesTasksSection`, `CopyFromPositionCard` |
+| **Schema / utils** | [`positionCreateSchema.ts`](../../../client/src/pages/PositionManagement/positionCreateSchema.ts), [`positionCreateUtils.ts`](../../../client/src/pages/PositionManagement/positionCreateUtils.ts) |
+| **Hooks** | [`usePositionClients.ts`](../../../client/src/pages/PositionManagement/hooks/usePositionClients.ts), [`usePositionCreateOptions.ts`](../../../client/src/pages/PositionManagement/hooks/usePositionCreateOptions.ts), [`usePositionRateCalculations.ts`](../../../client/src/pages/PositionManagement/hooks/usePositionRateCalculations.ts), [`useCopyFromPosition.ts`](../../../client/src/pages/PositionManagement/hooks/useCopyFromPosition.ts) |
+| **API client** | [`client/src/services/api/position.ts`](../../../client/src/services/api/position.ts) |
+| **Access constants** | [`client/src/constants/accessControl.ts`](../../../client/src/constants/accessControl.ts) |
+| **Route guards** | [`client/src/components/ProtectedRoute.tsx`](../../../client/src/components/ProtectedRoute.tsx) (`RoleRoute`, `JobSeekerRoute`) |
+| **Server routes** | [`server/src/routes/positions.ts`](../../../server/src/routes/positions.ts), [`server/src/routes/positionDrafts.ts`](../../../server/src/routes/positionDrafts.ts) |
+| **Auth middleware** | [`server/src/middleware/auth.ts`](../../../server/src/middleware/auth.ts) (`authorizeRoles`, `authorizeExactRoles`, `RECRUITER_ACCESS_ROLES`) |
+| **Subcategory helpers** | [`server/src/subcategoryPositionDetails.ts`](../../../server/src/subcategoryPositionDetails.ts) |
+| **DB** | [`server/src/db/migration_v2/004_clients_and_positions.sql`](../../../server/src/db/migration_v2/004_clients_and_positions.sql), [`server/src/db/migrations/add_is_subcategory_to_positions.sql`](../../../server/src/db/migrations/add_is_subcategory_to_positions.sql), [`server/src/db/migrations/add_position_code_constraints.sql`](../../../server/src/db/migrations/add_position_code_constraints.sql) |
+| **Styles** | [`PositionManagement.css`](../../../client/src/styles/pages/PositionManagement.css), [`PositionMatching.css`](../../../client/src/styles/pages/PositionMatching.css) |
+| **Nav** | [`client/src/components/HamburgerMenu.tsx`](../../../client/src/components/HamburgerMenu.tsx) |
 
 ### 1.2 Backend API routes (positions)
 
-Mounted in [`server/src/index.ts`](../server/src/index.ts): `/api/positions/draft` before `/api/positions`.
+Mounted in [`server/src/index.ts`](../../../server/src/index.ts): `/api/positions/draft` before `/api/positions`.
 
 | Method | Path | Handler file | `authorizeRoles` / exact |
 |--------|------|--------------|---------------------------|
@@ -73,7 +73,7 @@ Mounted in [`server/src/index.ts`](../server/src/index.ts): `/api/positions/draf
 
 ### 1.4 Position form fields (what exists)
 
-**Source of truth:** [`positionCreateSchema.ts`](../client/src/pages/PositionManagement/positionCreateSchema.ts) + section components.
+**Source of truth:** [`positionCreateSchema.ts`](../../../client/src/pages/PositionManagement/positionCreateSchema.ts) + section components.
 
 | Section | Fields |
 |---------|--------|
@@ -84,17 +84,17 @@ Mounted in [`server/src/index.ts`](../server/src/index.ts): `/api/positions/draf
 | **Documents (normal only)** | 10 checkboxes: license, driver abstract, TDG, SIN, immigration status, passport, CVOR, resume, articles of incorporation, direct deposit — at least one required (schema `superRefine`) |
 | **Pay (normal)** | Pay rate type, number of positions (headcount), regular pay rate, premium pay rate, markup %, bill rate (linked via calculator) |
 | **Overtime** | Enabled flag; when on: overtime hours, overtime bill rate, overtime pay rate |
-| **Payment** | `preferredPaymentMethod`, `terms` — schema defaults `"N/A"` on submit; **not shown on create/edit form**; displayed on [`PositionView`](../client/src/pages/PositionManagement/PositionView.tsx) |
+| **Payment** | `preferredPaymentMethod`, `terms` — schema defaults `"N/A"` on submit; **not shown on create/edit form**; displayed on [`PositionView`](../../../client/src/pages/PositionManagement/PositionView.tsx) |
 | **Notes / tasks** | Notes (required), assigned to, project completion date, **task time** (free text) |
 
 **Not in the codebase:** Dedicated shift start/end schedule fields (no `shift` references under `PositionManagement/`). Scheduling-related inputs are **position start/end dates**, **task time**, and **project completion date** — not shift slots.
 
-**Dropdowns:** Static options in [`client/src/constants/formOptions.ts`](../client/src/constants/formOptions.ts); position titles and subcategory labels from `dropdown_options` API (`position_title`, `subcategory_position`).
+**Dropdowns:** Static options in [`client/src/constants/formOptions.ts`](../../../client/src/constants/formOptions.ts); position titles and subcategory labels from `dropdown_options` API (`position_title`, `subcategory_position`).
 
 **Smart / automated behaviors:**
 
-- [`usePositionRateCalculations.ts`](../client/src/pages/PositionManagement/hooks/usePositionRateCalculations.ts) — syncs markup ↔ bill rate from pay rate; mirrored per subcategory row.
-- **Copy from position** ([`CopyFromPositionCard`](../client/src/pages/PositionManagement/components/CopyFromPositionCard.tsx), [`useCopyFromPosition.ts`](../client/src/pages/PositionManagement/hooks/useCopyFromPosition.ts)) — copies fields and regenerates position code for target client.
+- [`usePositionRateCalculations.ts`](../../../client/src/pages/PositionManagement/hooks/usePositionRateCalculations.ts) — syncs markup ↔ bill rate from pay rate; mirrored per subcategory row.
+- **Copy from position** ([`CopyFromPositionCard`](../../../client/src/pages/PositionManagement/components/CopyFromPositionCard.tsx), [`useCopyFromPosition.ts`](../../../client/src/pages/PositionManagement/hooks/useCopyFromPosition.ts)) — copies fields and regenerates position code for target client.
 - **Client address prefill** when client is selected.
 - **Subcategory:** `showOnJobPortal` forced `false`; documents section hidden.
 
@@ -103,7 +103,7 @@ Mounted in [`server/src/index.ts`](../server/src/index.ts): `/api/positions/draf
 | Piece | Behavior |
 |-------|----------|
 | **Format** | `{CLIENT_SHORT_CODE}{3-digit-seq}` e.g. `ABC001` |
-| **SQL** | `generate_next_position_code` in [`004_clients_and_positions.sql`](../server/src/db/migration_v2/004_clients_and_positions.sql) / [`add_position_code_constraints.sql`](../server/src/db/migrations/add_position_code_constraints.sql) — max numeric suffix from **both** `positions` and `position_drafts` matching `^{short_code}[0-9]{3}$`, then zero-pad |
+| **SQL** | `generate_next_position_code` in [`004_clients_and_positions.sql`](../../../server/src/db/migration_v2/004_clients_and_positions.sql) / [`add_position_code_constraints.sql`](../../../server/src/db/migrations/add_position_code_constraints.sql) — max numeric suffix from **both** `positions` and `position_drafts` matching `^{short_code}[0-9]{3}$`, then zero-pad |
 | **API** | `GET /api/positions/generate-code/:clientId` |
 | **UI triggers** | Client select on create; opening a draft (regenerates); copy-from-position |
 | **Failure** | HTTP 400 if client has no `short_code` |
@@ -116,14 +116,14 @@ Mounted in [`server/src/index.ts`](../server/src/index.ts): `/api/positions/draf
 | **Who (UI)** | `POSITION_DRAFT_ROLES` = admin, recruiter_manager, recruiter_director |
 | **Who (API)** | `authorizeRoles(["admin", "recruiter"])` — expands to all `RECRUITER_ACCESS_ROLES` (includes plain `recruiter`, bookkeeper, sales, etc.) |
 | **Manual save** | “Save draft” — requires **client** + valid start/end date order only (not full Zod) |
-| **Auto-save** | `setInterval` **60 seconds** when `hasUnsavedChanges && !isEditMode` in [`PositionCreate.tsx`](../client/src/pages/PositionManagement/PositionCreate.tsx) (L433–443) — runs during create and draft-edit, not published-position edit |
+| **Auto-save** | `setInterval` **60 seconds** when `hasUnsavedChanges && !isEditMode` in [`PositionCreate.tsx`](../../../client/src/pages/PositionManagement/PositionCreate.tsx) (L433–443) — runs during create and draft-edit, not published-position edit |
 | **Publish** | `createPosition` then `deletePositionDraft` when publishing from draft |
 | **Storage** | `position_drafts` table |
 | **API** | `POST /api/positions/draft`, `PUT /api/positions/draft/:id`, `GET` list/single, `DELETE` |
 | **Activity log** | `create_position_draft`, `update_position_draft`, `delete_position_draft` |
 | **Emails** | None on draft save |
 
-**Draft list filters (UI → API):** search, title, client, position ID (`position_code`), position code column (`position_number` via `positionCodeFilter`), creator, updater, updated date, created date, start date. Creator/updater are **sent to the API** from [`PositionDrafts.tsx`](../client/src/pages/PositionManagement/PositionDrafts.tsx) but applied **in-memory after pagination** on the server ([`positionDrafts.ts`](../server/src/routes/positionDrafts.ts) ~L378–398) — total counts can be wrong when those filters are used.
+**Draft list filters (UI → API):** search, title, client, position ID (`position_code`), position code column (`position_number` via `positionCodeFilter`), creator, updater, updated date, created date, start date. Creator/updater are **sent to the API** from [`PositionDrafts.tsx`](../../../client/src/pages/PositionManagement/PositionDrafts.tsx) but applied **in-memory after pagination** on the server ([`positionDrafts.ts`](../../../server/src/routes/positionDrafts.ts) ~L378–398) — total counts can be wrong when those filters are used.
 
 **Draft gaps (honest):**
 
@@ -133,7 +133,7 @@ Mounted in [`server/src/index.ts`](../server/src/index.ts): `/api/positions/draf
 
 ### 1.7 Subcategory / “invoice-only” positions
 
-Per [`add_is_subcategory_to_positions.sql`](../server/src/db/migrations/add_is_subcategory_to_positions.sql): *“invoicing-only … excluded from position matching, jobseeker assignment, calendar events.”*
+Per [`add_is_subcategory_to_positions.sql`](../../../server/src/db/migrations/add_is_subcategory_to_positions.sql): *“invoicing-only … excluded from position matching, jobseeker assignment, calendar events.”*
 
 | Behavior | Detail |
 |----------|--------|
@@ -144,7 +144,7 @@ Per [`add_is_subcategory_to_positions.sql`](../server/src/db/migrations/add_is_s
 
 ### 1.8 Listing and filters
 
-**Page:** [`PositionManagement.tsx`](../client/src/pages/PositionManagement/PositionManagement.tsx) → `GET /api/positions` → `applyPositionFilters` in [`positions.ts`](../server/src/routes/positions.ts).
+**Page:** [`PositionManagement.tsx`](../../../client/src/pages/PositionManagement/PositionManagement.tsx) → `GET /api/positions` → `applyPositionFilters` in [`positions.ts`](../../../server/src/routes/positions.ts).
 
 | Filter | Query param | Server field |
 |--------|-------------|--------------|
@@ -165,7 +165,7 @@ Per [`add_is_subcategory_to_positions.sql`](../server/src/db/migrations/add_is_s
 
 ### 1.9 Roles — position management
 
-Frontend uses **exact** role match (`hasAnyExactAccessRole` in [`client/src/lib/auth.ts`](../client/src/lib/auth.ts)). Backend `authorizeRoles(["admin","recruiter"])` **expands** `recruiter` to: recruiter, bookkeeper, recruiter_manager, accountant_manager, sales, recruiter_director ([`auth.ts`](../server/src/middleware/auth.ts) `RECRUITER_ACCESS_ROLES`).
+Frontend uses **exact** role match (`hasAnyExactAccessRole` in [`client/src/lib/auth.ts`](../../../client/src/lib/auth.ts)). Backend `authorizeRoles(["admin","recruiter"])` **expands** `recruiter` to: recruiter, bookkeeper, recruiter_manager, accountant_manager, sales, recruiter_director ([`auth.ts`](../../../server/src/middleware/auth.ts) `RECRUITER_ACCESS_ROLES`).
 
 | Action | Frontend (`accessControl.ts`) | Backend |
 |--------|------------------------------|---------|
@@ -206,17 +206,17 @@ Frontend uses **exact** role match (`hasAnyExactAccessRole` in [`client/src/lib/
 
 | Layer | Paths |
 |-------|--------|
-| **Matching UI** | [`PositionMatching.tsx`](../client/src/pages/PositionManagement/PositionMatching.tsx) |
-| **Jobseeker portal** | [`JobSeekerPositions.tsx`](../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx) (`/my-positions`) |
-| **Recruiter profile assignments** | [`JobSeekerProfile.tsx`](../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
-| **Position detail** | [`PositionView.tsx`](../client/src/pages/PositionManagement/PositionView.tsx) |
-| **API client** | [`position.ts`](../client/src/services/api/position.ts) — `getPositionCandidates`, `assignCandidateToPosition`, `removeCandidateFromPosition`, `getPositionAssignments`, `getCandidateAssignments` |
-| **Matching API** | [`jobseekers.ts`](../server/src/routes/jobseekers.ts) — `GET /position-candidates/:positionId` (`isAdminOrRecruiter`) |
-| **Assignment API** | [`positions.ts`](../server/src/routes/positions.ts) — assign, remove, assignments |
-| **RPC** | [`find_matching_candidates.sql`](../server/src/db/functions/find_matching_candidates.sql) |
-| **Embeddings** | [`011_embeddings.sql`](../server/src/db/migration_v2/011_embeddings.sql) |
-| **Emails** | [`jobseeker-assignment-html.ts`](../server/src/email-templates/jobseeker-assignment-html.ts), [`jobseeker-assignment-txt.ts`](../server/src/email-templates/jobseeker-assignment-txt.ts), [`jobseeker-removal-html.ts`](../server/src/email-templates/jobseeker-removal-html.ts), [`jobseeker-removal-txt.ts`](../server/src/email-templates/jobseeker-removal-txt.ts); [`emailNotifier.ts`](../server/src/middleware/emailNotifier.ts) |
-| **Activity** | [`activityLogger.ts`](../server/src/middleware/activityLogger.ts) |
+| **Matching UI** | [`PositionMatching.tsx`](../../../client/src/pages/PositionManagement/PositionMatching.tsx) |
+| **Jobseeker portal** | [`JobSeekerPositions.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx) (`/my-positions`) |
+| **Recruiter profile assignments** | [`JobSeekerProfile.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
+| **Position detail** | [`PositionView.tsx`](../../../client/src/pages/PositionManagement/PositionView.tsx) |
+| **API client** | [`position.ts`](../../../client/src/services/api/position.ts) — `getPositionCandidates`, `assignCandidateToPosition`, `removeCandidateFromPosition`, `getPositionAssignments`, `getCandidateAssignments` |
+| **Matching API** | [`jobseekers.ts`](../../../server/src/routes/jobseekers.ts) — `GET /position-candidates/:positionId` (`isAdminOrRecruiter`) |
+| **Assignment API** | [`positions.ts`](../../../server/src/routes/positions.ts) — assign, remove, assignments |
+| **RPC** | [`find_matching_candidates.sql`](../../../server/src/db/functions/find_matching_candidates.sql) |
+| **Embeddings** | [`011_embeddings.sql`](../../../server/src/db/migration_v2/011_embeddings.sql) |
+| **Emails** | [`jobseeker-assignment-html.ts`](../../../server/src/email-templates/jobseeker-assignment-html.ts), [`jobseeker-assignment-txt.ts`](../../../server/src/email-templates/jobseeker-assignment-txt.ts), [`jobseeker-removal-html.ts`](../../../server/src/email-templates/jobseeker-removal-html.ts), [`jobseeker-removal-txt.ts`](../../../server/src/email-templates/jobseeker-removal-txt.ts); [`emailNotifier.ts`](../../../server/src/middleware/emailNotifier.ts) |
+| **Activity** | [`activityLogger.ts`](../../../server/src/middleware/activityLogger.ts) |
 
 ### 2.2 How matching works
 
@@ -247,7 +247,7 @@ sequenceDiagram
 | **UI display** | Similarity % with color bands; Lottie “AI” loading — **cosmetic only**, no separate ML service |
 | **Post-RPC** | Handler requests very large `p_limit`, then filters/paginates **in Node**; `sortBy` / `sortOrder` query params **not applied** |
 
-**Known gap (marketing accuracy):** Live RPC sets `TRUE AS is_available` for every row ([`find_matching_candidates.sql`](../server/src/db/functions/find_matching_candidates.sql) L42). A `LEFT JOIN` on overlapping `position_candidate_assignments` exists in the CTE but is unused for availability. **`only_available` filter does not exclude busy candidates.** Legacy [`find_matching_candidates_old.sql`](../server/src/db/functions/find_matching_candidates_old.sql) computed availability from assignments.
+**Known gap (marketing accuracy):** Live RPC sets `TRUE AS is_available` for every row ([`find_matching_candidates.sql`](../../../server/src/db/functions/find_matching_candidates.sql) L42). A `LEFT JOIN` on overlapping `position_candidate_assignments` exists in the CTE but is unused for availability. **`only_available` filter does not exclude busy candidates.** Legacy [`find_matching_candidates_old.sql`](../../../server/src/db/functions/find_matching_candidates_old.sql) computed availability from assignments.
 
 ### 2.3 Assign flow (recruiter) — step by step
 
@@ -265,7 +265,7 @@ sequenceDiagram
 | 10 | **Update** `positions.assigned_jobseekers` array (append UUID) |
 | 11 | **Activity** `assign_jobseeker` / category `position_management` |
 | 12 | **Email** SendGrid to jobseeker (assignment templates; requires env + `ASSIGNMENT_FROM_EMAIL`) |
-| 13 | DB triggers update `last_activity_at` on client/jobseeker ([`014_inactivity_monitor.sql`](../server/src/db/migration_v2/014_inactivity_monitor.sql)) |
+| 13 | DB triggers update `last_activity_at` on client/jobseeker ([`014_inactivity_monitor.sql`](../../../server/src/db/migration_v2/014_inactivity_monitor.sql)) |
 | 14 | UI refreshes assignments; status toast |
 
 **Assign roles:** Frontend `POSITION_MATCHING_ROLES` + backend `authorizeExactRoles`: admin, recruiter, recruiter_manager, recruiter_director.
@@ -299,8 +299,8 @@ sequenceDiagram
 
 | Item | Detail |
 |------|--------|
-| **Route** | `/my-positions` → [`JobSeekerPositions.tsx`](../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx) |
-| **Gate** | `JobSeekerRoute` in [`App.tsx`](../client/src/App.tsx); menu hidden until profile **verified** |
+| **Route** | `/my-positions` → [`JobSeekerPositions.tsx`](../../../client/src/pages/JobseekerManagement/JobSeekerPositions.tsx) |
+| **Gate** | `JobSeekerRoute` in [`App.tsx`](../../../client/src/App.tsx); menu hidden until profile **verified** |
 | **Data** | `user.id` as `candidateId` → `getCandidateAssignments` |
 | **Tabs** | All / Current (`active`) / Upcoming (`upcoming`) / Completed (`completed`); `?status=current|past|future|all` deep links from dashboard metrics |
 | **Filters** | Search, employment type, position category (server-side) |
@@ -354,13 +354,13 @@ sequenceDiagram
 
 | Layer | Paths |
 |-------|--------|
-| **Page** | [`CalendarPage.tsx`](../client/src/pages/Calendar/CalendarPage.tsx), [`CalendarPage.css`](../client/src/pages/Calendar/CalendarPage.css) |
-| **Components** | [`CalendarView.tsx`](../client/src/components/calendar/CalendarView.tsx), [`DayViewPanel.tsx`](../client/src/components/calendar/DayViewPanel.tsx), [`SummaryWidgets.tsx`](../client/src/components/calendar/SummaryWidgets.tsx), [`CalendarFilters.tsx`](../client/src/components/calendar/CalendarFilters.tsx) (**built, not mounted**) |
-| **API client** | [`calendar.ts`](../client/src/services/api/calendar.ts) |
-| **API routes** | [`calendar.ts`](../server/src/routes/calendar.ts) |
-| **App route** | [`App.tsx`](../client/src/App.tsx) — `/calendar`, `CALENDAR_ROLES` |
-| **i18n** | [`en.json`](../client/src/contexts/language/locales/en.json), [`fr.json`](../client/src/contexts/language/locales/fr.json) (`calendar` keys) |
-| **Reference (not routed)** | [`renderedcalenderhtml.html`](../client/src/components/calendar/renderedcalenderhtml.html) |
+| **Page** | [`CalendarPage.tsx`](../../../client/src/pages/Calendar/CalendarPage.tsx), [`CalendarPage.css`](../../../client/src/pages/Calendar/CalendarPage.css) |
+| **Components** | [`CalendarView.tsx`](../../../client/src/components/calendar/CalendarView.tsx), [`DayViewPanel.tsx`](../../../client/src/components/calendar/DayViewPanel.tsx), [`SummaryWidgets.tsx`](../../../client/src/components/calendar/SummaryWidgets.tsx), [`CalendarFilters.tsx`](../../../client/src/components/calendar/CalendarFilters.tsx) (**built, not mounted**) |
+| **API client** | [`calendar.ts`](../../../client/src/services/api/calendar.ts) |
+| **API routes** | [`calendar.ts`](../../../server/src/routes/calendar.ts) |
+| **App route** | [`App.tsx`](../../../client/src/App.tsx) — `/calendar`, `CALENDAR_ROLES` |
+| **i18n** | [`en.json`](../../../client/src/contexts/language/locales/en.json), [`fr.json`](../../../client/src/contexts/language/locales/fr.json) (`calendar` keys) |
+| **Reference (not routed)** | [`renderedcalenderhtml.html`](../../../client/src/components/calendar/renderedcalenderhtml.html) |
 
 No dedicated `useCalendar*` hooks — state lives in page/components.
 
@@ -388,7 +388,7 @@ No dedicated `useCalendar*` hooks — state lives in page/components.
 
 **Note:** Assignment `status` is used for summary `statusBreakdown` but **not** to hide cancelled rows on the main grid.
 
-**Frontend:** [`CalendarPage`](../client/src/pages/Calendar/CalendarPage.tsx) uses `response.events` only — `summary` on the main calendar response is **ignored**. [`SummaryWidgets`](../client/src/components/calendar/SummaryWidgets.tsx) calls `GET /api/calendar/summary` separately.
+**Frontend:** [`CalendarPage`](../../../client/src/pages/Calendar/CalendarPage.tsx) uses `response.events` only — `summary` on the main calendar response is **ignored**. [`SummaryWidgets`](../../../client/src/components/calendar/SummaryWidgets.tsx) calls `GET /api/calendar/summary` separately.
 
 ### 3.4 Month view vs day view (two concepts)
 
@@ -399,7 +399,7 @@ No dedicated `useCalendar*` hooks — state lives in page/components.
 | **Week/day/agenda** | Same `events` array | Layout only; does not change API range or side-panel fetch |
 | **Day side panel** | `DayViewPanel` | Filters **already-loaded month** events to `selectedDate`; **no refetch** on day change |
 | **Select day** | `onSelectSlot` | Sets `selectedDate` (defaults to **today** on load) |
-| **Select event** | `onSelectEvent` | **`console.log` only** ([`CalendarPage.tsx`](../client/src/pages/Calendar/CalendarPage.tsx) L75–78) — no modal or navigation |
+| **Select event** | `onSelectEvent` | **`console.log` only** ([`CalendarPage.tsx`](../../../client/src/pages/Calendar/CalendarPage.tsx) L75–78) — no modal or navigation |
 
 ### 3.5 Side panel contents
 
@@ -417,14 +417,14 @@ When `selectedDate` is set:
 
 | Filter | In code | Active on page |
 |--------|---------|----------------|
-| **Client dropdown** | [`CalendarFilters.tsx`](../client/src/components/calendar/CalendarFilters.tsx) + API `clientId` | **No** — import/JSX commented out on `CalendarPage` (L6, L26–43, L120–133) |
+| **Client dropdown** | [`CalendarFilters.tsx`](../../../client/src/components/calendar/CalendarFilters.tsx) + API `clientId` | **No** — import/JSX commented out on `CalendarPage` (L6, L26–43, L120–133) |
 | **Jobseeker dropdown** | Same + API `jobseekerId`; suppresses open-position events when set | **No** |
 | **Date range (filter bar)** | `CalendarFilters` + quick-range buttons (commented inside component) | **No** |
 | **Month fetch range** | `CalendarPage` uses viewed month start/end | **Yes** (implicit via grid navigation) |
 | **Summary period** | `SummaryWidgets`: Today / This week / This month / custom + Apply | **Yes** |
 | **Summary client/jobseeker** | Props supported on `SummaryWidgets` | **No** — `<SummaryWidgets />` with no props |
 
-Helper exports in [`calendar.ts`](../client/src/services/api/calendar.ts) (`getUniqueClientsFromEvents`, etc.) are **unused** while filters are commented out.
+Helper exports in [`calendar.ts`](../../../client/src/services/api/calendar.ts) (`getUniqueClientsFromEvents`, etc.) are **unused** while filters are commented out.
 
 **Grid vs summary:** Changing calendar month does **not** update summary widgets (widgets default to current period).
 

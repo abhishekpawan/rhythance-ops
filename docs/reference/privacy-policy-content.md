@@ -1,3 +1,5 @@
+> **Reference copy of the original wording** (effective 09.09.2025, written for Godspeed Group). The live page is `client/src/pages/Legal/PrivacyPolicy.tsx`: the same text, with the company name taken from the Portal Settings `legal.companyName` (header line and contact block) and `legal.companyShortName` (inside sentences), and the contact block from `legal.contactAddress`, `legal.contactEmail` and `legal.contactPhone`. If the legal wording changes, change the page and this copy together. See [../portals-and-configuration.md](../portals-and-configuration.md).
+
 Privacy Policy 
 Effective Date: 09.09.2025 
 Company: Godspeed Group (“Company,” “we,” “our,” “us”) 

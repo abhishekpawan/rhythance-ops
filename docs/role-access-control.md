@@ -13,6 +13,10 @@ This file is the source of truth for role-based access in the portal.
 - `recruiter_director`
 - `jobseeker`
 
+### Super admin
+
+`superadmin` is not one of the page roles above. It is an extra value inside a user's `user_role` list (Supabase user metadata) that is added to a user who is normally also `admin`. The client reads it with `isSuperAdmin` (`client/src/lib/auth.ts`) and guards pages with `SuperAdminRoute`; the server uses `requireSuperAdmin` (`server/src/middleware/superAdmin.ts`). Super admins have no extra access to normal pages; they alone get the pages and actions marked "super admin" below.
+
 ## Page-Level Access
 
 These rules map directly to the hamburger menu pages and route guards.
@@ -60,7 +64,7 @@ These rules map directly to the hamburger menu pages and route guards.
 | --- | --- |
 | All Positions | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `recruiter_director`, `sales` |
 | Create Position | `admin`, `recruiter_manager`, `recruiter_director` |
-| Create Position Subcategory | `admin`, `recruiter_manager`, `recruiter_director` |
+| Create Position Subcategory | `admin`, `recruiter_manager`, `recruiter_director`; only on portals where the `subcategory_positions` feature flag is on (otherwise the address redirects to login) |
 | Draft Positions | `admin`, `recruiter_manager`, `recruiter_director` |
 | Position Matching | `admin`, `recruiter`, `recruiter_manager`, `recruiter_director` |
 
@@ -70,14 +74,17 @@ These rules map directly to the hamburger menu pages and route guards.
 | --- | --- |
 | All Consent Documents | `admin`, `recruiter`, `recruiter_manager`, `recruiter_director` |
 | Create Consent Document | `admin`, `recruiter`, `recruiter_manager`, `recruiter_director` |
-| Consent Templates | `admin` (superadmin) |
+| Consent Templates | super admin |
 
 ### System & Administration
 
 | Page | Allowed roles |
 | --- | --- |
-| Email Template Preview | `admin` (superadmin) |
-| Metric Examples | `admin` (superadmin) |
+| Email Template Preview (`/email-template-preview`) | super admin |
+| Feature Flags (`/feature-flags`) | super admin |
+| Portal Settings (`/portal-settings`) | super admin |
+
+Metric Examples is no longer a routed page.
 
 ### Timesheets
 
@@ -106,6 +113,8 @@ These rules map directly to the hamburger menu pages and route guards.
 | Page | Allowed roles |
 | --- | --- |
 | Support Tickets | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` |
+
+Support agents (the people who answer tickets, change status and priority, and write internal notes) are **super admins**; see [features/support-tickets.md](features/support-tickets.md).
 
 > [!IMPORTANT]
 > The Support Ticket module is strictly for internal staff (`SUPPORT_ROLES`) and is **hidden from and inaccessible to `jobseeker` usertypes** across all navigation menus/dropdowns, route guards (`RoleRoute`), and backend API endpoints.
@@ -159,3 +168,17 @@ These are not the page-level rules. They must be enforced separately inside page
 | Edit Invoice | `admin`, `accountant_manager`, `bookkeeper` |
 | Delete Invoice | `admin`, `accountant_manager`, `bookkeeper` |
 | View All Support Tickets (`scope=all` shared view) | `admin`, `recruiter`, `recruiter_manager`, `recruiter_director` |
+
+## Where the server is looser or stricter than the UI
+
+The tables above describe the **UI**. On the server, `authorizeRoles(["recruiter"])` (and `["admin", "recruiter"]`) is satisfied by *every* internal role (`recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director`), so many APIs accept more roles than the menu shows. `authorizeExactRoles` is the strict variant. Known differences:
+
+| Area | UI | API |
+| --- | --- | --- |
+| Create consent request | admin, recruiter, recruiter manager, recruiter director | super admin only (others get 403 on submit) |
+| Dropdown options (add, change, delete) | admin, recruiter manager, accountant manager, recruiter director | admin only; reading is open to every internal role |
+| Invite / resend invitation | admin, recruiter manager, accountant manager, recruiter director | admin only |
+| Consent templates (create, delete) | super admin | admin |
+| Reports, invoices, users, clients, positions | roles in the tables above | any internal role |
+
+Each is tracked in [TODO.md](TODO.md) until the UI and API agree. Frontend access is always only a convenience; the server check is the real one.

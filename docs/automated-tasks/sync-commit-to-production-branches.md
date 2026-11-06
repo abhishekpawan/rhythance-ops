@@ -16,7 +16,7 @@ You are syncing work from the integration branch to four separate production bra
 | Production (sync targets, in this order) | `allstaff-production` → `canhire-production` → `godspeed-production` → `hdgroup-production` | `origin` |
 | Public mirror repo | `public-main` (tracks `public/main`) | `public` (`git@github.com:abhishekpawan/rhythance-ops.git`) |
 
-Remotes: `origin` (`godspeed-ops-portal`), `public` (`rhythance-ops`). Workspace: `godspeed-ops-portal`.
+Remotes: `origin` (`godspeed-ops-portal`), `public` (`rhythance-ops`). Workspace: `godspeed-ops-portal`. The `demo-production` branch on `origin` is out of scope. How the branches differ and why is explained in [../portals-and-configuration.md](../portals-and-configuration.md).
 
 ### Input from me
 
@@ -77,6 +77,20 @@ For each target branch in order: **allstaff-production** → **canhire-productio
      then `git add` and `git cherry-pick --continue`
 4. If resolution is ambiguous, portal-specific, or touches env/tenant config: **stop**, show me the conflict hunks, and ask how to proceed.
 5. After I confirm or you resolve with high confidence: `git cherry-pick --continue`, then resume the loop on the **remaining** target branches for that same SHA, then any remaining SHAs.
+
+### 3a. Conflicts to expect (so you recognise them)
+
+Production branches differ from `multiple-login-demo` only by brand images and removed demo-only code, so a clean commit applies cleanly almost everywhere. These are the known exceptions:
+
+- **`server/src/db/seeds/*` on `public-main`.** That branch deliberately has no seed files, so a commit that edits a seed fails there with a modify/delete conflict. Resolve by dropping the seed files from that cherry-pick (`git rm` them) and keeping the rest.
+- **`server/src/config/portalSettings.ts` on `public-main`.** It carries the Rhythence defaults (brand name, AI chat title, legal names). If a commit changes lines next to them, keep the Rhythence values and take the new code.
+- **Demo-only files** (`DemoAutoFillWidget`, `DemoLoginModal`, and the demo hooks in login, client-create, position-create, profile-create, `lib/auth.ts`, `button.css`) do not exist on the four production branches. If a commit touches them there, keep the production side (the files stay absent) and take only the shared changes.
+- **Brand images** under `client/src/assets/` differ per branch on purpose: always keep the target branch's own image.
+- **Whitespace and quotes.** Everyone formats with `.prettierrc.json`; a conflict that is only quote style or indentation means someone edited without it. Resolve toward the repo's Prettier style.
+
+### 3b. Before the push in step 4 (recommended)
+
+On each target branch, run `npx tsc --noEmit` in `client` and in `server`. A cherry-pick can apply without a conflict and still not compile because the branch lacks a neighbouring change.
 
 ### 4. After all requested commits are applied to all branches
 

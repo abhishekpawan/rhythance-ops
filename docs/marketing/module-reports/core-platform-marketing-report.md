@@ -2,7 +2,7 @@
 
 **Stack:** React (Vite) SPA + Express API + Supabase Auth. No Next.js middleware; protection is client-side route guards plus Bearer JWT on API routes.
 
-**Primary references:** [docs/role-access-control.md](role-access-control.md), [client/src/constants/accessControl.ts](../client/src/constants/accessControl.ts), [server/src/middleware/auth.ts](../server/src/middleware/auth.ts), [server/src/routes/auth.ts](../server/src/routes/auth.ts), [server/src/routes/user.ts](../server/src/routes/user.ts)
+**Primary references:** [docs/role-access-control.md](../../role-access-control.md), [client/src/constants/accessControl.ts](../../../client/src/constants/accessControl.ts), [server/src/middleware/auth.ts](../../../server/src/middleware/auth.ts), [server/src/routes/auth.ts](../../../server/src/routes/auth.ts), [server/src/routes/user.ts](../../../server/src/routes/user.ts)
 
 ---
 
@@ -47,11 +47,11 @@ flowchart TB
 
 | Layer | Paths |
 |-------|-------|
-| Pages | [client/src/pages/Authentication/Login.tsx](../client/src/pages/Authentication/Login.tsx), [Signup.tsx](../client/src/pages/Authentication/Signup.tsx), [ForgotPassword.tsx](../client/src/pages/Authentication/ForgotPassword.tsx), [ResetPassword.tsx](../client/src/pages/Authentication/ResetPassword.tsx), [VerificationPending.tsx](../client/src/pages/Authentication/VerificationPending.tsx), [EmailConfirmed.tsx](../client/src/pages/Authentication/EmailConfirmed.tsx) |
-| Context / lib | [client/src/contexts/AuthContext.tsx](../client/src/contexts/AuthContext.tsx), [client/src/lib/auth.ts](../client/src/lib/auth.ts), [client/src/lib/supabaseClient.ts](../client/src/lib/supabaseClient.ts) |
-| API client | [client/src/services/api/auth.ts](../client/src/services/api/auth.ts), [client/src/services/api/index.ts](../client/src/services/api/index.ts) |
-| Routes | [client/src/App.tsx](../client/src/App.tsx) |
-| Server | [server/src/routes/auth.ts](../server/src/routes/auth.ts), [server/src/middleware/auth.ts](../server/src/middleware/auth.ts) |
+| Pages | [client/src/pages/Authentication/Login.tsx](../../../client/src/pages/Authentication/Login.tsx), [Signup.tsx](../../../client/src/pages/Authentication/Signup.tsx), [ForgotPassword.tsx](../../../client/src/pages/Authentication/ForgotPassword.tsx), [ResetPassword.tsx](../../../client/src/pages/Authentication/ResetPassword.tsx), [VerificationPending.tsx](../../../client/src/pages/Authentication/VerificationPending.tsx), [EmailConfirmed.tsx](../../../client/src/pages/Authentication/EmailConfirmed.tsx) |
+| Context / lib | [client/src/contexts/AuthContext.tsx](../../../client/src/contexts/AuthContext.tsx), [client/src/lib/auth.ts](../../../client/src/lib/auth.ts), [client/src/lib/supabaseClient.ts](../../../client/src/lib/supabaseClient.ts) |
+| API client | [client/src/services/api/auth.ts](../../../client/src/services/api/auth.ts), [client/src/services/api/index.ts](../../../client/src/services/api/index.ts) |
+| Routes | [client/src/App.tsx](../../../client/src/App.tsx) |
+| Server | [server/src/routes/auth.ts](../../../server/src/routes/auth.ts), [server/src/middleware/auth.ts](../../../server/src/middleware/auth.ts) |
 
 ### Login flow (step-by-step)
 
@@ -153,8 +153,8 @@ The platform uses **two separate mechanisms** that do not always agree:
 
 ### Key files
 
-- [client/src/pages/Authentication/TwoFactorAuth.tsx](../client/src/pages/Authentication/TwoFactorAuth.tsx)
-- [server/src/routes/auth.ts](../server/src/routes/auth.ts) — `/send-verification`, `/verify-otp`, `/complete-2fa`, `/validate-credentials`
+- [client/src/pages/Authentication/TwoFactorAuth.tsx](../../../client/src/pages/Authentication/TwoFactorAuth.tsx)
+- [server/src/routes/auth.ts](../../../server/src/routes/auth.ts) — `/send-verification`, `/verify-otp`, `/complete-2fa`, `/validate-credentials`
 
 ### Provider
 
@@ -202,15 +202,15 @@ Env: `TWILIO_*` variables; returns 500 if not configured.
 
 | Flow | Paths |
 |------|-------|
-| Staff invite UI | [client/src/pages/RecruiterManagement/InviteRecruiter.tsx](../client/src/pages/RecruiterManagement/InviteRecruiter.tsx) |
-| Complete signup | [client/src/pages/Authentication/CompleteSignup.tsx](../client/src/pages/Authentication/CompleteSignup.tsx) |
-| Jobseeker signup | [client/src/pages/Authentication/Signup.tsx](../client/src/pages/Authentication/Signup.tsx) |
-| Employment agreement | [client/src/pages/Consent/OnboardingConsent.tsx](../client/src/pages/Consent/OnboardingConsent.tsx) |
-| Profile create | [client/src/pages/JobseekerProfile/ProfileCreate.tsx](../client/src/pages/JobseekerProfile/ProfileCreate.tsx) |
-| Route gates | [client/src/components/ProtectedRoute.tsx](../client/src/components/ProtectedRoute.tsx) |
-| Invite API | [server/src/routes/user.ts](../server/src/routes/user.ts) — `invite-recruiter`, `resend-invitation` |
-| Onboarding API | [server/src/routes/auth.ts](../server/src/routes/auth.ts) — `complete-onboarding`, `send-confirmation-welcome`, `first-login-reminder` |
-| Email templates | [server/src/email-templates/onboarding-reminder-html.ts](../server/src/email-templates/onboarding-reminder-html.ts), [recruiter-invitation-html.ts](../server/src/email-templates/recruiter-invitation-html.ts) |
+| Staff invite UI | [client/src/pages/RecruiterManagement/InviteRecruiter.tsx](../../../client/src/pages/RecruiterManagement/InviteRecruiter.tsx) |
+| Complete signup | [client/src/pages/Authentication/CompleteSignup.tsx](../../../client/src/pages/Authentication/CompleteSignup.tsx) |
+| Jobseeker signup | [client/src/pages/Authentication/Signup.tsx](../../../client/src/pages/Authentication/Signup.tsx) |
+| Employment agreement | [client/src/pages/Consent/OnboardingConsent.tsx](../../../client/src/pages/Consent/OnboardingConsent.tsx) |
+| Profile create | [client/src/pages/JobseekerProfile/ProfileCreate.tsx](../../../client/src/pages/JobseekerProfile/ProfileCreate.tsx) |
+| Route gates | [client/src/components/ProtectedRoute.tsx](../../../client/src/components/ProtectedRoute.tsx) |
+| Invite API | [server/src/routes/user.ts](../../../server/src/routes/user.ts) — `invite-recruiter`, `resend-invitation` |
+| Onboarding API | [server/src/routes/auth.ts](../../../server/src/routes/auth.ts) — `complete-onboarding`, `send-confirmation-welcome`, `first-login-reminder` |
+| Email templates | [server/src/email-templates/onboarding-reminder-html.ts](../../../server/src/email-templates/onboarding-reminder-html.ts), [recruiter-invitation-html.ts](../../../server/src/email-templates/recruiter-invitation-html.ts) |
 
 ### Internal staff invite flow
 
@@ -361,7 +361,7 @@ flowchart LR
 | Dropdown options page | admin, recruiter_manager, accountant_manager, recruiter_director | GET: admin + expanded recruiter; POST/PUT/DELETE: **admin only** | Managers see page; **cannot mutate** |
 | Consent templates UI | `superadmin` in metadata | POST/DELETE: **admin only** | Superadmin UI vs admin-only API |
 
-### Core platform route guards ([client/src/App.tsx](../client/src/App.tsx))
+### Core platform route guards ([client/src/App.tsx](../../../client/src/App.tsx))
 
 | Route | Frontend roles |
 |-------|----------------|
@@ -376,11 +376,11 @@ flowchart LR
 
 ### Key files
 
-- [client/src/pages/AllUsersManagement.tsx](../client/src/pages/AllUsersManagement.tsx)
-- [client/src/pages/RecruiterHierarchy.tsx](../client/src/pages/RecruiterHierarchy.tsx)
-- [client/src/pages/RecruiterManagement/InviteRecruiter.tsx](../client/src/pages/RecruiterManagement/InviteRecruiter.tsx)
-- [client/src/services/api/user.ts](../client/src/services/api/user.ts)
-- [server/src/routes/user.ts](../server/src/routes/user.ts)
+- [client/src/pages/AllUsersManagement.tsx](../../../client/src/pages/AllUsersManagement.tsx)
+- [client/src/pages/RecruiterHierarchy.tsx](../../../client/src/pages/RecruiterHierarchy.tsx)
+- [client/src/pages/RecruiterManagement/InviteRecruiter.tsx](../../../client/src/pages/RecruiterManagement/InviteRecruiter.tsx)
+- [client/src/services/api/user.ts](../../../client/src/services/api/user.ts)
+- [server/src/routes/user.ts](../../../server/src/routes/user.ts)
 
 ### All Users view
 
@@ -454,10 +454,10 @@ Activity feed distinguishes `onboarding_reminder` vs `email_invitation` in Recen
 
 | Path | Role |
 |------|------|
-| [client/src/components/theme-provider.tsx](../client/src/components/theme-provider.tsx) | Context; `localStorage` key `godspeed-theme`; toggles `light`/`dark`/`system` on `<html>` |
-| [client/src/components/theme-toggle.tsx](../client/src/components/theme-toggle.tsx) | Toggle UI (light ↔ dark only) |
-| [client/src/styles/variables.css](../client/src/styles/variables.css) | CSS variables for themes |
-| [client/src/App.tsx](../client/src/App.tsx) | `defaultTheme="light"` |
+| [client/src/components/theme-provider.tsx](../../../client/src/components/theme-provider.tsx) | Context; `localStorage` key `godspeed-theme`; toggles `light`/`dark`/`system` on `<html>` |
+| [client/src/components/theme-toggle.tsx](../../../client/src/components/theme-toggle.tsx) | Toggle UI (light ↔ dark only) |
+| [client/src/styles/variables.css](../../../client/src/styles/variables.css) | CSS variables for themes |
+| [client/src/App.tsx](../../../client/src/App.tsx) | `defaultTheme="light"` |
 
 **Where toggle appears:** Hamburger menu footer, Login, Signup, CompleteSignup, Consent pages.
 
@@ -471,16 +471,16 @@ Activity feed distinguishes `onboarding_reminder` vs `email_invitation` in Recen
 
 | Path | Role |
 |------|------|
-| [client/src/contexts/language/language-provider.tsx](../client/src/contexts/language/language-provider.tsx) | Custom i18n; `t(key)` |
-| [client/src/contexts/language/locales/en.json](../client/src/contexts/language/locales/en.json) | Core EN (~2700+ lines) |
-| [client/src/contexts/language/locales/fr.json](../client/src/contexts/language/locales/fr.json) | Core FR |
-| [client/src/components/LanguageToggle.tsx](../client/src/components/LanguageToggle.tsx) | EN / Français dropdown |
+| [client/src/contexts/language/language-provider.tsx](../../../client/src/contexts/language/language-provider.tsx) | Custom i18n; `t(key)` |
+| [client/src/contexts/language/locales/en.json](../../../client/src/contexts/language/locales/en.json) | Core EN (~2700+ lines) |
+| [client/src/contexts/language/locales/fr.json](../../../client/src/contexts/language/locales/fr.json) | Core FR |
+| [client/src/components/LanguageToggle.tsx](../../../client/src/components/LanguageToggle.tsx) | EN / Français dropdown |
 
 **Preference:** `localStorage` `app-language`; sets `document.documentElement lang`.
 
 **Translated:** Navigation, dashboards, auth chrome, timesheets (dedicated JSON), invoices, consent flows, dropdown-options admin UI, many reports.
 
-**Not translated:** Legal page bodies (English hard-coded in TSX); client management pages; user profile; AI chat; static form enums in [client/src/constants/formOptions.ts](../client/src/constants/formOptions.ts).
+**Not translated:** Legal page bodies (English hard-coded in TSX); client management pages; user profile; AI chat; static form enums in [client/src/constants/formOptions.ts](../../../client/src/constants/formOptions.ts).
 
 ### Sidebar navigation
 
@@ -488,8 +488,8 @@ Activity feed distinguishes `onboarding_reminder` vs `email_invitation` in Recen
 
 | Path | Behavior |
 |------|----------|
-| [client/src/components/HamburgerMenu.tsx](../client/src/components/HamburgerMenu.tsx) | Role-filtered menu |
-| [client/src/lib/menuScrollState.ts](../client/src/lib/menuScrollState.ts) | Scroll persistence in `sessionStorage` |
+| [client/src/components/HamburgerMenu.tsx](../../../client/src/components/HamburgerMenu.tsx) | Role-filtered menu |
+| [client/src/lib/menuScrollState.ts](../../../client/src/lib/menuScrollState.ts) | Scroll persistence in `sessionStorage` |
 
 **Smart behaviors:**
 - Scroll position saved/restored across route changes
@@ -504,20 +504,17 @@ Activity feed distinguishes `onboarding_reminder` vs `email_invitation` in Recen
 
 ### Company switcher
 
-**Status: Stub — external links only, not in-app multi-tenant switching**
+**Status: Working — external links to the organisation's other portals (not in-app multi-tenant switching). Updated Nov 2026: the list is no longer hard-coded.**
 
 | Path | Detail |
 |------|--------|
-| [client/src/components/AppHeader.tsx](../client/src/components/AppHeader.tsx) | Hard-coded company list |
+| [client/src/components/AppHeader.tsx](../../../client/src/components/AppHeader.tsx) | Reads `switcher.currentLogo` and `switcher.options` from Portal Settings |
 
 **Shown on:** Admin and Recruiter dashboards only (`showCompanySwitcher={true}`).
 
-**Behavior:** Displays "AllStaff Ops" as current portal. Dropdown opens **external URLs** in new tabs:
-- Hire Solutions Ops → `https://app.hiresolutions.ca`
-- Godspeed Ops → `https://app.godspeedxp.com`
-- HD Group Ops → `https://app.hdgroup.ca`
+**Behavior:** The header icon shows this portal's logo and "<brand> Ops"; the dropdown lists the other portals configured for this one and opens them in new tabs (for example, AllStaff lists CanHire, Godspeed and HD Group). The list is edited by a super admin in Portal Settings and the switcher is hidden when it is empty (demo and public demo).
 
-Refresh icon reloads current page only — does not switch tenant or auth context. `PORTAL_NAME` env used server-side for emails, not this switcher.
+Refresh icon reloads current page only — does not switch tenant or auth context. The portal name used in emails is the separate `portal.name` setting. See [portals-and-configuration.md](../../portals-and-configuration.md).
 
 ### Legal pages
 
@@ -525,9 +522,9 @@ Refresh icon reloads current page only — does not switch tenant or auth contex
 
 | Path | Detail |
 |------|--------|
-| [client/src/pages/Legal/TermsOfService.tsx](../client/src/pages/Legal/TermsOfService.tsx) | `/terms-of-service` — public |
-| [client/src/pages/Legal/PrivacyPolicy.tsx](../client/src/pages/Legal/PrivacyPolicy.tsx) | `/privacy-policy` — public |
-| [client/src/App.tsx](../client/src/App.tsx) | Route registration |
+| [client/src/pages/Legal/TermsOfService.tsx](../../../client/src/pages/Legal/TermsOfService.tsx) | `/terms-of-service` — public |
+| [client/src/pages/Legal/PrivacyPolicy.tsx](../../../client/src/pages/Legal/PrivacyPolicy.tsx) | `/privacy-policy` — public |
+| [client/src/App.tsx](../../../client/src/App.tsx) | Route registration |
 
 **Access:** Public (no auth).
 
@@ -541,9 +538,9 @@ Linked from Login and Signup pages.
 
 | Path | Role |
 |------|------|
-| [client/src/pages/Admin/DropdownOptionsManagement.tsx](../client/src/pages/Admin/DropdownOptionsManagement.tsx) | Admin UI |
-| [server/src/routes/dropdownOptions.ts](../server/src/routes/dropdownOptions.ts) | REST API |
-| [server/src/db/migrations/create_client_dropdown_options_table.sql](../server/src/db/migrations/create_client_dropdown_options_table.sql) | `client_dropdown_options` table |
+| [client/src/pages/Admin/DropdownOptionsManagement.tsx](../../../client/src/pages/Admin/DropdownOptionsManagement.tsx) | Admin UI |
+| [server/src/routes/dropdownOptions.ts](../../../server/src/routes/dropdownOptions.ts) | REST API |
+| [server/src/db/migrations/create_client_dropdown_options_table.sql](../../../server/src/db/migrations/create_client_dropdown_options_table.sql) | `client_dropdown_options` table |
 
 **Covers (DB-backed `list_type` values):**
 - `client_manager`, `client_representative`, `salesperson`

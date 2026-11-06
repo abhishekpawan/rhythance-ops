@@ -12,57 +12,57 @@
 
 | Purpose | Path |
 |---------|------|
-| Public signing | [client/src/pages/Consent/ConsentPage.tsx](client/src/pages/Consent/ConsentPage.tsx) |
-| Jobseeker onboarding signing (authenticated) | [client/src/pages/Consent/OnboardingConsent.tsx](client/src/pages/Consent/OnboardingConsent.tsx) |
-| Internal document list | [client/src/pages/Consent/ConsentListPage.tsx](client/src/pages/Consent/ConsentListPage.tsx) |
-| Per-document recipients & resend | [client/src/pages/Consent/ConsentDetailPage.tsx](client/src/pages/Consent/ConsentDetailPage.tsx) |
-| Create bulk consent request | [client/src/pages/Consent/CreateConsentPage.tsx](client/src/pages/Consent/CreateConsentPage.tsx) |
-| Template wizard (PDF field placement) | [client/src/pages/Consent/ConsentTemplatePage.tsx](client/src/pages/Consent/ConsentTemplatePage.tsx) |
-| Recipient detail modal | [client/src/pages/Consent/ConsentRecordDetailModal.tsx](client/src/pages/Consent/ConsentRecordDetailModal.tsx) |
-| Consent history on jobseeker profile | [client/src/pages/JobseekerManagement/JobSeekerProfile.tsx](client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
-| Consent history on client profile | [client/src/pages/ClientManagement/ClientView.tsx](client/src/pages/ClientManagement/ClientView.tsx) |
-| Email previews (consent + employment agreement) | [client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx](client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx) |
+| Public signing | [client/src/pages/Consent/ConsentPage.tsx](../../../client/src/pages/Consent/ConsentPage.tsx) |
+| Jobseeker onboarding signing (authenticated) | [client/src/pages/Consent/OnboardingConsent.tsx](../../../client/src/pages/Consent/OnboardingConsent.tsx) |
+| Internal document list | [client/src/pages/Consent/ConsentListPage.tsx](../../../client/src/pages/Consent/ConsentListPage.tsx) |
+| Per-document recipients & resend | [client/src/pages/Consent/ConsentDetailPage.tsx](../../../client/src/pages/Consent/ConsentDetailPage.tsx) |
+| Create bulk consent request | [client/src/pages/Consent/CreateConsentPage.tsx](../../../client/src/pages/Consent/CreateConsentPage.tsx) |
+| Template wizard (PDF field placement) | [client/src/pages/Consent/ConsentTemplatePage.tsx](../../../client/src/pages/Consent/ConsentTemplatePage.tsx) |
+| Recipient detail modal | [client/src/pages/Consent/ConsentRecordDetailModal.tsx](../../../client/src/pages/Consent/ConsentRecordDetailModal.tsx) |
+| Consent history on jobseeker profile | [client/src/pages/JobseekerManagement/JobSeekerProfile.tsx](../../../client/src/pages/JobseekerManagement/JobSeekerProfile.tsx) |
+| Consent history on client profile | [client/src/pages/ClientManagement/ClientView.tsx](../../../client/src/pages/ClientManagement/ClientView.tsx) |
+| Email previews (consent + employment agreement) | [client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx](../../../client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx) |
 
 #### Frontend — routing, API, access
 
 | Purpose | Path |
 |---------|------|
-| Routes | [client/src/App.tsx](client/src/App.tsx) (`/consent`, `/onboarding-consent`, `/consent-dashboard/*`) |
-| Role constants | [client/src/constants/accessControl.ts](client/src/constants/accessControl.ts) (`CONSENT_LIST_ROLES`, `CONSENT_CREATE_ROLES`) |
-| API client | [client/src/services/api/consent.ts](client/src/services/api/consent.ts) |
-| Auth/onboarding gates | [client/src/components/ProtectedRoute.tsx](client/src/components/ProtectedRoute.tsx) |
-| Nav submenu | [client/src/components/HamburgerMenu.tsx](client/src/components/HamburgerMenu.tsx) |
+| Routes | [client/src/App.tsx](../../../client/src/App.tsx) (`/consent`, `/onboarding-consent`, `/consent-dashboard/*`) |
+| Role constants | [client/src/constants/accessControl.ts](../../../client/src/constants/accessControl.ts) (`CONSENT_LIST_ROLES`, `CONSENT_CREATE_ROLES`) |
+| API client | [client/src/services/api/consent.ts](../../../client/src/services/api/consent.ts) |
+| Auth/onboarding gates | [client/src/components/ProtectedRoute.tsx](../../../client/src/components/ProtectedRoute.tsx) |
+| Nav submenu | [client/src/components/HamburgerMenu.tsx](../../../client/src/components/HamburgerMenu.tsx) |
 
 #### Frontend — styles
 
-- [client/src/styles/pages/ConsentPage.css](client/src/styles/pages/ConsentPage.css)
-- [client/src/styles/pages/ConsentListAndDetailPage.css](client/src/styles/pages/ConsentListAndDetailPage.css)
-- [client/src/styles/pages/CreateConsentPage.css](client/src/styles/pages/CreateConsentPage.css)
-- [client/src/styles/pages/OnboardingConsent.css](client/src/styles/pages/OnboardingConsent.css)
-- [client/src/styles/pages/ConsentTemplatePage.css](client/src/styles/pages/ConsentTemplatePage.css)
-- [client/src/styles/components/ConsentRecordDetailModal.css](client/src/styles/components/ConsentRecordDetailModal.css)
+- [client/src/styles/pages/ConsentPage.css](../../../client/src/styles/pages/ConsentPage.css)
+- [client/src/styles/pages/ConsentListAndDetailPage.css](../../../client/src/styles/pages/ConsentListAndDetailPage.css)
+- [client/src/styles/pages/CreateConsentPage.css](../../../client/src/styles/pages/CreateConsentPage.css)
+- [client/src/styles/pages/OnboardingConsent.css](../../../client/src/styles/pages/OnboardingConsent.css)
+- [client/src/styles/pages/ConsentTemplatePage.css](../../../client/src/styles/pages/ConsentTemplatePage.css)
+- [client/src/styles/components/ConsentRecordDetailModal.css](../../../client/src/styles/components/ConsentRecordDetailModal.css)
 
 #### Backend
 
 | Purpose | Path |
 |---------|------|
-| All consent APIs | [server/src/routes/consent.ts](server/src/routes/consent.ts) (mounted at `/api/consent` in [server/src/index.ts](server/src/index.ts)) |
-| Employment agreement on email confirm | [server/src/routes/auth.ts](server/src/routes/auth.ts) |
-| Employment agreement on profile create | [server/src/routes/profile.ts](server/src/routes/profile.ts) |
-| General consent email | [server/src/email-templates/consent-html.ts](server/src/email-templates/consent-html.ts) |
-| Employment agreement email | [server/src/email-templates/employment-agreement-html.ts](server/src/email-templates/employment-agreement-html.ts) |
-| Email template registry | [server/src/routes/emailTemplates.ts](server/src/routes/emailTemplates.ts) |
-| Role middleware | [server/src/middleware/auth.ts](server/src/middleware/auth.ts) |
+| All consent APIs | [server/src/routes/consent.ts](../../../server/src/routes/consent.ts) (mounted at `/api/consent` in [server/src/index.ts](../../../server/src/index.ts)) |
+| Employment agreement on email confirm | [server/src/routes/auth.ts](../../../server/src/routes/auth.ts) |
+| Employment agreement on profile create | [server/src/routes/profile.ts](../../../server/src/routes/profile.ts) |
+| General consent email | [server/src/email-templates/consent-html.ts](../../../server/src/email-templates/consent-html.ts) |
+| Employment agreement email | [server/src/email-templates/employment-agreement-html.ts](../../../server/src/email-templates/employment-agreement-html.ts) |
+| Email template registry | [server/src/routes/emailTemplates.ts](../../../server/src/routes/emailTemplates.ts) |
+| Role middleware | [server/src/middleware/auth.ts](../../../server/src/middleware/auth.ts) |
 
 #### Database & storage migrations
 
-- [server/src/db/migrations/20250827_create_digital_consent_tables.sql](server/src/db/migrations/20250827_create_digital_consent_tables.sql)
-- [server/src/db/migrations/20260306_consent_autofill_and_templates.sql](server/src/db/migrations/20260306_consent_autofill_and_templates.sql)
-- [server/src/db/migration_v2/009_consent.sql](server/src/db/migration_v2/009_consent.sql)
-- [server/src/db/migration_v2/017_jobseeker_onboarding_consent.sql](server/src/db/migration_v2/017_jobseeker_onboarding_consent.sql)
+- [server/src/db/migrations/20250827_create_digital_consent_tables.sql](../../../server/src/db/migrations/20250827_create_digital_consent_tables.sql)
+- [server/src/db/migrations/20260306_consent_autofill_and_templates.sql](../../../server/src/db/migrations/20260306_consent_autofill_and_templates.sql)
+- [server/src/db/migration_v2/009_consent.sql](../../../server/src/db/migration_v2/009_consent.sql)
+- [server/src/db/migration_v2/017_jobseeker_onboarding_consent.sql](../../../server/src/db/migration_v2/017_jobseeker_onboarding_consent.sql)
 - Storage policies: `20250827_consent_storage_policies.sql`, `20250128_update_consent_storage_policies.sql`, `20250128_fix_consent_read_policy.sql`
 
-**Note:** `docs/digital-consent-feature-guide.md` references a `client/src/components/consent/` folder that **does not exist**; logic lives in page components.
+**Note:** logic lives in the page components under `client/src/pages/Consent/` (there is no `components/consent/` folder). Feature overview: [features/digital-consent.md](../../features/digital-consent.md).
 
 ---
 
@@ -97,12 +97,12 @@ flowchart TB
 
 #### A. Manual consent request (internal → client or jobseeker)
 
-1. User with **Create Consent** menu access opens `/consent-dashboard/new` ([CreateConsentPage.tsx](client/src/pages/Consent/CreateConsentPage.tsx)).
+1. User with **Create Consent** menu access opens `/consent-dashboard/new` ([CreateConsentPage.tsx](../../../client/src/pages/Consent/CreateConsentPage.tsx)).
 2. Uploads PDF (or selects template for autofill mode) to Supabase bucket `consent-documents` under `{userId}/{documentId}/...`.
 3. Selects recipients (`client` or `jobseeker_profile` IDs) and optional autofill template/fields.
 4. Submits → `POST /api/consent/request`.
 5. **Server writes:** `consent_documents` row; one `consent_records` row per recipient (`status: pending`, unique 64-char hex `consent_token`).
-6. **Email:** SendGrid via `emailNotifier` — subject/body from [consent-html.ts](server/src/email-templates/consent-html.ts); link `{CLIENT_URL}/consent?token={token}`.
+6. **Email:** SendGrid via `emailNotifier` — subject/body from [consent-html.ts](../../../server/src/email-templates/consent-html.ts); link `{CLIENT_URL}/consent?token={token}`.
 7. **Activity log:** `create_consent_request` in `recent_activities`.
 8. On per-recipient insert failure, document row is rolled back.
 
@@ -124,13 +124,13 @@ flowchart TB
 
 | Trigger | Code location | Email |
 |---------|---------------|-------|
-| Jobseeker confirms email (self-signup) | [auth.ts](server/src/routes/auth.ts) ~844–931 | Welcome + employment agreement |
-| Recruiter creates jobseeker profile | [profile.ts](server/src/routes/profile.ts) ~510–597 | Employment agreement only |
+| Jobseeker confirms email (self-signup) | [auth.ts](../../../server/src/routes/auth.ts) ~844–931 | Welcome + employment agreement |
+| Recruiter creates jobseeker profile | [profile.ts](../../../server/src/routes/profile.ts) ~510–597 | Employment agreement only |
 | Jobseeker visits onboarding UI / first API fetch | `GET /api/consent/jobseeker-onboarding-consent` | Only when **new** record created |
 
-**After sign:** `auth.users.user_metadata.employment_agreement_signed = true`. [ProtectedRoute.tsx](client/src/components/ProtectedRoute.tsx) blocks all other jobseeker routes until signed; only `/onboarding-consent` allowed beforehand.
+**After sign:** `auth.users.user_metadata.employment_agreement_signed = true`. [ProtectedRoute.tsx](../../../client/src/components/ProtectedRoute.tsx) blocks all other jobseeker routes until signed; only `/onboarding-consent` allowed beforehand.
 
-**Signing UX:** Same token link as general consent **or** authenticated [OnboardingConsent.tsx](client/src/pages/Consent/OnboardingConsent.tsx) (header, employment-specific copy).
+**Signing UX:** Same token link as general consent **or** authenticated [OnboardingConsent.tsx](../../../client/src/pages/Consent/OnboardingConsent.tsx) (header, employment-specific copy).
 
 #### D. Internal status tracking
 
@@ -148,7 +148,7 @@ flowchart TB
 
 #### F. Consent templates
 
-1. Superadmin opens `/consent-dashboard/templates` ([ConsentTemplatePage.tsx](client/src/pages/Consent/ConsentTemplatePage.tsx)) — wizard: upload PDF, click to place name/date fields (`field_mappings` JSON).
+1. Superadmin opens `/consent-dashboard/templates` ([ConsentTemplatePage.tsx](../../../client/src/pages/Consent/ConsentTemplatePage.tsx)) — wizard: upload PDF, click to place name/date fields (`field_mappings` JSON).
 2. `POST /api/consent/templates` stores row in `consent_document_templates`.
 3. Special template name `employmentAgreement` powers onboarding automation.
 4. Autofill requests reference `template_id`; on sign, server generates per-recipient PDF → `filled-consents/{recordId}/...` in storage.
@@ -157,7 +157,7 @@ flowchart TB
 
 ### 1.4 Role access (frontend vs backend)
 
-#### Frontend guards ([accessControl.ts](client/src/constants/accessControl.ts) + [App.tsx](client/src/App.tsx))
+#### Frontend guards ([accessControl.ts](../../../client/src/constants/accessControl.ts) + [App.tsx](../../../client/src/App.tsx))
 
 | Surface | Allowed roles (exact match via `RoleRoute` / menu) |
 |---------|---------------------------------------------------|
@@ -170,7 +170,7 @@ flowchart TB
 
 **Not in consent UI:** `bookkeeper`, `accountant_manager`, `sales` (though backend may allow them — see below).
 
-#### Backend `authorizeRoles` / other guards ([consent.ts](server/src/routes/consent.ts))
+#### Backend `authorizeRoles` / other guards ([consent.ts](../../../server/src/routes/consent.ts))
 
 | Endpoint | Guard |
 |----------|-------|
@@ -181,7 +181,7 @@ flowchart TB
 | `GET /entity-records/:id` | `authenticateToken` only — **no role check** |
 | `GET /jobseeker-onboarding-consent` | Authenticated + `user_type === jobseeker` |
 
-**`authorizeRoles(['recruiter'])` expansion:** In [auth.ts](server/src/middleware/auth.ts), `hasAccessRole(..., 'recruiter')` is true for `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` — so those roles **can call list/resend APIs** even when the hamburger menu hides Consent Management (menu uses **exact** role lists).
+**`authorizeRoles(['recruiter'])` expansion:** In [auth.ts](../../../server/src/middleware/auth.ts), `hasAccessRole(..., 'recruiter')` is true for `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` — so those roles **can call list/resend APIs** even when the hamburger menu hides Consent Management (menu uses **exact** role lists).
 
 #### Documented mismatches (flag for marketing accuracy)
 
@@ -223,7 +223,7 @@ Updates `consent_records`:
 
 **Not stored:** signature image, user-agent, separate checkbox timestamp, email verification at sign time, document hash.
 
-**Not shown in UI:** IP is stored but [ConsentRecordDetailModal.tsx](client/src/pages/Consent/ConsentRecordDetailModal.tsx) does not display it.
+**Not shown in UI:** IP is stored but [ConsentRecordDetailModal.tsx](../../../client/src/pages/Consent/ConsentRecordDetailModal.tsx) does not display it.
 
 #### Storage
 
@@ -270,21 +270,21 @@ Updates `consent_records`:
 
 | Purpose | Path |
 |---------|------|
-| Main page | [client/src/pages/TrainingModules/index.tsx](client/src/pages/TrainingModules/index.tsx) |
-| YouTube player modal | [client/src/pages/TrainingModules/VideoModal.tsx](client/src/pages/TrainingModules/VideoModal.tsx) |
-| Placeholder modal | [client/src/pages/TrainingModules/ComingSoonModal.tsx](client/src/pages/TrainingModules/ComingSoonModal.tsx) |
-| Route | [client/src/App.tsx](client/src/App.tsx) — `/training-modules` under `ProtectedRoute` only |
-| Menu gating | [client/src/components/HamburgerMenu.tsx](client/src/components/HamburgerMenu.tsx) — `TRAINING_ROLES` |
-| Access constant | [client/src/constants/accessControl.ts](client/src/constants/accessControl.ts) — `TRAINING_ROLES = [...INTERNAL_STAFF_ROLES, "jobseeker"]` |
-| Styles | [client/src/styles/pages/TrainingModules.css](client/src/styles/pages/TrainingModules.css), [client/src/styles/components/training/VideoModal.css](client/src/styles/components/training/VideoModal.css), [client/src/styles/components/training/ComingSoonModal.css](client/src/styles/components/training/ComingSoonModal.css) |
-| i18n | [client/src/contexts/language/locales/en.json](client/src/contexts/language/locales/en.json), `fr.json` — keys under `training.*` |
-| Docs (not wired to app) | [docs/training-video-details.md](docs/training-video-details.md) (YouTube IDs **differ** from app) |
+| Main page | [client/src/pages/TrainingModules/index.tsx](../../../client/src/pages/TrainingModules/index.tsx) |
+| YouTube player modal | [client/src/pages/TrainingModules/VideoModal.tsx](../../../client/src/pages/TrainingModules/VideoModal.tsx) |
+| Placeholder modal | [client/src/pages/TrainingModules/ComingSoonModal.tsx](../../../client/src/pages/TrainingModules/ComingSoonModal.tsx) |
+| Route | [client/src/App.tsx](../../../client/src/App.tsx) — `/training-modules` under `ProtectedRoute` only |
+| Menu gating | [client/src/components/HamburgerMenu.tsx](../../../client/src/components/HamburgerMenu.tsx) — `TRAINING_ROLES` |
+| Access constant | [client/src/constants/accessControl.ts](../../../client/src/constants/accessControl.ts) — `TRAINING_ROLES = [...INTERNAL_STAFF_ROLES, "jobseeker"]` |
+| Styles | [client/src/styles/pages/TrainingModules.css](../../../client/src/styles/pages/TrainingModules.css), [client/src/styles/components/training/VideoModal.css](../../../client/src/styles/components/training/VideoModal.css), [client/src/styles/components/training/ComingSoonModal.css](../../../client/src/styles/components/training/ComingSoonModal.css) |
+| i18n | [client/src/contexts/language/locales/en.json](../../../client/src/contexts/language/locales/en.json), `fr.json` — keys under `training.*` |
+| Docs | [docs/reference/training-video-details.md](../../reference/training-video-details.md) describes the two mandatory videos; in the app their ids come from Portal Settings (`training.video1`, `training.video2`) per portal *(updated Nov 2026)* |
 
-**No server files:** Zero `training` references under [server/src](server/src). No migrations, no `authorizeRoles` training endpoints, no API client in `client/src/services`.
+**No training backend:** no tables, no training endpoints, no API client in `client/src/services`. The only server-side link is two Portal Settings (`training.video1`, `training.video2`) that hold the YouTube ids of the first two modules *(updated Nov 2026)*.
 
 ---
 
-### 2.2 Content catalog (hardcoded in `index.tsx`)
+### 2.2 Content catalog (defined in `index.tsx`; the first two video ids come from Portal Settings)
 
 | ID | Module | Type | Status | YouTube ID | Mandatory badge |
 |----|--------|------|--------|------------|-----------------|
@@ -299,7 +299,7 @@ Updates `consent_records`:
 
 Comment in source: *"In a real application, this would come from an API."*
 
-**Coming soon behavior:** Opens [ComingSoonModal.tsx](client/src/pages/TrainingModules/ComingSoonModal.tsx) with static feature bullets and “We’ll notify you” copy — **no notification system exists**.
+**Coming soon behavior:** Opens [ComingSoonModal.tsx](../../../client/src/pages/TrainingModules/ComingSoonModal.tsx) with static feature bullets and “We’ll notify you” copy — **no notification system exists**.
 
 ---
 
@@ -329,7 +329,7 @@ Comment in source: *"In a real application, this would come from an API."*
 
 #### Jobseeker (pending/rejected verification)
 
-- Menu **hidden**, but `/training-modules` is a **utility route** in [ProtectedRoute.tsx](client/src/components/ProtectedRoute.tsx) — direct URL works while verification pending/rejected.
+- Menu **hidden**, but `/training-modules` is a **utility route** in [ProtectedRoute.tsx](../../../client/src/components/ProtectedRoute.tsx) — direct URL works while verification pending/rejected.
 
 #### Jobseeker (no profile / unsigned agreement)
 

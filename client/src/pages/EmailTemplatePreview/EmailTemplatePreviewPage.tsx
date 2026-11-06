@@ -30,7 +30,7 @@ interface UnifiedTemplate extends EmailTemplateInfo {
   placeholderHtml?: string;
 }
 
-// Sidebar order follows the email-triggers-table.txt
+// Sidebar order follows docs/email-triggers.md
 const SUPABASE_TEMPLATES: UnifiedTemplate[] = [];
 
 // Defines the desired sidebar order by id

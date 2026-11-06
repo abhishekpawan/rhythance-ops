@@ -184,25 +184,8 @@ placeholder={t('userManagement.globalSearch')}
 - [ ] No hardcoded UI strings in JSX
 - [ ] Component imports `useLanguage` hook
 
-## **Documentation Updates**
+## **Where translation files live**
 
-**After completing translation for any component, update the translation tracking document:**
-
-1. **Add completed components** to `docs/translated_component_list.md`
-2. **Mark with ✅** next to component name
-3. **Update section status** count (e.g., "Status: 14/15 Complete")
-4. **Group by feature area** (Authentication, Dashboard, Management, etc.)
-
-### **Example Entry**
-
-```markdown
-## Dashboard Components ✅
-
-- ✅ RecentActivities.tsx
-- ✅ MetricCard.tsx
-- ❌ ProfileCompletion.tsx (needs translation)
-
-**Status: 2/3 Complete**
-```
-
-This ensures translation progress is tracked and visible to the team.
+Core texts are in `en.json` / `fr.json`; larger areas (timesheets, reports, profile, support, feature flags, portal settings, ...) have their own files
+under `locales/en/` and `locales/fr/`. A new module file must be imported and merged in `language-provider.tsx` for both languages.
+Never hard-code a portal's brand name in a text: use the `{{brandName}}` placeholder. See `docs/development/translations.md`.

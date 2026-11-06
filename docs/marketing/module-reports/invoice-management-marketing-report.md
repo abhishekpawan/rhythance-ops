@@ -3,19 +3,19 @@
 **Scope:** Invoice CRUD UI, PDF generation, client email delivery, and invoice list. Excludes timesheet entry workflows (except how timesheets are read into invoices) and general reporting except where noted.
 
 **Primary code locations:**
-- Pages: [`client/src/pages/InvoiceManagement/InvoiceManagement.tsx`](../client/src/pages/InvoiceManagement/InvoiceManagement.tsx), [`client/src/pages/InvoiceManagement/InvoiceList.tsx`](../client/src/pages/InvoiceManagement/InvoiceList.tsx)
-- API client: [`client/src/services/api/invoice.ts`](../client/src/services/api/invoice.ts)
-- PDF: [`client/src/utils/pdfGenerator.tsx`](../client/src/utils/pdfGenerator.tsx)
-- Attachments UI: [`client/src/components/InvoiceAttachments.tsx`](../client/src/components/InvoiceAttachments.tsx)
-- Backend: [`server/src/routes/invoices.ts`](../server/src/routes/invoices.ts)
-- Schema: [`server/src/db/migration_v2/007_invoices.sql`](../server/src/db/migration_v2/007_invoices.sql)
-- Email templates: [`server/src/email-templates/invoice-html.ts`](../server/src/email-templates/invoice-html.ts)
+- Pages: [`client/src/pages/InvoiceManagement/InvoiceManagement.tsx`](../../../client/src/pages/InvoiceManagement/InvoiceManagement.tsx), [`client/src/pages/InvoiceManagement/InvoiceList.tsx`](../../../client/src/pages/InvoiceManagement/InvoiceList.tsx)
+- API client: [`client/src/services/api/invoice.ts`](../../../client/src/services/api/invoice.ts)
+- PDF: [`client/src/utils/pdfGenerator.tsx`](../../../client/src/utils/pdfGenerator.tsx)
+- Attachments UI: [`client/src/components/InvoiceAttachments.tsx`](../../../client/src/components/InvoiceAttachments.tsx)
+- Backend: [`server/src/routes/invoices.ts`](../../../server/src/routes/invoices.ts)
+- Schema: [`server/src/db/migration_v2/007_invoices.sql`](../../../server/src/db/migration_v2/007_invoices.sql)
+- Email templates: [`server/src/email-templates/invoice-html.ts`](../../../server/src/email-templates/invoice-html.ts)
 
 ---
 
 ## 1. Routes and navigation
 
-### Frontend routes ([`client/src/App.tsx`](../client/src/App.tsx))
+### Frontend routes ([`client/src/App.tsx`](../../../client/src/App.tsx))
 
 | Path | Component | Purpose |
 |------|-----------|---------|
@@ -27,7 +27,7 @@
 
 **Notes:** `/invoice-management/view/:id` provides a full read-only detail view including line items, attachments, tax summary, signed PDF preview link, and direct email trigger. `/invoice-management` and `/invoice-management/create` are duplicate routes mounting the create UI.
 
-### Backend routes ([`server/src/index.ts`](../server/src/index.ts) mounts `/api/invoices`)
+### Backend routes ([`server/src/index.ts`](../../../server/src/index.ts) mounts `/api/invoices`)
 
 | Method | Path | Purpose |
 |--------|------|---------|
@@ -49,15 +49,15 @@
 
 ### Frontend guard
 
-[`client/src/constants/accessControl.ts`](../client/src/constants/accessControl.ts):
+[`client/src/constants/accessControl.ts`](../../../client/src/constants/accessControl.ts):
 
 ```ts
 INVOICE_MANAGEMENT_ROLES = ["admin", "accountant_manager"]
 ```
 
-[`RoleRoute`](../client/src/components/ProtectedRoute.tsx) wraps all invoice routes; unauthorized users redirect to `/dashboard`. List actions (delete, send) have **no additional** per-button role checks.
+[`RoleRoute`](../../../client/src/components/ProtectedRoute.tsx) wraps all invoice routes; unauthorized users redirect to `/dashboard`. List actions (delete, send) have **no additional** per-button role checks.
 
-### Backend `authorizeRoles` ([`server/src/middleware/auth.ts`](../server/src/middleware/auth.ts))
+### Backend `authorizeRoles` ([`server/src/middleware/auth.ts`](../../../server/src/middleware/auth.ts))
 
 Passing `"recruiter"` expands to: `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director`.
 
@@ -148,7 +148,7 @@ sequenceDiagram
 
 **API:** `GET /api/invoices/timesheets-by-client/:clientId?startDate=&endDate=`
 
-**Backend query** ([`invoices.ts`](../server/src/routes/invoices.ts) ~1211–1254):
+**Backend query** ([`invoices.ts`](../../../server/src/routes/invoices.ts) ~1211–1254):
 - `timesheets` joined to `positions` (client = `clientId`) and `jobseeker_profiles`
 - Filter: `week_start_date >= startDate` AND `week_end_date <= endDate`
 - Returns rates, hours, OT flags, position/jobseeker details, timesheet’s own `invoice_number` field (timesheet batch number — **not** linked to `invoices` table)
@@ -174,7 +174,7 @@ sequenceDiagram
 
 ### Database writes — create/update
 
-**Table:** `public.invoices` ([`007_invoices.sql`](../server/src/db/migration_v2/007_invoices.sql))
+**Table:** `public.invoices` ([`007_invoices.sql`](../../../server/src/db/migration_v2/007_invoices.sql))
 
 **On POST:** INSERT with normalized totals, `invoice_data` JSONB, `status` default `draft`, `version` 1, `version_history` entry `"created"`, `created_by_user_id` / `updated_by_user_id`.
 
@@ -191,7 +191,7 @@ sequenceDiagram
 
 ### PDF generation (client-side)
 
-**Library:** `@react-pdf/renderer` in [`pdfGenerator.tsx`](../client/src/utils/pdfGenerator.tsx)
+**Library:** `@react-pdf/renderer` in [`pdfGenerator.tsx`](../../../client/src/utils/pdfGenerator.tsx)
 
 **Triggered:** end of `handleInvoiceSubmit` after API create/update.
 
@@ -205,7 +205,7 @@ sequenceDiagram
 
 ### Attachments
 
-[`InvoiceAttachments.tsx`](../client/src/components/InvoiceAttachments.tsx): max **10** files, **3MB** each; PDF, images, Excel/CSV, `.eml`.
+[`InvoiceAttachments.tsx`](../../../client/src/components/InvoiceAttachments.tsx): max **10** files, **3MB** each; PDF, images, Excel/CSV, `.eml`.
 
 Upload path: `{userId}/{invoiceNumber}/attachments/{uniqueFileName}` in bucket `invoices`.
 
@@ -217,7 +217,7 @@ On email send, uploaded attachments (`uploadStatus === "uploaded"`) are download
 
 **Provider:** SendGrid (`SENDGRID_API_KEY`)
 
-**Templates:** [`invoice-html.ts`](../server/src/email-templates/invoice-html.ts) — HTML + plain text with invoice #, dates, client name/email, amount due, optional `messageOnInvoice`; states PDF is attached.
+**Templates:** [`invoice-html.ts`](../../../server/src/email-templates/invoice-html.ts) — HTML + plain text with invoice #, dates, client name/email, amount due, optional `messageOnInvoice`; states PDF is attached.
 
 **Subject:** `Invoice #{number} for {company_name}`
 
@@ -227,7 +227,7 @@ On email send, uploaded attachments (`uploadStatus === "uploaded"`) are download
 
 **CC routing:**
 1. `INVOICE_CC_EMAILS` env (comma-separated global CCs)
-2. Per client flags on [`clients`](../server/src/types.ts) table (configured in Client Management):
+2. Per client flags on [`clients`](../../../server/src/types.ts) table (configured in Client Management):
    - `invoice_cc2` → `email_address2`
    - `invoice_cc3` → `email_address3`
    - `invoice_cc_dispatch` → `dispatch_dept_email`
@@ -246,8 +246,8 @@ On email send, uploaded attachments (`uploadStatus === "uploaded"`) are download
 **Not recorded:** SendGrid message ID, opens, bounces, delivery webhooks. **`status` stays `draft`** (or whatever it was) — not auto-set to `sent`.
 
 **Send entry points:**
-1. Success modal on form after generate/update ([`sendInvoiceToClient`](../client/src/pages/InvoiceManagement/InvoiceManagement.tsx))
-2. List row Send/Resend button ([`InvoiceList.tsx`](../client/src/pages/InvoiceManagement/InvoiceList.tsx))
+1. Success modal on form after generate/update ([`sendInvoiceToClient`](../../../client/src/pages/InvoiceManagement/InvoiceManagement.tsx))
+2. List row Send/Resend button ([`InvoiceList.tsx`](../../../client/src/pages/InvoiceManagement/InvoiceList.tsx))
 
 List send disabled when: no email, or `!documentGenerated`, or already sending. Resend uses same API; label toggles Send vs Resend when `emailSent`.
 
@@ -257,7 +257,7 @@ List send disabled when: no email, or `!documentGenerated`, or already sending. 
 
 ### Filters
 
-**UI controls** ([`InvoiceList.tsx`](../client/src/pages/InvoiceManagement/InvoiceList.tsx)):
+**UI controls** ([`InvoiceList.tsx`](../../../client/src/pages/InvoiceManagement/InvoiceList.tsx)):
 
 | Filter | API param | Backend support |
 |--------|-----------|-----------------|
@@ -271,7 +271,7 @@ List send disabled when: no email, or `!documentGenerated`, or already sending. 
 
 **State exists but no list UI** (URL query hydration only): `dueDateStart`, `dueDateEnd`, `emailSentFilter`.
 
-**Not wired to API:** `dueDateStart` / `dueDateEnd` are passed in list component state but [`getInvoices`](../client/src/services/api/invoice.ts) does **not** append them to the request; backend `applyInvoiceFilters` has no due-date filters.
+**Not wired to API:** `dueDateStart` / `dueDateEnd` are passed in list component state but [`getInvoices`](../../../client/src/services/api/invoice.ts) does **not** append them to the request; backend `applyInvoiceFilters` has no due-date filters.
 
 **Duplicate filter:** `invoiceSentFilter` and `emailSentFilter` both target `email_sent` on backend; only `invoiceSentFilter` has a UI dropdown.
 

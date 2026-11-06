@@ -10,21 +10,43 @@ Execute in lexical order:
 Get-ChildItem .\server\src\db\migration_v2\*.sql | Sort-Object Name
 ```
 
+or, on macOS/Linux: `ls server/src/db/migration_v2/*.sql | sort`
+
 ## Files
 
-- `000_bootstrap_extensions.sql`
-- `001_auth_and_role_helpers.sql`
-- `002_jobseeker_profiles.sql`
-- `003_storage_jobseeker_documents_policies.sql`
-- `004_clients_and_positions.sql`
-- `005_timesheets.sql`
-- `006_recent_activities.sql`
-- `007_invoices.sql`
-- `008_bulk_timesheets.sql`
-- `009_consent.sql`
-- `010_client_dropdown_options.sql`
-- `011_embeddings.sql`
-- `012_ai_validation_from_godspeed_ops_ai.sql`
+| File | Purpose |
+| --- | --- |
+| `000_bootstrap_extensions.sql` | Required Postgres extensions |
+| `001_auth_and_role_helpers.sql` | Auth and role helper functions |
+| `002_jobseeker_profiles.sql` | Jobseeker profiles and drafts |
+| `003_storage_jobseeker_documents_policies.sql` | Storage policies for jobseeker documents |
+| `004_clients_and_positions.sql` | Clients, positions, drafts, assignments |
+| `005_timesheets.sql` | Timesheets |
+| `006_recent_activities.sql` | Activity feed table and realtime |
+| `007_invoices.sql` | Invoices |
+| `008_bulk_timesheets.sql` | `bulk_timesheets` table (legacy; the current app does not use it) |
+| `009_consent.sql` | Digital consent tables and storage policies |
+| `010_client_dropdown_options.sql` | Configurable dropdown options |
+| `011_embeddings.sql` | Embedding columns for candidate matching |
+| `012_ai_validation_from_godspeed_ops_ai.sql` | `ai_validation` table used by the AI service |
+| `013_add_stat_to_positions.sql` | STAT (yes/no) column on positions and drafts |
+| `014_inactivity_monitor.sql` | `last_activity_at` on clients and jobseekers, with triggers |
+| `015_add_premium_pay_rate.sql` | Premium pay rate on positions, drafts and timesheets |
+| `016_add_is_subcategory_to_positions.sql` | `is_subcategory` flag: invoicing-only positions, excluded from matching and assignment |
+| `017_jobseeker_onboarding_consent.sql` | Onboarding-agreement flag and the `user` recipient type for consent |
+| `018_hybrid_payment_timesheets.sql` | Hybrid SIN + cash/e-Transfer payment: weekly SIN hours cap on the profile and split timesheet rows |
+| `019` to `022` (subcategory files) | Subcategory position types, their per-type details and the group/primary refactor |
+| `023_purge_cron_job_run_details.sql` | Weekly `pg_cron` job that trims cron run logs |
+| `024_timesheets_bulk_jobseeker.sql` | `is_bulk` and `bulk_breakdown` on timesheets (one timesheet covering several positions) |
+| `025_timesheets_tax_amount.sql` | `tax_amount` on timesheets (Corporation-Direct Deposit) |
+| `026_expand_client_short_code_to_varchar_5.sql` | Client short code up to 5 characters |
+| `027_support_module.sql` | Support tickets: tables, functions, storage bucket, daily auto-close job |
+| `028_sync_position_dates_to_assignments.sql` | When a position's dates change, active and upcoming assignments (and their statuses) follow |
+| `029_feature_flags.sql` | `feature_flags` table |
+| `030_feature_flags_config.sql` | `config` column on flags (flag text settings) |
+| `031_portal_settings.sql` | `portal_settings` table |
+
+Run **every file once, in order, on each portal's database**, then that portal's seed from `../seeds/` (see `../seeds/README.md`).
 
 ## What was merged
 
@@ -111,12 +133,6 @@ Added files:
 
 - `supabase_direct_update.sql` was duplicate-intent SQL for the same `jobseeker_profiles` uniqueness change.
 - `remove_rls_policy_from_invoices_bucket.sql` was a byte-for-byte duplicate of `create_invoice_table.sql`.
-
-## Archive of previous v2 linear copy
-
-The previous sequential copy is preserved at:
-
-- `server/src/db/migration_v2/_archived_linear_v1`
 
 ## MCP validation notes
 
