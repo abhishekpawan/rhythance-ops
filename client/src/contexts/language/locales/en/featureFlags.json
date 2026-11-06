@@ -1,0 +1,57 @@
+{
+  "navigation": {
+    "featureFlags": "Feature Flags"
+  },
+  "featureFlags": {
+    "title": "Feature Flags",
+    "subtitle": "Per-portal switches. This list also tracks how the portals differ from each other.",
+    "searchPlaceholder": "Search by name, key or description",
+    "summary": {
+      "total": "Total flags",
+      "enabled": "Currently on",
+      "customized": "Changed from default",
+      "tracking": "Tracking only"
+    },
+    "filters": {
+      "all": "All",
+      "controls": "Controls behaviour",
+      "tracking": "Tracking only"
+    },
+    "categories": {
+      "dashboard": "Dashboard",
+      "positions": "Positions",
+      "jobseeker_profile": "Jobseeker profile",
+      "admin": "Admin"
+    },
+    "status": {
+      "on": "On",
+      "off": "Off",
+      "default": "Default",
+      "customized": "Changed",
+      "controls": "Controls behaviour",
+      "tracking": "Tracking only"
+    },
+    "intendedTitle": "Intended per portal",
+    "changedBy": "Changed by {{name}} on {{date}}",
+    "reset": "Reset to default",
+    "resetTitle": "Reset to the default ({{value}})",
+    "notConnected": "Not connected to code yet. Listed so the difference between portals is visible; it cannot be changed here.",
+    "setupNeededTitle": "Setup needed on this portal",
+    "setupNeededMessage": "The feature_flags table does not exist in this portal's database yet. Run migration 029_feature_flags.sql. Until then every flag uses its default value.",
+    "loadFailedMessage": "Saved values could not be read, so defaults are being shown. Try again in a moment.",
+    "loadError": "Failed to load feature flags",
+    "empty": "No feature flags match your search.",
+    "confirm": {
+      "enableTitle": "Turn on this feature?",
+      "disableTitle": "Turn off this feature?",
+      "message": "\"{{name}}\" changes immediately for every user of this portal.",
+      "enable": "Turn on",
+      "disable": "Turn off"
+    },
+    "toast": {
+      "updated": "\"{{name}}\" is now {{state}}.",
+      "reset": "\"{{name}}\" was reset to its default.",
+      "failed": "Could not update the feature flag."
+    }
+  }
+}

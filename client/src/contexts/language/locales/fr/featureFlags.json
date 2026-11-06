@@ -1,0 +1,57 @@
+{
+  "navigation": {
+    "featureFlags": "Indicateurs de fonctionnalités"
+  },
+  "featureFlags": {
+    "title": "Indicateurs de fonctionnalités",
+    "subtitle": "Interrupteurs propres à chaque portail. Cette liste permet aussi de suivre les différences entre les portails.",
+    "searchPlaceholder": "Rechercher par nom, clé ou description",
+    "summary": {
+      "total": "Total des indicateurs",
+      "enabled": "Actuellement activés",
+      "customized": "Modifiés par rapport au défaut",
+      "tracking": "Suivi seulement"
+    },
+    "filters": {
+      "all": "Tous",
+      "controls": "Contrôle le comportement",
+      "tracking": "Suivi seulement"
+    },
+    "categories": {
+      "dashboard": "Tableau de bord",
+      "positions": "Postes",
+      "jobseeker_profile": "Profil du candidat",
+      "admin": "Administration"
+    },
+    "status": {
+      "on": "Activé",
+      "off": "Désactivé",
+      "default": "Par défaut",
+      "customized": "Modifié",
+      "controls": "Contrôle le comportement",
+      "tracking": "Suivi seulement"
+    },
+    "intendedTitle": "Prévu par portail",
+    "changedBy": "Modifié par {{name}} le {{date}}",
+    "reset": "Rétablir par défaut",
+    "resetTitle": "Rétablir la valeur par défaut ({{value}})",
+    "notConnected": "Pas encore relié au code. Affiché pour rendre visible la différence entre les portails; ne peut pas être modifié ici.",
+    "setupNeededTitle": "Configuration requise sur ce portail",
+    "setupNeededMessage": "La table feature_flags n'existe pas encore dans la base de données de ce portail. Exécutez la migration 029_feature_flags.sql. D'ici là, chaque indicateur utilise sa valeur par défaut.",
+    "loadFailedMessage": "Les valeurs enregistrées n'ont pas pu être lues; les valeurs par défaut sont affichées. Réessayez dans un instant.",
+    "loadError": "Échec du chargement des indicateurs de fonctionnalités",
+    "empty": "Aucun indicateur ne correspond à votre recherche.",
+    "confirm": {
+      "enableTitle": "Activer cette fonctionnalité?",
+      "disableTitle": "Désactiver cette fonctionnalité?",
+      "message": "« {{name}} » change immédiatement pour tous les utilisateurs de ce portail.",
+      "enable": "Activer",
+      "disable": "Désactiver"
+    },
+    "toast": {
+      "updated": "« {{name}} » est maintenant {{state}}.",
+      "reset": "« {{name}} » a été rétabli à sa valeur par défaut.",
+      "failed": "Impossible de mettre à jour l'indicateur."
+    }
+  }
+}

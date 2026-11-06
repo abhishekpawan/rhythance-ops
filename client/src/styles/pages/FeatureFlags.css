@@ -1,0 +1,515 @@
+/* ── Feature Flags (super admin) ───────────────────────── */
+/* Prefix: ff- */
+
+.ff-page {
+  margin-left: 68px;
+  margin-top: 60px;
+  min-height: calc(100vh - 60px);
+  background: var(--background);
+  color: var(--text);
+}
+
+.ff-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Intro ─────────────────────────────────────────────── */
+.ff-intro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ff-intro-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text);
+  color: var(--background);
+  flex-shrink: 0;
+}
+
+.ff-subtitle {
+  font-size: var(--font-size-subheader);
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* ── States / banners ──────────────────────────────────── */
+.ff-state {
+  display: flex;
+  justify-content: center;
+  padding: 56px 0;
+  color: var(--text-muted);
+}
+
+.ff-spinner {
+  animation: ff-spin 0.9s linear infinite;
+  color: var(--text-muted);
+}
+
+@keyframes ff-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ff-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-body);
+  line-height: 1.45;
+}
+
+.ff-banner svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ff-banner p {
+  margin-top: 2px;
+  color: var(--text-muted);
+}
+
+.ff-banner--warning {
+  background: var(--pending-bg);
+  border-color: var(--pending);
+}
+
+.ff-banner--error {
+  background: var(--failure-bg);
+  border-color: var(--failure);
+  color: var(--failure);
+}
+
+/* ── Summary ───────────────────────────────────────────── */
+.ff-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ff-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.ff-summary-value {
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+}
+
+.ff-summary-label {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+}
+
+/* ── Toolbar ───────────────────────────────────────────── */
+.ff-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ff-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 280px;
+  max-width: 420px;
+  padding: 0 12px;
+  height: 38px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-muted);
+  transition: border-color var(--transition-fast);
+}
+
+.ff-search:focus-within {
+  border-color: var(--text);
+}
+
+.ff-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: var(--font-size-body);
+}
+
+.ff-segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--pending-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+}
+
+.ff-segment {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ff-segment:hover {
+  color: var(--text);
+}
+
+.ff-segment--active {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: var(--card-shadow);
+}
+
+/* ── Groups & cards ────────────────────────────────────── */
+.ff-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ff-group-title {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ff-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  transition: border-color var(--transition-fast);
+}
+
+.ff-card:hover {
+  border-color: var(--text-muted);
+}
+
+.ff-card--tracking {
+  border-style: dashed;
+}
+
+.ff-card-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ff-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ff-card-title {
+  font-size: var(--font-size-subheader);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ff-key {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--pending-bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.ff-desc {
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+}
+
+.ff-notes {
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.ff-hint {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Badges ────────────────────────────────────────────── */
+.ff-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ff-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.ff-badge--controls {
+  background: var(--success-bg);
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.ff-badge--tracking {
+  background: var(--pending-bg);
+  color: var(--pending);
+  border-color: var(--border);
+}
+
+.ff-badge--changed {
+  background: var(--text);
+  color: var(--background);
+}
+
+.ff-badge--default {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+/* ── Intended per portal ───────────────────────────────── */
+.ff-intended {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  margin-top: 2px;
+  border-top: 1px solid var(--border);
+}
+
+.ff-intended-label {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+}
+
+.ff-portals {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ff-portal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-small);
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.ff-portal b {
+  font-weight: var(--font-weight-semibold);
+}
+
+.ff-portal--on b {
+  color: var(--success);
+}
+
+.ff-portal--off b {
+  color: var(--text-muted);
+}
+
+/* ── Right-hand side: switch ───────────────────────────── */
+.ff-card-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 170px;
+  flex-shrink: 0;
+}
+
+.ff-switch-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 26px;
+}
+
+.ff-switch-state {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+}
+
+.ff-switch-state--on {
+  color: var(--success);
+}
+
+.ff-switch {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.ff-switch--on {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.ff-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-fast);
+}
+
+.ff-switch--on .ff-switch-thumb {
+  transform: translateX(20px);
+}
+
+.ff-switch:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.ff-switch:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ff-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  padding: 2px 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ff-reset:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.ff-reset:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ff-changed {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ── Empty ─────────────────────────────────────────────── */
+.ff-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 0;
+  color: var(--text-muted);
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ff-page {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .ff-container {
+    padding: 20px 16px 40px;
+  }
+
+  .ff-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ff-card {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .ff-card-side {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-width: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .ff-changed {
+    text-align: left;
+    flex-basis: 100%;
+  }
+}

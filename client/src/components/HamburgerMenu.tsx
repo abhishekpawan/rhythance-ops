@@ -31,6 +31,7 @@ import {
   Calendar,
   CreditCard,
   MailOpen,
+  Flag,
   LifeBuoy,
 } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
@@ -715,6 +716,14 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
       label: "Email Template Preview",
       path: "/email-template-preview",
       icon: <MailOpen size={16} />,
+      requiresAuth: true,
+      roles: ["admin"],
+      requiresSuperAdmin: true,
+    },
+    {
+      label: t("navigation.featureFlags"),
+      path: "/feature-flags",
+      icon: <Flag size={16} />,
       requiresAuth: true,
       roles: ["admin"],
       requiresSuperAdmin: true,

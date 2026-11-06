@@ -21,6 +21,7 @@ import calendarRoutes from "./routes/calendar.js";
 import consentRoutes from "./routes/consent.js";
 import dropdownOptionsRoutes from "./routes/dropdownOptions.js";
 import emailTemplateRoutes from "./routes/emailTemplates.js";
+import featureFlagRoutes from "./routes/featureFlags.js";
 import supportRoutes from "./routes/support/index.js";
 import {
   configureSecurityHeaders,
@@ -141,6 +142,9 @@ app.use("/api/consent", consentRoutes);
 
 // Email template preview routes
 app.use("/api/email-templates", emailTemplateRoutes);
+
+// Feature flags (per-portal on/off switches; super admin manages)
+app.use("/api/feature-flags", featureFlagRoutes);
 
 // Dropdown options routes (client form dropdowns)
 app.use("/api/dropdown-options", dropdownOptionsRoutes);

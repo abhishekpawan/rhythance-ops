@@ -186,7 +186,8 @@ export interface ActivityData {
   | "resend_invitation"
   | "create_consent_request"
   | "resend_consent_request"
-  | "user_consent_given";
+  | "user_consent_given"
+  | "update_feature_flag";
   actionVerb: string;
   primaryEntityType: string;
   primaryEntityId?: string;

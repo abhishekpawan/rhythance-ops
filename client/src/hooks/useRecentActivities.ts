@@ -48,6 +48,7 @@ export interface RecentActivity {
     // Consent management actions
     | "create_consent_request"
     | "user_consent_given"
+    | "update_feature_flag"
     | "resend_consent_request";
   action_verb: string;
   primary_entity_type: string;

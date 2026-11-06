@@ -65,6 +65,7 @@ interface RecentActivity {
     | "resend_invitation"
     | "create_consent_request"
     | "user_consent_given"
+    | "update_feature_flag"
     | "resend_consent_request";
   action_verb: string;
   actor_name: string;
@@ -197,6 +198,8 @@ const getStatusIcon = (actionType: string) => {
       return <CheckCircle size={12} className="status-success" />;
     case "resend_consent_request":
       return <Send size={12} className="status-success" />;
+    case "update_feature_flag":
+      return <RefreshCw size={12} className="status-success" />;
 
     default:
       return <AlertCircle size={12} className="status-info" />;
@@ -751,6 +754,15 @@ const formatActivityMessage = (activity: RecentActivity): React.ReactNode => {
       return (
         <>
           <ActorName>{actor_name}</ActorName> created consent request <PrimaryEntity>{primary_entity_name}</PrimaryEntity> for {recipientCount} {recipientLabel}{pluralSuffix}
+        </>
+      );
+    }
+
+    case "update_feature_flag": {
+      return (
+        <>
+          <ActorName>{actor_name}</ActorName> {activity.action_verb} feature{" "}
+          <PrimaryEntity>{primary_entity_name}</PrimaryEntity>
         </>
       );
     }
