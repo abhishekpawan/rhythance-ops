@@ -91,7 +91,11 @@ export function CompensationForm({ allFields }: CompensationFormProps) {
     <div className="form-step-container">
       <h2>{t("profileCreate.compensation.sectionTitle")}</h2>
       <p className="form-description">
-        {t("profileCreate.compensation.sectionDescription")}
+        {t(
+          lightRules
+            ? "lightRules.compensation.sectionDescription"
+            : "profileCreate.compensation.sectionDescription"
+        )}
         {isJobSeeker && (
           <span className="text-info">
             {" "}

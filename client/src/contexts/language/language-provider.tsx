@@ -1,4 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import {
+  applyBrandTokens,
+  getPublicSettings,
+  subscribePublicSettings,
+} from "../publicSettingsStore";
 import coreEn from "./locales/en.json";
 import timesheetEn from "./locales/en/timesheet.json";
 import reportsEn from "./locales/en/reports.json";
@@ -93,6 +104,9 @@ export function LanguageProvider({
     () => (localStorage.getItem(storageKey) as Language) || defaultLanguage
   );
 
+  // Re-render when the public settings (brand name) load or change
+  useSyncExternalStore(subscribePublicSettings, getPublicSettings);
+
   useEffect(() => {
     localStorage.setItem(storageKey, language);
     // Set a class or data attribute on <html> for language
@@ -117,10 +131,10 @@ export function LanguageProvider({
 
     // If interpolations are provided, replace placeholders
     if (interpolations && typeof translatedValue === 'string') {
-      return interpolateString(translatedValue, interpolations);
+      return applyBrandTokens(interpolateString(translatedValue, interpolations));
     }
 
-    return String(translatedValue);
+    return applyBrandTokens(String(translatedValue));
   };
 
   const value = {

@@ -5,9 +5,16 @@ import {
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import { useAuth } from "./AuthContext";
+import {
+  getPublicSettings,
+  hasPublicSettings,
+  setPublicSettings,
+  subscribePublicSettings,
+} from "./publicSettingsStore";
 import {
   getPortalSettings,
   getPublicPortalSettings,
@@ -35,13 +42,31 @@ const PortalSettingsContext = createContext<PortalSettingsContextValue>({
 
 export function PortalSettingsProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
-  const [publicValues, setPublicValues] = useState<Record<string, string>>({});
-  const [publicReady, setPublicReady] = useState(false);
+  // Public settings live in a small store so translations can use them too
+  const publicValues = useSyncExternalStore(
+    subscribePublicSettings,
+    getPublicSettings
+  );
+  const publicReady = useSyncExternalStore(
+    subscribePublicSettings,
+    hasPublicSettings
+  );
   const [publicFailed, setPublicFailed] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const [ready, setReady] = useState(false);
 
+  const loadPublic = useCallback(async () => {
+    try {
+      setPublicSettings(await getPublicPortalSettings());
+      setPublicFailed(false);
+    } catch (error) {
+      console.error("Failed to load public portal settings:", error);
+      setPublicFailed(true);
+    }
+  }, []);
+
   const refresh = useCallback(async () => {
+    void loadPublic();
     try {
       setValues(await getPortalSettings());
       setReady(true);
@@ -49,25 +74,12 @@ export function PortalSettingsProvider({ children }: { children: ReactNode }) {
       // Keep whatever was loaded before; pages that need a value check `ready`.
       console.error("Failed to load portal settings:", error);
     }
-  }, []);
+  }, [loadPublic]);
 
-  // The public settings (legal pages) are needed before anyone logs in.
+  // The public settings (brand name, legal pages, ...) are needed before login.
   useEffect(() => {
-    let cancelled = false;
-    getPublicPortalSettings()
-      .then((loaded) => {
-        if (cancelled) return;
-        setPublicValues(loaded);
-        setPublicReady(true);
-      })
-      .catch((error) => {
-        console.error("Failed to load public portal settings:", error);
-        if (!cancelled) setPublicFailed(true);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    void loadPublic();
+  }, [loadPublic]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -77,6 +89,12 @@ export function PortalSettingsProvider({ children }: { children: ReactNode }) {
       setReady(false);
     }
   }, [isAuthenticated, refresh]);
+
+  // Browser tab title: "<brand> Operations Portal"
+  const brandName = publicValues["branding.brandName"];
+  useEffect(() => {
+    if (brandName) document.title = `${brandName} Operations Portal`;
+  }, [brandName]);
 
   // Logged-in values include the public ones, so they win when both exist.
   const merged = useMemo(
@@ -94,6 +112,11 @@ export function PortalSettingsProvider({ children }: { children: ReactNode }) {
     }),
     [merged, ready, publicReady, publicFailed, refresh]
   );
+
+  // First visit in this browser: wait for the brand before drawing anything, so
+  // the page never shows another portal's name. Later visits use the remembered
+  // values and draw immediately.
+  if (!publicReady && !publicFailed) return null;
 
   return (
     <PortalSettingsContext.Provider value={value}>

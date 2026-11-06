@@ -7,6 +7,8 @@
       "email": "Emails (sender names, addresses and copies)",
       "company": "Company details (invoices)",
       "branding": "Branding",
+      "switcher": "Portal switcher (links to the other portals)",
+      "access": "Staff email recognition (who counts as staff)",
       "legal": "Legal pages (Privacy Policy and Terms of Service)",
       "training": "Training"
     },

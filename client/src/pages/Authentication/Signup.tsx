@@ -25,10 +25,12 @@ import {
 } from "../../services/api/auth";
 import { LanguageToggle } from "../../components/LanguageToggle";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { usePortalSetting } from "../../contexts/PortalSettingsContext";
 
 export function Signup() {
   // Basic state
   const { t } = useLanguage();
+  const brandName = usePortalSetting("branding.brandName") ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -587,12 +589,12 @@ export function Signup() {
           <div className="brand-logo">
             <img
               src={loginLogo}
-              alt={t("common.godspeedLogo")}
+              alt={t("common.loginLogo")}
               className="godspeed-logo"
             />
           </div>
           <h2 className="brand-title">
-            Rhythence <span className="gradient-text">Operations</span>
+            {brandName} <span className="gradient-text">Operations</span>
           </h2>
           <p className="brand-description">{t("signup.brandDescription")}</p>
         </div>

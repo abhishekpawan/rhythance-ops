@@ -18,6 +18,8 @@ export type PortalSettingGroup =
   | "email"
   | "company"
   | "branding"
+  | "switcher"
+  | "access"
   | "legal"
   | "training";
 
@@ -136,6 +138,50 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     label: "AI chat page title",
     description: "Title shown on the AI chat page.",
     defaultValue: "Rhythence AI Chat",
+  },
+  {
+    key: "branding.brandName",
+    group: "branding",
+    label: "Brand name",
+    description:
+      "Short brand name used in headings, the browser tab title, dashboard subtitles, the AI chat and logo descriptions.",
+    defaultValue: "Motion Falcon",
+    public: true,
+  },
+  {
+    key: "switcher.currentLogo",
+    group: "switcher",
+    label: "Portal switcher: this portal's icon",
+    description:
+      "Icon shown for this portal in the portal switcher: godspeed, canhire, allstaff or hdgroup. Leave empty (with no other portals below) to hide the switcher.",
+    defaultValue: "",
+    public: true,
+  },
+  {
+    key: "switcher.options",
+    group: "switcher",
+    label: "Portal switcher: other portals",
+    description:
+      "One portal per line as: Name | https://address | icon (godspeed, canhire, allstaff or hdgroup). Leave empty to hide the switcher.",
+    defaultValue: "",
+    multiline: true,
+    public: true,
+  },
+  {
+    key: "access.staffEmailContains",
+    group: "access",
+    label: "Staff email: contains",
+    description:
+      "Comma-separated text. A sign-up or login whose email contains any of these (for example @company.com) is treated as staff (recruiter/admin side). Empty means nobody is recognised by email.",
+    defaultValue: "",
+  },
+  {
+    key: "access.staffEmailExcluded",
+    group: "access",
+    label: "Staff email: never staff",
+    description:
+      "Comma-separated exact emails that are never treated as staff.",
+    defaultValue: "",
   },
   {
     key: "legal.companyName",

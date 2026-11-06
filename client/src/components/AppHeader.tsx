@@ -2,32 +2,36 @@ import { ReactNode, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, RefreshCcw } from "lucide-react";
 import headerLogo from "../assets/brand/header.png";
+import godspeedIconLogo from "../assets/logos/godspped-logo.png";
 import canHireIconLogo from "../assets/logos/canhire-logo.png";
 import allStaffIconLogo from "../assets/logos/allstaff-logo.png";
 import hdGroupIconLogo from "../assets/logos/hdgroup-logo.png";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { useLanguage } from "../contexts/language/language-provider";
+import { usePortalSettings } from "../contexts/PortalSettingsContext";
 import { Toast } from "./Toast";
 import "../styles/components/header.css";
 
-// Company data
-const companies = [
-  {
-    name: "Hire Solutions Ops",
-    logo: canHireIconLogo,
-    url: "https://app.hiresolutions.ca",
-  },
-  {
-    name: "All Staff Inc. Ops",
-    logo: allStaffIconLogo,
-    url: "https://app.allstaff.ca",
-  },
-  {
-    name: "HD Group Ops",
-    logo: hdGroupIconLogo,
-    url: "https://app.hdgroup.ca",
-  },
-];
+// Icons the portal switcher can show; settings refer to them by these names.
+const SWITCHER_LOGOS: Record<string, string> = {
+  godspeed: godspeedIconLogo,
+  canhire: canHireIconLogo,
+  allstaff: allStaffIconLogo,
+  hdgroup: hdGroupIconLogo,
+};
+
+/** "Name | https://address | icon" per line, from Portal Settings. */
+function parseSwitcherOptions(text: string | undefined) {
+  return (text || "")
+    .split("\n")
+    .map((line) => line.split("|").map((part) => part.trim()))
+    .filter(([name, url]) => name && url)
+    .map(([name, url, logo]) => ({
+      name,
+      url,
+      logo: SWITCHER_LOGOS[logo] ?? "",
+    }));
+}
 
 interface AppHeaderProps {
   title: string;
@@ -44,9 +48,17 @@ export function AppHeader({
   statusMessage,
   statusType = "success",
   hideHamburgerMenu = false,
+  showCompanySwitcher = false,
 }: AppHeaderProps) {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { values: portalSettings } = usePortalSettings();
+  const switcherOptions = parseSwitcherOptions(
+    portalSettings["switcher.options"]
+  );
+  const brandName = portalSettings["branding.brandName"] ?? "";
+  const currentPortalLogo =
+    SWITCHER_LOGOS[portalSettings["switcher.currentLogo"] ?? ""] ?? "";
   const [menuOpen, setMenuOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [companySwitcherOpen, setCompanySwitcherOpen] = useState(false);
@@ -141,13 +153,13 @@ export function AppHeader({
             <div className="logo-container" onClick={() => navigate("/")}>
               <img
                 src={headerLogo}
-                alt={t("common.godspeedLogo")}
+                alt={t("common.headerLogo")}
                 className="header-logo"
               />
             </div>
           </div>
           <div className="header-actions">
-            {false && (
+            {showCompanySwitcher && switcherOptions.length > 0 && (
               <div className="portal-switcher" ref={companySwitcherRef}>
                 <button
                   className="portal-switcher-trigger"
@@ -158,13 +170,13 @@ export function AppHeader({
                   <div className="trigger-content">
                     <div className="current-portal">
                       <img
-                        src={headerLogo}
-                        alt="Rhythence Logo"
+                        src={currentPortalLogo}
+                        alt={`${brandName} Logo`}
                         className="portal-logo"
                       />
                       <div className="portal-info">
                         <span className="portal-label">Portal</span>
-                        <span className="portal-name">Rhythence Ops</span>
+                        <span className="portal-name">{brandName} Ops</span>
                       </div>
                     </div>
                     <div className="switcher-actions">
@@ -185,7 +197,7 @@ export function AppHeader({
                       <span>Switch to another portal</span>
                     </div>
                     <div className="portal-options">
-                      {companies.map((company, index) => (
+                      {switcherOptions.map((company, index) => (
                         <button
                           key={index}
                           className="portal-option"

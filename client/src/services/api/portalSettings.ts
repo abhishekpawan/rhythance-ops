@@ -6,6 +6,8 @@ export type PortalSettingGroup =
   | "email"
   | "company"
   | "branding"
+  | "switcher"
+  | "access"
   | "legal"
   | "training";
 

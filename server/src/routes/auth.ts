@@ -41,17 +41,18 @@ const normalizeToE164 = (phone?: string) => {
   return trimmed.startsWith("+") ? trimmed : `+${trimmed}`;
 };
 
-// Helper function to check if user is a recruiter based on email
+const settingList = (key: string): string[] =>
+  getPortalSettingSync(key)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+// Helper function to check if user is a recruiter based on email. The list comes
+// from this portal's settings (Portal Settings > Access); nothing is hard-coded.
 const isRecruiterEmail = (email: string): boolean => {
-  return (
-    email.includes("@godspeedxp") ||
-    email.includes("@rhythence") ||
-    email.includes("@motionfalcon") ||
-    email.includes("@canhiresolutions") ||
-    email.includes("@hiresolutions") ||
-    email.includes("@allstaff") ||
-    email.includes("@hdgroup") ||
-    (email.endsWith("@email.com") && email !== "jobseeker@email.com")
+  if (settingList("access.staffEmailExcluded").includes(email)) return false;
+  return settingList("access.staffEmailContains").some((part) =>
+    email.includes(part)
   );
 };
 

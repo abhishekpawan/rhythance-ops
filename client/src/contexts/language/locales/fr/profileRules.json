@@ -8,5 +8,25 @@
       "dlOrPassportMandatoryTitle": "Permis de conduire ou passeport",
       "dlOrPassportMandatoryReason": "Un permis de conduire ou un passeport est requis pour vérifier l'identité et les qualifications de conduite."
     }
+  },
+  "lightRules": {
+    "missingGovernmentIdBannerTitle": "Un permis de conduire ou un passeport est requis avant la mise a jour de ce profil",
+    "missingGovernmentIdBannerBody": "Ce profil a ete cree sans permis de conduire ni passeport. Veuillez aller dans Documents et televerser cette piece avant d'enregistrer des modifications.",
+    "missingGovernmentIdSubmitDisabled": "Televersez un permis de conduire ou un passeport dans Documents avant d'enregistrer.",
+    "personalInfo": {
+      "sinExpiryRequired": "L'expiration du NAS est requise pour les résidents temporaires (NAS commençant par '9')"
+    },
+    "address": {
+      "sectionDescription": "Veuillez fournir votre adresse actuelle (optionnel)."
+    },
+    "qualifications": {
+      "sectionDescription": "Veuillez fournir vos qualifications et préférences de travail (optionnel).",
+      "workPreferencePlaceholder": "Ex. : Entrepôt, Conduite, Bureau",
+      "bioPlaceholder": "Résumé professionnel bref (facultatif, max 500 caractères)",
+      "bioNote": "Maximum 500 caractères"
+    },
+    "compensation": {
+      "sectionDescription": "Veuillez fournir les informations de rémunération (facultatif)."
+    }
   }
 }

@@ -112,7 +112,11 @@ export function ProfileCreate({
     licenseOrPassportRequired: t(
       "profileCreate.personalInfo.licenseOrPassportRequired"
     ),
-    sinExpiryRequired: t("profileCreate.personalInfo.sinExpiryRequired"),
+    sinExpiryRequired: t(
+      lightRules
+        ? "lightRules.personalInfo.sinExpiryRequired"
+        : "profileCreate.personalInfo.sinExpiryRequired"
+    ),
     workPermitUciRequired: t(
       "profileCreate.personalInfo.workPermitUciRequired"
     ),
@@ -1894,10 +1898,18 @@ export function ProfileCreate({
       {recruiterEditRequiresGovernmentId && (
         <div className="profile-edit-requirement-banner">
           <p className="profile-edit-requirement-title">
-            {t("profileCreate.missingGovernmentIdBannerTitle")}
+            {t(
+              lightRules
+                ? "lightRules.missingGovernmentIdBannerTitle"
+                : "profileCreate.missingGovernmentIdBannerTitle"
+            )}
           </p>
           <p className="profile-edit-requirement-copy">
-            {t("profileCreate.missingGovernmentIdBannerBody")}
+            {t(
+              lightRules
+                ? "lightRules.missingGovernmentIdBannerBody"
+                : "profileCreate.missingGovernmentIdBannerBody"
+            )}
           </p>
         </div>
       )}
@@ -2000,7 +2012,11 @@ export function ProfileCreate({
                       }
                       title={
                         recruiterEditRequiresGovernmentId
-                          ? t("profileCreate.missingGovernmentIdSubmitDisabled")
+                          ? t(
+                              lightRules
+                                ? "lightRules.missingGovernmentIdSubmitDisabled"
+                                : "profileCreate.missingGovernmentIdSubmitDisabled"
+                            )
                           : ""
                       }
                     >
@@ -2027,7 +2043,11 @@ export function ProfileCreate({
                   }
                   title={
                     recruiterEditRequiresGovernmentId
-                      ? t("profileCreate.missingGovernmentIdSubmitDisabled")
+                      ? t(
+                          lightRules
+                            ? "lightRules.missingGovernmentIdSubmitDisabled"
+                            : "profileCreate.missingGovernmentIdSubmitDisabled"
+                        )
                       : ""
                   }
                 >

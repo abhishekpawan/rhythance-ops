@@ -547,16 +547,6 @@ export const onAuthStateChange = (callback: (user: User | null) => void) => {
   return data.subscription.unsubscribe;
 };
 
-// Helper function to check if user is a recruiter based on email
-export const isRecruiterEmail = (email: string): boolean => {
-  return (
-    email.includes("@godspeedxp") ||
-    email.includes("@rhythence") ||
-    email.includes("@motionfalcon") ||
-    (email.endsWith("@email.com") && email !== "jobseeker@email.com")
-  );
-};
-
 // Demo login function - bypasses normal login flow for demo users
 // Note: All demo users must have the same password: 'Demo@123'
 // If you need to change this, update the DEMO_PASSWORD constant below

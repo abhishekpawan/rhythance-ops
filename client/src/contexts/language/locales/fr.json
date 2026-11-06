@@ -7,8 +7,8 @@
   "recruiter": "Recruteur",
   "jobseeker": "Chercheur d'emploi",
   "admin_subtitle": "Supervisez les opérations de la plateforme et gérez les analyses du recrutement à l'échelle du système",
-  "recruiter_subtitle": "Gérez l'acquisition de talents avec les outils de recrutement ultra-rapides de HD Group",
-  "jobseeker_subtitle": "Découvrez des opportunités à la vitesse HD Group grâce à notre système intelligent de correspondance d'emploi",
+  "recruiter_subtitle": "Gérez l'acquisition de talents avec les outils de recrutement ultra-rapides de {{brandName}}",
+  "jobseeker_subtitle": "Découvrez des opportunités à la vitesse {{brandName}} grâce à notre système intelligent de correspondance d'emploi",
   "navigation": {
     "home": "Accueil",
     "about": "À propos",
@@ -58,7 +58,7 @@
     "consentTemplates": "Modèles de consentement",
     "myProfile": "Mon profil",
     "myPositions": "Mes postes",
-    "aiChat": "Chat IA Rhythence",
+    "aiChat": "Chat IA {{brandName}}",
     "calendar": "Tableau de Bord des Horaires"
   },
   "buttons": {
@@ -293,7 +293,7 @@
     "select": "Sélectionner",
     "deselect": "Désélectionner",
     "language": "Langue",
-    "godspeedLogo": "Logo Rhythence",
+    "godspeedLogo": "Logo {{brandName}}",
     "user": "Utilisateur",
     "client": "Client",
     "notAvailable": "N/D",
@@ -600,7 +600,7 @@
     "hidePassword": "Masquer le mot de passe",
     "showPassword": "Afficher le mot de passe",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
-    "brandDescription": "Élevez votre gestion des talents avec les workflows intelligents de Rhythence et des systèmes ultra-rapides conçus pour connecter les bonnes personnes aux bonnes opportunités."
+    "brandDescription": "Élevez votre gestion des talents avec les workflows intelligents de {{brandName}} et des systèmes ultra-rapides conçus pour connecter les bonnes personnes aux bonnes opportunités."
   },
   "twoFactor": {
     "error": {
@@ -1694,7 +1694,7 @@
     }
   },
   "app": {
-    "name": "Portail Ops Rhythence"
+    "name": "Portail Ops {{brandName}}"
   },
   "invoiceManagement": {
     "title": "Gestion des factures",

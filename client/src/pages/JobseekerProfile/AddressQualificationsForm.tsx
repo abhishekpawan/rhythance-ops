@@ -38,7 +38,11 @@ export function AddressQualificationsForm({
         <>
           <h2>{t("profileCreate.address.sectionTitle")}</h2>
           <p className="form-description">
-            {t("profileCreate.address.sectionDescription")}
+            {t(
+              lightRules
+                ? "lightRules.address.sectionDescription"
+                : "profileCreate.address.sectionDescription"
+            )}
           </p>
 
           <div className="form-group">
@@ -127,7 +131,11 @@ export function AddressQualificationsForm({
         <>
           <h2>{t("profileCreate.qualifications.sectionTitle")}</h2>
           <p className="form-description">
-            {t("profileCreate.qualifications.sectionDescription")}
+            {t(
+              lightRules
+                ? "lightRules.qualifications.sectionDescription"
+                : "profileCreate.qualifications.sectionDescription"
+            )}
           </p>
 
           <div className="form-group">
@@ -143,7 +151,9 @@ export function AddressQualificationsForm({
               type="text"
               className="form-input"
               placeholder={t(
-                "profileCreate.qualifications.workPreferencePlaceholder"
+                lightRules
+                  ? "lightRules.qualifications.workPreferencePlaceholder"
+                  : "profileCreate.qualifications.workPreferencePlaceholder"
               )}
               {...register("workPreference")}
             />
@@ -165,7 +175,11 @@ export function AddressQualificationsForm({
             <textarea
               id="bio"
               className="form-input"
-              placeholder={t("profileCreate.qualifications.bioPlaceholder")}
+              placeholder={t(
+                lightRules
+                  ? "lightRules.qualifications.bioPlaceholder"
+                  : "profileCreate.qualifications.bioPlaceholder"
+              )}
               minLength={lightRules ? undefined : 100}
               {...register("bio")}
             />
@@ -173,7 +187,13 @@ export function AddressQualificationsForm({
               <p className="error-message">{allErrors.bio?.message}</p>
             )}
             <p className="character-count">
-              <small>{t("profileCreate.qualifications.bioNote")}</small>
+              <small>
+                {t(
+                  lightRules
+                    ? "lightRules.qualifications.bioNote"
+                    : "profileCreate.qualifications.bioNote"
+                )}
+              </small>
             </p>
           </div>
           <div className="form-row">

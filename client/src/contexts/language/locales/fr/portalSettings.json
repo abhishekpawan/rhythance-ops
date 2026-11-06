@@ -7,6 +7,8 @@
       "email": "Courriels (noms d'expéditeur, adresses et copies)",
       "company": "Coordonnées de l'entreprise (factures)",
       "branding": "Image de marque",
+      "switcher": "Sélecteur de portail (liens vers les autres portails)",
+      "access": "Reconnaissance des courriels du personnel (qui est du personnel)",
       "legal": "Pages juridiques (politique de confidentialité et conditions d'utilisation)",
       "training": "Formation"
     },

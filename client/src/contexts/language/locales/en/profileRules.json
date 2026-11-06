@@ -8,5 +8,25 @@
       "dlOrPassportMandatoryTitle": "Driver's License or Passport",
       "dlOrPassportMandatoryReason": "A Driver's License or Passport is required for identity and qualification verification."
     }
+  },
+  "lightRules": {
+    "missingGovernmentIdBannerTitle": "Driver's License or Passport required before this profile can be updated",
+    "missingGovernmentIdBannerBody": "This profile was created without a Driver's License or Passport document. Please go to Documents and upload a Driver's License or Passport before saving any changes.",
+    "missingGovernmentIdSubmitDisabled": "Upload a Driver's License or Passport in Documents before saving changes.",
+    "personalInfo": {
+      "sinExpiryRequired": "SIN Expiry is required for temporary residents (SIN starting with '9')"
+    },
+    "address": {
+      "sectionDescription": "Please provide your current address (optional)."
+    },
+    "qualifications": {
+      "sectionDescription": "Please provide your qualifications and work preferences (optional).",
+      "workPreferencePlaceholder": "E.g., Warehouse, Driving, Office",
+      "bioPlaceholder": "Brief professional summary (optional, max 500 characters)",
+      "bioNote": "Maximum 500 characters"
+    },
+    "compensation": {
+      "sectionDescription": "Please provide compensation information (optional)."
+    }
   }
 }
