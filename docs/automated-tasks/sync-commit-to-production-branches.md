@@ -82,15 +82,17 @@ For each target branch in order: **allstaff-production** → **canhire-productio
 
 Production branches differ from `multiple-login-demo` only by brand images and removed demo-only code, so a clean commit applies cleanly almost everywhere. These are the known exceptions:
 
-- **`server/src/db/seeds/*` on `public-main`.** That branch deliberately has no seed files, so a commit that edits a seed fails there with a modify/delete conflict. Resolve by dropping the seed files from that cherry-pick (`git rm` them) and keeping the rest.
+- **`server/src/db/seeds/*` on `public-main`.** That branch deliberately has no seed files, so a commit that edits a seed fails there with a modify/delete conflict. Resolve by dropping the seed files from that cherry-pick (`git rm` them) and keeping the rest. Seed files (the reference copy of each portal's stored settings and flags) belong on `multiple-login-demo` and the four production branches only, never on `public-main`, because the public repo would expose client data. When a setting or flag changes in a portal's database, update that portal's seed and sync that commit like any other.
 - **`server/src/config/portalSettings.ts` on `public-main`.** It carries the Rhythence defaults (brand name, AI chat title, legal names). If a commit changes lines next to them, keep the Rhythence values and take the new code.
 - **Demo-only files** (`DemoAutoFillWidget`, `DemoLoginModal`, and the demo hooks in login, client-create, position-create, profile-create, `lib/auth.ts`, `button.css`) do not exist on the four production branches. If a commit touches them there, keep the production side (the files stay absent) and take only the shared changes.
-- **Brand images** under `client/src/assets/` differ per branch on purpose: always keep the target branch's own image.
+- **Brand images** differ per branch on purpose: always keep the target branch's own image. The code imports four images by the same names on every branch, `client/src/assets/brand/header.png`, `login.png`, `consent.png` and `invoice.png`; each branch ships its own picture under those names. Never rename these files or change those imports on one branch only. Other files in `client/src/assets/logos/` are leftovers that differ between branches and do not matter.
 - **Whitespace and quotes.** Everyone formats with `.prettierrc.json`; a conflict that is only quote style or indentation means someone edited without it. Resolve toward the repo's Prettier style.
 
 ### 3b. Before the push in step 4 (recommended)
 
 On each target branch, run `npx tsc --noEmit` in `client` and in `server`. A cherry-pick can apply without a conflict and still not compile because the branch lacks a neighbouring change.
+
+**Shell tip (zsh, the default on this Mac).** `git show $branch:path` is mangled by zsh (`$branch:path` is read as a modifier). Write `git show "${branch}:path"`, or run the loop in a bash script.
 
 ### 4. After all requested commits are applied to all branches
 
@@ -110,8 +112,29 @@ On each target branch, run `npx tsc --noEmit` in `client` and in `server`. A che
    - If **any** cherry-pick hit a conflict and was not fully completed across all branches: **do not push** anything. Tell me which branches are ahead locally and wait for my direction.
    - If some branches succeeded and others conflicted mid-run: push **only** branches that fully completed all requested cherry-picks for this session, and say explicitly which were not pushed.
 
+### 4a. Keep the code in sync (the point of all this work)
+
+The six branches run the **same code**. What differs per portal lives in its database (feature flags, portal settings), in its own brand images under the fixed file names, and in a short, known list of files. Everything else must stay identical. Never leave a change on one branch only.
+
+- Build every change on `multiple-login-demo` first, then sync it to all five other branches in the same session. Do not push a change to some branches and leave the rest "for later".
+- Never fix something directly on a production branch. If a production branch needs a fix, make it on `multiple-login-demo` and cherry-pick it everywhere.
+- Per-portal differences go into portal settings or feature flags (database), not into code. If you are about to write `if (portal === ...)` or a branch-specific constant, stop and add a setting or flag instead.
+- After pushing, **run this drift check**. Files outside the allowed list must not differ, so every count must be 0:
+
+```bash
+git fetch origin && git fetch public
+ALLOW='^(client/index\.html|client/src/assets/|client/src/components/(DemoAutoFillWidget/|DemoLoginModal\.tsx)|client/src/lib/auth\.ts|client/src/pages/Authentication/Login\.tsx|client/src/pages/ClientManagement/ClientCreate\.tsx|client/src/pages/JobseekerProfile/ProfileCreate\.tsx|client/src/pages/PositionManagement/PositionCreate\.tsx|client/src/styles/components/(button|demo-login-modal)\.css)'
+for b in allstaff-production canhire-production godspeed-production hdgroup-production; do
+  echo "$b: $(git diff --name-only origin/multiple-login-demo origin/$b | grep -vE "$ALLOW" | wc -l) unexpected"
+done
+echo "public-main: $(git diff --name-only origin/multiple-login-demo public/main | grep -vE "$ALLOW|^server/src/config/portalSettings\.ts$|^server/src/db/seeds/" | wc -l) unexpected"
+```
+
+  The allowed differences are only: `client/index.html` (tab title and icon), images under `client/src/assets/`, the demo-only files listed in 3a (absent on production), and on `public-main` the Rhythence defaults in `server/src/config/portalSettings.ts` and the missing seed files. If a count is not 0, list the files (`git diff --name-only ...`), tell me which branch drifted and why, and fix it by re-syncing from `multiple-login-demo` (`git checkout origin/multiple-login-demo -- <file>` on that branch, then a normal commit). If a new legitimate per-branch difference is introduced on purpose, add it to this list in the same commit.
+
 ### 5. Safety rules (non-negotiable)
 
+- Never leave the branches out of sync: every shared change reaches all six branches, and the drift check in 4a passes before you report the sync as done.
 - Never `git push --force` to any `*-production` or `public` branch.
 - Never merge `multiple-login-demo` into production or public-main wholesale.
 - Never amend or rewrite commits on production/public unless I explicitly ask.
@@ -146,5 +169,6 @@ Commits:
 
 ## Success criteria
 
+- The drift check in 4a reports 0 unexpected files on every branch: the code is still identical everywhere except the allowed differences.
 - Each given commit exists on all four production branches and `public-main` (new cherry-pick commits with `-x` metadata), **and** those branches are pushed to their remotes (`origin` and `public`, unless `no-push` or a conflict stopped the run), **or**
 - You stopped on the first conflict with a clear report, **did not push** (unless some branches fully completed—in that case only those are pushed), and the repo is in a recoverable state (`cherry-pick --continue` or `--abort` documented).
