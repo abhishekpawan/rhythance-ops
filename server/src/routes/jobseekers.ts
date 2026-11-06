@@ -3,6 +3,7 @@ import {
   authenticateToken,
   authorizeExactRoles,
   isAdminOrRecruiter,
+  hasAccessRole,
 } from "../middleware/auth.js";
 import { activityLogger } from "../middleware/activityLogger.js";
 // Do not import the ANON client here, we'll create a service client
@@ -284,6 +285,20 @@ function getRequiredDocumentValidationError(
 // Apply only authentication middleware globally
 router.use(authenticateToken);
 // Remove the global isAdminOrRecruiter middleware and apply it to specific routes
+
+/**
+ * Staff (admin / recruiter roles) can work with any jobseeker profile. Everyone else
+ * may only touch their OWN profile (the profile that belongs to their login).
+ */
+function canAccessProfile(
+  user: Express.Request["user"] | undefined,
+  ownerUserId: string | null | undefined
+): boolean {
+  if (hasAccessRole(user, "admin") || hasAccessRole(user, "recruiter")) {
+    return true;
+  }
+  return !!user?.id && !!ownerUserId && user.id === ownerUserId;
+}
 
 /**
  * Formats the full name from first and last name.
@@ -807,6 +822,11 @@ router.get("/profile/:id", async (req, res) => {
       return res.status(404).json({ error: "Profile not found" });
     }
 
+    // A jobseeker may only read their own profile (it holds SIN and documents).
+    if (!canAccessProfile(req.user, profile.user_id)) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
     // Convert snake_case keys to camelCase for the entire profile object
     const formattedProfile: { [key: string]: any } = {};
     Object.entries(profile).forEach(([key, value]) => {
@@ -943,6 +963,7 @@ router.get("/profile/:id", async (req, res) => {
  */
 router.put(
   "/profile/:id/activate",
+  isAdminOrRecruiter,
   activityLogger({
     onSuccess: (req, res) => {
       const currentProfile = res.locals.currentProfile || {};
@@ -1116,6 +1137,17 @@ router.put(
           return res.status(404).json({ error: "Profile not found" });
         }
         return res.status(500).json({ error: "Failed to fetch profile" });
+      }
+
+      // Only admins and recruiters may verify or reject a profile. A jobseeker may
+      // only put their OWN profile back to "pending" (done after they resubmit).
+      const isStaff =
+        hasAccessRole(req.user, "admin") || hasAccessRole(req.user, "recruiter");
+      if (
+        !isStaff &&
+        !(status === "pending" && currentProfile.user_id === req.user?.id)
+      ) {
+        return res.status(403).json({ error: "Access denied" });
       }
 
       // Store current profile for activity logger
@@ -1331,6 +1363,10 @@ router.put(
         return res
           .status(500)
           .json({ error: "Failed to verify profile existence" });
+      }
+
+      if (!canAccessProfile(req.user, existingProfile.user_id)) {
+        return res.status(403).json({ error: "Access denied" });
       }
 
       if (!existingProfile) {
@@ -2300,7 +2336,7 @@ router.put("/drafts/:id", async (req, res) => {
     // Check if draft exists
     const { data: existingDraft, error: checkError } = await supabaseAdmin
       .from("jobseeker_profile_drafts")
-      .select("id, email, created_at, created_by_user_id")
+      .select("id, email, created_at, created_by_user_id, user_id")
       .eq("id", id)
       .maybeSingle();
 
@@ -2311,6 +2347,14 @@ router.put("/drafts/:id", async (req, res) => {
 
     if (!existingDraft) {
       return res.status(404).json({ error: "Draft not found" });
+    }
+
+    // Staff can edit any draft; others only drafts they created or that are theirs.
+    if (
+      !canAccessProfile(req.user, existingDraft.user_id) &&
+      !canAccessProfile(req.user, existingDraft.created_by_user_id)
+    ) {
+      return res.status(403).json({ error: "Access denied" });
     }
 
     // If email has changed, check if it exists in profiles or other drafts

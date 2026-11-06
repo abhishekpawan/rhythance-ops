@@ -90,7 +90,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       allstaff: true,
     },
     notes:
-      "Today this is hard-coded: the route, menu item and dropdown option are commented out in the Godspeed and GD Workforce branches.",
+      "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
   },
   {
     key: "attach_handbook_to_assignment_email",
@@ -143,7 +143,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       canhire: false,
       allstaff: false,
     },
-    notes: "Today this is hard-coded in the GD Workforce branch only.",
+    notes: "Previously hard-coded in the GD Workforce branch only. Now controlled here; on for GD Workforce.",
   },
   {
     key: "jobseeker_profile_godspeed_rules",

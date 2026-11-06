@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { authenticateToken } from "../middleware/auth.js";
 import { requireSuperAdmin } from "../middleware/superAdmin.js";
-import activityLogger from "../middleware/activityLogger.js";
 import { PORTALS, getFeatureFlagDefinition } from "../config/featureFlags.js";
 import {
   FeatureFlagError,
@@ -67,24 +66,6 @@ router.put(
   "/:key",
   authenticateToken,
   requireSuperAdmin,
-  activityLogger({
-    onSuccess: (req, res) => {
-      const change = res.locals.flagChange as
-        | { title: string; enabled: boolean }
-        | undefined;
-      const actorName = actorOf(req).name;
-      return {
-        actionType: "update_feature_flag",
-        actionVerb: change?.enabled ? "enabled" : "disabled",
-        primaryEntityType: "feature_flag",
-        primaryEntityId: req.params.key,
-        primaryEntityName: change?.title || req.params.key,
-        displayMessage: `${actorName} ${change?.enabled ? "enabled" : "disabled"} feature "${change?.title || req.params.key}"`,
-        category: "system",
-        priority: "normal",
-      };
-    },
-  }),
   async (req: Request, res: Response) => {
     try {
       const { key } = req.params;
@@ -107,7 +88,6 @@ router.put(
       }
 
       const flag = await setFeatureFlag(key, enabled, actorOf(req));
-      res.locals.flagChange = { title: def.title, enabled };
       res.json({ flag });
     } catch (error) {
       sendError(res, error);
@@ -123,22 +103,6 @@ router.put(
   "/:key/config",
   authenticateToken,
   requireSuperAdmin,
-  activityLogger({
-    onSuccess: (req, res) => {
-      const change = res.locals.flagChange as { title: string } | undefined;
-      const actorName = actorOf(req).name;
-      return {
-        actionType: "update_feature_flag",
-        actionVerb: "updated settings of",
-        primaryEntityType: "feature_flag",
-        primaryEntityId: req.params.key,
-        primaryEntityName: change?.title || req.params.key,
-        displayMessage: `${actorName} updated the settings of feature "${change?.title || req.params.key}"`,
-        category: "system",
-        priority: "normal",
-      };
-    },
-  }),
   async (req: Request, res: Response) => {
     try {
       const { key } = req.params;
@@ -158,7 +122,6 @@ router.put(
       }
 
       const flag = await setFeatureFlagSettings(key, config, actorOf(req));
-      res.locals.flagChange = { title: def.title };
       res.json({ flag });
     } catch (error) {
       sendError(res, error);
@@ -174,22 +137,6 @@ router.delete(
   "/:key",
   authenticateToken,
   requireSuperAdmin,
-  activityLogger({
-    onSuccess: (req, res) => {
-      const change = res.locals.flagChange as { title: string } | undefined;
-      const actorName = actorOf(req).name;
-      return {
-        actionType: "update_feature_flag",
-        actionVerb: "reset",
-        primaryEntityType: "feature_flag",
-        primaryEntityId: req.params.key,
-        primaryEntityName: change?.title || req.params.key,
-        displayMessage: `${actorName} reset feature "${change?.title || req.params.key}" to its default`,
-        category: "system",
-        priority: "normal",
-      };
-    },
-  }),
   async (req: Request, res: Response) => {
     try {
       const { key } = req.params;
@@ -205,7 +152,6 @@ router.delete(
       }
 
       const flag = await resetFeatureFlag(key);
-      res.locals.flagChange = { title: def.title };
       res.json({ flag });
     } catch (error) {
       sendError(res, error);

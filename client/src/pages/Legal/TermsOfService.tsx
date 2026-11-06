@@ -193,7 +193,8 @@ export function TermsOfService() {
           <p>
             <strong>9.1.</strong> All content on our Website and platform —
             including text, graphics, trademarks, and software — remains the
-            property of {shortName}.
+            property of {shortName}
+            {shortName?.endsWith(".") ? "" : "."}
           </p>
           <p>
             <strong>9.2.</strong> Users may not copy, redistribute, reverse

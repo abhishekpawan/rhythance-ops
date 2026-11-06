@@ -2078,7 +2078,12 @@ router.post(
         envelopeData.push(...items);
       });
 
-      const numberedEnvelopeData = envelopeData.map((row, index) => {
+      // Biweekly-pay clients are paid for both weeks together, so the by-due-date
+      // report also shows ONE row per jobseeker (same rule as the position report).
+      const consolidatedEnvelopeData =
+        consolidateBiweeklyEnvelopeRows(envelopeData);
+
+      const numberedEnvelopeData = consolidatedEnvelopeData.map((row, index) => {
         const sequenceNumber = index + 1;
         return {
           sequence_number: sequenceNumber,

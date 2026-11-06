@@ -669,7 +669,6 @@ router.post(
 
           // Extract the authorization header from the original request
           const authHeader = req.headers.authorization;
-          console.log("authHeader", authHeader);
           const headers: Record<string, string> = {
             "Content-Type": "application/json",
           };

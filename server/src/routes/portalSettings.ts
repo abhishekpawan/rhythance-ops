@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { authenticateToken } from "../middleware/auth.js";
 import { requireSuperAdmin } from "../middleware/superAdmin.js";
-import activityLogger from "../middleware/activityLogger.js";
 import {
   PortalSettingsError,
   getEffectivePortalSettings,
@@ -78,23 +77,6 @@ router.put(
   "/",
   authenticateToken,
   requireSuperAdmin,
-  activityLogger({
-    onSuccess: (req, res) => {
-      const changed =
-        (res.locals.changedSettings as string[] | undefined) || [];
-      const actorName = actorOf(req).name;
-      return {
-        actionType: "update_portal_settings",
-        actionVerb: "updated",
-        primaryEntityType: "portal_settings",
-        primaryEntityName: "portal settings",
-        displayMessage: `${actorName} updated portal settings (${changed.join(", ")})`,
-        category: "system",
-        priority: "normal",
-        metadata: { changed },
-      };
-    },
-  }),
   async (req: Request, res: Response) => {
     try {
       const values = req.body?.values;
@@ -102,7 +84,6 @@ router.put(
         return res.status(400).json({ error: "`values` must be an object" });
       }
       const snapshot = await setPortalSettings(values, actorOf(req));
-      res.locals.changedSettings = Object.keys(values);
       res.json(snapshot);
     } catch (error) {
       sendError(res, error);

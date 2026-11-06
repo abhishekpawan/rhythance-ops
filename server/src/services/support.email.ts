@@ -64,7 +64,7 @@ export async function sendNewTicketEmail(
 
   const recipients = getAgentRecipients();
   if (!recipients) {
-    console.warn(`[SupportEmail] SUPPORT_NOTIFY_TO is missing; skipping agent email for ticket ${ticketId}`);
+    console.warn(`[SupportEmail] support notification address (Portal Settings "email.supportNotifyTo") is empty; skipping agent email for ticket ${ticketId}`);
     return;
   }
 
@@ -119,7 +119,7 @@ export async function sendRequesterMessageEmail(
 
   const recipients = getAgentRecipients();
   if (!recipients) {
-    console.warn(`[SupportEmail] SUPPORT_NOTIFY_TO is missing; skipping agent email for ticket ${ticketId}`);
+    console.warn(`[SupportEmail] support notification address (Portal Settings "email.supportNotifyTo") is empty; skipping agent email for ticket ${ticketId}`);
     return;
   }
 
@@ -165,7 +165,7 @@ export async function sendTicketReopenedEmail(
 
   const recipients = getAgentRecipients();
   if (!recipients) {
-    console.warn(`[SupportEmail] SUPPORT_NOTIFY_TO is missing; skipping agent email for ticket ${ticketId}`);
+    console.warn(`[SupportEmail] support notification address (Portal Settings "email.supportNotifyTo") is empty; skipping agent email for ticket ${ticketId}`);
     return;
   }
 

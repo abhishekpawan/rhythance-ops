@@ -260,6 +260,10 @@
     "client": "Client"
   },
   "common": {
+    "previous": "Previous",
+    "next": "Next",
+    "noData": "No data available",
+    "unexpectedError": "An unexpected error occurred",
     "search": "Search",
     "filter": "Filter",
     "loading": "Loading...",
@@ -1128,6 +1132,8 @@
       "overtimePayRatePlaceholder": "0.00"
     },
     "documents": {
+      "viewRecipientDocument": "View Recipient Document",
+      "recipientDocumentNotReady": "Available after consent",
       "sectionTitle": "Document Upload",
       "sectionDescription": "Upload required documents (PDF or image format: JPG, PNG, max 2MB). SIN and Government ID are mandatory for all jobseekers. Work Permit is mandatory only for temporary residents.",
       "mandatoryDocumentsInfo": "SIN and Government ID are mandatory for all jobseekers. Work Permit becomes mandatory when the SIN starts with 9.",
@@ -1695,6 +1701,7 @@
     "name": "{{brandName}} Ops Portal"
   },
   "invoiceManagement": {
+    "noJobseekersFound": "No jobseekers found",
     "title": "Invoice Management",
     "listTitle": "Invoice List",
     "createInvoice": "Create Invoice",

@@ -1,5 +1,6 @@
 {
   "timesheetForm": {
+    "viewTitle": "View Timesheet",
     "clientAndPosition": "Client & Position",
     "clientName": "Client Name",
     "positionTitle": "Position Title",

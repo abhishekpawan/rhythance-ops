@@ -49,10 +49,13 @@ const settingList = (key: string): string[] =>
 
 // Helper function to check if user is a recruiter based on email. The list comes
 // from this portal's settings (Portal Settings > Access); nothing is hard-coded.
-const isRecruiterEmail = (email: string): boolean => {
-  if (settingList("access.staffEmailExcluded").includes(email)) return false;
+const isRecruiterEmail = (rawEmail: string): boolean => {
+  // Case does not matter: "Admin@Email.com" is the same address as "admin@email.com".
+  const email = String(rawEmail ?? "").trim().toLowerCase();
+  const list = (key: string) => settingList(key).map((item) => item.toLowerCase());
+  if (list("access.staffEmailExcluded").includes(email)) return false;
   // An entry ending with "$" must match the end of the email (@email.com$).
-  return settingList("access.staffEmailContains").some((part) =>
+  return list("access.staffEmailContains").some((part) =>
     part.endsWith("$")
       ? email.endsWith(part.slice(0, -1))
       : email.includes(part)

@@ -1,5 +1,6 @@
 {
   "timesheetForm": {
+    "viewTitle": "Voir la feuille de temps",
     "clientAndPosition": "Client et poste",
     "clientName": "Nom du client",
     "positionTitle": "Titre du poste",

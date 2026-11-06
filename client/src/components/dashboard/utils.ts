@@ -105,8 +105,11 @@ export const calculateGrowth = (
  * Format growth percentage
  */
 export const formatGrowth = (growth: GrowthData): string => {
+  const text = growth.value.toFixed(1);
+  // No change (0 of 0, or rounds to 0.0): show a plain 0.0% instead of "-0.0%".
+  if (Number(text) === 0) return '0.0%';
   const sign = growth.isPositive ? '+' : '-';
-  return `${sign}${growth.value.toFixed(1)}%`;
+  return `${sign}${text}%`;
 };
 
 /**
