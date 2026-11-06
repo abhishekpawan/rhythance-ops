@@ -13,7 +13,12 @@
  * server or `usePortalSetting(key)` on the client. Never rename a key once in use.
  */
 
-export type PortalSettingGroup = "company" | "branding" | "training";
+export type PortalSettingGroup =
+  | "portal"
+  | "email"
+  | "company"
+  | "branding"
+  | "training";
 
 export interface PortalSettingDefinition {
   /** Stable identifier stored in the database. */
@@ -30,6 +35,67 @@ export interface PortalSettingDefinition {
 }
 
 export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
+  {
+    key: "portal.name",
+    group: "portal",
+    label: "Portal name",
+    description:
+      "Name used in email sender names, welcome emails, signup metadata and support tickets.",
+    defaultValue: "Ops Portal",
+    envFallback: "PORTAL_NAME",
+  },
+  {
+    key: "email.noReplyFrom",
+    group: "email",
+    label: "No-reply sender address",
+    description:
+      "From address of automated emails (confirmations, invoices, ...).",
+    defaultValue: "",
+    envFallback: "NO_REPLY_FROM_EMAIL",
+  },
+  {
+    key: "email.assignmentFrom",
+    group: "email",
+    label: "Assignment email sender address",
+    description:
+      "From address of the jobseeker assignment and removal emails. Falls back to the no-reply address.",
+    defaultValue: "",
+    envFallback: "ASSIGNMENT_FROM_EMAIL",
+  },
+  {
+    key: "email.defaultFrom",
+    group: "email",
+    label: "Default sender address",
+    description: "Used when no other sender address is set.",
+    defaultValue: "",
+    envFallback: "DEFAULT_FROM_EMAIL",
+  },
+  {
+    key: "email.invoiceCc",
+    group: "email",
+    label: "Invoice email CC addresses",
+    description: "Comma-separated addresses copied on every invoice email.",
+    defaultValue: "",
+    envFallback: "INVOICE_CC_EMAILS",
+  },
+  {
+    key: "email.supportNotifyTo",
+    group: "email",
+    label: "Support ticket notification addresses",
+    description:
+      "Comma-separated addresses notified about support tickets. Empty means no notification.",
+    defaultValue: "",
+    envFallback: "SUPPORT_NOTIFY_TO",
+  },
+  {
+    key: "email.supportNotifyCc",
+    group: "email",
+    label: "Support ticket notification CC",
+    description:
+      "Comma-separated addresses copied on support ticket notifications.",
+    defaultValue: "",
+    envFallback: "SUPPORT_NOTIFY_CC",
+  },
   {
     key: "company.name",
     group: "company",

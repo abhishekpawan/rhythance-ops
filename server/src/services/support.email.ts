@@ -7,6 +7,7 @@ import { renderSupportTicketReopenedEmail } from "../email-templates/support-tic
 import { renderSupportAgentReplyEmail } from "../email-templates/support-agent-reply.js";
 import { renderSupportStatusChangedEmail } from "../email-templates/support-status-changed.js";
 import { DbSupportTicket, SupportTicket } from "../types.js";
+import { getPortalSettingSync } from "./portalSettings.js";
 
 if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -27,7 +28,7 @@ function buildSubject(ticketNumber: number | string, title: string): string {
 }
 
 function getAgentRecipients(): { to: string[]; cc?: string[] } | null {
-  const toRaw = process.env.SUPPORT_NOTIFY_TO || "";
+  const toRaw = getPortalSettingSync("email.supportNotifyTo");
   const to = toRaw
     .split(",")
     .map((e) => e.trim())
@@ -37,7 +38,7 @@ function getAgentRecipients(): { to: string[]; cc?: string[] } | null {
     return null;
   }
 
-  const ccRaw = process.env.SUPPORT_NOTIFY_CC || "";
+  const ccRaw = getPortalSettingSync("email.supportNotifyCc");
   const cc = ccRaw
     .split(",")
     .map((e) => e.trim())

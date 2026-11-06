@@ -8,6 +8,7 @@ import sgMail from "@sendgrid/mail";
 import { invoiceHtmlTemplate, invoiceTextTemplate } from "../email-templates/invoice-html.js";
 import { decode } from "html-entities";
 import { getNoReplyFromEmail } from "../middleware/emailNotifier.js";
+import { getPortalSettingSync } from "../services/portalSettings.js";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
@@ -1453,7 +1454,7 @@ router.post(
         return res.status(404).json({ error: "Client not found" });
 
       // Build CC list
-      const fixedCc = (process.env.INVOICE_CC_EMAILS || "")
+      const fixedCc = getPortalSettingSync("email.invoiceCc")
         .split(",")
         .map((e) => e.trim())
         .filter(Boolean);

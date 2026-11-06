@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
 import twilio from "twilio";
 import { activityLogger } from "../middleware/activityLogger.js";
+import { getPortalSettingSync } from "../services/portalSettings.js";
 
 dotenv.config();
 
@@ -205,7 +206,7 @@ router.post(
       if (!req.user) {
         req.user = {
           id: "00000000-0000-0000-0000-000000000000", // System UUID
-          email: "system@allstaff.com",
+          email: "system@system.local",
           user_metadata: {
             name: "System",
             user_type: "admin",
@@ -260,7 +261,7 @@ router.post(
       // Create user metadata with phoneNumber if provided
       const userMetadata: Record<string, any> = {
         name,
-        portal_name: process.env.PORTAL_NAME || "Ops Portal",
+        portal_name: getPortalSettingSync("portal.name"),
         user_type: userType,
         // Ensure user_role exists for new users
         user_role:
@@ -936,7 +937,7 @@ router.post(
         sgMail.send({
           to: email,
           from: fromEmail,
-          subject: `Welcome to ${process.env.PORTAL_NAME || "Ops Portal"}`,
+          subject: `Welcome to ${getPortalSettingSync("portal.name")}`,
           html: welcomeHtml,
           text: welcomeText,
         }),

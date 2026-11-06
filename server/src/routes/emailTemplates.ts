@@ -23,6 +23,7 @@ import { jobseekerRemovalTextTemplate } from "../email-templates/jobseeker-remov
 import { jobseekerWelcomeTextTemplate } from "../email-templates/jobseeker-welcome-txt.js";
 import { onboardingReminderTextTemplate } from "../email-templates/onboarding-reminder-txt.js";
 import { timesheetTextTemplate } from "../email-templates/timesheet-txt.js";
+import { getPortalSettingSync } from "../services/portalSettings.js";
 
 const router = Router();
 
@@ -48,7 +49,7 @@ function getTemplateFromEmail(templateId: string): string {
 
 // Helper: build CC list from ENV
 function getInvoiceCcEmails(): string[] {
-  return (process.env.INVOICE_CC_EMAILS || "")
+  return getPortalSettingSync("email.invoiceCc")
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);

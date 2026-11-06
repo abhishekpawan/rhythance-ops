@@ -1,5 +1,6 @@
 import { resolveSupportUserRoles } from "./support.permissions.js";
 import { SupportTicketContext } from "../types.js";
+import { getPortalSettingSync } from "./portalSettings.js";
 
 /**
  * Strips query string and fragment/hash from a URL or path.
@@ -54,7 +55,7 @@ export function sanitizeSupportContext(rawContext: any, user: Express.Request["u
   // Add userId, roles, and deployment from token / env
   safeContext.userId = user?.id;
   safeContext.roles = resolveSupportUserRoles(user);
-  safeContext.deployment = process.env.PORTAL_NAME || "unknown";
+  safeContext.deployment = getPortalSettingSync("portal.name");
 
   return safeContext;
 }

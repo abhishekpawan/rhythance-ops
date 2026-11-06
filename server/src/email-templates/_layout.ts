@@ -1,3 +1,5 @@
+import { getPortalSettingSync } from "../services/portalSettings.js";
+
 /**
  * Shared email layout and style system.
  *
@@ -154,5 +156,5 @@ export function textFooter(portalName: string): string {
 }
 
 export function getPortalName(): string {
-  return process.env.PORTAL_NAME || "Ops Portal";
+  return getPortalSettingSync("portal.name");
 }

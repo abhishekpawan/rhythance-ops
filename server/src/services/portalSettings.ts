@@ -232,3 +232,23 @@ export async function setPortalSettings(
   clearPortalSettingsCache();
   return getPortalSettingsSnapshot();
 }
+
+/**
+ * Synchronous read for code that cannot await (for example building an email sender
+ * name). Uses the values loaded most recently (at most ~30 seconds old) and refreshes
+ * them in the background. Before the first load finishes it returns the environment
+ * variable / default value, exactly what the code used before settings existed.
+ */
+export function getPortalSettingSync(key: string): string {
+  const def = getPortalSettingDefinition(key);
+  if (!def) throw new Error(`Unknown portal setting "${key}"`);
+  if (!cache || Date.now() - cache.loadedAt >= CACHE_TTL_MS) {
+    void loadRows().catch(() => undefined);
+  }
+  return resolve(def, cache?.rows.get(key)).value;
+}
+
+/** Loads the settings once at server start so the synchronous reader is warm. */
+export async function warmPortalSettings(): Promise<void> {
+  await loadRows();
+}

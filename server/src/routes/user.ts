@@ -7,6 +7,7 @@ import sgMail from '@sendgrid/mail';
 import { onboardingReminderHtmlTemplate } from '../email-templates/onboarding-reminder-html.js';
 import { onboardingReminderTextTemplate } from '../email-templates/onboarding-reminder-txt.js';
 import { getNoReplyFromEmail } from '../middleware/emailNotifier.js';
+import { getPortalSettingSync } from "../services/portalSettings.js";
 
 dotenv.config();
 
@@ -573,7 +574,7 @@ router.post(
       // Default recruiter metadata
       const userMetadata: Record<string, unknown> = {
         name,
-        portal_name: process.env.PORTAL_NAME || 'Ops Portal',
+        portal_name: getPortalSettingSync("portal.name"),
         user_type: 'recruiter',
         user_role: ['recruiter'],
         onboarding_complete: false,
@@ -728,7 +729,7 @@ router.post(
       } else {
         // User hasn't verified email yet, use Supabase invitation
         const { data, error } = await supabase.auth.admin.inviteUserByEmail(user.email, {
-          data: { ...userMetadata, portal_name: process.env.PORTAL_NAME || 'Ops Portal' },
+          data: { ...userMetadata, portal_name: getPortalSettingSync("portal.name") },
           redirectTo: onboardingURL,
         } as any);
 

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import sgMail from "@sendgrid/mail";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getPortalSettingSync } from "../services/portalSettings.js";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
@@ -41,23 +42,28 @@ export function formatFromEmail(email: string, displayName?: string): string {
   if (email.includes("<") && email.includes(">")) {
     return email;
   }
-  // Use provided displayName, or fall back to environment variable, or default to "HDGroup"
-  const brandName = displayName || process.env.PORTAL_NAME || "";
-  return `${brandName} Ops Portal <${email}>`;
+  // Use provided displayName, otherwise this portal's name (portal settings)
+  const brandName = displayName || getPortalSettingSync("portal.name");
+  // "Ops Portal" is not repeated when the name already ends with it
+  const senderName = /ops portal$/i.test(brandName)
+    ? brandName
+    : `${brandName} Ops Portal`;
+  return `${senderName} <${email}>`;
 }
 
 export function getNoReplyFromEmail(): string {
   return getFormattedFromEmail(
-    process.env.NO_REPLY_FROM_EMAIL,
-    process.env.DEFAULT_FROM_EMAIL,
+    getPortalSettingSync("email.noReplyFrom"),
+    getPortalSettingSync("email.defaultFrom"),
     "noreply@example.com"
   );
 }
 
 export function getAssignmentFromEmail(): string {
   return getFormattedFromEmail(
-    process.env.ASSIGNMENT_FROM_EMAIL,
-    process.env.NO_REPLY_FROM_EMAIL || process.env.DEFAULT_FROM_EMAIL,
+    getPortalSettingSync("email.assignmentFrom"),
+    getPortalSettingSync("email.noReplyFrom") ||
+      getPortalSettingSync("email.defaultFrom"),
     "noreply@example.com"
   );
 }

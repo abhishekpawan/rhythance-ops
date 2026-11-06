@@ -3,6 +3,8 @@
     "title": "Portal Settings",
     "subtitle": "Values that differ between portals, such as the company details printed on invoices. Each portal keeps its own.",
     "groups": {
+      "portal": "Portal",
+      "email": "Emails (sender names, addresses and copies)",
       "company": "Company details (invoices)",
       "branding": "Branding",
       "training": "Training"

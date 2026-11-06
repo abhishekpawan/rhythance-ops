@@ -23,6 +23,7 @@ import dropdownOptionsRoutes from "./routes/dropdownOptions.js";
 import emailTemplateRoutes from "./routes/emailTemplates.js";
 import featureFlagRoutes from "./routes/featureFlags.js";
 import portalSettingsRoutes from "./routes/portalSettings.js";
+import { warmPortalSettings } from "./services/portalSettings.js";
 import supportRoutes from "./routes/support/index.js";
 import {
   configureSecurityHeaders,
@@ -182,6 +183,11 @@ app.use(
 );
 
 // Start server
+// Load the per-portal settings once so synchronous reads are warm from the first request
+void warmPortalSettings().catch((error) =>
+  console.error("Could not warm portal settings:", error)
+);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(

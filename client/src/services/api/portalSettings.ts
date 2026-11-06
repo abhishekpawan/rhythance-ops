@@ -1,7 +1,12 @@
 import axios from "axios";
 import { api, clearCacheFor } from "./index";
 
-export type PortalSettingGroup = "company" | "branding" | "training";
+export type PortalSettingGroup =
+  | "portal"
+  | "email"
+  | "company"
+  | "branding"
+  | "training";
 
 export type PortalSettingSource = "database" | "environment" | "default";
 

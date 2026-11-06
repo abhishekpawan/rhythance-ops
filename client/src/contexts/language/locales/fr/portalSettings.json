@@ -3,6 +3,8 @@
     "title": "Paramètres du portail",
     "subtitle": "Valeurs qui diffèrent d'un portail à l'autre, comme les coordonnées de l'entreprise imprimées sur les factures. Chaque portail conserve les siennes.",
     "groups": {
+      "portal": "Portail",
+      "email": "Courriels (noms d'expéditeur, adresses et copies)",
       "company": "Coordonnées de l'entreprise (factures)",
       "branding": "Image de marque",
       "training": "Formation"

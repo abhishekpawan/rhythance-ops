@@ -22,7 +22,13 @@ import { formatDateTimeCanada } from "../../utils/dateUtils";
 import "../../styles/pages/FeatureFlags.css";
 import "../../styles/pages/PortalSettings.css";
 
-const GROUP_ORDER: PortalSettingGroup[] = ["company", "branding", "training"];
+const GROUP_ORDER: PortalSettingGroup[] = [
+  "portal",
+  "email",
+  "company",
+  "branding",
+  "training",
+];
 
 interface ToastState {
   message: string;
