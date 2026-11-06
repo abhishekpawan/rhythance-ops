@@ -24,6 +24,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 interface FlagOverrideRow {
   key: string;
   enabled: boolean;
+  config?: Record<string, unknown> | null;
   updated_by: string | null;
   updated_by_name: string | null;
   updated_at: string;
@@ -31,7 +32,19 @@ interface FlagOverrideRow {
 
 export type FeatureFlagSource = "default" | "override";
 
+export interface FeatureFlagSettingState {
+  key: string;
+  label: string;
+  description?: string;
+  defaultValue: string;
+  /** The value in use: the database value if set, otherwise the default. */
+  value: string;
+  source: "database" | "default";
+}
+
 export interface FeatureFlagState extends FeatureFlagDefinition {
+  /** Effective value of each setting (only for flags that define settings). */
+  settingValues: FeatureFlagSettingState[];
   enabled: boolean;
   source: FeatureFlagSource;
   updatedAt: string | null;
@@ -49,6 +62,7 @@ export interface FeatureFlagSnapshot {
 const CACHE_TTL_MS = 30_000;
 // Postgres "undefined_table" and PostgREST "table not in schema cache"
 const MISSING_TABLE_CODES = new Set(["42P01", "PGRST205"]);
+const MISSING_COLUMN_CODE = "42703";
 
 let cache: {
   loadedAt: number;
@@ -68,9 +82,17 @@ async function loadOverrides() {
   let tableMissing = false;
   let loadFailed = false;
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("feature_flags")
-    .select("key, enabled, updated_by, updated_by_name, updated_at");
+    .select("key, enabled, config, updated_by, updated_by_name, updated_at");
+
+  // Postgres "undefined_column": migration 030 (config) not applied on this database
+  // yet. Keep flags working by reading without it rather than falling back to defaults.
+  if (error && error.code === MISSING_COLUMN_CODE) {
+    ({ data, error } = await supabase
+      .from("feature_flags")
+      .select("key, enabled, updated_by, updated_by_name, updated_at"));
+  }
 
   if (error) {
     if (error.code && MISSING_TABLE_CODES.has(error.code)) {
@@ -101,6 +123,18 @@ function toState(
 ): FeatureFlagState {
   return {
     ...def,
+    settingValues: (def.settings || []).map((setting) => {
+      const stored = override?.config?.[setting.key];
+      const hasValue = typeof stored === "string" && stored.trim() !== "";
+      return {
+        key: setting.key,
+        label: setting.label,
+        description: setting.description,
+        defaultValue: setting.defaultValue,
+        value: hasValue ? (stored as string).trim() : setting.defaultValue,
+        source: hasValue ? ("database" as const) : ("default" as const),
+      };
+    }),
     enabled: override ? override.enabled : def.defaultEnabled,
     source: override ? "override" : "default",
     updatedAt: override?.updated_at ?? null,
@@ -200,4 +234,98 @@ export async function resetFeatureFlag(key: string): Promise<FeatureFlagState> {
 
   clearFeatureFlagCache();
   return toState(def, undefined);
+}
+
+/**
+ * Value of one of a flag's settings: this portal's database value if it has one,
+ * otherwise the default from the registry. Unknown flags/settings throw.
+ */
+export async function getFeatureFlagSetting(
+  flagKey: string,
+  settingKey: string
+): Promise<string> {
+  const def = getFeatureFlagDefinition(flagKey);
+  const setting = def?.settings?.find((item) => item.key === settingKey);
+  if (!def || !setting) {
+    throw new Error(`Unknown feature flag setting "${flagKey}.${settingKey}"`);
+  }
+  const { overrides } = await loadOverrides();
+  const stored = overrides.get(flagKey)?.config?.[settingKey];
+  return typeof stored === "string" && stored.trim() !== ""
+    ? stored.trim()
+    : setting.defaultValue;
+}
+
+const MAX_SETTING_LENGTH = 300;
+
+/**
+ * Saves a flag's settings. Only names defined for the flag are accepted; an empty
+ * value means "use the default" and is not stored. The on/off value is kept as is.
+ */
+export async function setFeatureFlagSettings(
+  key: string,
+  values: Record<string, unknown>,
+  actor: { id: string; name: string }
+): Promise<FeatureFlagState> {
+  const def = getFeatureFlagDefinition(key);
+  if (!def) throw new FeatureFlagError(`Unknown feature flag "${key}"`, 404);
+  if (!def.settings || def.settings.length === 0) {
+    throw new FeatureFlagError("This flag has no settings", 400);
+  }
+
+  const allowed = new Set(def.settings.map((setting) => setting.key));
+  const cleaned: Record<string, string> = {};
+  for (const [name, raw] of Object.entries(values || {})) {
+    if (!allowed.has(name)) {
+      throw new FeatureFlagError(`Unknown setting "${name}"`, 400);
+    }
+    if (typeof raw !== "string") {
+      throw new FeatureFlagError(`Setting "${name}" must be text`, 400);
+    }
+    const value = raw.trim();
+    if (value.length > MAX_SETTING_LENGTH) {
+      throw new FeatureFlagError(
+        `Setting "${name}" is longer than ${MAX_SETTING_LENGTH} characters`,
+        400
+      );
+    }
+    if (value !== "") cleaned[name] = value;
+  }
+
+  clearFeatureFlagCache();
+  const { overrides } = await loadOverrides();
+  const existing = overrides.get(key);
+
+  const { error } = await supabase.from("feature_flags").upsert(
+    {
+      key,
+      enabled: existing ? existing.enabled : def.defaultEnabled,
+      config: Object.keys(cleaned).length > 0 ? cleaned : null,
+      updated_by: actor.id,
+      updated_by_name: actor.name,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "key" }
+  );
+
+  if (error) {
+    if (error.code === MISSING_COLUMN_CODE) {
+      throw new FeatureFlagError(
+        "This database has no config column yet. Run migration 030_feature_flags_config.sql on this portal's database.",
+        503
+      );
+    }
+    if (error.code && MISSING_TABLE_CODES.has(error.code)) {
+      throw new FeatureFlagError(
+        "The feature_flags table does not exist yet. Run migration 029_feature_flags.sql on this portal's database.",
+        503
+      );
+    }
+    console.error("Failed to save feature flag settings:", error);
+    throw new FeatureFlagError("Failed to save feature flag settings", 500);
+  }
+
+  clearFeatureFlagCache();
+  const fresh = await loadOverrides();
+  return toState(def, fresh.overrides.get(key));
 }

@@ -8,7 +8,10 @@ import {
 } from "../middleware/auth.js";
 import { sanitizeInputs, apiRateLimiter } from "../middleware/security.js";
 import { activityLogger } from "../middleware/activityLogger.js";
-import { isFeatureEnabled } from "../services/featureFlags.js";
+import {
+  getFeatureFlagSetting,
+  isFeatureEnabled,
+} from "../services/featureFlags.js";
 import dotenv from "dotenv";
 import { PositionData, SubcategoryPositionDetailInput } from "../types.js";
 import {
@@ -1821,8 +1824,23 @@ router.post(
       if (attachHandbook) {
         // Download employee handbook from Supabase storage
         try {
-          // Try different possible file paths
-          const documentPath = "employeeHandbook/employeeHandbook2024.pdf";
+          // Where the handbook lives and what it is called in the email are this
+          // portal's settings for the flag (defaults are Godspeed's).
+          const [storageBucket, documentPath, attachmentName] =
+            await Promise.all([
+              getFeatureFlagSetting(
+                "attach_handbook_to_assignment_email",
+                "bucket"
+              ),
+              getFeatureFlagSetting(
+                "attach_handbook_to_assignment_email",
+                "path"
+              ),
+              getFeatureFlagSetting(
+                "attach_handbook_to_assignment_email",
+                "fileName"
+              ),
+            ]);
 
           let handbookData = null;
           let handbookError = null;
@@ -1831,7 +1849,7 @@ router.post(
             `[EmailNotifier] Trying to download handbook from path: ${documentPath}`
           );
           const { data, error } = await supabase.storage
-            .from("default-documents")
+            .from(storageBucket)
             .download(documentPath);
 
           if (!error && data) {
@@ -1854,7 +1872,7 @@ router.post(
             );
             handbookAttachment = {
               content: handbookBuffer.toString("base64"),
-              filename: "Godspeed_Employee_Handbook_2024.pdf",
+              filename: attachmentName,
               type: "application/pdf",
               disposition: "attachment",
             };

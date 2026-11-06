@@ -53,6 +53,16 @@
       "reset": "« {{name}} » a été rétabli à sa valeur par défaut.",
       "failed": "Impossible de mettre à jour l'indicateur."
     },
-    "thisPortal": "Ce portail : {{state}}"
+    "thisPortal": "Ce portail : {{state}}",
+    "settings": {
+      "title": "Paramètres",
+      "fromDatabase": "Défini pour ce portail",
+      "fromDefault": "Par défaut",
+      "defaultHint": "Par défaut : {{value}}",
+      "save": "Enregistrer les paramètres",
+      "useDefaults": "Utiliser les valeurs par défaut",
+      "saved": "Les paramètres de « {{name}} » ont été enregistrés.",
+      "hint": "Laissez un champ vide pour utiliser sa valeur par défaut."
+    }
   }
 }

@@ -29,6 +29,16 @@ export type FeatureFlagCategory =
   | "jobseeker_profile"
   | "admin";
 
+/** A text value that belongs to a flag (stored in the flag's `config`). */
+export interface FeatureFlagSettingDefinition {
+  /** Name inside `config`. Never rename once in use. */
+  key: string;
+  label: string;
+  description?: string;
+  /** Used when this portal's database has no value for the setting. */
+  defaultValue: string;
+}
+
 export interface FeatureFlagDefinition {
   /** Stable identifier stored in the database. Never rename once in use. */
   key: string;
@@ -43,6 +53,8 @@ export interface FeatureFlagDefinition {
   intended: Partial<Record<PortalId, boolean>>;
   /** Extra context for the super-admin page. */
   notes?: string;
+  /** Text values this flag needs besides on/off (editable on the super-admin page). */
+  settings?: ReadonlyArray<FeatureFlagSettingDefinition>;
 }
 
 export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
@@ -95,7 +107,27 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       allstaff: false,
     },
     notes:
-      "Previously hard-coded for Godspeed. The file path and attachment name are still Godspeed's (employeeHandbook/employeeHandbook2024.pdf); moving them into portal settings is a later step.",
+      "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+    settings: [
+      {
+        key: "bucket",
+        label: "Storage bucket",
+        description: "Supabase storage bucket that holds the handbook.",
+        defaultValue: "default-documents",
+      },
+      {
+        key: "path",
+        label: "File path in the bucket",
+        description: "Path of the handbook PDF inside the bucket.",
+        defaultValue: "employeeHandbook/employeeHandbook2024.pdf",
+      },
+      {
+        key: "fileName",
+        label: "Attachment name in the email",
+        description: "File name the jobseeker sees on the attachment.",
+        defaultValue: "Godspeed_Employee_Handbook_2024.pdf",
+      },
+    ],
   },
   {
     key: "hide_jobseeker_pay_rate",

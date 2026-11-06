@@ -53,6 +53,16 @@
       "reset": "\"{{name}}\" was reset to its default.",
       "failed": "Could not update the feature flag."
     },
-    "thisPortal": "This portal: {{state}}"
+    "thisPortal": "This portal: {{state}}",
+    "settings": {
+      "title": "Settings",
+      "fromDatabase": "Set for this portal",
+      "fromDefault": "Default",
+      "defaultHint": "Default: {{value}}",
+      "save": "Save settings",
+      "useDefaults": "Use defaults",
+      "saved": "Settings for \"{{name}}\" saved.",
+      "hint": "Leave a field empty to use its default."
+    }
   }
 }

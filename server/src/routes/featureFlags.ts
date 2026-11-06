@@ -9,6 +9,7 @@ import {
   getFeatureFlagSnapshot,
   resetFeatureFlag,
   setFeatureFlag,
+  setFeatureFlagSettings,
 } from "../services/featureFlags.js";
 
 const router = Router();
@@ -107,6 +108,57 @@ router.put(
 
       const flag = await setFeatureFlag(key, enabled, actorOf(req));
       res.locals.flagChange = { title: def.title, enabled };
+      res.json({ flag });
+    } catch (error) {
+      sendError(res, error);
+    }
+  }
+);
+
+/**
+ * PUT /api/feature-flags/:key/config   body: { config: { <setting>: "<text>" } }
+ * Saves the text settings of a flag. An empty value means "use the default".
+ */
+router.put(
+  "/:key/config",
+  authenticateToken,
+  requireSuperAdmin,
+  activityLogger({
+    onSuccess: (req, res) => {
+      const change = res.locals.flagChange as { title: string } | undefined;
+      const actorName = actorOf(req).name;
+      return {
+        actionType: "update_feature_flag",
+        actionVerb: "updated settings of",
+        primaryEntityType: "feature_flag",
+        primaryEntityId: req.params.key,
+        primaryEntityName: change?.title || req.params.key,
+        displayMessage: `${actorName} updated the settings of feature "${change?.title || req.params.key}"`,
+        category: "system",
+        priority: "normal",
+      };
+    },
+  }),
+  async (req: Request, res: Response) => {
+    try {
+      const { key } = req.params;
+      const def = getFeatureFlagDefinition(key);
+      if (!def) {
+        return res.status(404).json({ error: `Unknown feature flag "${key}"` });
+      }
+      if (!def.wired) {
+        return res.status(409).json({
+          error:
+            "This flag is tracked but not connected to any code yet, so it cannot be changed.",
+        });
+      }
+      const config = req.body?.config;
+      if (!config || typeof config !== "object" || Array.isArray(config)) {
+        return res.status(400).json({ error: "`config` must be an object" });
+      }
+
+      const flag = await setFeatureFlagSettings(key, config, actorOf(req));
+      res.locals.flagChange = { title: def.title };
       res.json({ flag });
     } catch (error) {
       sendError(res, error);

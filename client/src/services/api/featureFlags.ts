@@ -9,6 +9,16 @@ export type FeatureFlagCategory =
 
 export type PortalId = "godspeed" | "gdworkforce" | "canhire" | "allstaff";
 
+export interface FeatureFlagSettingValue {
+  key: string;
+  label: string;
+  description?: string;
+  defaultValue: string;
+  /** The value in use: the database value if set, otherwise the default. */
+  value: string;
+  source: "database" | "default";
+}
+
 export interface FeatureFlagAdminItem {
   key: string;
   title: string;
@@ -20,6 +30,8 @@ export interface FeatureFlagAdminItem {
   /** Intended state per portal (documentation / tracking). */
   intended: Partial<Record<PortalId, boolean>>;
   notes?: string;
+  /** Text settings of the flag (empty for flags without settings). */
+  settingValues: FeatureFlagSettingValue[];
   enabled: boolean;
   source: "default" | "override";
   updatedAt: string | null;
@@ -84,5 +96,21 @@ export async function resetFeatureFlagValue(
     return data.flag as FeatureFlagAdminItem;
   } catch (error) {
     throw toError(error, "Failed to reset feature flag");
+  }
+}
+
+/** Saves a flag's text settings. An empty value means "use the default". */
+export async function saveFeatureFlagSettings(
+  key: string,
+  config: Record<string, string>
+): Promise<FeatureFlagAdminItem> {
+  try {
+    const { data } = await api.put(`/api/feature-flags/${key}/config`, {
+      config,
+    });
+    clearCacheFor("/api/feature-flags");
+    return data.flag as FeatureFlagAdminItem;
+  } catch (error) {
+    throw toError(error, "Failed to save feature flag settings");
   }
 }
