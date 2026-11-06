@@ -143,7 +143,7 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     label: "Legal company name",
     description:
       "Full company name at the top and in the contact block of the Privacy Policy and Terms of Service.",
-    defaultValue: "Motion Falcon Group",
+    defaultValue: "Rhythence Group",
     public: true,
   },
   {
@@ -152,7 +152,7 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     label: "Short company name",
     description:
       "Name used inside the sentences of the Privacy Policy and Terms of Service.",
-    defaultValue: "Motion Falcon Group",
+    defaultValue: "Rhythence Group",
     public: true,
   },
   {
