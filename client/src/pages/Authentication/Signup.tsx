@@ -589,7 +589,7 @@ export function Signup() {
           <div className="brand-logo">
             <img
               src={loginLogo}
-              alt={t("common.loginLogo")}
+              alt={t("common.godspeedLogo")}
               className="godspeed-logo"
             />
           </div>

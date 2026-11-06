@@ -153,7 +153,7 @@ export function AppHeader({
             <div className="logo-container" onClick={() => navigate("/")}>
               <img
                 src={headerLogo}
-                alt={t("common.headerLogo")}
+                alt={t("common.godspeedLogo")}
                 className="header-logo"
               />
             </div>
