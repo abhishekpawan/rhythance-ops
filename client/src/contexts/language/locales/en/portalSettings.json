@@ -7,6 +7,7 @@
       "email": "Emails (sender names, addresses and copies)",
       "company": "Company details (invoices)",
       "branding": "Branding",
+      "legal": "Legal pages (Privacy Policy and Terms of Service)",
       "training": "Training"
     },
     "source": {
@@ -26,6 +27,9 @@
     "loadFailedMessage": "Saved values could not be read, so defaults are being shown. Try again in a moment.",
     "loadError": "Failed to load portal settings",
     "saveError": "Could not save the portal settings."
+  },
+  "legal": {
+    "loadError": "This page could not be loaded. Please refresh and try again."
   },
   "navigation": {
     "portalSettings": "Portal Settings"

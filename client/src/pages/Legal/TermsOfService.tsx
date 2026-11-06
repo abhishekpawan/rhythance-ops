@@ -1,13 +1,31 @@
 import { ArrowLeft } from "lucide-react";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { usePortalSettings } from "../../contexts/PortalSettingsContext";
 import "../../styles/pages/LegalPages.css";
 
 export function TermsOfService() {
   const { t } = useLanguage();
+  const { values, publicReady, publicFailed } = usePortalSettings();
+  const companyName = values["legal.companyName"];
+  const shortName = values["legal.companyShortName"];
+  const contactAddress = values["legal.contactAddress"];
+  const contactEmail = values["legal.contactEmail"];
+  const contactPhone = values["legal.contactPhone"];
+  const hasContact = Boolean(contactAddress || contactEmail || contactPhone);
 
   const handleGoBack = () => {
     window.close();
   };
+
+  if (!publicReady) {
+    return (
+      <div className="legal-page-container">
+        <div className="legal-page-content">
+          {publicFailed && <p>{t("legal.loadError")}</p>}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="legal-page-container">
@@ -23,7 +41,7 @@ export function TermsOfService() {
             {t("legal.effectiveDate")}: 09.09.2025
           </p>
           <p className="legal-page-company">
-            {t("legal.company")}: Rhythence Group
+            {t("legal.company")}: {companyName}
           </p>
         </div>
 
@@ -39,7 +57,7 @@ export function TermsOfService() {
           </p>
 
           <h2>1. Scope of Services</h2>
-          <h3>1.1. Rhythence Group provides an online platform for:</h3>
+          <h3>1.1. {shortName} provides an online platform for:</h3>
           <ul>
             <li>Candidate sourcing, screening, and placement.</li>
             <li>HR consulting and advisory services.</li>
@@ -101,8 +119,8 @@ export function TermsOfService() {
           </ul>
           <p>
             <strong>4.2.</strong> Employers are solely responsible for final
-            hiring decisions. Rhythence Group is not liable for employment
-            outcomes, workplace behaviour, or performance of hired candidates.
+            hiring decisions. {shortName} is not liable for employment outcomes,
+            workplace behaviour, or performance of hired candidates.
           </p>
 
           <h2>5. Candidate Obligations</h2>
@@ -175,7 +193,7 @@ export function TermsOfService() {
           <p>
             <strong>9.1.</strong> All content on our Website and platform —
             including text, graphics, trademarks, and software — remains the
-            property of Rhythence Group.
+            property of {shortName}.
           </p>
           <p>
             <strong>9.2.</strong> Users may not copy, redistribute, reverse
@@ -210,9 +228,9 @@ export function TermsOfService() {
 
           <h2>12. Indemnification</h2>
           <h3>
-            12.1. You agree to indemnify and hold Rhythence Group, its
-            directors, employees, and affiliates harmless from any claims,
-            damages, or expenses arising from your:
+            12.1. You agree to indemnify and hold {shortName}, its directors,
+            employees, and affiliates harmless from any claims, damages, or
+            expenses arising from your:
           </h3>
           <ul>
             <li>Use of the Services.</li>
@@ -267,21 +285,23 @@ export function TermsOfService() {
             constitutes acceptance of the revised Terms.
           </p>
 
-          <div className="legal-page-contact-section">
-            <h3>17. Contact Information</h3>
-            <div className="legal-page-contact-info">
-              <p>
-                For any questions or concerns regarding these Terms, please
-                contact:
-              </p>
-              <p>
-                <strong>Rhythence Group</strong>
-              </p>
-              <p>2795 Slough Street, Mississauga, ON L4T 1G2</p>
-              <p>info@godspeedxp.com</p>
-              <p>905-956-9525</p>
+          {hasContact && (
+            <div className="legal-page-contact-section">
+              <h3>17. Contact Information</h3>
+              <div className="legal-page-contact-info">
+                <p>
+                  For any questions or concerns regarding these Terms, please
+                  contact:
+                </p>
+                <p>
+                  <strong>{companyName}</strong>
+                </p>
+                {contactAddress && <p>{contactAddress}</p>}
+                {contactEmail && <p>{contactEmail}</p>}
+                {contactPhone && <p>{contactPhone}</p>}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

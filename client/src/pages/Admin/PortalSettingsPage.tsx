@@ -27,6 +27,7 @@ const GROUP_ORDER: PortalSettingGroup[] = [
   "email",
   "company",
   "branding",
+  "legal",
   "training",
 ];
 

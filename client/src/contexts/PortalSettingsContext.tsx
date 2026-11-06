@@ -8,24 +8,36 @@ import {
   type ReactNode,
 } from "react";
 import { useAuth } from "./AuthContext";
-import { getPortalSettings } from "../services/api/portalSettings";
+import {
+  getPortalSettings,
+  getPublicPortalSettings,
+} from "../services/api/portalSettings";
 
 interface PortalSettingsContextValue {
   /** Value of every setting, by key. Empty until loaded. */
   values: Record<string, string>;
-  /** True once the settings have been loaded successfully. */
+  /** True once the settings have been loaded successfully (logged in). */
   ready: boolean;
+  /** True once the public settings (legal pages) are loaded; works logged out. */
+  publicReady: boolean;
+  /** The public settings could not be loaded. */
+  publicFailed: boolean;
   refresh: () => Promise<void>;
 }
 
 const PortalSettingsContext = createContext<PortalSettingsContextValue>({
   values: {},
   ready: false,
+  publicReady: false,
+  publicFailed: false,
   refresh: async () => {},
 });
 
 export function PortalSettingsProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
+  const [publicValues, setPublicValues] = useState<Record<string, string>>({});
+  const [publicReady, setPublicReady] = useState(false);
+  const [publicFailed, setPublicFailed] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const [ready, setReady] = useState(false);
 
@@ -39,6 +51,24 @@ export function PortalSettingsProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // The public settings (legal pages) are needed before anyone logs in.
+  useEffect(() => {
+    let cancelled = false;
+    getPublicPortalSettings()
+      .then((loaded) => {
+        if (cancelled) return;
+        setPublicValues(loaded);
+        setPublicReady(true);
+      })
+      .catch((error) => {
+        console.error("Failed to load public portal settings:", error);
+        if (!cancelled) setPublicFailed(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   useEffect(() => {
     if (isAuthenticated) {
       void refresh();
@@ -48,9 +78,21 @@ export function PortalSettingsProvider({ children }: { children: ReactNode }) {
     }
   }, [isAuthenticated, refresh]);
 
+  // Logged-in values include the public ones, so they win when both exist.
+  const merged = useMemo(
+    () => ({ ...publicValues, ...values }),
+    [publicValues, values]
+  );
+
   const value = useMemo(
-    () => ({ values, ready, refresh }),
-    [values, ready, refresh]
+    () => ({
+      values: merged,
+      ready,
+      publicReady: publicReady || ready,
+      publicFailed,
+      refresh,
+    }),
+    [merged, ready, publicReady, publicFailed, refresh]
   );
 
   return (

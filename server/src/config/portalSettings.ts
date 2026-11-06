@@ -18,6 +18,7 @@ export type PortalSettingGroup =
   | "email"
   | "company"
   | "branding"
+  | "legal"
   | "training";
 
 export interface PortalSettingDefinition {
@@ -32,6 +33,11 @@ export interface PortalSettingDefinition {
   envFallback?: string;
   /** Show a larger text box on the settings page. */
   multiline?: boolean;
+  /**
+   * Safe to send to visitors who are not logged in (for example the company name
+   * on the public Privacy Policy). Never set this on anything private.
+   */
+  public?: boolean;
 }
 
 export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
@@ -130,6 +136,49 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     label: "AI chat page title",
     description: "Title shown on the AI chat page.",
     defaultValue: "Rhythence AI Chat",
+  },
+  {
+    key: "legal.companyName",
+    group: "legal",
+    label: "Legal company name",
+    description:
+      "Full company name at the top and in the contact block of the Privacy Policy and Terms of Service.",
+    defaultValue: "Motion Falcon Group",
+    public: true,
+  },
+  {
+    key: "legal.companyShortName",
+    group: "legal",
+    label: "Short company name",
+    description:
+      "Name used inside the sentences of the Privacy Policy and Terms of Service.",
+    defaultValue: "Motion Falcon Group",
+    public: true,
+  },
+  {
+    key: "legal.contactAddress",
+    group: "legal",
+    label: "Contact address",
+    description:
+      "Address in the Contact section of the legal pages. Leave all three contact fields empty to hide the section.",
+    defaultValue: "",
+    public: true,
+  },
+  {
+    key: "legal.contactEmail",
+    group: "legal",
+    label: "Contact email",
+    description: "Email address in the Contact section of the legal pages.",
+    defaultValue: "",
+    public: true,
+  },
+  {
+    key: "legal.contactPhone",
+    group: "legal",
+    label: "Contact phone",
+    description: "Phone number in the Contact section of the legal pages.",
+    defaultValue: "",
+    public: true,
   },
   {
     key: "training.video1",

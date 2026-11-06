@@ -7,6 +7,7 @@
       "email": "Courriels (noms d'expéditeur, adresses et copies)",
       "company": "Coordonnées de l'entreprise (factures)",
       "branding": "Image de marque",
+      "legal": "Pages juridiques (politique de confidentialité et conditions d'utilisation)",
       "training": "Formation"
     },
     "source": {
@@ -26,6 +27,9 @@
     "loadFailedMessage": "Les valeurs enregistrées n'ont pas pu être lues; les valeurs par défaut sont affichées. Réessayez dans un instant.",
     "loadError": "Échec du chargement des paramètres du portail",
     "saveError": "Impossible d'enregistrer les paramètres du portail."
+  },
+  "legal": {
+    "loadError": "Cette page n'a pas pu être chargée. Veuillez actualiser et réessayer."
   },
   "navigation": {
     "portalSettings": "Paramètres du portail"

@@ -6,6 +6,7 @@ export type PortalSettingGroup =
   | "email"
   | "company"
   | "branding"
+  | "legal"
   | "training";
 
 export type PortalSettingSource = "database" | "environment" | "default";
@@ -38,6 +39,18 @@ function toError(error: unknown, fallback: string): Error {
     return new Error(error.response.data.error);
   }
   return error instanceof Error ? error : new Error(fallback);
+}
+
+/** Values of the public settings (no login needed), for the legal pages. */
+export async function getPublicPortalSettings(): Promise<
+  Record<string, string>
+> {
+  try {
+    const { data } = await api.get("/api/portal-settings/public");
+    return data.values as Record<string, string>;
+  } catch (error) {
+    throw toError(error, "Failed to load portal settings");
+  }
 }
 
 /** Value of every setting (any logged-in user). */

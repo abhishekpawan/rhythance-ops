@@ -1,13 +1,31 @@
 import { ArrowLeft } from "lucide-react";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { usePortalSettings } from "../../contexts/PortalSettingsContext";
 import "../../styles/pages/LegalPages.css";
 
 export function PrivacyPolicy() {
   const { t } = useLanguage();
+  const { values, publicReady, publicFailed } = usePortalSettings();
+  const companyName = values["legal.companyName"];
+  const shortName = values["legal.companyShortName"];
+  const contactAddress = values["legal.contactAddress"];
+  const contactEmail = values["legal.contactEmail"];
+  const contactPhone = values["legal.contactPhone"];
+  const hasContact = Boolean(contactAddress || contactEmail || contactPhone);
 
   const handleGoBack = () => {
     window.close();
   };
+
+  if (!publicReady) {
+    return (
+      <div className="legal-page-container">
+        <div className="legal-page-content">
+          {publicFailed && <p>{t("legal.loadError")}</p>}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="legal-page-container">
@@ -23,13 +41,13 @@ export function PrivacyPolicy() {
             {t("legal.effectiveDate")}: 09.09.2025
           </p>
           <p className="legal-page-company">
-            {t("legal.company")}: Rhythence Group ("Company," "we," "our," "us")
+            {t("legal.company")}: {companyName} ("Company," "we," "our," "us")
           </p>
         </div>
 
         <div className="legal-page-body">
           <p>
-            Rhythence Group is committed to protecting the privacy and personal
+            {shortName} is committed to protecting the privacy and personal
             information of all individuals who use our website and Services.
             This Privacy Policy explains how we collect, use, disclose, and
             safeguard personal information in compliance with the Personal
@@ -207,25 +225,27 @@ export function PrivacyPolicy() {
             protection.
           </p>
 
-          <div className="legal-page-contact-section">
-            <h3>10. Contact Us</h3>
-            <div className="legal-page-contact-info">
-              <p>
-                For privacy-related inquiries, corrections, or withdrawal of
-                consent, please contact:
-              </p>
-              <p>
-                <strong>Rhythence Group</strong>
-              </p>
-              <p>2795 Slough Street, Mississauga, ON L4T 1G2</p>
-              <p>info@godspeedxp.com</p>
-              <p>905-956-9525</p>
-              <p>
-                We will respond within a reasonable timeframe, in accordance
-                with Canadian privacy legislation.
-              </p>
+          {hasContact && (
+            <div className="legal-page-contact-section">
+              <h3>10. Contact Us</h3>
+              <div className="legal-page-contact-info">
+                <p>
+                  For privacy-related inquiries, corrections, or withdrawal of
+                  consent, please contact:
+                </p>
+                <p>
+                  <strong>{companyName}</strong>
+                </p>
+                {contactAddress && <p>{contactAddress}</p>}
+                {contactEmail && <p>{contactEmail}</p>}
+                {contactPhone && <p>{contactPhone}</p>}
+                <p>
+                  We will respond within a reasonable timeframe, in accordance
+                  with Canadian privacy legislation.
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           <h2>11. Updates to Privacy Policy</h2>
           <p>

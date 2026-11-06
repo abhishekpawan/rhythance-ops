@@ -153,6 +153,22 @@ export async function getEffectivePortalSettings(): Promise<
   );
 }
 
+/**
+ * Values of the settings marked `public`, for visitors who are not logged in
+ * (the legal pages). Nothing else is ever returned from here.
+ */
+export async function getPublicPortalSettings(): Promise<
+  Record<string, string>
+> {
+  const { rows } = await loadRows();
+  return Object.fromEntries(
+    PORTAL_SETTINGS.filter((def) => def.public).map((def) => [
+      def.key,
+      resolve(def, rows.get(def.key)).value,
+    ])
+  );
+}
+
 /** Value of one setting. Unknown keys throw (a typo should fail loudly). */
 export async function getPortalSetting(key: string): Promise<string> {
   const def = getPortalSettingDefinition(key);

@@ -5,6 +5,7 @@ import activityLogger from "../middleware/activityLogger.js";
 import {
   PortalSettingsError,
   getEffectivePortalSettings,
+  getPublicPortalSettings,
   getPortalSettingsSnapshot,
   setPortalSettings,
 } from "../services/portalSettings.js";
@@ -25,6 +26,19 @@ function sendError(res: Response, error: unknown) {
   console.error("Unexpected portal settings error:", error);
   return res.status(500).json({ error: "An unexpected error occurred." });
 }
+
+/**
+ * GET /api/portal-settings/public
+ * No login needed: only the settings marked `public` (company name and contact
+ * details shown on the Privacy Policy and Terms of Service).
+ */
+router.get("/public", async (_req: Request, res: Response) => {
+  try {
+    res.json({ values: await getPublicPortalSettings() });
+  } catch (error) {
+    sendError(res, error);
+  }
+});
 
 /**
  * GET /api/portal-settings
