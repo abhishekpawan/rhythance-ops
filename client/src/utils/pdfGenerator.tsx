@@ -8,7 +8,7 @@ import {
   pdf,
   Image,
 } from "@react-pdf/renderer";
-import godspeedLogo from "../assets/logos/allstaff-logo.png";
+import invoiceLogo from "../assets/brand/invoice.png";
 import { formatCalendarDate } from "./dateUtils";
 
 // Color scheme
@@ -644,7 +644,7 @@ const InvoicePDFDocument: React.FC<{ data: InvoiceData }> = ({ data }) => {
           <>
             <View style={styles.header}>
               <View style={styles.logoSection}>
-                <Image src={godspeedLogo} style={styles.logoPlaceholder} />
+                <Image src={invoiceLogo} style={styles.logoPlaceholder} />
               </View>
               <View style={styles.companyInfo}>
                 <Text style={styles.companyDetails}>

@@ -16,7 +16,7 @@ import { useLanguage } from "../../contexts/language/language-provider";
 import { ThemeToggle } from "../../components/theme-toggle";
 import { LanguageToggle } from "../../components/LanguageToggle";
 import { supabase } from "../../lib/supabaseClient";
-import godspeedLogo from "../../assets/logos/godspped-logo-fulllength.png";
+import consentLogo from "../../assets/brand/consent.png";
 import "../../styles/pages/ConsentPage.css";
 
 // Set worker path for react-pdf
@@ -528,7 +528,7 @@ export function ConsentPage() {
         <div className="ccp-header-content">
           <div className="ccp-logo">
             <img
-              src={godspeedLogo}
+              src={consentLogo}
               alt={t("app.name")}
               className="ccp-logo-image"
             />

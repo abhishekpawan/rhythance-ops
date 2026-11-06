@@ -13,7 +13,7 @@ import "../../styles/pages/Login.css";
 import "../../styles/components/form.css";
 import "../../styles/components/button.css";
 import "../../styles/components/phone-input.css";
-import rhythenceLogo from "../../assets/logos/rhythence-logo.png";
+import loginLogo from "../../assets/brand/login.png";
 import motionFalconLogo from "../../assets/logos/motion-falcon-logo.png";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -586,7 +586,7 @@ export function Signup() {
         <div className="brand-content">
           <div className="brand-logo">
             <img
-              src={rhythenceLogo}
+              src={loginLogo}
               alt={t("common.godspeedLogo")}
               className="godspeed-logo"
             />
