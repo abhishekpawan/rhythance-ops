@@ -9,9 +9,9 @@ Labels: **Owner** = needs a decision or action from the owner, not code. **Info*
 
 ## 1. Decisions and actions for the owner
 
-- [ ] **Turn on the jobseeker payroll cards for CanHire and GD Workforce.** Feature Flags page, flag `jobseeker_payroll_summary`, on the two portals' own pages. No deploy needed. (Owner)
-- [ ] **Confirm what "Gross Amount" means.** It is built as pay *before* deductions (regular + overtime + bonus). The client may mean the amount actually paid (`total_jobseeker_pay`); it is a one-line change. The test data used had no deductions, so "before deductions" has never been proven on real numbers. (Info)
-- [ ] **Public demo shows Motion Falcon text instead of Rhythence** (https://demo.rhythence.com). The public site's images are Rhythence but the brand name, tab title and logo alt text come from the demo's backend, which has no `public-main` build and shares the demo database. Options: (1) deploy a second backend from `public-main` on the same database (no code change), or (2) give the public demo its own database. The first visit also waits about 17 seconds while that backend wakes up. (Owner)
+- [x] **Turn on the jobseeker payroll cards for CanHire and GD Workforce.** Done Nov 6, 2026: the flag `jobseeker_payroll_summary` was switched on directly in both production databases, and both seed files now list it. Not yet looked at on the live portals (see section 4).
+- [x] **Confirm what "Gross Amount" means.** Done Nov 6, 2026: the client confirmed "gross is no deduction", which is how it is built (regular + overtime + bonus, before deductions). Checked on a demo jobseeker whose timesheet has a $25 deduction: the card shows $17,256.00, paid out was $17,231.00, a difference of exactly $25.
+- [ ] **Public demo shows Motion Falcon text instead of Rhythence** (https://demo.rhythence.com). The public site's images are Rhythence but the brand name, tab title and logo alt text come from the demo's backend, which has no `public-main` build and shares the demo database. Options: (1) deploy a second backend from `public-main` on the same database (no code change), or (2) give the public demo its own database. The first visit also waits about 17 seconds while that backend wakes up. Postponed by the owner on Nov 6, 2026 ("not important right now"). (Owner)
 
 ## 2. Portal settings: retire the environment-variable fallbacks
 
@@ -77,7 +77,9 @@ The browser test run (read-only on production, writes only on the demo database)
 - [ ] Envelope printing reports: compare CSV/print output with the screen (A4); the numbers on screen were verified.
 - [ ] Create an invoice through the wizard with the company fields cleared in Portal Settings (B5): code-checked only.
 - [ ] Training video playback on each portal; consent page logo and alt text; the French labels of the payroll cards on screen (they exist in the locale files).
-- [ ] Jobseeker dashboard and the dashboard subtitles on the live portals with the payroll flag off (the flag-off result was verified through the API).
+- [ ] Jobseeker dashboard and the dashboard subtitles on the live portals. The payroll flag is now **on** for CanHire and GD Workforce (look at the two cards there with a real jobseeker) and still **off** for AllStaff and Godspeed (no cards expected). Verified so far only through the API and on the demo, where the cards showed 205 hrs and $4,250.00 for the test data.
+- [ ] **Jobseeker "My Profile" link:** fixed and pushed to all six branches on Nov 6, 2026 (commit "My Profile opens the jobseeker's own profile"; the `/jobseekers/:id` route did not allow the jobseeker role, so the link bounced to the dashboard, as it had since April). After the deploys, log in as a jobseeker on each portal and confirm the profile opens. Not seen working yet.
+- [ ] **Remove the demo test data** created for the client screenshot on the demo database (the owner will say when): profile `7ba9d34e-45e8-47c4-ba77-d7593adbb47d` (account `abhishekpawan297@gmail.com`) with its 5 timesheets and 4 position assignments, consent record `e96b6d96-8a84-4344-8c5b-995f67db0313`, the `jobseeker_payroll_summary` row in the demo `feature_flags` (it was absent before), and on that login the two metadata flags `employment_agreement_signed` and `hasProfile`.
 - [ ] Minor: dates on the Portal Settings page stay English-style when the page is in French.
 
 ## 5. Security and permissions
