@@ -145,7 +145,7 @@ export const PORTAL_SETTINGS: ReadonlyArray<PortalSettingDefinition> = [
     label: "Brand name",
     description:
       "Short brand name used in headings, the browser tab title, dashboard subtitles, the AI chat and logo descriptions.",
-    defaultValue: "Motion Falcon",
+    defaultValue: "Rhythence",
     public: true,
   },
   {
