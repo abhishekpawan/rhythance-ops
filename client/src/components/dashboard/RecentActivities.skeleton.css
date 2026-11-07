@@ -1,0 +1,140 @@
+/* Skeleton Loading Styles for Recent Activities */
+.activity-skeleton {
+  pointer-events: none;
+  border-left-color: transparent !important;
+}
+
+.activity-icon-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  color: transparent;
+}
+
+.activity-icon-skeleton .skeleton-icon {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 3px;
+}
+
+.activity-message-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.activity-meta-skeleton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.skeleton-icon-small {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 50%;
+}
+
+.category-badge-skeleton {
+  border-radius: 3px;
+}
+
+.skeleton-text {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dark mode skeleton adjustments */
+.dark .activity-icon-skeleton {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+}
+
+.dark .activity-icon-skeleton .skeleton-icon {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+}
+
+.dark .skeleton-icon-small {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+}
+
+.dark .skeleton-text {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+}
+
+
+/* Connection status for loading state */
+.connection-status.connecting {
+  color: #6b7280;
+  background-color: #f3f4f6;
+}
+
+.dark .connection-status.connecting {
+  color: #9ca3af;
+  background-color: #374151;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .activities-header {
+    padding: 16px;
+  }
+
+  .activities-title {
+    font-size: 16px;
+  }
+
+  .activity-item {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .activity-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .activity-message {
+    font-size: 13px;
+  }
+
+  .activity-category {
+    top: 6px;
+    right: 6px;
+  }
+
+  .category-badge {
+    font-size: 8px;
+    padding: 1px 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .connection-status span {
+    display: none;
+  }
+
+  .activities-content {
+    max-height: 300px;
+  }
+}

@@ -1,4 +1,4 @@
-import { MetricData, GrowthData, FormattedMetric, HistoricalDataPoint, ChartDataPoint } from './types';
+import { MetricData, GrowthData, FormattedMetric, HistoricalDataPoint, ChartDataPoint, DailyDataPoint } from './types';
 
 /**
  * Format numbers based on type and value
@@ -11,6 +11,8 @@ export const formatValue = (
   if (isNaN(value) || value === null || value === undefined) {
     return '0';
   }
+  // "1 profile", "1 hr", not "1 profiles"
+  if (value === 1 && unit.endsWith('s')) unit = unit.slice(0, -1);
 
   switch (formatType) {
     case 'currency':
@@ -70,13 +72,16 @@ export const formatValue = (
 export const calculateGrowth = (
   currentValue: number, 
   previousValue: number,
-  periodComparison: string = 'vs last month'
+  periodComparison: string = 'vs previous 30 days'
 ): GrowthData => {
   if (previousValue === 0) {
+    // Nothing to compare against: a percentage of zero is undefined, so do not
+    // invent one (it used to show a fixed +100%). 0 -> 0 is simply no change.
     return {
-      value: currentValue > 0 ? 100 : 0,
-      isPositive: currentValue > 0,
-      trend: currentValue > 0 ? 'up' : 'stable',
+      value: 0,
+      isPositive: true,
+      trend: 'stable',
+      notApplicable: currentValue > 0,
       periodComparison,
     };
   }
@@ -105,6 +110,7 @@ export const calculateGrowth = (
  * Format growth percentage
  */
 export const formatGrowth = (growth: GrowthData): string => {
+  if (growth.notApplicable) return 'N/A';
   const text = growth.value.toFixed(1);
   // No change (0 of 0, or rounds to 0.0): show a plain 0.0% instead of "-0.0%".
   if (Number(text) === 0) return '0.0%';
@@ -116,27 +122,50 @@ export const formatGrowth = (growth: GrowthData): string => {
  * Process metric data for display
  */
 export const processMetricData = (data: MetricData): FormattedMetric => {
-  const growth = calculateGrowth(data.currentValue, data.previousValue);
+  // The trend is this month against last month (the chart's last two points).
+  // Cards without a monthly breakdown fall back to the headline value.
+  const growth = calculateGrowth(
+    data.currentPeriodValue ?? data.currentValue,
+    data.previousValue
+  );
   
   return {
     displayValue: formatValue(data.currentValue, data.formatType, data.unit),
     displayPrevious: formatValue(data.previousValue, data.formatType, data.unit),
+    displayCurrentPeriod: formatValue(
+      data.currentPeriodValue ?? data.currentValue,
+      data.formatType,
+      data.unit
+    ),
     growth,
     formattedGrowth: formatGrowth(growth),
   };
 };
 
+/** Browser locale for dates in the portal's language. */
+export const dateLocale = (language: string): string =>
+  language === 'fr' ? 'fr-CA' : 'en-US';
+
+const utcDate = (value: Date | string): Date =>
+  value instanceof Date ? value : new Date(value);
+
 /**
- * Transform historical data for chart consumption
+ * Monthly series for the 12-month chart. Months arrive as "YYYY-MM" (parsed to
+ * UTC midnight on the 1st), so every date here is read in UTC.
+ * Axis labels carry the year on the first point and on each January, so two
+ * "Nov" points can no longer be confused; the last point is the current month
+ * and is marked as still in progress.
  */
 export const transformToChartData = (
   historicalData: HistoricalDataPoint[],
-  timeRange?: string
+  timeRange?: string,
+  language: string = 'en'
 ): ChartDataPoint[] => {
-  // Filter data based on time range
   let filteredData = [...historicalData];
-  
+
   if (timeRange) {
+    // Cut off in UTC to match the UTC dates above; a local cutoff is later than
+    // that in Canada and silently drops the oldest month.
     const now = new Date();
     const monthsBack = {
       '1m': 1,
@@ -144,21 +173,60 @@ export const transformToChartData = (
       '6m': 6,
       '1y': 12,
     }[timeRange] || 12;
-    
-    const cutoffDate = new Date(now.getFullYear(), now.getMonth() - monthsBack, 1);
-    filteredData = historicalData.filter(point => point.date >= cutoffDate);
+
+    const cutoffDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - monthsBack, 1));
+    filteredData = historicalData.filter(point => utcDate(point.date) >= cutoffDate);
   }
 
-  // Sort by date
-  filteredData.sort((a, b) => a.date.getTime() - b.date.getTime());
+  filteredData.sort((a, b) => utcDate(a.date).getTime() - utcDate(b.date).getTime());
 
-  // Transform for chart
-  return filteredData.map(point => ({
-    period: point.period,
-    value: point.value,
-    label: point.label || point.period,
-    date: point.date,
-  }));
+  const locale = dateLocale(language);
+  const month = (d: Date) => d.toLocaleDateString(locale, { month: 'short', timeZone: 'UTC' });
+  const year = (d: Date) => String(d.getUTCFullYear()).slice(-2);
+
+  return filteredData.map((point, index) => {
+    const date = utcDate(point.date);
+    const showYear = index === 0 || date.getUTCMonth() === 0;
+    const isLast = index === filteredData.length - 1;
+    return {
+      period: point.period,
+      value: point.value,
+      label: point.label || point.period,
+      date,
+      tick: showYear ? `${month(date)} ’${year(date)}` : month(date),
+      title: date.toLocaleDateString(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' }),
+      inProgress: isLast,
+    };
+  });
+};
+
+/**
+ * Daily series for the 30-day chart: each day of the last 30 days, with the same
+ * day of the previous 30 days alongside (drawn as a dashed comparison line).
+ */
+export const transformDailyToChartData = (
+  dailyData: DailyDataPoint[],
+  language: string = 'en'
+): ChartDataPoint[] => {
+  const locale = dateLocale(language);
+  const parse = (key: string) => new Date(`${key}T00:00:00Z`);
+  const short = (d: Date) => d.toLocaleDateString(locale, { month: 'short', day: 'numeric', timeZone: 'UTC' });
+  const long = (d: Date) => d.toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+  return dailyData.map((point, index) => {
+    const date = parse(point.date);
+    const previousDate = new Date(date.getTime() - dailyData.length * 24 * 60 * 60 * 1000);
+    return {
+      period: point.date,
+      value: point.value,
+      previousValue: point.previousValue,
+      date,
+      tick: short(date),
+      title: long(date),
+      previousTitle: long(previousDate),
+      inProgress: index === dailyData.length - 1,
+    };
+  });
 };
 
 /**
@@ -181,160 +249,3 @@ export const getChartColor = (
       return '#3B82F6'; // blue
   }
 };
-
-/**
- * Generate gradient colors for area charts
- */
-export const generateGradient = (color: string, opacity: number = 0.3): string => {
-  // Convert hex to rgba for gradient
-  const hex = color.replace('#', '');
-  const r = parseInt(hex.substr(0, 2), 16);
-  const g = parseInt(hex.substr(2, 2), 16);
-  const b = parseInt(hex.substr(4, 2), 16);
-  
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-};
-
-/**
- * Calculate trend direction from historical data
- */
-export const calculateTrendFromHistory = (
-  historicalData: HistoricalDataPoint[]
-): 'up' | 'down' | 'stable' | 'unknown' => {
-  if (historicalData.length < 2) return 'unknown';
-  
-  const sortedData = [...historicalData].sort((a, b) => a.date.getTime() - b.date.getTime());
-  const recent = sortedData.slice(-3); // Last 3 data points
-  
-  if (recent.length < 2) return 'unknown';
-  
-  const firstValue = recent[0].value;
-  const lastValue = recent[recent.length - 1].value;
-  
-  const change = ((lastValue - firstValue) / firstValue) * 100;
-  
-  if (Math.abs(change) < 5) return 'stable';
-  return change > 0 ? 'up' : 'down';
-};
-
-/**
- * Debounce function for performance optimization
- */
-export const debounce = <T extends (...args: never[]) => void>(
-  func: T,
-  wait: number
-): ((...args: Parameters<T>) => void) => {
-  let timeout: ReturnType<typeof setTimeout>;
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-};
-
-/**
- * Generate mock historical data for testing
- */
-export const generateMockData = (
-  months: number = 12,
-  baseValue: number = 100,
-  trend: 'up' | 'down' | 'stable' = 'up'
-): HistoricalDataPoint[] => {
-  const data: HistoricalDataPoint[] = [];
-  const now = new Date();
-  
-  for (let i = months - 1; i >= 0; i--) {
-    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const period = date.toISOString().substr(0, 7); // YYYY-MM format
-    
-    let value = baseValue;
-    const progress = (months - i) / months; // 0 to 1
-    
-    if (trend === 'up') {
-      // Create an upward trend with more variation
-      value += progress * (baseValue * 0.5); // 50% growth over the period
-      value += Math.sin(progress * Math.PI * 2) * (baseValue * 0.15); // Add sine wave variation
-      value += (Math.random() - 0.5) * (baseValue * 0.3); // Add random variation (±30%)
-    } else if (trend === 'down') {
-      // Create a downward trend with variation
-      value -= progress * (baseValue * 0.3); // 30% decline over the period
-      value += Math.sin(progress * Math.PI * 2) * (baseValue * 0.1); // Add sine wave variation
-      value += (Math.random() - 0.5) * (baseValue * 0.2); // Add random variation (±20%)
-    } else {
-      // Stable with realistic fluctuations
-      value += Math.sin(progress * Math.PI * 3) * (baseValue * 0.1); // Multiple cycles
-      value += Math.cos(progress * Math.PI * 1.5) * (baseValue * 0.08); // Different frequency
-      value += (Math.random() - 0.5) * (baseValue * 0.25); // Add random variation (±25%)
-    }
-    
-    // Ensure value is reasonable and not negative
-    value = Math.max(baseValue * 0.1, Math.round(value));
-    
-    data.push({
-      period,
-      value,
-      date,
-      label: date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-    });
-  }
-  
-  return data;
-};
-
-/**
- * Generate pie chart data from historical data
- * Groups data by category or uses recent time periods
- */
-export const generatePieChartData = (
-  historicalData: HistoricalDataPoint[],
-  type: 'category' | 'time' = 'time',
-  maxSlices: number = 6
-): ChartDataPoint[] => {
-  if (!historicalData || historicalData.length === 0) {
-    return [];
-  }
-
-  if (type === 'time') {
-    // Use the most recent time periods
-    const sortedData = [...historicalData]
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, maxSlices)
-      .reverse();
-
-    return sortedData.map((point) => ({
-      period: point.period,
-      value: point.value,
-      label: point.label || point.period,
-      name: point.label || point.period,
-      date: typeof point.date === 'string' ? new Date(point.date) : point.date,
-    }));
-  }
-
-  // For category type, you can extend this based on your needs
-  return historicalData.slice(0, maxSlices).map((point) => ({
-    period: point.period,
-    value: point.value,
-    label: point.label || point.period,
-    name: point.label || point.period,
-    date: typeof point.date === 'string' ? new Date(point.date) : point.date,
-  }));
-};
-
-/**
- * Generate mock pie chart data for testing
- */
-export const generateMockPieData = (
-  categories: string[],
-  baseValue: number = 100
-): HistoricalDataPoint[] => {
-  return categories.map((category) => {
-    const variation = (Math.random() - 0.5) * 0.4; // ±20% variation
-    const value = Math.round(baseValue * (1 + variation));
-    
-    return {
-      period: category,
-      value: Math.max(1, value), // Ensure positive values
-      label: category,
-      date: new Date(),
-    };
-  });
-}; 

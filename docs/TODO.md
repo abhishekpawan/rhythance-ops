@@ -110,6 +110,5 @@ The browser test run (read-only on production, writes only on the demo database)
 - [ ] `server/src/utils/encryption.ts` is not imported anywhere, yet refuses to load without `ENCRYPTION_KEY`/`ENCRYPTION_IV`. Delete it or use it.
 - [ ] `server/src/routes/jobseekers.ts` registers a dead duplicate `/api/profile/check-email` route (the working one is in `profile.ts`).
 - [ ] Add `VITE_AI_CHAT_URL` to `client/.env.example`; replace the hard-coded chat addresses in `FloatingChat.tsx` (and the default in `GodspeedAIChat.tsx`) with environment values.
-- [ ] `MetricExamplePage.tsx` has no route or menu entry; delete it, and the `/metric-examples` mentions in `ProtectedRoute.tsx`.
 - [ ] Legacy role names `manager` and `accountant` are still normalised in several code paths; migrate the stored data and drop the aliases.
 - [ ] The `bulk_timesheets` table is unused by the app.

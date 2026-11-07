@@ -1,0 +1,32 @@
+/* Hover box of the metric charts: theme colours so it reads in light and dark mode */
+.metric-chart-tooltip {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-small);
+  line-height: 1.4;
+}
+
+.metric-chart-tooltip p {
+  margin: 0;
+}
+
+.metric-chart-tooltip-title {
+  font-weight: 600;
+}
+
+.metric-chart-tooltip-value {
+  margin-top: 2px !important;
+}
+
+.metric-chart-tooltip-previous {
+  color: var(--text-muted);
+  margin-top: 2px !important;
+}
+
+.metric-chart-tooltip-strong {
+  font-weight: 600;
+}

@@ -16,7 +16,8 @@ All files are in `client/src/contexts/language/locales/`.
 
 | File | Contents |
 | --- | --- |
-| `en.json`, `fr.json` | Core texts: navigation, authentication, dashboards, clients, positions, consent, legal pages, training, and so on |
+| `en.json`, `fr.json` | Core texts: navigation, authentication, dashboard subtitles, clients, positions, consent, legal pages, training, and so on |
+| `en/dashboard.json`, `fr/dashboard.json` | Admin and recruiter dashboards and the shared metric cards (`dashboard.*`) |
 | `en/timesheet.json`, `fr/timesheet.json` | All timesheet screens (single entry, both bulk flows, all-timesheets list) |
 | `en/reports.json`, `fr/reports.json` | Reports |
 | `en/profile.json`, `fr/profile.json` | Jobseeker profile forms |
@@ -28,6 +29,8 @@ All files are in `client/src/contexts/language/locales/`.
 
 `language-provider.tsx` imports every file and combines the module files into the core file with `mergeLocale` (a deep merge, `mergeLocales.ts`).
 **A new module file must be imported there for both languages**, otherwise its keys show up as "Translation missing".
+
+Moving a section out of the core files into its own module file is the plan for every module (the dashboard was the first, Nov 2026). Move the whole top-level section as text in both languages, register the file, and check that the merged result is unchanged: the deep merge means nothing else needs to change.
 
 ## Brand name inside texts
 

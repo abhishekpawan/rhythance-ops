@@ -17,6 +17,7 @@ import profileEn from "./locales/en/profile.json";
 import supportEn from "./locales/en/support.json";
 import featureFlagsEn from "./locales/en/featureFlags.json";
 import jobseekerDashboardEn from "./locales/en/jobseekerDashboard.json";
+import dashboardEn from "./locales/en/dashboard.json";
 import profileRulesEn from "./locales/en/profileRules.json";
 import portalSettingsEn from "./locales/en/portalSettings.json";
 import coreFr from "./locales/fr.json";
@@ -26,6 +27,7 @@ import profileFr from "./locales/fr/profile.json";
 import supportFr from "./locales/fr/support.json";
 import featureFlagsFr from "./locales/fr/featureFlags.json";
 import jobseekerDashboardFr from "./locales/fr/jobseekerDashboard.json";
+import dashboardFr from "./locales/fr/dashboard.json";
 import profileRulesFr from "./locales/fr/profileRules.json";
 import portalSettingsFr from "./locales/fr/portalSettings.json";
 import { mergeLocale } from "./mergeLocales";
@@ -54,6 +56,7 @@ const translations: Record<Language, Record<string, any>> = {
     supportEn,
     featureFlagsEn,
     jobseekerDashboardEn,
+    dashboardEn,
     profileRulesEn,
     portalSettingsEn
   ),
@@ -65,6 +68,7 @@ const translations: Record<Language, Record<string, any>> = {
     supportFr,
     featureFlagsFr,
     jobseekerDashboardFr,
+    dashboardFr,
     profileRulesFr,
     portalSettingsFr
   ),

@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { useTheme } from "../theme-provider";
 import { ChartDataPoint, ChartConfig } from "./types";
+import { CustomLineTooltip, CustomPieTooltip } from "./MetricChartTooltips";
 
 interface MetricChartProps {
   data: ChartDataPoint[];
@@ -22,58 +23,6 @@ interface MetricChartProps {
   height?: number;
   className?: string;
 }
-
-// Custom tooltip component for line charts
-interface LineTooltipProps {
-  active?: boolean;
-  payload?: Array<{ value: number }>;
-  label?: string;
-}
-
-const CustomLineTooltip: React.FC<LineTooltipProps> = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {label}
-        </p>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          Value:{" "}
-          <span className="font-semibold">
-            {payload[0].value.toLocaleString()}
-          </span>
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
-
-// Custom tooltip component for pie charts
-interface PieTooltipProps {
-  active?: boolean;
-  payload?: Array<{ name: string; value: number; payload: ChartDataPoint }>;
-}
-
-const CustomPieTooltip: React.FC<PieTooltipProps> = ({ active, payload }) => {
-  if (active && payload && payload.length) {
-    const data = payload[0];
-    return (
-      <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {data.name}
-        </p>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          Value:{" "}
-          <span className="font-semibold">
-            {data.value.toLocaleString()}
-          </span>
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
 
 // Color palette for pie charts
 const PIE_COLORS = [
@@ -104,8 +53,16 @@ const MetricChart: React.FC<MetricChartProps> = ({
     innerRadius = 0,
     outerRadius,
     showLabels = true,
-    showLegend = false
+    showLegend = false,
+    valueFormatter,
+    inProgressLabel,
+    seriesLabels,
   } = config;
+  const formatTooltipValue =
+    valueFormatter || ((value: number) => value.toLocaleString());
+  // A comparison series (previous period) is drawn when the points carry one.
+  const hasComparison = data.some((point) => point.previousValue !== undefined);
+  const PREVIOUS_COLOR = "#9CA3AF";
 
   // Use theme provider to detect current theme
   const { theme } = useTheme();
@@ -125,7 +82,7 @@ const MetricChart: React.FC<MetricChartProps> = ({
   // Prepare data for charts
   const chartData = data.map((point, index) => ({
     ...point,
-    name: point.label || point.period,
+    name: point.tick || point.label || point.period,
     fill: point.fill || PIE_COLORS[index % PIE_COLORS.length],
   }));
 
@@ -139,11 +96,10 @@ const MetricChart: React.FC<MetricChartProps> = ({
     return value.toString();
   };
 
-  // Format X-axis values for better readability
-  const formatXAxisTick = (value: string) => {
-    // For month-year format like "Jan 2024", return just "Jan"
-    return value.split(" ")[0];
-  };
+  // Axis labels come ready-made from the data (tick); only fall back to
+  // trimming "Jan 2024" to "Jan" for data without one.
+  const formatXAxisTick = (value: string) =>
+    data.some((point) => point.tick) ? value : value.split(" ")[0];
 
   // Render pie chart label
   const renderPieLabel = (entry: ChartDataPoint) => {
@@ -210,7 +166,8 @@ const MetricChart: React.FC<MetricChartProps> = ({
               tickLine={{ stroke: themeColors.axis }}
               axisLine={{ stroke: themeColors.axis }}
               tickFormatter={formatXAxisTick}
-              interval={0}
+              // 30 daily points cannot all carry a label; show about one a week.
+              interval={chartData.length > 16 ? 6 : 0}
             />
             <YAxis
               tick={{
@@ -223,18 +180,79 @@ const MetricChart: React.FC<MetricChartProps> = ({
               tickFormatter={formatYAxisTick}
               width={40}
             />
-            <Tooltip content={<CustomLineTooltip />} />
+            <Tooltip
+              content={
+                <CustomLineTooltip
+                  format={formatTooltipValue}
+                  inProgressLabel={inProgressLabel}
+                  color={color}
+                />
+              }
+            />
+            {hasComparison && seriesLabels && (
+              <Legend
+                verticalAlign="top"
+                height={24}
+                // Current period first, then the dashed previous period.
+                payload={[
+                  { id: "value", value: seriesLabels.current, type: "line", color },
+                  {
+                    id: "previousValue",
+                    value: seriesLabels.previous,
+                    type: "plainline",
+                    color: PREVIOUS_COLOR,
+                    payload: { strokeDasharray: "5 4" },
+                  },
+                ]}
+                wrapperStyle={{
+                  fontSize: "12px",
+                  color: themeColors.text,
+                  fontFamily: "var(--font-family)",
+                }}
+              />
+            )}
+            {hasComparison && (
+              <Line
+                type="monotone"
+                dataKey="previousValue"
+                name={seriesLabels?.previous}
+                stroke={PREVIOUS_COLOR}
+                strokeWidth={1.5}
+                strokeDasharray="5 4"
+                dot={false}
+                activeDot={{ r: 3, fill: PREVIOUS_COLOR, stroke: PREVIOUS_COLOR }}
+                animationDuration={animate ? 1000 : 0}
+              />
+            )}
             <Line
               type="monotone"
               dataKey="value"
+              name={seriesLabels?.current}
               stroke={color}
               strokeWidth={2.5}
-              dot={{
-                fill: color,
-                strokeWidth: 2,
-                r: 3,
-                fillOpacity: 0.8,
-              }}
+              // Daily series: no dots (30 of them would clutter). Monthly: a dot per
+              // month, hollow on the month still in progress.
+              dot={
+                hasComparison
+                  ? false
+                  : (props: { cx?: number; cy?: number; index?: number }) => {
+                      const { cx, cy, index = 0 } = props;
+                      if (cx === undefined || cy === undefined) return <g key={index} />;
+                      const inProgress = chartData[index]?.inProgress;
+                      return (
+                        <circle
+                          key={index}
+                          cx={cx}
+                          cy={cy}
+                          r={3}
+                          stroke={color}
+                          strokeWidth={2}
+                          fill={inProgress ? "white" : color}
+                          fillOpacity={inProgress ? 1 : 0.8}
+                        />
+                      );
+                    }
+              }
               activeDot={{
                 r: 5,
                 stroke: color,

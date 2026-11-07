@@ -1,14 +1,19 @@
 import React, { useState, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Minus, BarChart3, AlertCircle, RotateCcw } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, BarChart3 } from "lucide-react";
 import MetricChart from "./MetricChart";
 import {
-  processMetricData,
-  transformToChartData,
-  getChartColor,
-} from "./utils";
-import type { MetricData, ChartConfig, FormattedMetric } from "./types";
+  MetricCardError,
+  MetricCardSkeleton,
+  MetricRangeToggle,
+} from "./MetricCardParts";
+import { processMetricData } from "./utils";
+import { useMetricCardChart } from "./useMetricCardChart";
+import { useLanguage } from "../../contexts/language/language-provider";
+import type { MetricData, FormattedMetric } from "./types";
 import "./MetricCard.css";
+import "./MetricCard.growth.css";
+import "./MetricCard.states.css";
 import { useNavigate } from "react-router-dom";
 
 export interface MetricCardProps {
@@ -45,32 +50,14 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const [graphVisible, setGraphVisible] = useState(showGraph);
   const cardRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const processedData: FormattedMetric = useMemo(() => {
     return processMetricData(data);
   }, [data]);
 
-  const chartData = useMemo(() => {
-    if (!data.historicalData || data.historicalData.length === 0) return [];
-    return transformToChartData(data.historicalData, timeRange);
-  }, [data.historicalData, timeRange]);
-
-  const chartConfig: ChartConfig = useMemo(
-    () => ({
-      type: graphType,
-      color: data.color || getChartColor(processedData.growth.trend),
-      showGrid: true,
-      showAxes: false,
-      animate: true,
-    }),
-    [graphType, data.color, processedData.growth.trend]
-  );
-
-  // Check if historical data has any non-zero values
-  const hasValidHistoricalData = useMemo(() => {
-    if (!data.historicalData || data.historicalData.length === 0) return false;
-    return data.historicalData.some(point => point.value > 0);
-  }, [data.historicalData]);
+  const { hasDaily, activeRange, setRange, chartData, chartConfig, hasValidHistoricalData } =
+    useMetricCardChart(data, graphType, timeRange, processedData.growth.trend);
 
   const handleToggleGraph = () => {
     const newState = !graphVisible;
@@ -111,84 +98,18 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 
   if (error) {
     return (
-      <div className={`metric-card-error size-${size} ${className}`}>
-        {/* Header */}
-        <div className="metric-card-header">
-          <div className="metric-card-info">
-            <div className="metric-card-icon error-icon">
-              <AlertCircle size={20} />
-            </div>
-            <div className="metric-card-title-section">
-              <h3 className={`metric-card-title size-${size}`}>{data.label || 'Metric'}</h3>
-              <p className={`metric-card-description size-${size}`}>
-                Failed to load data
-              </p>
-            </div>
-          </div>
-          {onRetry && (
-            <div className="metric-card-controls">
-              <button
-                className="retry-button"
-                onClick={onRetry}
-                title="Retry loading data"
-              >
-                <RotateCcw size={16} />
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Error Message */}
-        <div className="metric-card-content">
-          <div className="metric-card-error-content">
-            <div className="metric-card-error-message">
-              <p className={`metric-card-error-text size-${size}`}>
-                {error}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MetricCardError
+        label={data.label}
+        error={error}
+        size={size}
+        className={className}
+        onRetry={onRetry}
+      />
     );
   }
 
   if (loading) {
-    return (
-      <div className={`metric-card-skeleton size-${size} ${className}`}>
-        {/* Header Skeleton */}
-        <div className="metric-card-header">
-          <div className="metric-card-info">
-            <div className="skeleton-icon metric-card-icon-skeleton"></div>
-            <div className="metric-card-title-section">
-              <div className="skeleton-text skeleton-title"></div>
-              <div className="skeleton-text skeleton-description"></div>
-            </div>
-          </div>
-          <div className="metric-card-controls">
-            <div className="skeleton-icon skeleton-chart-toggle"></div>
-          </div>
-        </div>
-
-        {/* Content Skeleton */}
-        <div className="metric-card-content">
-          <div className="metric-card-value-section">
-            {/* Growth Section Skeleton */}
-            <div className="metric-card-growth-section">
-              <div className="skeleton-growth-badge">
-                <div className="skeleton-icon skeleton-growth-icon"></div>
-                <div className="skeleton-text skeleton-growth-text"></div>
-              </div>
-              <div className="skeleton-text skeleton-period-comparison"></div>
-            </div>
-
-            {/* Main Value Skeleton */}
-            <div className="metric-card-value-container">
-              <div className="skeleton-text skeleton-value"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <MetricCardSkeleton size={size} className={className} />;
   }
 
   const cardClasses = [
@@ -286,7 +207,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
                 </span>
               </div>
               <span className={`metric-card-period-comparison size-${size}`}>
-                {processedData.growth.periodComparison}
+                {t("dashboard.metricVsPrevious30Days")}
               </span>
             </div>
           )}
@@ -298,14 +219,19 @@ export const MetricCard: React.FC<MetricCardProps> = ({
             </h2>
           </div>
 
-          {/* Previous Value */}
+          {/* The badge above is the last 30 days against the 30 days before */}
           <p className={`metric-card-previous size-${size} ${
-            data.previousValue !== undefined && data.previousValue !== 0 ? '' : 'invisible'
+            data.currentPeriodValue !== undefined || data.previousValue ? '' : 'invisible'
           }`}>
-            {data.previousValue !== undefined && data.previousValue !== 0 
-              ? `Previous Month: ${processedData.displayPrevious}`
-              : 'Previous Month: --'
-            }
+            {data.currentPeriodValue !== undefined && (
+              <span style={{ display: 'block' }}>
+                {t("dashboard.metricLast30Days")}: {processedData.displayCurrentPeriod}
+              </span>
+            )}
+            <span style={{ display: 'block' }}>
+              {t("dashboard.metricPrevious30Days")}:{" "}
+              {data.previousValue ? processedData.displayPrevious : '--'}
+            </span>
           </p>
         </div>
 
@@ -319,6 +245,16 @@ export const MetricCard: React.FC<MetricCardProps> = ({
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
             >
+              {hasDaily && (
+                <MetricRangeToggle
+                  value={activeRange}
+                  onChange={setRange}
+                  labels={{
+                    "30d": t("dashboard.metricRange30Days"),
+                    "12m": t("dashboard.metricRange12Months"),
+                  }}
+                />
+              )}
               <div className="metric-card-chart-wrapper">
                 <MetricChart
                   data={chartData}

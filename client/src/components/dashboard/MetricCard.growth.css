@@ -1,0 +1,276 @@
+/* Growth Information */
+.metric-card-growth-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-2);
+}
+
+.metric-card-growth-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: 15px;
+  font-weight: var(--font-weight-medium);
+  animation: growthPulse 2s infinite;
+}
+
+@keyframes growthPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.metric-card-growth-badge.positive {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.metric-card-growth-badge.negative {
+  background: var(--failure-bg);
+  color: var(--failure);
+  border: 1px solid var(--failure);
+}
+
+.metric-card-growth-badge.neutral {
+  background: var(--pending-bg);
+  color: var(--pending);
+  border: 1px solid var(--pending);
+}
+
+.metric-card-growth-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.metric-card-growth-text {
+  font-size: var(--font-size-tiny);
+}
+
+.metric-card-growth-text.size-md {
+  font-size: var(--font-size-small);
+}
+
+.metric-card-growth-text.size-lg {
+  font-size: var(--font-size-body);
+}
+
+.metric-card-period-comparison {
+  color: var(--text-muted);
+}
+
+.metric-card-period-comparison.size-sm {
+  font-size: var(--font-size-tiny);
+}
+
+.metric-card-period-comparison.size-md {
+  font-size: var(--font-size-small);
+}
+
+.metric-card-period-comparison.size-lg {
+  font-size: var(--font-size-body);
+}
+
+/* Previous Value */
+.metric-card-previous {
+  color: var(--text-muted);
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-tiny);
+}
+
+.metric-card-previous.size-md {
+  font-size: var(--font-size-small);
+}
+
+.metric-card-previous.size-lg {
+  font-size: var(--font-size-body);
+}
+
+/* Utility class for invisible but space-preserving elements */
+.metric-card-previous.invisible {
+  visibility: hidden;
+}
+
+/* 30 days / 12 months switch above the chart */
+.metric-range-toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  margin-bottom: var(--spacing-2);
+  background: var(--border);
+  border-radius: var(--border-radius);
+}
+
+.metric-range-toggle button {
+  padding: 2px var(--spacing-3);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--font-size-tiny);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.metric-range-toggle button.active {
+  background: var(--background, #fff);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Chart Container */
+.metric-card-chart-container {
+  margin-top: var(--spacing-4);
+  animation: chartSlideIn 0.3s ease-out;
+}
+
+.metric-card-chart-container.horizontal {
+  flex: 1;
+  margin-left: var(--spacing-6);
+  margin-top: 0;
+}
+
+@keyframes chartSlideIn {
+  from {
+    opacity: 0;
+    height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    height: auto;
+    transform: translateY(0);
+  }
+}
+
+.metric-card-chart-wrapper {
+  background: var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-2) 0;
+  position: relative;
+  overflow: hidden;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loading State */
+.metric-card.loading {
+  pointer-events: none;
+}
+
+/* Error State */
+.metric-card-error {
+  background: var(--card);
+  border: 1px solid var(--failure);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card-error.size-sm {
+  padding: var(--spacing-4);
+}
+
+.metric-card-error.size-md {
+  padding: var(--spacing-6);
+}
+
+.metric-card-error.size-lg {
+  padding: var(--spacing-8);
+}
+
+.metric-card-error .metric-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+}
+
+.metric-card-error .metric-card-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex: 1;
+}
+
+.metric-card-error .metric-card-title-section {
+  flex: 1;
+}
+
+.metric-card-error .metric-card-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  background: var(--failure-bg);
+  color: var(--failure);
+  border: 1px solid var(--failure);
+}
+
+.retry-button {
+  padding: var(--spacing-2);
+  border: 1px solid var(--failure);
+  background: var(--failure-bg);
+  color: var(--failure);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.retry-button:hover {
+  background: var(--failure);
+  color: var(--card);
+}
+
+.metric-card-error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: var(--spacing-4);
+  background: var(--failure-bg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--failure);
+}
+
+.metric-card-error-message {
+  text-align: center;
+}
+
+.metric-card-error-text {
+  color: var(--failure);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+}
+
+.metric-card-error-text.size-sm {
+  font-size: var(--font-size-small);
+}
+
+.metric-card-error-text.size-md {
+  font-size: var(--font-size-body);
+}
+
+.metric-card-error-text.size-lg {
+  font-size: var(--font-size-subheader);
+}

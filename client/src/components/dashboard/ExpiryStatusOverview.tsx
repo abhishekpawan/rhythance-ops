@@ -15,6 +15,7 @@ import {
 } from "../../services/api/jobseekerMetrics";
 import { useLanguage } from "../../contexts/language/language-provider";
 import "./ExpiryStatusOverview.css";
+import "./ExpiryStatusOverview.footer.css";
 
 interface ExpiryStatusCardProps {
   title: string;

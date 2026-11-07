@@ -72,7 +72,7 @@ _Module layout (May 2026):_ Client code lives under `client/src/pages/TimesheetM
 **Reports & Analytics**
 - Reports hub: Dedicated reports area links to timesheet, margin, invoice, deduction, rate list, clients, sales, and envelope-printing reports. Access: admin, bookkeeper, accountant manager, recruiter director. Status: **Fully working**.
 - CSV export/filtering: Report pages support filters and export utilities. Access: report roles. Status: **Fully working**.
-- Operational metrics: Dashboards pull recruiter, client, position, timesheet, invoice, jobseeker, and AI metrics. Access: dashboard roles. Status: **Fully working**, except the AI monthly chart (below). *(Nov 2026)*
+- Operational metrics: Dashboards pull recruiter, client, position, timesheet, invoice, jobseeker, and AI metrics. Access: dashboard roles. Every card shows a running total over all time as its headline; the trend (like YouTube Studio) compares the last 30 days with the 30 days before (whole Toronto days), and the chart shows those same 30 days day by day with the previous 30 days dashed behind them, or 12 calendar months with the current month marked as in progress. All of it is calculated in `server/src/utils/metricMonths.ts` (Toronto calendar months, paged reads past Supabase's 1000-row cap). Verification-status cards are approximate (no status history is kept), and "Total Documents Scanned" has no history (`ai_validation` has no `created_at`), so its trend shows N/A. Status: **Fully working**, except the AI monthly chart (below). *(Nov 2026)*
 - AI insights analytics: Counts AI validation records and position capacity. Access: internal dashboards. Status: **Partially built**; server contains a TODO about missing/unused historical `created_at` logic.
 
 **Digital Consent & Compliance**
@@ -98,7 +98,6 @@ _Module layout (May 2026):_ Client code lives under `client/src/pages/TimesheetM
 - Role dashboards: App routes users to admin, recruiter, or jobseeker dashboard variants. Access: respective roles. Status: **Fully working**, except metrics caveats.
 - Recent activity feed: Server logs activities and client subscribes to realtime activity updates. Access: dashboard/internal views. Status: **Fully working**.
 - Jobseeker dashboard metrics: Jobseekers see their own profile/position data; `GET /api/metrics/jobseekers/:candidateId` allows `jobseeker` but returns 403 unless the id is the caller's own (admins and recruiters can read anyone). Optional payroll cards ("Total No. Hours", "Gross Amount") appear only when the `jobseeker_payroll_summary` flag is on, and the API withholds the numbers when it is off. Access: jobseeker. Status: **Fully working**. *(Nov 2026)*
-- Metrics example page: `MetricExamplePage.tsx` still exists but has no route or menu entry. Status: **Scaffolded/stubbed**. *(Nov 2026)*
 
 **Calendar**
 - Calendar events: Calendar displays position and assignment-based events with day/month views. Access: internal staff roles. Status: **Fully working**.
@@ -137,7 +136,7 @@ _Module layout (May 2026):_ Client code lives under `client/src/pages/TimesheetM
 - **Bug/permission mismatch:** Consent request creation UI allows several roles, but the backend uses `requireSuperAdmin`; many users may see the UI and fail on submit.
 - **Bug/permission mismatch:** Dropdown option management UI allows manager/director roles, but backend write routes appear admin-only.
 - **Bug/permission mismatch:** Internal user invite/resend UI allows manager/director roles, but backend invite routes appear admin-only.
-- **UI without active backend/use:** Training completion/progress, the metrics example page, and calendar filters are present but not wired.
+- **UI without active backend/use:** Training completion/progress and calendar filters are present but not wired.
 - **Commented out/scaffolded:** Floating AI chat widget (still commented out in `App.tsx`; its chat address is hard-coded), calendar filter UI, and several "coming soon" training modules.
 - **Security concern if re-enabled:** Floating AI chat renders markdown with `dangerouslySetInnerHTML` and sanitization disabled; it is currently inactive.
 - **Maintainability concern:** Debug `console.log` calls remain in `AppHeader.tsx`. `server/src/utils/encryption.ts` is not imported anywhere yet throws at load without `ENCRYPTION_KEY`/`ENCRYPTION_IV`. `RATE_LIMIT_*` variables in `server/.env.example` are not read by any code, and `VITE_AI_CHAT_URL` is missing from `client/.env.example`.

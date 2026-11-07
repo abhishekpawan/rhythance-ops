@@ -1,4 +1,5 @@
 import { formatMonthName } from "../utils/dateUtils.js";
+import { dayKeyOf, monthKeyOf, shiftDay, shiftMonth } from "../utils/metricMonths.js";
 
 /**
  * Payroll totals shown on the Jobseeker dashboard ("Total No. Hours" and
@@ -33,9 +34,11 @@ export interface PayrollMonth {
 export interface PayrollSummary {
   totalHours: number;
   grossAmount: number;
-  /** Totals as they stood at the end of last month (for the "vs last month" trend). */
-  previousTotalHours: number;
-  previousGrossAmount: number;
+  /** Last 30 days, and the 30 days before that (for the trend). */
+  recentHours: number;
+  recentGross: number;
+  priorHours: number;
+  priorGross: number;
   /** Oldest to newest, last `monthsBack` months plus the current one. */
   monthly: PayrollMonth[];
 }
@@ -97,28 +100,30 @@ export function grossForTimesheet(row: PayrollTimesheetRow): number {
   return regularPay + overtimePay + num(row.bonus_amount);
 }
 
-function monthKey(year: number, monthIndex: number): string {
-  const date = new Date(year, monthIndex, 1);
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-}
-
 export function summarizePayroll(
   rows: PayrollTimesheetRow[],
   now: Date = new Date(),
   monthsBack = 12
 ): PayrollSummary {
-  const currentMonth = monthKey(now.getFullYear(), now.getMonth());
+  // Toronto calendar months, not the server machine's timezone.
+  const currentMonth = monthKeyOf(now);
 
   const buckets = new Map<string, PayrollMonth>();
   for (let i = monthsBack; i >= 0; i--) {
-    const key = monthKey(now.getFullYear(), now.getMonth() - i);
+    const key = shiftMonth(currentMonth, -i);
     buckets.set(key, { month: key, hours: 0, gross: 0 });
   }
 
   let totalHours = 0;
   let grossAmount = 0;
-  let previousTotalHours = 0;
-  let previousGrossAmount = 0;
+  let recentHours = 0;
+  let recentGross = 0;
+  let priorHours = 0;
+  let priorGross = 0;
+  // Same whole-day windows as every other card (see utils/metricMonths.ts).
+  const today = dayKeyOf(now);
+  const recentStart = shiftDay(today, -29);
+  const priorStart = shiftDay(today, -59);
 
   for (const row of rows) {
     const hours = hoursForTimesheet(row);
@@ -128,10 +133,14 @@ export function summarizePayroll(
     totalHours += hours;
     grossAmount += gross;
 
-    // Everything before this month counts towards "last month's total".
-    if (!key || key < currentMonth) {
-      previousTotalHours += hours;
-      previousGrossAmount += gross;
+    // Trend windows, by the week-ending date: last 30 days vs the 30 days before.
+    const day = dayKeyOf(row.week_end_date ? String(row.week_end_date) : null);
+    if (day >= recentStart && day <= today) {
+      recentHours += hours;
+      recentGross += gross;
+    } else if (day >= priorStart && day < recentStart) {
+      priorHours += hours;
+      priorGross += gross;
     }
 
     const bucket = buckets.get(key);
@@ -144,8 +153,10 @@ export function summarizePayroll(
   return {
     totalHours: round2(totalHours),
     grossAmount: round2(grossAmount),
-    previousTotalHours: round2(previousTotalHours),
-    previousGrossAmount: round2(previousGrossAmount),
+    recentHours: round2(recentHours),
+    recentGross: round2(recentGross),
+    priorHours: round2(priorHours),
+    priorGross: round2(priorGross),
     monthly: [...buckets.values()].map((bucket) => ({
       month: bucket.month,
       hours: round2(bucket.hours),
@@ -157,7 +168,11 @@ export function summarizePayroll(
 export interface DashboardMetric {
   id: string;
   label: string;
+  /** Running total (the headline number). */
   currentValue: number;
+  /** Added in the last 30 days; previousValue is the 30 days before. The trend compares these. */
+  currentPeriodValue?: number;
+  dailyData?: Array<{ date: string; value: number; previousValue: number }>;
   previousValue: number;
   unit: string;
   formatType: string;
@@ -183,7 +198,8 @@ export function buildPayrollMetrics(
       id: "total_hours",
       label: "Total No. Hours",
       currentValue: summary.totalHours,
-      previousValue: summary.previousTotalHours,
+      currentPeriodValue: summary.recentHours,
+      previousValue: summary.priorHours,
       unit: "hrs",
       formatType: "decimal",
       description:
@@ -194,7 +210,8 @@ export function buildPayrollMetrics(
       id: "gross_amount",
       label: "Gross Amount",
       currentValue: summary.grossAmount,
-      previousValue: summary.previousGrossAmount,
+      currentPeriodValue: summary.recentGross,
+      previousValue: summary.priorGross,
       unit: "CAD",
       formatType: "currency_precise",
       description:

@@ -1,0 +1,242 @@
+/* Skeleton header */
+.metric-card-skeleton {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card-skeleton.size-sm {
+  padding: var(--spacing-4);
+}
+
+.metric-card-skeleton.size-md {
+  padding: var(--spacing-6);
+}
+
+.metric-card-skeleton.size-lg {
+  padding: var(--spacing-8);
+}
+
+/* Skeleton header */
+.metric-card-skeleton .metric-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+}
+
+.metric-card-skeleton .metric-card-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex: 1;
+}
+
+.metric-card-skeleton .metric-card-title-section {
+  flex: 1;
+}
+
+.metric-card-skeleton .metric-card-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* Skeleton content */
+.metric-card-skeleton .metric-card-content {
+  /* Inherits default layout */
+}
+
+.metric-card-skeleton .metric-card-value-section {
+  margin-bottom: var(--spacing-3);
+}
+
+.metric-card-skeleton .metric-card-growth-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-2);
+}
+
+.metric-card-skeleton .metric-card-value-container {
+  margin-bottom: var(--spacing-3);
+}
+
+/* Base skeleton styles */
+.skeleton-text {
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--input-bg) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-icon {
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--input-bg) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--border-radius);
+}
+
+/* Specific skeleton elements */
+.metric-card-icon-skeleton {
+  width: 40px;
+  height: 40px;
+}
+
+.skeleton-title {
+  height: 16px;
+  width: 70%;
+  margin-bottom: var(--spacing-1);
+}
+
+.skeleton-description {
+  height: 12px;
+  width: 50%;
+}
+
+.skeleton-chart-toggle {
+  width: 32px;
+  height: 32px;
+}
+
+.skeleton-growth-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--border);
+  border-radius: 15px;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-growth-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.skeleton-growth-text {
+  height: 12px;
+  width: 40px;
+}
+
+.skeleton-period-comparison {
+  height: 12px;
+  width: 60px;
+}
+
+.skeleton-value {
+  height: 32px;
+  width: 80px;
+}
+
+/* Size variants for skeleton elements */
+.metric-card-skeleton.size-sm .skeleton-title {
+  height: 14px;
+}
+
+.metric-card-skeleton.size-sm .skeleton-value {
+  height: 24px;
+}
+
+.metric-card-skeleton.size-sm .skeleton-growth-text {
+  width: 35px;
+}
+
+.metric-card-skeleton.size-lg .skeleton-title {
+  height: 18px;
+  width: 75%;
+}
+
+.metric-card-skeleton.size-lg .skeleton-value {
+  height: 40px;
+  width: 100px;
+}
+
+.metric-card-skeleton.size-lg .skeleton-growth-text {
+  width: 50px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dark mode skeleton adjustments */
+.dark .skeleton-text,
+.dark .skeleton-icon {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+}
+
+.dark .skeleton-growth-badge {
+  background: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .metric-card-header {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: flex-start;
+  }
+
+  .metric-card-controls {
+    align-self: flex-end;
+  }
+
+  .metric-card-content.horizontal {
+    flex-direction: column;
+  }
+
+  .metric-card-chart-container.horizontal {
+    margin-left: 0;
+    margin-top: var(--spacing-4);
+  }
+
+  .metric-card-targets {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .metric-card-growth-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-card-value.size-sm {
+    font-size: 20px;
+  }
+
+  .metric-card-value.size-md {
+    font-size: 28px;
+  }
+
+  .metric-card-value.size-lg {
+    font-size: 32px;
+  }
+
+  .time-range-selector {
+    flex-wrap: wrap;
+  }
+}

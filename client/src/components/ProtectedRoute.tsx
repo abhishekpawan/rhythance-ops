@@ -71,7 +71,6 @@ export const ProtectedRoute = () => {
     else if (profileVerificationStatus === "pending") {
       // Allow access to utility routes even when pending
       const utilityRoutes = [
-        "/metric-examples",
         "/training-modules"
       ];
       
@@ -87,7 +86,6 @@ export const ProtectedRoute = () => {
     else if (profileVerificationStatus === "rejected") {
       // Allow access to utility routes even when rejected
       const utilityRoutes = [
-        "/metric-examples",
         "/training-modules"
       ];
       

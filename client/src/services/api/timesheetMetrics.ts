@@ -6,6 +6,8 @@ export interface TimesheetMetric {
   id: string;
   label: string;
   currentValue: number;
+  currentPeriodValue?: number;
+  dailyData?: Array<{ date: string; value: number; previousValue: number }>;
   previousValue: number;
   unit: string;
   formatType: string;

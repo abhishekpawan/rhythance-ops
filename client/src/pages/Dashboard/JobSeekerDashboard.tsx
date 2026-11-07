@@ -14,7 +14,7 @@ import "../../styles/pages/Dashboard.css";
 import { AppHeader } from "../../components/AppHeader";
 import { UserRoleBadges } from "../../components/dashboard/UserRoleBadges";
 import { ProfileCompletion } from "../../components/dashboard/ProfileCompletion";
-import { MetricCard } from "../../components/dashboard/MetricCard";
+import { MetricGrid } from "./shared/DashboardWidgets";
 import { getJobseekerMetrics } from "../../services/api/jobseekerMetrics";
 import { MetricData } from "../../components/dashboard/types";
 import { useNavigate } from "react-router-dom";
@@ -30,73 +30,6 @@ interface UserData {
   createdAt: string;
   lastSignIn: string;
   profileId?: string;
-}
-
-// Add MetricGrid for jobseeker dashboard
-interface MetricGridProps {
-  metricsData: MetricData[];
-  expandedGraphs: Set<string>;
-  onMetricClick: (metric: MetricData) => void;
-  onToggleGraph: (show: boolean, metricId?: string) => void;
-  onRetry: () => void;
-  gridSize: number;
-  size?: "sm" | "md" | "lg";
-  className?: string;
-  redirectToValue?: string;
-  loading: boolean;
-  error: string | null;
-}
-
-function MetricGrid({
-  metricsData,
-  expandedGraphs,
-  onMetricClick,
-  onToggleGraph,
-  onRetry,
-  gridSize,
-  size = "sm",
-  className = "",
-  redirectToValue,
-  loading,
-  error,
-}: MetricGridProps) {
-  return (
-    <div className={`metrics-grid compact ${className}`}>
-      {Array.from({ length: gridSize }, (_, index) => {
-        const metric = metricsData[index];
-        const isExpanded = metric ? expandedGraphs.has(metric.id) : false;
-        return (
-          <div
-            key={metric?.id || `loading-${index}`}
-            className={`metric-card-container ${isExpanded ? "expanded-grid-item" : ""}`}
-          >
-            <MetricCard
-              data={
-                metric || {
-                  id: `loading-${index}`,
-                  label: "",
-                  currentValue: 0,
-                  previousValue: 0,
-                  historicalData: [],
-                }
-              }
-              size={size}
-              showGraph={false}
-              onClick={metric ? () => onMetricClick(metric) : undefined}
-              onToggleGraph={
-                metric ? (show) => onToggleGraph(show, metric.id) : undefined
-              }
-              loading={loading || !metric}
-              error={error}
-              onRetry={onRetry}
-              className={`metric-transition-${index}`}
-              redirectTo={metric?.redirectTo || redirectToValue}
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
 }
 
 export function JobSeekerDashboard() {
@@ -168,6 +101,8 @@ export function JobSeekerDashboard() {
         id: string;
         label: string;
         currentValue: number;
+        currentPeriodValue?: number;
+        dailyData?: Array<{ date: string; value: number; previousValue: number }>;
         previousValue: number;
         unit: string;
         formatType: string;
@@ -206,6 +141,8 @@ export function JobSeekerDashboard() {
             ? t(`jobseekerDashboard.metrics.${metric.id}`)
             : metric.label,
           currentValue: metric.currentValue,
+          currentPeriodValue: metric.currentPeriodValue,
+          dailyData: metric.dailyData,
           previousValue: metric.previousValue,
           unit: metric.unit,
           formatType: metric.formatType as
@@ -294,15 +231,17 @@ export function JobSeekerDashboard() {
         <div className="dashboard-grid">
           {/* Metrics Cards - 2x2 Grid with Individual Expansion */}
           <MetricGrid
-            metricsData={metricsData}
+            metricsState={{
+              data: metricsData,
+              loading: metricsLoading,
+              error: metricsError,
+            }}
             expandedGraphs={expandedGraphs}
             onMetricClick={handleMetricClick}
             onToggleGraph={handleToggleGraph}
             onRetry={() => userData?.id && fetchJobseekerMetrics(userData.id)}
             gridSize={metricsGridSize}
             size="sm"
-            loading={metricsLoading}
-            error={metricsError}
           />
 
           {/* Profile Completion Status Card on the right */}

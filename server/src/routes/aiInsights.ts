@@ -1,6 +1,10 @@
 import { Router, Request, Response } from "express";
 import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
-import { formatMonthName } from "../utils/dateUtils.js";
+import {
+  fetchAllRows,
+  metricFromSummary,
+  summarizeMonthly,
+} from "../utils/metricMonths.js";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
@@ -18,6 +22,28 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+interface PositionRow {
+  id: string;
+  number_of_positions: number | null;
+  is_subcategory: boolean | null;
+  created_at: string;
+}
+
+/**
+ * Every position, paged (Supabase caps one request at 1000 rows). Slots are
+ * counted the same way as "Total Position Slots" on the position cards:
+ * subcategory positions (mileage, allowances) have no matchable slots.
+ */
+const fetchAllPositions = () =>
+  fetchAllRows<PositionRow>((from, to) =>
+    supabase
+      .from("positions")
+      .select("id, number_of_positions, is_subcategory, created_at")
+      .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
+      .range(from, to)
+  );
 
 // Type definitions for AI insights
 interface AIInsightsResponse {
@@ -46,6 +72,8 @@ interface Metric {
   id: string;
   label: string;
   currentValue: number;
+  currentPeriodValue?: number;
+  dailyData?: Array<{ date: string; value: number; previousValue: number }>;
   previousValue: number;
   unit: string;
   formatType: string;
@@ -94,23 +122,11 @@ router.get(
         });
       }
 
-      // Get total position slots (jobseekers matched) from positions table
-      const { data: positions, error: positionsError } = await supabase
-        .from("positions")
-        .select("number_of_positions");
-
-      if (positionsError) {
-        console.error("Error fetching positions data:", positionsError);
-        return res.status(500).json({ 
-          error: "Failed to fetch positions data" 
-        });
-      }
-
-      // Calculate total position slots (jobseekers matched)
-      const totalJobseekersMatched = positions?.reduce(
-        (sum, position) => sum + (position.number_of_positions || 0), 
-        0
-      ) || 0;
+      // Total position slots (jobseekers matched) from the positions table
+      const positions = await fetchAllPositions();
+      const totalJobseekersMatched = positions
+        .filter((position) => !position.is_subcategory)
+        .reduce((sum, position) => sum + (position.number_of_positions || 0), 0);
 
       const response: AIInsightsResponse = {
         totalDocumentsScanned: documentsScanned || 0,
@@ -123,7 +139,7 @@ router.get(
           },
           jobseekersMatched: {
             description: "Total number of jobseekers matched by our AI position matching system",
-            source: "positions table - sum of number_of_positions field"
+            source: "positions table - sum of number_of_positions field (excluding subcategory positions)"
           }
         }
       };
@@ -152,151 +168,57 @@ router.get(
       const { months = "12" } = req.query as { months?: string };
       const monthsBack = parseInt(months) || 12;
 
-      // Calculate start date
       const startDate = new Date();
       startDate.setMonth(startDate.getMonth() - monthsBack);
 
-      // Get total documents scanned by AI from ai_validation table (for current value)
+      // Total documents scanned by AI (all time). ai_validation has no created_at,
+      // so there is no month-by-month history: the previous value and the chart
+      // stay at zero and the card shows "N/A" for the trend instead of a made-up one.
       const { count: totalDocumentsScanned, error: documentsError } = await supabase
         .from("ai_validation")
         .select("*", { count: "exact", head: true });
 
       if (documentsError) {
         console.error("Error fetching AI validation data:", documentsError);
-        return res.status(500).json({ 
-          error: "Failed to fetch documents scanned data" 
+        return res.status(500).json({
+          error: "Failed to fetch documents scanned data"
         });
       }
 
-      // TODO: Fix this when created_at field is available in ai_validation table
-      // Get documents scanned by AI within time range
-      // const { data: aiValidations, error: documentsError } = await supabase
-      //   .from("ai_validation")
-      //   .select("created_at")
-      //   .gte("created_at", startDate.toISOString())
-      //   .order("created_at", { ascending: false });
+      const positions = await fetchAllPositions();
 
-      // if (documentsError) {
-      //   console.error("Error fetching AI validation data:", documentsError);
-      //   return res.status(500).json({ 
-      //     error: "Failed to fetch documents scanned data" 
-      //   });
-      // }
-
-      // Get positions created within time range
-      const { data: positions, error: positionsError } = await supabase
-        .from("positions")
-        .select("number_of_positions, created_at")
-        .gte("created_at", startDate.toISOString())
-        .order("created_at", { ascending: false });
-
-      if (positionsError) {
-        console.error("Error fetching positions data:", positionsError);
-        return res.status(500).json({ 
-          error: "Failed to fetch positions data" 
-        });
-      }
-
-      // Helper function to get month key (YYYY-MM format)
-      const getMonthKey = (date: string): string => {
-        return new Date(date).toISOString().slice(0, 7);
-      };
-
-      // Generate monthly statistics
-      const monthlyStats: { [key: string]: MonthlyAIStats } = {};
-      const currentDate = new Date();
-
-      // Initialize last N months with zero values, including current month
-      for (let i = 0; i <= monthsBack; i++) {
-        const date = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth() - i,
-          1
-        );
-        const monthKey = date.toISOString().slice(0, 7);
-        monthlyStats[monthKey] = {
-          month: monthKey,
-          documentsScanned: 0,
-          jobseekersMatched: 0,
-        };
-      }
-
-      // Also ensure current month is included
-      const currentMonthKey = getMonthKey(new Date().toISOString());
-      if (!monthlyStats[currentMonthKey]) {
-        monthlyStats[currentMonthKey] = {
-          month: currentMonthKey,
-          documentsScanned: 0,
-          jobseekersMatched: 0,
-        };
-      }
-
-      // TODO: Uncomment when ai_validation.created_at is available
-      // Process AI validations and populate monthly stats
-      // aiValidations?.forEach((validation) => {
-      //   const createdMonth = getMonthKey(validation.created_at);
-      //   if (monthlyStats[createdMonth]) {
-      //     monthlyStats[createdMonth].documentsScanned++;
-      //   }
-      // });
-
-      // Process positions and populate monthly stats
-      positions?.forEach((position) => {
-        const createdMonth = getMonthKey(position.created_at);
-        if (monthlyStats[createdMonth]) {
-          monthlyStats[createdMonth].jobseekersMatched += position.number_of_positions || 0;
-        }
-      });
-
-      // Convert to array and sort by month (most recent first)
-      const monthlyArray = Object.values(monthlyStats).sort(
-        (a: MonthlyAIStats, b: MonthlyAIStats) => b.month.localeCompare(a.month)
+      // Running total of position slots as the headline; the trend compares slots
+      // added in the last 30 days with the 30 days before; the chart is monthly.
+      const slots = metricFromSummary(
+        summarizeMonthly(positions, {
+          getDate: (position) => position.created_at,
+          getValue: (position) => position.number_of_positions || 0,
+          include: (position) => !position.is_subcategory,
+          monthsBack,
+        })
       );
+      const documentsHistory = metricFromSummary(
+        summarizeMonthly([], { getDate: () => null, monthsBack })
+      ).historicalData;
 
-      // Calculate current totals
-      const totalJobseekersMatched = positions?.reduce(
-        (sum, position) => sum + (position.number_of_positions || 0), 
-        0
-      ) || 0;
-
-      // Format historical data for charts
-      const formatHistoricalData = (
-        monthlyArray: MonthlyAIStats[],
-        field: keyof MonthlyAIStats
-      ) => {
-        return monthlyArray
-          .reverse() // Oldest to newest for charts
-          .map((month: MonthlyAIStats) => {
-            const monthName = formatMonthName(month.month);
-            return {
-              period: monthName,
-              value: (month[field] as number) || 0,
-              date: month.month,
-            };
-          });
-      };
-
-      // Build metrics response following the metric card structure
       const metrics = [
         {
           id: "documents_scanned",
           label: "Total Documents Scanned",
           currentValue: totalDocumentsScanned || 0,
-          previousValue: monthlyArray[1]?.documentsScanned || 0,
+          previousValue: 0,
           unit: "documents",
           formatType: "number",
-          description: `Total documents processed by AI in the last ${monthsBack} months`,
-          historicalData: formatHistoricalData(monthlyArray, "documentsScanned"),
+          description: "Total documents processed by AI",
+          historicalData: documentsHistory,
         },
         {
           id: "jobseekers_matched",
           label: "Total Jobseekers Matched",
-          currentValue: totalJobseekersMatched,
-          previousValue: monthlyArray[1]?.jobseekersMatched || 0,
+          ...slots,
           unit: "positions",
           formatType: "number",
-          description: `Total jobseekers matched in the last ${monthsBack} months, by our AI position matching system`,
-          historicalData: formatHistoricalData(monthlyArray, "jobseekersMatched"),
+          description: "Total jobseekers matched, by our AI position matching system",
         },
       ];
 
