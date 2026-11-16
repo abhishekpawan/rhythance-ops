@@ -8,6 +8,7 @@ import { onboardingReminderHtmlTemplate } from '../email-templates/onboarding-re
 import { onboardingReminderTextTemplate } from '../email-templates/onboarding-reminder-txt.js';
 import { getNoReplyFromEmail } from '../middleware/emailNotifier.js';
 import { getPortalSettingSync } from "../services/portalSettings.js";
+import { trustedRoleFields, roleAppMetadata } from "../utils/trustedRoles.js";
 
 dotenv.config();
 
@@ -331,8 +332,7 @@ router.patch(
         return res.status(400).json({ error: 'Invalid manager selected' });
       }
 
-      const managerMeta = (managerData.user as any).user_metadata || {};
-      const managerType = managerMeta.user_type;
+      const managerType = trustedRoleFields(managerData.user as any).user_type;
       if (managerType === 'jobseeker') {
         return res.status(400).json({ error: 'Jobseekers cannot be assigned as managers' });
       }
@@ -475,8 +475,9 @@ router.patch(
     }
 
     const currentMeta = (userData.user as any).user_metadata || {};
+    const currentType = trustedRoleFields(userData.user as any).user_type;
     // Disallow modifying roles for admin users
-    if (currentMeta?.user_type === 'admin') {
+    if (currentType === 'admin') {
       return res.status(403).json({ error: 'Cannot modify roles for admin users' });
     }
     const updatedMeta = {
@@ -486,6 +487,7 @@ router.patch(
 
     const { data: updated, error: updErr } = await supabase.auth.admin.updateUserById(id, {
       user_metadata: updatedMeta,
+      app_metadata: roleAppMetadata(currentType === 'recruiter' ? 'recruiter' : 'jobseeker', sanitizedRoles),
     });
 
     if (updErr) {
@@ -597,6 +599,12 @@ router.post(
         return res.status(400).json({ 
           error: 'Failed to send invitation',
           details: error.message || 'Unknown error occurred'
+        });
+      }
+
+      if (data?.user?.id) {
+        await supabase.auth.admin.updateUserById(data.user.id, {
+          app_metadata: roleAppMetadata('recruiter', ['recruiter']),
         });
       }
 

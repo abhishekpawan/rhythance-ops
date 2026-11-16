@@ -45,8 +45,15 @@ or, on macOS/Linux: `ls server/src/db/migration_v2/*.sql | sort`
 | `029_feature_flags.sql` | `feature_flags` table |
 | `030_feature_flags_config.sql` | `config` column on flags (flag text settings) |
 | `031_portal_settings.sql` | `portal_settings` table |
+| `032` | Reserved: catch-up migration (objects production has that the files above lack) |
+| `033_close_public_access.sql` | Closes access the public key and signed-in users should not have: account and schema functions become server-only, `ai_validation` gets row security (owner and staff), the activity feed is staff-only, the anonymous consent-update policy and anonymous read of `jobseeker-documents` are removed. Skips anything a database lacks |
+| `034_roles_from_app_metadata.sql` | Roles are decided from `app_metadata` (only the server can write it), not `user_metadata` (users can edit their own): copies each account's role, gives new accounts the jobseeker role until the server sets another, role helpers and `list_auth_users` read it; storage rules for jobseeker documents (staff, uploader, the jobseeker whose profile lists the file), signed consent PDFs (staff) and invoice files (staff, uploader); email/phone lookups server-only. **Run after the server version that writes `app_metadata` is deployed** |
 
 Run **every file once, in order, on each portal's database**, then that portal's seed from `../seeds/` (see `../seeds/README.md`).
+
+**Where 033 is applied:** stage and the four production databases (2026-11-16); the demo database not yet. **034:** stage only so far.
+
+**Promoting someone by hand** (Supabase dashboard): set `user_type` and `user_role` in the user's **app_metadata**; the portal ignores those fields in user_metadata.
 
 ## What was merged
 

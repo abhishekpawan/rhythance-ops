@@ -6,6 +6,7 @@ import {
   sensitiveRateLimiter,
   sanitizeInputs,
 } from "../middleware/security.js";
+import { roleAppMetadata } from "../utils/trustedRoles.js";
 import { activityLogger } from "../middleware/activityLogger.js";
 import { emailNotifier } from "../middleware/emailNotifier.js";
 import { jobseekerWelcomeHtmlTemplate } from "../email-templates/jobseeker-welcome-html.js";
@@ -375,6 +376,7 @@ router.post(
               email: emailNormalized,
               password: randomPassword,
               email_confirm: true,
+              app_metadata: roleAppMetadata("jobseeker", []),
               user_metadata: {
                 name: `${profileData.firstName} ${profileData.lastName}`,
                 user_type: "jobseeker",

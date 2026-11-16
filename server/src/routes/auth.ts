@@ -5,6 +5,8 @@ import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
 import twilio from "twilio";
 import { activityLogger } from "../middleware/activityLogger.js";
 import { getPortalSettingSync } from "../services/portalSettings.js";
+import { createSignInClient } from "../utils/signInClient.js";
+import { roleAppMetadata, PortalUserType } from "../utils/trustedRoles.js";
 
 dotenv.config();
 
@@ -297,7 +299,7 @@ router.post(
       ).replace(/\/$/, "");
 
       // Register the user with email and password
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await createSignInClient().auth.signUp({
         email,
         password,
         phone: normalizedPhone,
@@ -330,6 +332,7 @@ router.post(
         try {
           await supabase.auth.admin.updateUserById(user.id, {
             user_metadata: updatedMeta,
+            app_metadata: roleAppMetadata(userType as PortalUserType, userMetadata.user_role),
             ...(normalizedPhone ? { phone: normalizedPhone as any } : {}),
           });
         } catch (metaUpdateErr) {
@@ -361,7 +364,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await createSignInClient().auth.signInWithPassword({
       email,
       password,
     });
@@ -396,7 +399,8 @@ router.post("/validate-credentials", async (req, res) => {
     // For recruiters or admins, we validate credentials without creating a session
     if (isRecruiterOrAdmin) {
       // First, try to sign in to validate credentials
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const signInClient = createSignInClient();
+      const { data, error } = await signInClient.auth.signInWithPassword({
         email,
         password,
       });
@@ -433,7 +437,7 @@ router.post("/validate-credentials", async (req, res) => {
       }
 
       // Immediately sign out to invalidate the session
-      await supabase.auth.signOut();
+      await signInClient.auth.signOut();
 
       // Return user data without session for 2FA flow
       return res.status(200).json({
@@ -446,7 +450,7 @@ router.post("/validate-credentials", async (req, res) => {
     }
 
     // For non-recruiters, proceed with normal login
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await createSignInClient().auth.signInWithPassword({
       email,
       password,
     });
@@ -505,7 +509,7 @@ router.post("/complete-2fa", async (req, res) => {
     }
 
     // Create the actual session after successful 2FA
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await createSignInClient().auth.signInWithPassword({
       email,
       password,
     });

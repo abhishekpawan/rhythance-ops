@@ -55,6 +55,7 @@ async function createAdminUser() {
       const { error: updateError } = await supabase.auth.admin.updateUserById(
         existingUsers[0].id,
         {
+          app_metadata: { user_type: 'admin', user_role: ['admin'] },
           user_metadata: {
             name,
             user_type: 'admin'
@@ -74,6 +75,7 @@ async function createAdminUser() {
         email,
         password,
         email_confirm: true,
+        app_metadata: { user_type: 'admin', user_role: ['admin'] },
         user_metadata: {
           name,
           user_type: 'admin'

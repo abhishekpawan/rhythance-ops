@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { withTrustedRoles } from '../utils/trustedRoles.js';
 
 dotenv.config();
 
@@ -118,8 +119,8 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
       return res.status(403).json({ error: 'Invalid or expired token' });
     }
 
-    // Set the user in the request object with proper type casting
-    req.user = data.user as any;
+    // Role fields come from app_metadata (users can edit their own user_metadata)
+    req.user = withTrustedRoles(data.user) as any;
     next();
   } catch (error) {
     console.error('Authentication error:', error);
