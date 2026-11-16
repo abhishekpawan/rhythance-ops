@@ -51,7 +51,7 @@ or, on macOS/Linux: `ls server/src/db/migration_v2/*.sql | sort`
 
 Run **every file once, in order, on each portal's database**, then that portal's seed from `../seeds/` (see `../seeds/README.md`).
 
-**Where 033 is applied:** stage and the four production databases (2026-11-16); the demo database not yet. **034:** stage only so far.
+**Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet.
 
 **Promoting someone by hand** (Supabase dashboard): set `user_type` and `user_role` in the user's **app_metadata**; the portal ignores those fields in user_metadata.
 
