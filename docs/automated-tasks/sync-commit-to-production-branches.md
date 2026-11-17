@@ -1,6 +1,6 @@
 # Sync commit(s) to all production branches & public repository
 
-Copy everything below the line into a new chat (or append your commit SHAs at the end). The agent runs this workflow on your behalf using git in the terminal—not a script.
+Normally run by the `branch-sync` agent (`.claude/agents/branch-sync.md`, say "sync <SHAs>"), which follows this page and uses a git worktree per target branch. You can also copy everything below the line into a new chat (or append your commit SHAs at the end). The agent runs this workflow on your behalf using git in the terminal—not a script.
 
 ---
 
@@ -84,6 +84,7 @@ Production branches differ from `multiple-login-demo` only by brand images and r
 
 - **`server/src/db/seeds/*` on `public-main`.** That branch deliberately has no seed files, so a commit that edits a seed fails there with a modify/delete conflict. Resolve by dropping the seed files from that cherry-pick (`git rm` them) and keeping the rest. Seed files (the reference copy of each portal's stored settings and flags) belong on `multiple-login-demo` and the four production branches only, never on `public-main`, because the public repo would expose client data. When a setting or flag changes in a portal's database, update that portal's seed and sync that commit like any other.
 - **`server/src/config/portalSettings.ts` on `public-main`.** It carries the Rhythence defaults (brand name, AI chat title, legal names). If a commit changes lines next to them, keep the Rhythence values and take the new code.
+- **The dev workspace** (`CLAUDE.md`, `.claude/`, `ops/`) exists only on `multiple-login-demo` and is never cherry-picked anywhere; drop those paths from a mixed commit. Nothing client-specific or personal may reach `public-main`, which is a public repository.
 - **Demo-only files** (`DemoAutoFillWidget`, `DemoLoginModal`, and the demo hooks in login, client-create, position-create, profile-create, `lib/auth.ts`, `button.css`) do not exist on the four production branches. If a commit touches them there, keep the production side (the files stay absent) and take only the shared changes.
 - **Brand images** differ per branch on purpose: always keep the target branch's own image. The code imports four images by the same names on every branch, `client/src/assets/brand/header.png`, `login.png`, `consent.png` and `invoice.png`; each branch ships its own picture under those names. Never rename these files or change those imports on one branch only. Other files in `client/src/assets/logos/` are leftovers that differ between branches and do not matter.
 - **Whitespace and quotes.** Everyone formats with `.prettierrc.json`; a conflict that is only quote style or indentation means someone edited without it. Resolve toward the repo's Prettier style.
@@ -123,14 +124,14 @@ The six branches run the **same code**. What differs per portal lives in its dat
 
 ```bash
 git fetch origin && git fetch public
-ALLOW='^(client/index\.html|client/src/assets/|client/src/components/(DemoAutoFillWidget/|DemoLoginModal\.tsx)|client/src/lib/auth\.ts|client/src/pages/Authentication/Login\.tsx|client/src/pages/ClientManagement/ClientCreate\.tsx|client/src/pages/JobseekerProfile/ProfileCreate\.tsx|client/src/pages/PositionManagement/PositionCreate\.tsx|client/src/styles/components/(button|demo-login-modal)\.css)'
+ALLOW='^(CLAUDE\.md|\.claude/|ops/|client/index\.html|client/src/assets/|client/src/components/(DemoAutoFillWidget/|DemoLoginModal\.tsx)|client/src/lib/auth\.ts|client/src/pages/Authentication/Login\.tsx|client/src/pages/ClientManagement/ClientCreate\.tsx|client/src/pages/JobseekerProfile/ProfileCreate\.tsx|client/src/pages/PositionManagement/PositionCreate\.tsx|client/src/styles/components/(button|demo-login-modal)\.css)'
 for b in allstaff-production canhire-production godspeed-production hdgroup-production; do
   echo "$b: $(git diff --name-only origin/multiple-login-demo origin/$b | grep -vE "$ALLOW" | wc -l) unexpected"
 done
 echo "public-main: $(git diff --name-only origin/multiple-login-demo public/main | grep -vE "$ALLOW|^server/src/config/portalSettings\.ts$|^server/src/db/seeds/" | wc -l) unexpected"
 ```
 
-  The allowed differences are only: `client/index.html` (tab title and icon), images under `client/src/assets/`, the demo-only files listed in 3a (absent on production), and on `public-main` the Rhythence defaults in `server/src/config/portalSettings.ts` and the missing seed files. If a count is not 0, list the files (`git diff --name-only ...`), tell me which branch drifted and why, and fix it by re-syncing from `multiple-login-demo` (`git checkout origin/multiple-login-demo -- <file>` on that branch, then a normal commit). If a new legitimate per-branch difference is introduced on purpose, add it to this list in the same commit.
+  The allowed differences are only: the dev workspace (`CLAUDE.md`, `.claude/`, `ops/`: present on `multiple-login-demo` only), `client/index.html` (tab title and icon), images under `client/src/assets/`, the demo-only files listed in 3a (absent on production), and on `public-main` the Rhythence defaults in `server/src/config/portalSettings.ts` and the missing seed files. If a count is not 0, list the files (`git diff --name-only ...`), tell me which branch drifted and why, and fix it by re-syncing from `multiple-login-demo` (`git checkout origin/multiple-login-demo -- <file>` on that branch, then a normal commit). If a new legitimate per-branch difference is introduced on purpose, add it to this list in the same commit.
 
 ### 5. Safety rules (non-negotiable)
 

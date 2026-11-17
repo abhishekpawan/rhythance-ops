@@ -26,7 +26,8 @@ Last reorganised: November 2026. Every page is checked against the code unless i
 | [features/support-tickets.md](features/support-tickets.md) | Support ticket module |
 | [features/digital-consent.md](features/digital-consent.md) | Digital consent module |
 | [features/calendar.md](features/calendar.md) | Calendar module |
-| [development/translations.md](development/translations.md) | English/French translation files and rules |
+| [development/translations.md](development/translations.md) | English/French translation files and coding rules |
+| [development/activity-logging.md](development/activity-logging.md) | How server operations are logged to the activity feed, and how to add an activity type |
 | [development/code-structure.md](development/code-structure.md) | The 300-line file limit, how to split a file, and where the dashboard code lives |
 | [../server/src/db/migration_v2/README.md](../server/src/db/migration_v2/README.md) | Database migrations, in run order |
 | [../server/src/db/seeds/README.md](../server/src/db/seeds/README.md) | Per-portal seed data |

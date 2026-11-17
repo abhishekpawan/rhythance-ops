@@ -1,14 +1,20 @@
 # Translations (English / French)
 
-Every piece of text a user can see goes through the translation system. The detailed coding rules
-(naming, interpolation, what not to translate) are in [`.cursor/rules/translations.mdc`](../../.cursor/rules/translations.mdc).
-This page explains how the files are organised.
+Every piece of text a user can see goes through the translation system. This page has the coding rules and explains how the files are organised.
 
 ## How it works
 
 - Hook: `const { t } = useLanguage();` from `client/src/contexts/language/language-provider.tsx`. Use `t("section.key")` or `t("section.key", { name })` for `{{name}}` placeholders.
 - Two languages: `en` and `fr`. The choice is stored and persists across reloads (toggle: `LanguageToggle`).
 - Every key must exist in **both** languages with the same placeholders and nesting. If unsure about the French, use `"[FR_TODO] English text"` and mention it in the commit.
+
+## Coding rules
+
+- **Translate** everything a user sees: headings, buttons, placeholders, `alt` and `title` text, toasts, `alert` and confirm messages, table headers. **Do not translate** technical strings: API paths, database fields, status and role values, console messages, file types, date formats.
+- Never hard-code UI text in JSX (`<button>Send</button>`); use `t("buttons.send")`. Keys are descriptive and nested: `navigation.*`, `buttons.*`, `forms.*`, `messages.*`, `auth.*`, then one section per feature (`userManagement.title`), never `text1` or `msg`.
+- Interpolation: `t("userManagement.pagination.showing", { start: 1, end: 10, total: 100 })` with `{{start}}` placeholders; the same placeholders in both languages.
+- Add every new key to **both** languages in the same change; same structure and nesting.
+- A component imports `useLanguage`, takes `t`, and renders no literal UI strings.
 
 ## Where the texts live
 
