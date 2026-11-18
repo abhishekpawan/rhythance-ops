@@ -1,0 +1,6 @@
+{
+  "status": 400,
+  "body": {
+    "error": "At least one jobseeker and one week period are required."
+  }
+}

@@ -7,7 +7,12 @@ const status = supabase(["status", "-o", "json"]);
 if (status.status === 0 && status.stdout.includes("API_URL")) {
   console.log("local Supabase already running");
 } else {
-  console.log("starting local Supabase (first start pulls images and can take 15 minutes)...");
-  const r = supabase(["start", "-x", EXCLUDED_SERVICES], { stdio: "inherit", cwd: SERVER_DIR });
+  console.log(
+    "starting local Supabase (first start pulls images and can take 15 minutes)..."
+  );
+  const r = supabase(["start", "-x", EXCLUDED_SERVICES], {
+    stdio: "inherit",
+    cwd: SERVER_DIR,
+  });
   if (r.status !== 0) process.exit(r.status ?? 1);
 }

@@ -1,0 +1,77 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "client_name": "Northwind Test Staffing Client",
+      "position_details": "Forklift Operator [NW002 - N/A]",
+      "position_category": "Warehouse",
+      "bill_rate": "35",
+      "pay_rate": "20",
+      "premium_pay_rate": "N/A",
+      "overtime_hours": "40",
+      "overtime_bill_rate": "52.5",
+      "overtime_pay_rate": "30",
+      "client_is_inactive": false
+    },
+    {
+      "client_name": "Northwind Test Staffing Client",
+      "position_details": "Warehouse Associate (training portion) [NW003 - N/A]",
+      "position_category": "Warehouse",
+      "bill_rate": "31.5",
+      "pay_rate": "18",
+      "premium_pay_rate": "N/A",
+      "overtime_hours": "N/A",
+      "overtime_bill_rate": "N/A",
+      "overtime_pay_rate": "N/A",
+      "client_is_inactive": false
+    },
+    {
+      "client_name": "Northwind Test Staffing Client",
+      "position_details": "Warehouse Associate [NW001 - N/A]",
+      "position_category": "Warehouse",
+      "bill_rate": "35",
+      "pay_rate": "20",
+      "premium_pay_rate": "N/A",
+      "overtime_hours": "N/A",
+      "overtime_bill_rate": "N/A",
+      "overtime_pay_rate": "N/A",
+      "client_is_inactive": false
+    },
+    {
+      "client_name": "Pacific Test Warehousing Client",
+      "position_details": "Loader [PW001 - N/A]",
+      "position_category": "Warehouse",
+      "bill_rate": "35",
+      "pay_rate": "20",
+      "premium_pay_rate": "N/A",
+      "overtime_hours": "N/A",
+      "overtime_bill_rate": "N/A",
+      "overtime_pay_rate": "N/A",
+      "client_is_inactive": false
+    },
+    {
+      "client_name": "Prairie Test Foods Client",
+      "position_details": "Line Cook Helper [PF001 - N/A]",
+      "position_category": "Food",
+      "bill_rate": "35",
+      "pay_rate": "20",
+      "premium_pay_rate": "N/A",
+      "overtime_hours": "N/A",
+      "overtime_bill_rate": "N/A",
+      "overtime_pay_rate": "N/A",
+      "client_is_inactive": true
+    },
+    {
+      "client_name": "Quebec Test Logistics Client",
+      "position_details": "Driver Helper [QL001 - N/A]",
+      "position_category": "Logistics",
+      "bill_rate": "35",
+      "pay_rate": "20",
+      "premium_pay_rate": "2.5",
+      "overtime_hours": "N/A",
+      "overtime_bill_rate": "N/A",
+      "overtime_pay_rate": "N/A",
+      "client_is_inactive": false
+    }
+  ]
+}

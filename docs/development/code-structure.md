@@ -4,7 +4,18 @@
 
 **No source file over 300 lines** (TypeScript, TSX and CSS). A longer file is split by responsibility: data fetching into hooks or services, pure calculations into their own files, repeated markup into shared components, and CSS by section. JSON translation files follow the same idea by module (see [translations.md](translations.md)).
 
-The rule is applied module by module. **Done: dashboard (Nov 2026).** Other modules still have larger files; split one when you next work on it.
+The rule is applied module by module. **Done: dashboard (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
+
+## The routine for one module
+
+Every module goes through the same six steps, with the suite from [testing.md](testing.md) as the safety net (`pnpm test` in `server/`):
+
+1. **Inbox**: no `next` client item on the same files (`ops/inbox.md`).
+2. **Pin**: add the module's API pins (every endpoint of its route files, every role that may call it, one that may not) and unit tests for its pure calculations, recorded on the unchanged code; commit the tests alone. Money modules (Timesheets, Invoices) also need a browser test that captures the totals the browser sends (first built with Timesheets).
+3. **Dead code**: run `pnpm knip` in `client/` and `server/` and read the lines for the module; remove what is unused, suite green, own commit. Then **format** the module's files with Prettier in their own commit (whitespace only; the suite and both builds stay green), so that code moved verbatim lands in files the pre-commit hook accepts.
+4. **Split**: move code verbatim, file by file; after each file the type checks, lint and the suite. Snapshots must not change: **a changed snapshot is a behaviour change and stops the split.** CSS: the built CSS must be identical. Update `scripts/file-size-baseline.txt` with `scripts/check-file-size.sh --update` in the same commit.
+5. **Browser check** of the module's screens per role, in English and French (browser journeys where they exist, by hand where not).
+6. **Sync** with `branch-sync` (tests included), drift check 0, then the tracker and one log line.
 
 When splitting:
 

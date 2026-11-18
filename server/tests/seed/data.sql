@@ -214,7 +214,20 @@ VALUES
     "timesheets":[
       {"timesheetId":"00000000-0000-4000-8000-000000000059","jobseekerProfile":{"jobseekerProfileId":"00000000-0000-4000-8000-000000000041"},"position":{"positionId":"00000000-0000-4000-8000-000000000036"},"weekStartDate":"2026-09-20","weekEndDate":"2026-09-26","totalRegularHours":40,"totalOvertimeHours":0,"totalClientBill":1400,"totalJobseekerPay":800,"salesTax":"0.00% [ZERO RATED]"}
     ]}'::jsonb,
-  'Synthetic invoice, zero rated, USD.', '2026-09-28T14:00:00Z', '00000000-0000-4000-8000-000000000004', '2026-09-28T14:00:00Z', '00000000-0000-4000-8000-000000000004');
+  'Synthetic invoice, zero rated, USD.', '2026-09-28T14:00:00Z', '00000000-0000-4000-8000-000000000004', '2026-09-28T14:00:00Z', '00000000-0000-4000-8000-000000000004'),
+ -- Ontario again, written with every field the reports read (names, position title, bill rate, discount) and one
+ -- deduction line (a negative bill rate), so the deduction and sales reports are not empty or all "N/A".
+ -- Lines: 1925 + (-50) = 1875, HST 13% = 243.75, total 2118.75, 50 h. (The discount on the first line is read by the
+ -- sales report only; like the other invoices these totals are the sum of the bill amounts.)
+ ('00000000-0000-4000-8000-000000000065', '900006', '2026-11-12', '2026-12-12', 'draft', 'CAD', '00000000-0000-4000-8000-000000000021',
+  1875, 243.75, 243.75, 0, 0, 2118.75, 50, false, NULL, NULL,
+  '{"client":{"id":"00000000-0000-4000-8000-000000000021","companyName":"Northwind Test Staffing Client","shortCode":"NW","accountingPerson":"Test Bookkeeper","contactPersonName1":"Nora North"},
+    "timesheetStartDate":"2026-11-08","timesheetEndDate":"2026-11-14",
+    "timesheets":[
+      {"timesheetId":"00000000-0000-4000-8000-000000000052","jobseekerProfile":{"jobseekerProfileId":"00000000-0000-4000-8000-000000000041","employeeId":"E-0011","firstName":"Sam","lastName":"Sinclair"},"position":{"positionId":"00000000-0000-4000-8000-000000000032","title":"Forklift Operator","positionNumber":"NW002","positionCategory":"Warehouse"},"weekStartDate":"2026-11-08","weekEndDate":"2026-11-14","totalRegularHours":40,"totalOvertimeHours":10,"regularBillRate":35,"totalClientBill":1925,"totalJobseekerPay":1100,"discount":25,"description":"Forklift week","salesTax":"13.00% [ON]"},
+      {"timesheetId":"00000000-0000-4000-8000-000000000052","jobseekerProfile":{"jobseekerProfileId":"00000000-0000-4000-8000-000000000041","employeeId":"E-0011","firstName":"Sam","lastName":"Sinclair"},"position":{"positionId":"00000000-0000-4000-8000-000000000032","title":"Forklift Operator","positionNumber":"NW002","positionCategory":"Warehouse"},"weekStartDate":"2026-11-08","weekEndDate":"2026-11-14","totalRegularHours":0,"totalOvertimeHours":0,"regularBillRate":-50,"totalClientBill":-50,"totalJobseekerPay":0,"description":"Equipment deduction","salesTax":"13.00% [ON]"}
+    ]}'::jsonb,
+  'Synthetic invoice with a deduction line.', '2026-11-12T14:00:00Z', '00000000-0000-4000-8000-000000000004', '2026-11-12T14:00:00Z', '00000000-0000-4000-8000-000000000004');
 
 -- Drafts and consent ---------------------------------------------------------------------------------
 
@@ -242,3 +255,27 @@ INSERT INTO public.portal_settings (key, value, updated_by_name) VALUES
   ('legal.companyName', 'Test Staffing Inc.', 'Test seed'),
   ('legal.contactEmail', 'privacy@example.test', 'Test seed')
 ON CONFLICT (key) DO NOTHING;
+
+-- Last activity ---------------------------------------------------------------------------------------
+-- The inactivity triggers (014) set last_activity_at to the time of the insert whenever a timesheet, position or
+-- profile row is written, which overwrote the dates above with "the day the seed ran". Put the intended dates back,
+-- with triggers off for this statement only, so the reports' "inactive" flags (client: 30 days, jobseeker: 60 days,
+-- counted from the fixed clock of 17 November 2026) have both answers: Prairie Foods (77 days) and Ely (93 days)
+-- are inactive, everyone else is not.
+SET LOCAL session_replication_role = replica;
+UPDATE public.clients c SET last_activity_at = v.at::timestamptz
+FROM (VALUES
+  ('00000000-0000-4000-8000-000000000021', '2026-11-10T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000022', '2026-11-12T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000023', '2026-11-05T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000024', '2026-09-01T14:00:00Z')) AS v(id, at)
+WHERE c.id = v.id::uuid;
+UPDATE public.jobseeker_profiles p SET last_activity_at = v.at::timestamptz
+FROM (VALUES
+  ('00000000-0000-4000-8000-000000000041', '2026-11-08T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000042', '2026-11-08T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000043', '2026-11-08T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000044', '2026-11-08T14:00:00Z'),
+  ('00000000-0000-4000-8000-000000000045', '2026-08-15T14:00:00Z')) AS v(id, at)
+WHERE p.id = v.id::uuid;
+SET LOCAL session_replication_role = origin;

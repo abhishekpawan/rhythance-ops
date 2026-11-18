@@ -1,0 +1,44 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "invoice_number": "900006",
+      "client_name": "Northwind Test Staffing Client",
+      "contact_person": "Nora North",
+      "terms": "Net 30",
+      "invoice_date": "2026-11-12",
+      "due_date": "2026-12-12",
+      "total_amount": "2118.75",
+      "currency": "CAD",
+      "email_sent": "No",
+      "email_sent_date": "N/A",
+      "client_is_inactive": false
+    },
+    {
+      "invoice_number": "900001",
+      "client_name": "Northwind Test Staffing Client",
+      "contact_person": "Nora North",
+      "terms": "Net 30",
+      "invoice_date": "2026-11-10",
+      "due_date": "2026-12-10",
+      "total_amount": "4746.00",
+      "currency": "CAD",
+      "email_sent": "Yes",
+      "email_sent_date": "2026-11-10T15:00:00+00:00",
+      "client_is_inactive": false
+    },
+    {
+      "invoice_number": "900005",
+      "client_name": "Prairie Test Foods Client",
+      "contact_person": "Pat Prairie",
+      "terms": "Net 45",
+      "invoice_date": "2026-09-28",
+      "due_date": "2026-11-12",
+      "total_amount": "1400.00",
+      "currency": "USD",
+      "email_sent": "Yes",
+      "email_sent_date": "2026-09-28T15:00:00+00:00",
+      "client_is_inactive": true
+    }
+  ]
+}

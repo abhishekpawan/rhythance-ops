@@ -3,7 +3,8 @@
 const raw = process.env.TEST_FIXED_NOW;
 if (raw) {
   const fixed = new Date(raw).getTime();
-  if (Number.isNaN(fixed)) throw new Error(`TEST_FIXED_NOW is not a date: ${raw}`);
+  if (Number.isNaN(fixed))
+    throw new Error(`TEST_FIXED_NOW is not a date: ${raw}`);
   const RealDate = Date;
   class FixedDate extends RealDate {
     constructor(...args) {

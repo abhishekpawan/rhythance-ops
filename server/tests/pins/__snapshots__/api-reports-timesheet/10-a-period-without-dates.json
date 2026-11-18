@@ -1,0 +1,6 @@
+{
+  "status": 400,
+  "body": {
+    "error": "At least one valid week period is required."
+  }
+}

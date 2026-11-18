@@ -1,0 +1,7 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["tests/**/*.{ts,mjs}"],
+  "project": ["src/**/*.ts", "tests/**/*.{ts,mjs}"],
+  "ignoreDependencies": ["prettier"],
+  "ignoreBinaries": ["psql"]
+}

@@ -14,7 +14,12 @@ const stack = localStack();
 await createUsers(stack);
 const r = psql(stack.dbUrl, { file: path.join(here, "../seed/data.sql") });
 if (r.status !== 0) {
-  console.error(`seed data failed:\n${r.stderr.split("\n").filter((l) => !l.includes("NOTICE")).join("\n")}`);
+  console.error(
+    `seed data failed:\n${r.stderr
+      .split("\n")
+      .filter((l) => !l.includes("NOTICE"))
+      .join("\n")}`
+  );
   process.exit(1);
 }
 await uploadSeedFiles(stack);

@@ -22,9 +22,14 @@ function targetOf(args) {
     if (first.path) return { local: true }; // a unix socket on this machine
     return { host: String(first.host ?? "localhost").toLowerCase() };
   }
-  if (typeof first === "string" && Number.isNaN(Number(first))) return { local: true }; // connect(path)
+  if (typeof first === "string" && Number.isNaN(Number(first)))
+    return { local: true }; // connect(path)
   if (typeof first === "number" || typeof first === "string") {
-    return { host: String(typeof args[1] === "string" ? args[1] : "localhost").toLowerCase() };
+    return {
+      host: String(
+        typeof args[1] === "string" ? args[1] : "localhost"
+      ).toLowerCase(),
+    };
   }
   return { host: "unknown" };
 }
@@ -34,7 +39,9 @@ net.Socket.prototype.connect = function guardedConnect(...args) {
   const t = targetOf(args);
   if (!t.local && !LOCAL.has(t.host)) {
     record({ kind: "blocked-connection", host: t.host });
-    const error = new Error(`outbound connection to ${t.host} blocked by the test guard`);
+    const error = new Error(
+      `outbound connection to ${t.host} blocked by the test guard`
+    );
     queueMicrotask(() => this.destroy(error));
     return this;
   }
@@ -43,7 +50,12 @@ net.Socket.prototype.connect = function guardedConnect(...args) {
 
 const realFetch = globalThis.fetch;
 globalThis.fetch = function guardedFetch(input, init) {
-  const raw = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+  const raw =
+    typeof input === "string"
+      ? input
+      : input instanceof URL
+        ? input.href
+        : input.url;
   let host = "";
   try {
     host = new URL(raw).hostname.toLowerCase();
@@ -52,7 +64,9 @@ globalThis.fetch = function guardedFetch(input, init) {
   }
   if (host && !LOCAL.has(host)) {
     record({ kind: "blocked-fetch", host });
-    return Promise.reject(new Error(`outbound fetch to ${host} blocked by the test guard`));
+    return Promise.reject(
+      new Error(`outbound fetch to ${host} blocked by the test guard`)
+    );
   }
   return realFetch(input, init);
 };

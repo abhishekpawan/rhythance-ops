@@ -1,0 +1,69 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "invoice_number": "900003",
+      "client_name": "Quebec Test Logistics Client",
+      "accounting_person": "N/A",
+      "total_billed_amount": "1400.00",
+      "paid_amount": "1017.00",
+      "paid_amount_cash": "0.00",
+      "paid_amount_corporation_cheque": "0.00",
+      "paid_amount_corporation_direct_deposit": "1017.00",
+      "paid_amount_e_transfer": "0.00",
+      "paid_amount_direct_deposit": "0.00",
+      "paid_amount_cheque": "0.00",
+      "margin_amount": "383.00",
+      "margin_percentage": "27.36%",
+      "invoice_date": "2026-11-17"
+    },
+    {
+      "invoice_number": "900006",
+      "client_name": "Northwind Test Staffing Client",
+      "accounting_person": "Test Bookkeeper",
+      "total_billed_amount": "1875.00",
+      "paid_amount": "1100.00",
+      "paid_amount_cash": "0.00",
+      "paid_amount_corporation_cheque": "0.00",
+      "paid_amount_corporation_direct_deposit": "0.00",
+      "paid_amount_e_transfer": "0.00",
+      "paid_amount_direct_deposit": "1100.00",
+      "paid_amount_cheque": "0.00",
+      "margin_amount": "775.00",
+      "margin_percentage": "41.33%",
+      "invoice_date": "2026-11-12"
+    },
+    {
+      "invoice_number": "900001",
+      "client_name": "Northwind Test Staffing Client",
+      "accounting_person": "N/A",
+      "total_billed_amount": "4200.00",
+      "paid_amount": "2280.00",
+      "paid_amount_cash": "1080.00",
+      "paid_amount_corporation_cheque": "0.00",
+      "paid_amount_corporation_direct_deposit": "0.00",
+      "paid_amount_e_transfer": "0.00",
+      "paid_amount_direct_deposit": "1200.00",
+      "paid_amount_cheque": "0.00",
+      "margin_amount": "1920.00",
+      "margin_percentage": "45.71%",
+      "invoice_date": "2026-11-10"
+    },
+    {
+      "invoice_number": "900004",
+      "client_name": "Pacific Test Warehousing Client",
+      "accounting_person": "N/A",
+      "total_billed_amount": "1400.00",
+      "paid_amount": "840.00",
+      "paid_amount_cash": "0.00",
+      "paid_amount_corporation_cheque": "0.00",
+      "paid_amount_corporation_direct_deposit": "0.00",
+      "paid_amount_e_transfer": "190.00",
+      "paid_amount_direct_deposit": "650.00",
+      "paid_amount_cheque": "0.00",
+      "margin_amount": "560.00",
+      "margin_percentage": "40.00%",
+      "invoice_date": "2026-11-02"
+    }
+  ]
+}

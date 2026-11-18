@@ -8,14 +8,22 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { requireLocal } from "./local-only.mjs";
 
-export const SERVER_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+export const SERVER_DIR = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../.."
+);
 export const MIGRATIONS_DIR = path.join(SERVER_DIR, "src/db/migration_v2");
 
 /** Services the tests do not need; the images are never started. */
-export const EXCLUDED_SERVICES = "studio,imgproxy,postgres-meta,vector,logflare,supavisor,mailpit,edge-runtime";
+export const EXCLUDED_SERVICES =
+  "studio,imgproxy,postgres-meta,vector,logflare,supavisor,mailpit,edge-runtime";
 
 export function supabase(args, options = {}) {
-  return spawnSync("supabase", args, { cwd: SERVER_DIR, encoding: "utf8", ...options });
+  return spawnSync("supabase", args, {
+    cwd: SERVER_DIR,
+    encoding: "utf8",
+    ...options,
+  });
 }
 
 /** Addresses and keys of the running local stack. Exits 2 unless every address is local. */
@@ -24,7 +32,9 @@ export function localStack() {
   const r = supabase(["status", "-o", "json"]);
   const start = r.stdout.indexOf("{");
   if (r.status !== 0 || start < 0) {
-    console.error("The local Supabase is not running. Start it with: pnpm test:db:up");
+    console.error(
+      "The local Supabase is not running. Start it with: pnpm test:db:up"
+    );
     process.exit(1);
   }
   const s = JSON.parse(r.stdout.slice(start));
@@ -39,7 +49,10 @@ export function localStack() {
 }
 
 /** Runs a SQL file (or a statement) with psql; the database address has been checked by the caller. */
-export function psql(dbUrl, { file, sql, singleTransaction = true, quiet = true, tuplesOnly = false }) {
+export function psql(
+  dbUrl,
+  { file, sql, singleTransaction = true, quiet = true, tuplesOnly = false }
+) {
   requireLocal({ database: dbUrl });
   const args = [dbUrl, "-v", "ON_ERROR_STOP=1", "-X"];
   if (quiet) args.push("-q");
@@ -48,7 +61,10 @@ export function psql(dbUrl, { file, sql, singleTransaction = true, quiet = true,
   if (file) args.push("-f", file);
   if (sql) args.push("-c", sql);
   // 032 refuses to run unless the caller opts in; only these local test scripts do (see 032's header)
-  const env = { ...process.env, PGOPTIONS: "-c rhythence.catch_up=new-database" };
+  const env = {
+    ...process.env,
+    PGOPTIONS: "-c rhythence.catch_up=new-database",
+  };
   return spawnSync("psql", args, { encoding: "utf8", env });
 }
 

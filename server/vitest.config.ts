@@ -21,7 +21,11 @@ export default defineConfig({
         // The real server against a fresh local Supabase built from migration_v2 and the synthetic seed.
         test: {
           name: "integration",
-          include: ["tests/access/**/*.test.ts", "tests/schema/**/*.test.ts"],
+          include: [
+            "tests/access/**/*.test.ts",
+            "tests/schema/**/*.test.ts",
+            "tests/pins/**/*.test.ts",
+          ],
           globalSetup: ["tests/support/global-setup.ts"],
           testTimeout: 60_000,
           hookTimeout: 900_000,

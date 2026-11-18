@@ -23,11 +23,31 @@ describe("the environment the test server gets", () => {
   it("is built from nothing in the developer's shell: only these variables exist", () => {
     expect(Object.keys(env).sort()).toEqual(
       [
-        "AI_VERIFICATION_URL", "ASSIGNMENT_FROM_EMAIL", "CLIENT_URL", "DEFAULT_FROM_EMAIL", "HOME", "INVOICE_CC_EMAILS",
-        "NODE_ENV", "NO_REPLY_FROM_EMAIL", "PATH", "PORTAL_NAME", "PORT", "SENDGRID_API_KEY", "SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_KEY", "SUPABASE_URL", "SUPPORT_NOTIFY_CC", "SUPPORT_NOTIFY_TO", "TEST_FIXED_NOW",
-        "TEST_OUTBOUND_LOG", "TMPDIR", "TSX_TSCONFIG_PATH", "TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN",
-        "TWILIO_VERIFY_SERVICE_SID", "TZ",
+        "AI_VERIFICATION_URL",
+        "ASSIGNMENT_FROM_EMAIL",
+        "CLIENT_URL",
+        "DEFAULT_FROM_EMAIL",
+        "HOME",
+        "INVOICE_CC_EMAILS",
+        "NODE_ENV",
+        "NO_REPLY_FROM_EMAIL",
+        "PATH",
+        "PORTAL_NAME",
+        "PORT",
+        "SENDGRID_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_KEY",
+        "SUPABASE_URL",
+        "SUPPORT_NOTIFY_CC",
+        "SUPPORT_NOTIFY_TO",
+        "TEST_FIXED_NOW",
+        "TEST_OUTBOUND_LOG",
+        "TMPDIR",
+        "TSX_TSCONFIG_PATH",
+        "TWILIO_ACCOUNT_SID",
+        "TWILIO_AUTH_TOKEN",
+        "TWILIO_VERIFY_SERVICE_SID",
+        "TZ",
       ].sort()
     );
   });
@@ -42,13 +62,24 @@ describe("the environment the test server gets", () => {
     expect(env.SENDGRID_API_KEY).toMatch(/fake/);
     expect(env.TWILIO_AUTH_TOKEN).toMatch(/fake/);
     expect(env.TWILIO_ACCOUNT_SID).toMatch(/fake/);
-    for (const name of ["NO_REPLY_FROM_EMAIL", "ASSIGNMENT_FROM_EMAIL", "DEFAULT_FROM_EMAIL", "SUPPORT_NOTIFY_TO"]) {
+    for (const name of [
+      "NO_REPLY_FROM_EMAIL",
+      "ASSIGNMENT_FROM_EMAIL",
+      "DEFAULT_FROM_EMAIL",
+      "SUPPORT_NOTIFY_TO",
+    ]) {
       expect(env[name], name).toMatch(/@example\.test$/);
     }
   });
 
   it("has no fixed clock unless one is asked for", () => {
-    const real = serverEnvironment(stack, { port: 1, aiUrl: "http://127.0.0.1:2/x", outboundLog: "/tmp/o", tsconfig: "t", fixedNow: undefined }) as Record<string, string>;
+    const real = serverEnvironment(stack, {
+      port: 1,
+      aiUrl: "http://127.0.0.1:2/x",
+      outboundLog: "/tmp/o",
+      tsconfig: "t",
+      fixedNow: undefined,
+    }) as Record<string, string>;
     expect("TEST_FIXED_NOW" in real).toBe(false);
   });
 

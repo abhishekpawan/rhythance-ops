@@ -27,7 +27,13 @@ describe("a support ticket created through the real server", () => {
     const r = await server("/api/support/tickets", {
       token,
       method: "POST",
-      body: { type: "bug", urgency: "blocked", description: "Test ticket from the safety net", idempotencyKey: randomUUID(), locale: "en" },
+      body: {
+        type: "bug",
+        urgency: "blocked",
+        description: "Test ticket from the safety net",
+        idempotencyKey: randomUUID(),
+        locale: "en",
+      },
     });
     expect(r.status, r.text).toBeLessThan(300);
 
@@ -35,10 +41,13 @@ describe("a support ticket created through the real server", () => {
     expect(mail.to.length).toBeGreaterThan(0);
     // every address the server tried to write to is a synthetic one
     for (const e of entries().filter((e) => e.kind === "email")) {
-      for (const address of [...e.to, ...e.cc, ...e.bcc]) expect(address, JSON.stringify(e)).toMatch(/@example\.test$/);
+      for (const address of [...e.to, ...e.cc, ...e.bcc])
+        expect(address, JSON.stringify(e)).toMatch(/@example\.test$/);
     }
     // and nothing tried to leave the machine
-    expect(entries().filter((e) => String(e.kind).startsWith("blocked"))).toEqual([]);
+    expect(
+      entries().filter((e) => String(e.kind).startsWith("blocked"))
+    ).toEqual([]);
   });
 });
 

@@ -1,0 +1,5 @@
+# Prettier skips what is generated or read as it is.
+node_modules
+dist
+build
+pnpm-lock.yaml

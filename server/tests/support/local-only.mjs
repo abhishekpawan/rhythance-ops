@@ -77,7 +77,9 @@ export function requireLocal(addresses = {}, env = process.env) {
 
 // Run directly: `node tests/support/local-only.mjs [address ...]` checks the environment and the arguments.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const given = Object.fromEntries(process.argv.slice(2).map((a, i) => [`argument ${i + 1}`, a]));
+  const given = Object.fromEntries(
+    process.argv.slice(2).map((a, i) => [`argument ${i + 1}`, a])
+  );
   requireLocal(given);
   console.log("local-only check passed");
 }

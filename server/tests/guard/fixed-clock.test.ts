@@ -3,13 +3,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-const clock = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../support/fixed-clock.mjs");
+const clock = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../support/fixed-clock.mjs"
+);
 const run = (env: Record<string, string>) =>
   JSON.parse(
     spawnSync(
       process.execPath,
       [
-        "--import", clock, "-e",
+        "--import",
+        clock,
+        "-e",
         `console.log(JSON.stringify({ now: new Date().toISOString(), ms: Date.now(), explicit: new Date("2020-01-02T03:04:05Z").toISOString(),
           arg: new Date(2020, 0, 2).getFullYear(), instance: new Date() instanceof Date, toronto: new Intl.DateTimeFormat("en-CA", { timeZone: "America/Toronto", dateStyle: "short" }).format(new Date()) }))`,
       ],

@@ -4,27 +4,45 @@ import { inject } from "vitest";
 import { JOBSEEKERS, PASSWORD, SIGNUP_JOBSEEKER, STAFF } from "../seed/ids.mjs";
 import { signIn } from "../seed/users.mjs";
 
-export { FILES, JOBSEEKERS, PASSWORD, SIGNUP_JOBSEEKER, STAFF } from "../seed/ids.mjs";
+export {
+  FILES,
+  JOBSEEKERS,
+  PASSWORD,
+  SIGNUP_JOBSEEKER,
+  STAFF,
+} from "../seed/ids.mjs";
 
 export const stack = () => inject("stack");
 export const serverUrl = () => inject("serverUrl");
+/** The second test server, whose clock stands still at 10:00 on 17 November 2026 in Toronto (for date-based answers). */
+export const fixedClockServerUrl = () => inject("fixedClockServerUrl");
 
 const tokens = new Map<string, string>();
 
 /** Access token of a seeded account; cached for the run. */
-export async function tokenFor(email: string, password = PASSWORD): Promise<string> {
+export async function tokenFor(
+  email: string,
+  password = PASSWORD
+): Promise<string> {
   const key = `${email}\n${password}`;
   if (!tokens.has(key)) tokens.set(key, await signIn(stack(), email, password));
   return tokens.get(key) as string;
 }
 
 /** A fresh sign-in, for after the account's data changed (a token carries the metadata it was issued with). */
-export async function freshToken(email: string, password = PASSWORD): Promise<string> {
+export async function freshToken(
+  email: string,
+  password = PASSWORD
+): Promise<string> {
   return signIn(stack(), email, password);
 }
 
-export const staffEmails = Object.fromEntries(Object.entries(STAFF).map(([role, a]) => [role, a.email])) as Record<keyof typeof STAFF, string>;
-export const jobseekerEmails = Object.fromEntries(Object.entries(JOBSEEKERS).map(([k, a]) => [k, a.email])) as Record<keyof typeof JOBSEEKERS, string>;
+export const staffEmails = Object.fromEntries(
+  Object.entries(STAFF).map(([role, a]) => [role, a.email])
+) as Record<keyof typeof STAFF, string>;
+export const jobseekerEmails = Object.fromEntries(
+  Object.entries(JOBSEEKERS).map(([k, a]) => [k, a.email])
+) as Record<keyof typeof JOBSEEKERS, string>;
 export const signupEmail = SIGNUP_JOBSEEKER.email;
 
 export interface Reply {
@@ -44,23 +62,43 @@ async function reply(res: Response): Promise<Reply> {
   return { status: res.status, json, text };
 }
 
-/** Calls the real server. `token` undefined sends no Authorization header. */
-export async function server(path: string, opts: { token?: string; method?: string; body?: unknown } = {}): Promise<Reply> {
-  const res = await fetch(`${serverUrl()}${path}`, {
-    method: opts.method ?? "GET",
-    headers: {
-      ...(opts.token ? { Authorization: `Bearer ${opts.token}` } : {}),
-      ...(opts.body !== undefined ? { "Content-Type": "application/json" } : {}),
-    },
-    body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
-  });
+/** Calls the real server. `token` undefined sends no Authorization header. `fixedClock` uses the second server. */
+export async function server(
+  path: string,
+  opts: {
+    token?: string;
+    method?: string;
+    body?: unknown;
+    fixedClock?: boolean;
+  } = {}
+): Promise<Reply> {
+  const res = await fetch(
+    `${opts.fixedClock ? fixedClockServerUrl() : serverUrl()}${path}`,
+    {
+      method: opts.method ?? "GET",
+      headers: {
+        ...(opts.token ? { Authorization: `Bearer ${opts.token}` } : {}),
+        ...(opts.body !== undefined
+          ? { "Content-Type": "application/json" }
+          : {}),
+      },
+      body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+    }
+  );
   return reply(res);
 }
 
 /** Calls the local Supabase directly. `token` undefined means the anon key only; `key` is the apikey header. */
 export async function supabase(
   path: string,
-  opts: { token?: string; key?: string; method?: string; body?: unknown; raw?: BodyInit; headers?: Record<string, string> } = {}
+  opts: {
+    token?: string;
+    key?: string;
+    method?: string;
+    body?: unknown;
+    raw?: BodyInit;
+    headers?: Record<string, string>;
+  } = {}
 ): Promise<Reply> {
   const s = stack();
   const key = opts.key ?? s.anonKey;
@@ -69,10 +107,14 @@ export async function supabase(
     headers: {
       apikey: key,
       Authorization: `Bearer ${opts.token ?? key}`,
-      ...(opts.body !== undefined ? { "Content-Type": "application/json" } : {}),
+      ...(opts.body !== undefined
+        ? { "Content-Type": "application/json" }
+        : {}),
       ...opts.headers,
     },
-    body: opts.raw ?? (opts.body !== undefined ? JSON.stringify(opts.body) : undefined),
+    body:
+      opts.raw ??
+      (opts.body !== undefined ? JSON.stringify(opts.body) : undefined),
   });
   return reply(res);
 }
@@ -80,7 +122,11 @@ export async function supabase(
 /** Storage helpers (direct, with the caller's token). */
 export const storage = {
   list: (bucket: string, prefix: string, token?: string) =>
-    supabase(`/storage/v1/object/list/${bucket}`, { token, method: "POST", body: { prefix, limit: 100 } }),
+    supabase(`/storage/v1/object/list/${bucket}`, {
+      token,
+      method: "POST",
+      body: { prefix, limit: 100 },
+    }),
   download: (bucket: string, name: string, token?: string) =>
     supabase(`/storage/v1/object/authenticated/${bucket}/${name}`, { token }),
   replace: (bucket: string, name: string, content: string, token?: string) =>
@@ -98,11 +144,23 @@ export const storage = {
       headers: { "Content-Type": "application/pdf" },
     }),
   remove: (bucket: string, name: string, token?: string) =>
-    supabase(`/storage/v1/object/${bucket}`, { token, method: "DELETE", body: { prefixes: [name] } }),
+    supabase(`/storage/v1/object/${bucket}`, {
+      token,
+      method: "DELETE",
+      body: { prefixes: [name] },
+    }),
   /** What the service key sees: used to check that a refused change really changed nothing. */
-  async existsAsService(bucket: string, name: string): Promise<{ exists: boolean; content?: string }> {
+  async existsAsService(
+    bucket: string,
+    name: string
+  ): Promise<{ exists: boolean; content?: string }> {
     const s = stack();
-    const r = await supabase(`/storage/v1/object/${bucket}/${name}`, { token: s.serviceKey, key: s.serviceKey });
-    return r.status === 200 ? { exists: true, content: r.text } : { exists: false };
+    const r = await supabase(`/storage/v1/object/${bucket}/${name}`, {
+      token: s.serviceKey,
+      key: s.serviceKey,
+    });
+    return r.status === 200
+      ? { exists: true, content: r.text }
+      : { exists: false };
   },
 };

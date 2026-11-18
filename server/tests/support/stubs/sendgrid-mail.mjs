@@ -8,7 +8,8 @@ class MailService {
   setClient() {}
   setSubstitutionWrappers() {}
   async send(data) {
-    for (const msg of Array.isArray(data) ? data : [data]) record(describeMail(msg));
+    for (const msg of Array.isArray(data) ? data : [data])
+      record(describeMail(msg));
     return response;
   }
   async sendMultiple(data) {

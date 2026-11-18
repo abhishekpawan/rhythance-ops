@@ -1,6 +1,9 @@
 // ESM resolve hook: the two vendor packages that send messages are replaced by recorders.
 const stubs = new Map([
-  ["@sendgrid/mail", new URL("./stubs/sendgrid-mail.mjs", import.meta.url).href],
+  [
+    "@sendgrid/mail",
+    new URL("./stubs/sendgrid-mail.mjs", import.meta.url).href,
+  ],
   ["twilio", new URL("./stubs/twilio.mjs", import.meta.url).href],
 ]);
 

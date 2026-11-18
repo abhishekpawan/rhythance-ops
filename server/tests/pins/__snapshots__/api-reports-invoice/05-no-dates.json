@@ -1,0 +1,6 @@
+{
+  "status": 400,
+  "body": {
+    "error": "Start date and end date are required."
+  }
+}

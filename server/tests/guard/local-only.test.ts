@@ -59,19 +59,38 @@ describe("checkAddress", () => {
 
 describe("requireLocal", () => {
   it("returns for local addresses and an empty environment", () => {
-    expect(() => requireLocal({ database: "postgresql://postgres@127.0.0.1:54422/postgres" }, {})).not.toThrow();
+    expect(() =>
+      requireLocal(
+        { database: "postgresql://postgres@127.0.0.1:54422/postgres" },
+        {}
+      )
+    ).not.toThrow();
   });
 
   it("exits with code 2 for a remote address, before anything else runs", () => {
     const exit = vi_exit();
-    expect(() => requireLocal({ database: "postgresql://x@db.example.supabase.co:5432/postgres" }, {})).toThrow("exit:2");
+    expect(() =>
+      requireLocal(
+        { database: "postgresql://x@db.example.supabase.co:5432/postgres" },
+        {}
+      )
+    ).toThrow("exit:2");
     expect(exit.restore()).toBe(2);
   });
 
   it("exits with code 2 when the environment still holds a remote address (stage or production left exported)", () => {
-    for (const name of ["SUPABASE_URL", "DATABASE_URL", "SUPABASE_DB_URL", "POSTGRES_URL", "TEST_DB_URL", "TEST_SUPABASE_URL"]) {
+    for (const name of [
+      "SUPABASE_URL",
+      "DATABASE_URL",
+      "SUPABASE_DB_URL",
+      "POSTGRES_URL",
+      "TEST_DB_URL",
+      "TEST_SUPABASE_URL",
+    ]) {
       const exit = vi_exit();
-      expect(() => requireLocal({}, { [name]: "https://abcdefghijklmnop.supabase.co" })).toThrow("exit:2");
+      expect(() =>
+        requireLocal({}, { [name]: "https://abcdefghijklmnop.supabase.co" })
+      ).toThrow("exit:2");
       expect(exit.restore()).toBe(2);
     }
   });
@@ -101,35 +120,62 @@ describe("every test script refuses a remote database", () => {
   const scripts = readdirSync(scriptsDir).filter((f) => f.endsWith(".mjs"));
 
   it("finds the scripts it is meant to check", () => {
-    expect(scripts).toEqual(expect.arrayContaining(["db-up.mjs", "db-build.mjs", "db-seed.mjs", "start-test-server.mjs"]));
+    expect(scripts).toEqual(
+      expect.arrayContaining([
+        "db-up.mjs",
+        "db-build.mjs",
+        "db-seed.mjs",
+        "start-test-server.mjs",
+      ])
+    );
   });
 
   const remote = {
     SUPABASE_URL: "https://abcdefghijklmnop.supabase.co",
-    DATABASE_URL: "postgresql://postgres:secret@db.abcdefghijklmnop.supabase.co:5432/postgres",
+    DATABASE_URL:
+      "postgresql://postgres:secret@db.abcdefghijklmnop.supabase.co:5432/postgres",
   };
 
-  for (const script of readdirSync(scriptsDir).filter((f) => f.endsWith(".mjs"))) {
-    it.each(Object.entries(remote))(`${script} with ${"%s"} remote`, (name, value) => {
-      const r = spawnSync(process.execPath, [path.join(scriptsDir, script)], {
-        env: { PATH: process.env.PATH ?? "", HOME: process.env.HOME ?? "", [name]: value },
-        encoding: "utf8",
-        timeout: 20_000,
-      });
-      expect(r.status).toBe(2);
-      expect(r.stderr).toContain("REFUSED");
-      expect(r.stderr).toContain(name);
-      // it stopped before doing anything: none of the work a script announces was started
-      expect(r.stdout).not.toMatch(/resetting|starting local|applied|seeded|test server on/i);
-    });
+  for (const script of readdirSync(scriptsDir).filter((f) =>
+    f.endsWith(".mjs")
+  )) {
+    it.each(Object.entries(remote))(
+      `${script} with ${"%s"} remote`,
+      (name, value) => {
+        const r = spawnSync(process.execPath, [path.join(scriptsDir, script)], {
+          env: {
+            PATH: process.env.PATH ?? "",
+            HOME: process.env.HOME ?? "",
+            [name]: value,
+          },
+          encoding: "utf8",
+          timeout: 20_000,
+        });
+        expect(r.status).toBe(2);
+        expect(r.stderr).toContain("REFUSED");
+        expect(r.stderr).toContain(name);
+        // it stopped before doing anything: none of the work a script announces was started
+        expect(r.stdout).not.toMatch(
+          /resetting|starting local|applied|seeded|test server on/i
+        );
+      }
+    );
   }
 
   it("the schema comparison refuses too", () => {
-    const r = spawnSync(process.execPath, [path.join(tests, "schema/compare.mjs")], {
-      env: { PATH: process.env.PATH ?? "", HOME: process.env.HOME ?? "", SUPABASE_URL: remote.SUPABASE_URL },
-      encoding: "utf8",
-      timeout: 20_000,
-    });
+    const r = spawnSync(
+      process.execPath,
+      [path.join(tests, "schema/compare.mjs")],
+      {
+        env: {
+          PATH: process.env.PATH ?? "",
+          HOME: process.env.HOME ?? "",
+          SUPABASE_URL: remote.SUPABASE_URL,
+        },
+        encoding: "utf8",
+        timeout: 20_000,
+      }
+    );
     expect(r.status).toBe(2);
     expect(r.stderr).toContain("REFUSED");
   });
@@ -137,14 +183,26 @@ describe("every test script refuses a remote database", () => {
 
 // A new script without the guard must fail here, not in a review.
 describe("every test script starts with the guard", () => {
-  for (const script of readdirSync(scriptsDir).filter((f) => f.endsWith(".mjs"))) {
+  for (const script of readdirSync(scriptsDir).filter((f) =>
+    f.endsWith(".mjs")
+  )) {
     it(script, () => {
       const source = readFileSync(path.join(scriptsDir, script), "utf8");
       const guard = source.indexOf("requireLocal();");
       expect(guard, "calls requireLocal() at top level").toBeGreaterThan(-1);
-      for (const risky of ["localStack(", "psql(", "supabase(", "startTestServer(", "fetch(", "spawn"]) {
+      for (const risky of [
+        "localStack(",
+        "psql(",
+        "supabase(",
+        "startTestServer(",
+        "fetch(",
+        "spawn",
+      ]) {
         const first = source.indexOf(risky);
-        if (first !== -1) expect(guard, `requireLocal() comes before ${risky}`).toBeLessThan(first);
+        if (first !== -1)
+          expect(guard, `requireLocal() comes before ${risky}`).toBeLessThan(
+            first
+          );
       }
     });
   }

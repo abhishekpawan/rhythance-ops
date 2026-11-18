@@ -1,0 +1,39 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "employee_id": "E-0014",
+      "license_number": null,
+      "passport_number": null,
+      "name": "Corey Corporate",
+      "mobile": "+15555550114",
+      "email": "jobseeker.corp@example.test",
+      "company_name": "Quebec Test Logistics Client",
+      "list_name": "Quebec Logistics",
+      "title": "Driver Helper",
+      "position_code": "QL001",
+      "position_category": "Logistics",
+      "client_manager": null,
+      "week_start_date": "2026-11-08",
+      "week_end_date": "2026-11-14",
+      "total_regular_hours": 40,
+      "total_overtime_hours": 0,
+      "regular_pay_rate": 20,
+      "premium_pay_rate": 2.5,
+      "overtime_pay_rate": 20,
+      "total_jobseeker_pay": 1017,
+      "bonus_amount": 0,
+      "deduction_amount": 0,
+      "cash_deduction_amount": "0.00",
+      "hst_gst": "13%",
+      "currency": "CAD",
+      "payment_method": "Corporation-Direct Deposit",
+      "pay_cycle": "Biweekly - 2 week hold",
+      "notes": "",
+      "timesheet_created_at": "2026-11-16T14:00:00+00:00",
+      "invoice_number": "900003",
+      "jobseeker_is_inactive": false,
+      "client_is_inactive": false
+    }
+  ]
+}

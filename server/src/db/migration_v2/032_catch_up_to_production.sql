@@ -8,11 +8,13 @@
 --
 -- SOURCE. Production definitions, read-only, 2026-11-17, taken AFTER 033 and 034 were applied
 -- (CanHire; AllStaff, Godspeed and GD Workforce compared: the tables, columns, constraints, indexes,
--- grants and triggers are identical on all four; the differences are listed in README.md).
+-- grants and triggers are identical on all four; the remaining differences, all on GD Workforce, are listed in
+-- README.md. Godspeed's find_matching_candidates, which differed on 2026-11-17, was aligned on 2026-11-18.)
 --
 -- NEW DATABASES ONLY. NEVER RUN THIS ON A LIVE DATABASE (production, stage or any database with clients' data).
--- It is not a no-op there: for example it would replace one production database's find_matching_candidates
--- with another's. The four production databases already have everything in it. To make that hard to do by
+-- It would change nothing on production as it is today (2026-11-18), but it holds production's definitions of
+-- 2026-11-17: any later change to a function or policy there would be overwritten. The four production databases
+-- already have everything in it. To make that hard to do by
 -- accident, the first statement below refuses to run unless the caller has opted in explicitly with
 --   PGOPTIONS="-c rhythence.catch_up=new-database"      (or: SET rhythence.catch_up = 'new-database';)
 -- The test scripts set it; nothing else does.

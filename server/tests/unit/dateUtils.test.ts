@@ -52,14 +52,26 @@ describe("formatCalendarDate", () => {
 
 describe("formatCanadaDate", () => {
   it("uses Toronto time, not UTC and not the machine's zone", () => {
-    const numeric = { year: "numeric", month: "2-digit", day: "2-digit" } as const;
+    const numeric = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    } as const;
     // 03:30 UTC on 1 Nov 2026 is 23:30 on 31 Oct in Toronto (daylight time ends later that night)
-    expect(formatCanadaDate("2026-11-01T03:30:00Z", numeric)).toBe("2026-10-31");
+    expect(formatCanadaDate("2026-11-01T03:30:00Z", numeric)).toBe(
+      "2026-10-31"
+    );
     // 05:30 UTC is 01:30 on 1 Nov, still daylight time
-    expect(formatCanadaDate("2026-11-01T05:30:00Z", numeric)).toBe("2026-11-01");
+    expect(formatCanadaDate("2026-11-01T05:30:00Z", numeric)).toBe(
+      "2026-11-01"
+    );
     // after the clocks go back: 06:30 UTC is 01:30 standard time, same day
-    expect(formatCanadaDate("2026-11-01T06:30:00Z", numeric)).toBe("2026-11-01");
-    expect(formatCanadaDate(new Date("2026-07-01T02:00:00Z"), numeric)).toBe("2026-06-30");
+    expect(formatCanadaDate("2026-11-01T06:30:00Z", numeric)).toBe(
+      "2026-11-01"
+    );
+    expect(formatCanadaDate(new Date("2026-07-01T02:00:00Z"), numeric)).toBe(
+      "2026-06-30"
+    );
   });
   it("returns an empty string for an invalid date", () => {
     expect(formatCanadaDate("garbage")).toBe("");
@@ -67,7 +79,13 @@ describe("formatCanadaDate", () => {
   it("uses the clock when no date is given", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-11-17T15:00:00Z"));
-    expect(formatCanadaDate(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })).toBe("2026-11-17");
+    expect(
+      formatCanadaDate(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+    ).toBe("2026-11-17");
   });
 });
 

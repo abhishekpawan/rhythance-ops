@@ -16,7 +16,11 @@ function twilio() {
           verificationChecks: {
             create: async ({ to, code }) => {
               record({ kind: "sms-check", to });
-              return { status: code === "000000" ? "approved" : "pending", to, valid: code === "000000" };
+              return {
+                status: code === "000000" ? "approved" : "pending",
+                to,
+                valid: code === "000000",
+              };
             },
           },
         }),

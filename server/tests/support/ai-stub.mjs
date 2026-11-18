@@ -9,14 +9,22 @@ export function startAiStub() {
       let size = 0;
       req.on("data", (chunk) => (size += chunk.length));
       req.on("end", () => {
-        record({ kind: "ai-check", method: req.method, path: req.url, bytes: size });
+        record({
+          kind: "ai-check",
+          method: req.method,
+          path: req.url,
+          bytes: size,
+        });
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ status: "stubbed", results: [] }));
       });
     });
     server.listen(0, "127.0.0.1", () => {
       const { port } = server.address();
-      resolve({ url: `http://127.0.0.1:${port}/analyze-profile-documents`, close: () => new Promise((r) => server.close(r)) });
+      resolve({
+        url: `http://127.0.0.1:${port}/analyze-profile-documents`,
+        close: () => new Promise((r) => server.close(r)),
+      });
     });
   });
 }

@@ -1,0 +1,17 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "client_name": "Quebec Test Logistics Client",
+      "position_details": "Driver Helper [QL001 - N/A]",
+      "position_category": "Logistics",
+      "bill_rate": "35",
+      "pay_rate": "20",
+      "premium_pay_rate": "2.5",
+      "overtime_hours": "N/A",
+      "overtime_bill_rate": "N/A",
+      "overtime_pay_rate": "N/A",
+      "client_is_inactive": false
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "invoice_number": "900006",
+      "client_name": "Northwind Test Staffing Client",
+      "accounting_person": "Test Bookkeeper",
+      "total_amount": "1875.00",
+      "jobseeker_deductions": "Sam Sinclair (-$50.00)",
+      "total_deductions_amount": "50.00",
+      "invoice_date": "2026-11-12"
+    }
+  ]
+}

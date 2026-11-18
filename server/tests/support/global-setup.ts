@@ -10,10 +10,15 @@ import { localStack } from "./stack.mjs";
 import { startTestServer } from "./test-server.mjs";
 import { FIXED_NOW } from "../seed/ids.mjs";
 
-const scripts = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../scripts");
+const scripts = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../scripts"
+);
 
 function run(script: string) {
-  const r = spawnSync(process.execPath, [path.join(scripts, script)], { stdio: "inherit" });
+  const r = spawnSync(process.execPath, [path.join(scripts, script)], {
+    stdio: "inherit",
+  });
   if (r.status !== 0) throw new Error(`${script} failed (exit ${r.status})`);
 }
 

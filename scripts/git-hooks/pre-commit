@@ -1,0 +1,70 @@
+#!/bin/sh
+# Pre-commit hook. Enable once per clone:  git config core.hooksPath scripts/git-hooks
+# Runs on the STAGED files only (it never reformats anything for you):
+#   1. file-size ratchet     (scripts/check-file-size.sh --staged)
+#   2. Prettier              a staged client/ or server/ source file must be Prettier-clean, unless it already
+#                            was NOT clean in HEAD: the repo is not formatted yet (a mass reformat would make every
+#                            later cherry-pick conflict across the six branches), so touching an old file does not
+#                            force reformatting all of it. New files and files that were clean must stay clean.
+#   3. type check            of each package a staged file belongs to (server about 4 s, client about 12 s)
+# Skip in an emergency with `git commit --no-verify`; CI runs the same checks on push.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+fail=0
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$staged" ] && exit 0
+
+# 1. file size
+scripts/check-file-size.sh --staged || fail=1
+
+# 2. Prettier
+check_prettier() { # package dir (client|server)
+  pkg=$1
+  bin="$pkg/node_modules/.bin/prettier"
+  files=$(echo "$staged" | grep -E "^$pkg/.*\.(ts|tsx|css|mjs|cjs|js)$")
+  [ -z "$files" ] && return 0
+  if [ ! -x "$bin" ]; then
+    echo "pre-commit: $pkg/node_modules is missing (run pnpm install in $pkg); Prettier check skipped for $pkg"
+    return 0
+  fi
+  skipped=0
+  for f in $files; do
+    rel=${f#"$pkg"/}
+    staged_text=$(git show ":$f"; echo x)
+    formatted=$(cd "$pkg" && git show ":$f" | ./node_modules/.bin/prettier --stdin-filepath "$rel" 2>/dev/null; echo x)
+    [ "$staged_text" = "$formatted" ] && continue
+    if git cat-file -e "HEAD:$f" 2>/dev/null; then
+      head_text=$(git show "HEAD:$f"; echo x)
+      head_formatted=$(cd "$pkg" && git show "HEAD:$f" | ./node_modules/.bin/prettier --stdin-filepath "$rel" 2>/dev/null; echo x)
+      if [ "$head_text" != "$head_formatted" ]; then
+        skipped=$((skipped + 1))
+        continue
+      fi
+    fi
+    echo "Prettier: $f is not formatted. Fix with: cd $pkg && npx prettier --write ${f#"$pkg"/}"
+    fail=1
+  done
+  [ "$skipped" -gt 0 ] && echo "Prettier: $skipped staged file(s) in $pkg were not formatted before this commit and are left as they are."
+  return 0
+}
+check_prettier client
+check_prettier server
+
+# 3. type checks
+check_types() {
+  pkg=$1
+  echo "$staged" | grep -qE "^$pkg/" || return 0
+  if [ ! -x "$pkg/node_modules/.bin/tsc" ]; then
+    echo "pre-commit: $pkg/node_modules is missing (run pnpm install in $pkg); type check skipped for $pkg"
+    return 0
+  fi
+  (cd "$pkg" && ./node_modules/.bin/tsc --noEmit) || { echo "Type check failed in $pkg."; fail=1; }
+}
+check_types server
+check_types client
+
+if [ "$fail" -ne 0 ]; then
+  echo "pre-commit: commit blocked (git commit --no-verify skips these checks; CI will not)."
+  exit 1
+fi
+exit 0

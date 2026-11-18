@@ -39,20 +39,36 @@ export function readAllowances(file) {
  * @returns {{missing: string[], extra: string[], staleAllowances: string[]}}
  */
 export function compareListings(production, local, ahead) {
-  const prod = new Set(production.filter((l) => !NOT_COVERED.some((re) => re.test(l))));
+  const prod = new Set(
+    production.filter((l) => !NOT_COVERED.some((re) => re.test(l)))
+  );
   const loc = new Set(local);
   const missing = [...prod].filter((l) => !loc.has(l)).sort();
   const extraAll = [...loc].filter((l) => !prod.has(l)).sort();
   const extra = extraAll.filter((l) => !ahead.some((p) => l.startsWith(p)));
-  const staleAllowances = ahead.filter((p) => !extraAll.some((l) => l.startsWith(p)));
+  const staleAllowances = ahead.filter(
+    (p) => !extraAll.some((l) => l.startsWith(p))
+  );
   return { missing, extra, staleAllowances };
 }
 
 export function formatResult({ missing, extra, staleAllowances }) {
   const out = [];
-  if (missing.length) out.push("In production, missing from the test database:", ...missing.map((l) => `  - ${l}`));
-  if (extra.length) out.push("In the test database, not in production:", ...extra.map((l) => `  + ${l}`));
-  if (staleAllowances.length) out.push("Stale entries in files-ahead-of-production.txt:", ...staleAllowances.map((l) => `  ! ${l}`));
+  if (missing.length)
+    out.push(
+      "In production, missing from the test database:",
+      ...missing.map((l) => `  - ${l}`)
+    );
+  if (extra.length)
+    out.push(
+      "In the test database, not in production:",
+      ...extra.map((l) => `  + ${l}`)
+    );
+  if (staleAllowances.length)
+    out.push(
+      "Stale entries in files-ahead-of-production.txt:",
+      ...staleAllowances.map((l) => `  ! ${l}`)
+    );
   return out.join("\n");
 }
 
@@ -60,7 +76,11 @@ export function formatResult({ missing, extra, staleAllowances }) {
 export async function listLocal() {
   const { localStack, psql } = await import("../support/stack.mjs");
   const stack = localStack();
-  const r = psql(stack.dbUrl, { file: path.join(here, "listing.sql"), tuplesOnly: true, singleTransaction: false });
+  const r = psql(stack.dbUrl, {
+    file: path.join(here, "listing.sql"),
+    tuplesOnly: true,
+    singleTransaction: false,
+  });
   if (r.status !== 0) throw new Error(`listing.sql failed: ${r.stderr}`);
   return r.stdout.split("\n").filter((l) => l.trim() !== "");
 }
@@ -77,5 +97,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.error(text);
     process.exit(1);
   }
-  console.log("schema matches production (apart from the items 032 lists as not covered and files-ahead-of-production.txt)");
+  console.log(
+    "schema matches production (apart from the items 032 lists as not covered and files-ahead-of-production.txt)"
+  );
 }

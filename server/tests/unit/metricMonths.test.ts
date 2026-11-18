@@ -86,9 +86,21 @@ describe("summarizeMonthly", () => {
   it("draws the recent window day by day with the same day of the prior window beside it", () => {
     const s = summarizeMonthly(rows, { getDate: (r) => r.at, now: NOW });
     expect(s.daily).toHaveLength(30);
-    expect(s.daily[0]).toEqual({ date: "2026-10-19", value: 1, previousValue: 1 });
-    expect(s.daily[1]).toEqual({ date: "2026-10-20", value: 0, previousValue: 0 });
-    expect(s.daily[29]).toEqual({ date: "2026-11-17", value: 1, previousValue: 1 });
+    expect(s.daily[0]).toEqual({
+      date: "2026-10-19",
+      value: 1,
+      previousValue: 1,
+    });
+    expect(s.daily[1]).toEqual({
+      date: "2026-10-20",
+      value: 0,
+      previousValue: 0,
+    });
+    expect(s.daily[29]).toEqual({
+      date: "2026-11-17",
+      value: 1,
+      previousValue: 1,
+    });
     expect(s.daily.reduce((a, d) => a + d.value, 0)).toBe(s.recent);
     expect(s.daily.reduce((a, d) => a + d.previousValue, 0)).toBe(s.prior);
   });
@@ -100,7 +112,11 @@ describe("summarizeMonthly", () => {
       { at: "2026-11-12", amount: 1.005 },
       { at: "2026-10-01", amount: 100.004 },
     ];
-    const s = summarizeMonthly(money, { getDate: (r) => r.at, getValue: (r) => r.amount, now: NOW });
+    const s = summarizeMonthly(money, {
+      getDate: (r) => r.at,
+      getValue: (r) => r.amount,
+      now: NOW,
+    });
     expect(s.recent).toBe(1.31); // 0.1 + 0.2 + 1.005 = 1.305000..., rounded half up
     expect(s.total).toBe(101.31);
     expect(s.prior).toBe(100); // 100.004 rounded
@@ -126,18 +142,33 @@ describe("summarizeMonthly", () => {
 
   it("follows the clock around Toronto midnight", () => {
     const row = [{ at: "2026-11-16T03:30:00Z" }]; // 22:30 on 15 Nov in Toronto
-    const early = summarizeMonthly(row, { getDate: (r) => r.at, now: new Date("2026-11-16T04:00:00Z") });
+    const early = summarizeMonthly(row, {
+      getDate: (r) => r.at,
+      now: new Date("2026-11-16T04:00:00Z"),
+    });
     expect(early.daily[29].date).toBe("2026-11-15");
     expect(early.daily[29].value).toBe(1);
-    const later = summarizeMonthly(row, { getDate: (r) => r.at, now: new Date("2026-11-16T06:00:00Z") });
+    const later = summarizeMonthly(row, {
+      getDate: (r) => r.at,
+      now: new Date("2026-11-16T06:00:00Z"),
+    });
     expect(later.daily[29].date).toBe("2026-11-16");
     expect(later.daily[28].value).toBe(1); // yesterday now
   });
 
   it("supports other window and chart lengths", () => {
-    const s = summarizeMonthly(rows, { getDate: (r) => r.at, now: NOW, windowDays: 7, monthsBack: 2 });
+    const s = summarizeMonthly(rows, {
+      getDate: (r) => r.at,
+      now: NOW,
+      windowDays: 7,
+      monthsBack: 2,
+    });
     expect(s.daily).toHaveLength(7);
-    expect(s.monthly.map((m) => m.month)).toEqual(["2026-09", "2026-10", "2026-11"]);
+    expect(s.monthly.map((m) => m.month)).toEqual([
+      "2026-09",
+      "2026-10",
+      "2026-11",
+    ]);
     expect(s.recent).toBe(1);
     expect(s.prior).toBe(0);
   });
@@ -153,11 +184,14 @@ describe("summarizeMonthly", () => {
 
 describe("metricFromSummary", () => {
   it("builds the fields every metric card reads", () => {
-    const s = summarizeMonthly([{ at: "2026-11-10" }, { at: "2026-10-25" }, { at: "2026-09-25" }], {
-      getDate: (r) => r.at,
-      now: NOW,
-      monthsBack: 2,
-    });
+    const s = summarizeMonthly(
+      [{ at: "2026-11-10" }, { at: "2026-10-25" }, { at: "2026-09-25" }],
+      {
+        getDate: (r) => r.at,
+        now: NOW,
+        monthsBack: 2,
+      }
+    );
     const m = metricFromSummary(s);
     expect(m.currentValue).toBe(3);
     expect(m.currentPeriodValue).toBe(2);

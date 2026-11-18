@@ -24,14 +24,27 @@ describe("payment method helpers", () => {
     expect(hybridSecondSegment("SIN and e-Transfer")).toBe("e_transfer");
     expect(hybridSecondSegment("Cash")).toBeNull();
     expect(hybridSecondLinePaymentMethod("SIN and cash")).toBe("Cash");
-    expect(hybridSecondLinePaymentMethod("SIN and e-Transfer")).toBe("e-Transfer");
+    expect(hybridSecondLinePaymentMethod("SIN and e-Transfer")).toBe(
+      "e-Transfer"
+    );
     expect(hybridSecondLinePaymentMethod("SIN-Direct Deposit")).toBeNull();
   });
   it("says which profiles carry a cash deduction percentage", () => {
-    for (const pm of ["Cash", "e-Transfer", "SIN and cash", "SIN and e-Transfer"]) {
+    for (const pm of [
+      "Cash",
+      "e-Transfer",
+      "SIN and cash",
+      "SIN and e-Transfer",
+    ]) {
       expect(profileUsesCashDeductionField(pm)).toBe(true);
     }
-    for (const pm of ["SIN-Direct Deposit", "Corporation-Direct Deposit", "", null, undefined]) {
+    for (const pm of [
+      "SIN-Direct Deposit",
+      "Corporation-Direct Deposit",
+      "",
+      null,
+      undefined,
+    ]) {
       expect(profileUsesCashDeductionField(pm)).toBe(false);
     }
   });
@@ -46,7 +59,16 @@ describe("parseHstGstPercentage", () => {
     expect(parseHstGstPercentage("5%")).toBe(5);
   });
   it("is zero for anything else", () => {
-    for (const v of [null, undefined, "", "HST 13%", "abc", ".", "13 percent", "-5"]) {
+    for (const v of [
+      null,
+      undefined,
+      "",
+      "HST 13%",
+      "abc",
+      ".",
+      "13 percent",
+      "-5",
+    ]) {
       expect(parseHstGstPercentage(v as string | null | undefined)).toBe(0);
     }
   });
@@ -54,32 +76,61 @@ describe("parseHstGstPercentage", () => {
 
 describe("computeWeeklyRegularOvertime", () => {
   it("is all regular without overtime", () => {
-    expect(computeWeeklyRegularOvertime({ entries: week([8, 8, 8, 8, 8, 4]), overtimeEnabled: false })).toEqual({
+    expect(
+      computeWeeklyRegularOvertime({
+        entries: week([8, 8, 8, 8, 8, 4]),
+        overtimeEnabled: false,
+      })
+    ).toEqual({
       weeklyRegularHours: 44,
       weeklyOvertimeHours: 0,
     });
   });
   it("splits at the position's threshold, 40 when none is set", () => {
     const fifty = week([10, 10, 10, 10, 10]);
-    expect(computeWeeklyRegularOvertime({ entries: fifty, overtimeEnabled: true })).toEqual({
+    expect(
+      computeWeeklyRegularOvertime({ entries: fifty, overtimeEnabled: true })
+    ).toEqual({
       weeklyRegularHours: 40,
       weeklyOvertimeHours: 10,
     });
-    expect(computeWeeklyRegularOvertime({ entries: fifty, overtimeEnabled: true, overtimeHoursRaw: "44" })).toEqual({
+    expect(
+      computeWeeklyRegularOvertime({
+        entries: fifty,
+        overtimeEnabled: true,
+        overtimeHoursRaw: "44",
+      })
+    ).toEqual({
       weeklyRegularHours: 44,
       weeklyOvertimeHours: 6,
     });
-    expect(computeWeeklyRegularOvertime({ entries: fifty, overtimeEnabled: true, overtimeHoursRaw: null })).toEqual({
+    expect(
+      computeWeeklyRegularOvertime({
+        entries: fifty,
+        overtimeEnabled: true,
+        overtimeHoursRaw: null,
+      })
+    ).toEqual({
       weeklyRegularHours: 40,
       weeklyOvertimeHours: 10,
     });
   });
   it("has no overtime below the threshold, and rounds to hundredths", () => {
-    expect(computeWeeklyRegularOvertime({ entries: week([8, 8, 8]), overtimeEnabled: true })).toEqual({
+    expect(
+      computeWeeklyRegularOvertime({
+        entries: week([8, 8, 8]),
+        overtimeEnabled: true,
+      })
+    ).toEqual({
       weeklyRegularHours: 24,
       weeklyOvertimeHours: 0,
     });
-    expect(computeWeeklyRegularOvertime({ entries: week([7.333, 7.333]), overtimeEnabled: false })).toEqual({
+    expect(
+      computeWeeklyRegularOvertime({
+        entries: week([7.333, 7.333]),
+        overtimeEnabled: false,
+      })
+    ).toEqual({
       weeklyRegularHours: 14.67,
       weeklyOvertimeHours: 0,
     });
@@ -106,7 +157,11 @@ describe("buildTimesheetRowsForPayroll: one row for ordinary payment methods", (
 
   it("overtime is paid and billed at its own rates", () => {
     const [row] = buildTimesheetRowsForPayroll(
-      base({ entries: week([10, 10, 10, 10, 10]), overtimeEnabled: true, overtimeHoursRaw: "40" })
+      base({
+        entries: week([10, 10, 10, 10, 10]),
+        overtimeEnabled: true,
+        overtimeHoursRaw: "40",
+      })
     );
     expect(row.totalRegularHours).toBe(40);
     expect(row.totalOvertimeHours).toBe(10);
@@ -115,29 +170,45 @@ describe("buildTimesheetRowsForPayroll: one row for ordinary payment methods", (
   });
 
   it("bonus is added and deduction taken off", () => {
-    const [row] = buildTimesheetRowsForPayroll(base({ bonusAmount: 50, deductionAmount: 20 }));
+    const [row] = buildTimesheetRowsForPayroll(
+      base({ bonusAmount: 50, deductionAmount: 20 })
+    );
     expect(row.totalJobseekerPay).toBe(830);
     expect(row.totalClientBill).toBe(1400); // the client is not billed for either
     expect(row.bonusAmount).toBe(50);
     expect(row.deductionAmount).toBe(20);
   });
 
-  it.each(["Cash", "e-Transfer"])("%s: the cash deduction percentage comes off the base pay", (paymentMethod) => {
-    const [row] = buildTimesheetRowsForPayroll(base({ paymentMethod, cashDeductionPct: 10 }));
-    expect(row.totalJobseekerPay).toBe(720); // 800 - 80
-    expect(row.taxAmount).toBe(0);
-  });
+  it.each(["Cash", "e-Transfer"])(
+    "%s: the cash deduction percentage comes off the base pay",
+    (paymentMethod) => {
+      const [row] = buildTimesheetRowsForPayroll(
+        base({ paymentMethod, cashDeductionPct: 10 })
+      );
+      expect(row.totalJobseekerPay).toBe(720); // 800 - 80
+      expect(row.taxAmount).toBe(0);
+    }
+  );
 
   it("direct deposit ignores a deduction percentage", () => {
     const [row] = buildTimesheetRowsForPayroll(base({ cashDeductionPct: 10 }));
     expect(row.totalJobseekerPay).toBe(800);
   });
 
-  it.each(["Corporation-Direct Deposit", "Corporation-Cheque", "Corporation-Wire"])(
+  it.each([
+    "Corporation-Direct Deposit",
+    "Corporation-Cheque",
+    "Corporation-Wire",
+  ])(
     "%s: HST/GST is added on top of pay plus bonus minus deduction",
     (paymentMethod) => {
       const [row] = buildTimesheetRowsForPayroll(
-        base({ paymentMethod, hstGst: "13%", bonusAmount: 50, deductionAmount: 20 })
+        base({
+          paymentMethod,
+          hstGst: "13%",
+          bonusAmount: 50,
+          deductionAmount: 20,
+        })
       );
       expect(row.taxAmount).toBe(107.9); // (800 + 50 - 20) x 13%
       expect(row.totalJobseekerPay).toBe(937.9); // 800 + 107.90 + 50 - 20
@@ -145,14 +216,21 @@ describe("buildTimesheetRowsForPayroll: one row for ordinary payment methods", (
   );
 
   it("a corporation with no tax set is paid the base pay", () => {
-    const [row] = buildTimesheetRowsForPayroll(base({ paymentMethod: "Corporation-Direct Deposit", hstGst: null }));
+    const [row] = buildTimesheetRowsForPayroll(
+      base({ paymentMethod: "Corporation-Direct Deposit", hstGst: null })
+    );
     expect(row.taxAmount).toBe(0);
     expect(row.totalJobseekerPay).toBe(800);
   });
 
   it("tax is never worked out on a negative base", () => {
     const [row] = buildTimesheetRowsForPayroll(
-      base({ paymentMethod: "Corporation-Direct Deposit", hstGst: "13", entries: week([1]), deductionAmount: 500 })
+      base({
+        paymentMethod: "Corporation-Direct Deposit",
+        hstGst: "13",
+        entries: week([1]),
+        deductionAmount: 500,
+      })
     );
     expect(row.taxAmount).toBe(0);
     expect(row.totalJobseekerPay).toBe(-480); // 20 - 500: pay can go negative, as today
@@ -178,6 +256,8 @@ describe("buildTimesheetRowsForPayroll: one row for ordinary payment methods", (
 
   it("has no rows for no hours", () => {
     expect(buildTimesheetRowsForPayroll(base({ entries: [] }))).toEqual([]);
-    expect(buildTimesheetRowsForPayroll(base({ entries: week([0, 0]) }))).toEqual([]);
+    expect(
+      buildTimesheetRowsForPayroll(base({ entries: week([0, 0]) }))
+    ).toEqual([]);
   });
 });

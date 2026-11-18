@@ -31,7 +31,10 @@ function freePort() {
 }
 
 /** The only variables the test server gets. Keys for vendors are fake; the database keys are the local demo keys. */
-export function serverEnvironment(stack, { port, aiUrl, outboundLog, tsconfig, fixedNow }) {
+export function serverEnvironment(
+  stack,
+  { port, aiUrl, outboundLog, tsconfig, fixedNow }
+) {
   return {
     PATH: process.env.PATH ?? "",
     HOME: process.env.HOME ?? "",
@@ -70,7 +73,8 @@ export async function startTestServer(stack, { fixedNow } = {}) {
   requireLocal({ database: stack.dbUrl, api: stack.apiUrl });
 
   const workDir = mkdtempSync(path.join(os.tmpdir(), "portal-test-server-"));
-  if (existsSync(path.join(workDir, ".env"))) throw new Error("the test server folder must not hold a .env");
+  if (existsSync(path.join(workDir, ".env")))
+    throw new Error("the test server folder must not hold a .env");
   const outboundLog = path.join(workDir, "outbound.jsonl");
   writeFileSync(outboundLog, "");
 
@@ -91,16 +95,26 @@ export async function startTestServer(stack, { fixedNow } = {}) {
       tsconfig: path.join(SERVER_DIR, "tsconfig.json"),
       fixedNow,
     });
-    requireLocal({ SUPABASE_URL: env.SUPABASE_URL, AI_VERIFICATION_URL: env.AI_VERIFICATION_URL });
+    requireLocal({
+      SUPABASE_URL: env.SUPABASE_URL,
+      AI_VERIFICATION_URL: env.AI_VERIFICATION_URL,
+    });
 
     const here = import.meta.url;
     const args = [
-      "--import", tsxLoader(),
-      "--import", new URL("./outbound-guard.mjs", here).href,
-      "--import", new URL("./fixed-clock.mjs", here).href,
+      "--import",
+      tsxLoader(),
+      "--import",
+      new URL("./outbound-guard.mjs", here).href,
+      "--import",
+      new URL("./fixed-clock.mjs", here).href,
       path.join(SERVER_DIR, "src/index.ts"),
     ];
-    child = spawn(process.execPath, args, { cwd: workDir, env, stdio: ["ignore", "pipe", "pipe"] });
+    child = spawn(process.execPath, args, {
+      cwd: workDir,
+      env,
+      stdio: ["ignore", "pipe", "pipe"],
+    });
     child.stdout.on("data", (d) => (output += d));
     child.stderr.on("data", (d) => (output += d));
     child.on("exit", () => (exited = true));
@@ -108,7 +122,8 @@ export async function startTestServer(stack, { fixedNow } = {}) {
     url = `http://127.0.0.1:${port}`;
     const deadline = Date.now() + 60_000;
     for (;;) {
-      if (exited) throw new Error(`the test server stopped while starting:\n${output}`);
+      if (exited)
+        throw new Error(`the test server stopped while starting:\n${output}`);
       try {
         const res = await fetch(`${url}/health`);
         if (res.ok) break;
@@ -137,9 +152,7 @@ export async function startTestServer(stack, { fixedNow } = {}) {
     output: () => output,
     /** Everything the server tried to send, in order. */
     outbound() {
-      return existsSync(outboundLog)
-        ? (readLines(outboundLog))
-        : [];
+      return existsSync(outboundLog) ? readLines(outboundLog) : [];
     },
     clearOutbound() {
       writeFileSync(outboundLog, "");

@@ -1,0 +1,10 @@
+# Prettier skips what is generated, stored output, or read as it is.
+node_modules
+dist
+pnpm-lock.yaml
+# API pins: stored answers, compared byte for byte
+tests/pins/__snapshots__
+# a fixture the guard tests read as it is
+tests/guard/fixtures
+# local Supabase project for the tests
+supabase
