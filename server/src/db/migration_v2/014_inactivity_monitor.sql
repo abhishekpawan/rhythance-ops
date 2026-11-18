@@ -199,12 +199,19 @@ CREATE TRIGGER trg_client_activity_on_invoice
   FOR EACH ROW
   EXECUTE FUNCTION update_client_last_activity();
 
--- Trigger on position_candidate_assignments for client activity (INSERT)
-DROP TRIGGER IF EXISTS trg_client_activity_on_assignment ON public.position_candidate_assignments;
-CREATE TRIGGER trg_client_activity_on_assignment
-  AFTER INSERT ON public.position_candidate_assignments
-  FOR EACH ROW
-  EXECUTE FUNCTION update_client_last_activity();
+-- Trigger on position_candidate_assignments for client activity (INSERT).
+-- No file before 032 creates that table (live databases have it), so on a database built from these
+-- files the trigger is created by 032 once the table exists.
+DO $$
+BEGIN
+  IF to_regclass('public.position_candidate_assignments') IS NOT NULL THEN
+    DROP TRIGGER IF EXISTS trg_client_activity_on_assignment ON public.position_candidate_assignments;
+    CREATE TRIGGER trg_client_activity_on_assignment
+      AFTER INSERT ON public.position_candidate_assignments
+      FOR EACH ROW
+      EXECUTE FUNCTION update_client_last_activity();
+  END IF;
+END $$;
 
 -- ============================================================================
 -- STEP 6: Create triggers on relevant tables for JOBSEEKER activity
@@ -225,12 +232,17 @@ CREATE TRIGGER trg_jobseeker_activity_on_timesheet
   FOR EACH ROW
   EXECUTE FUNCTION update_jobseeker_last_activity();
 
--- Trigger on position_candidate_assignments for jobseeker activity (INSERT)
-DROP TRIGGER IF EXISTS trg_jobseeker_activity_on_assignment ON public.position_candidate_assignments;
-CREATE TRIGGER trg_jobseeker_activity_on_assignment
-  AFTER INSERT ON public.position_candidate_assignments
-  FOR EACH ROW
-  EXECUTE FUNCTION update_jobseeker_last_activity();
+-- Trigger on position_candidate_assignments for jobseeker activity (INSERT); created by 032 when the table is missing here
+DO $$
+BEGIN
+  IF to_regclass('public.position_candidate_assignments') IS NOT NULL THEN
+    DROP TRIGGER IF EXISTS trg_jobseeker_activity_on_assignment ON public.position_candidate_assignments;
+    CREATE TRIGGER trg_jobseeker_activity_on_assignment
+      AFTER INSERT ON public.position_candidate_assignments
+      FOR EACH ROW
+      EXECUTE FUNCTION update_jobseeker_last_activity();
+  END IF;
+END $$;
 
 -- Trigger on invoices table for jobseeker activity (INSERT and UPDATE)
 DROP TRIGGER IF EXISTS trg_jobseeker_activity_on_invoice ON public.invoices;

@@ -45,104 +45,30 @@ or, on macOS/Linux: `ls server/src/db/migration_v2/*.sql | sort`
 | `029_feature_flags.sql` | `feature_flags` table |
 | `030_feature_flags_config.sql` | `config` column on flags (flag text settings) |
 | `031_portal_settings.sql` | `portal_settings` table |
-| `032` | Reserved: catch-up migration (objects production has that the files above lack) |
+| `032_catch_up_to_production.sql` | Catch-up: what the four production databases have and files 000 to 031 lack (see below). **New databases only; refuses to run without an explicit opt-in; never run on a live database.** |
 | `033_close_public_access.sql` | Closes access the public key and signed-in users should not have: account and schema functions become server-only, `ai_validation` gets row security (owner and staff), the activity feed is staff-only, the anonymous consent-update policy and anonymous read of `jobseeker-documents` are removed. Skips anything a database lacks |
 | `034_roles_from_app_metadata.sql` | Roles are decided from `app_metadata` (only the server can write it), not `user_metadata` (users can edit their own): copies each account's role, gives new accounts the jobseeker role until the server sets another, role helpers and `list_auth_users` read it; storage rules for jobseeker documents (staff, uploader, the jobseeker whose profile lists the file), signed consent PDFs (staff) and invoice files (staff, uploader); email/phone lookups server-only. **Run after the server version that writes `app_metadata` is deployed** |
 
 Run **every file once, in order, on each portal's database**, then that portal's seed from `../seeds/` (see `../seeds/README.md`).
 
-**Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet.
+**032 is different:** it is for a NEW database only and refuses to run unless the session sets `rhythence.catch_up = 'new-database'`. Live databases already have what it holds; do not run it on them.
 
-**Promoting someone by hand** (Supabase dashboard): set `user_type` and `user_role` in the user's **app_metadata**; the portal ignores those fields in user_metadata.
+**Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet. **032 is applied nowhere** (it was written for a database built from these files; see below).
 
-## What was merged
+## 032 and the test database
 
-- Auth + role helpers:
-  - `01_user_types.sql`
-  - `20240420_create_user_email_lookup_function.sql`
-  - `20240701_force_recreate_list_auth_users_function.sql`
-  - `add_user_roles_and_hierarchy.sql`
-- Jobseeker schema/follow-up alters:
-  - `02_jobseeker_profiles.sql`
-  - `03_documents_array.sql`
-  - `04_add_bio_field.sql`
-  - `05_add_creator_field.sql`
-  - `20230612_add_rejection_reason.sql`
-  - `20230825_update_jobseeker_profiles_constraints.sql`
-  - `20230826_update_jobseeker_profile_drafts.sql`
-  - `add_employee_id_to_jobseeker_profiles.sql`
-  - `update_has_profile.sql`
-- Jobseeker storage policies:
-  - `YYYYMMDDHHMMSS_add_storage_rls_policies.sql`
-  - `20240420_setup_jobseeker_documents_rls.sql`
-- Clients/positions:
-  - `create_clients_tables.sql`
-  - `create_positions_tables.sql`
-  - `add_wsib_code_to_clients.sql`
-  - `add_position_code_constraints.sql`
-  - `add_assigned_jobseekers_to_positions.sql`
-  - `add_client_name_to_positions.sql`
-- Timesheets:
-  - `create_complete_timesheets_table.sql`
-  - `disable_auto_invoice_generation.sql`
-  - `remove_assignment_id_from_timesheets.sql`
-  - `add_bonus_deduction_to_timesheets.sql`
-  - `add_notes_to_timesheets.sql`
-- Recent activities:
-  - `add_recent_activities_table.sql`
-  - `enable_recent_activities_realtime.sql`
-  - `update_activity_trigger_for_broadcast.sql`
-- Invoices:
-  - `create_invoice_table.sql`
-  - `add_invoice_sent_to_field.sql`
-  - `update_invoice_number_format.sql`
-  - `add_notes_to_invoices.sql`
-  - `remove_rls_policy_from_invoices_bucket.sql` (duplicate source of `create_invoice_table.sql`)
-- Consent:
-  - `20250827_create_digital_consent_tables.sql`
-  - `20250827_consent_storage_policies.sql`
-  - `20250128_update_consent_storage_policies.sql`
-  - `20250128_fix_consent_read_policy.sql`
-- Client dropdown options:
-  - `create_client_dropdown_options_table.sql`
-  - `seed_client_dropdown_options.sql`
+Before 032 the files could not build a database the server runs on (proven on a real local Supabase): a table the server uses was in no file (`position_candidate_assignments`), four columns the code reads were missing, many functions differed from production, new tables had no privileges for the Data API roles, two buckets were created by nothing, and three files failed on current Supabase. `pnpm test` in `server/` now builds a database from these files and compares it with production's stored listing (`server/tests/schema/`), see [../../../docs/development/testing.md](../../../docs/development/testing.md).
 
-## Drift items now folded into base create files
+**What 032 holds** (read from production after 033 and 034, 2026-11-17, all read-only): default privileges and grants for `anon`, `authenticated`, `service_role` (only where a table or sequence has none, so what 033 revoked stays revoked); the two enum types; tables `position_candidate_assignments`, `email_checkpoint` and sequence `timesheet_invoice_seq`; columns `jobseeker_profiles.billing_email`, `work_permit_expiry`, `work_permit_uci`, `client_drafts.wsib_code` with its check; `clients` and `client_drafts` text columns without a length limit, `invoices.version_history` not null; two indexes and the `fk_user` name on `audit_logs`; production's definitions of the other 27 functions (11 are defined by 033 and 034); the invoice and consent triggers pointed at the functions production uses; the invoice and storage policies as production has them; buckets `jobseeker-documents` and `default-documents`; the daily `update_job_status` job. It drops what only the files had and production does not: `bulk_timesheets` (only when empty), index `idx_invoices_version_history`, the two invoice helper functions replaced above, the policy "Users can view their own activities".
 
-- `clients` + `client_drafts` now include:
-  - `accounting_manager`
-  - `client_rep`
-- `timesheets` now includes:
-  - `version`
-  - `version_history`
-- `invoices` now includes:
-  - `version_history`
+**Changes to files 000 to 014 (all harmless on a live database, which does not run them again):** `000` enables `pg_cron`; `003` and `009` enable row security on `storage.objects` only if it is off (current Supabase refuses the plain statement); `012` is now the `ai_validation` table as production has it (the old text was never true); `014` creates the two assignment triggers only if the table exists (032 creates them).
 
-These are included directly in the original consolidated table-create files:
-- `004_clients_and_positions.sql`
-- `005_timesheets.sql`
-- `007_invoices.sql`
+**Not covered, on purpose** (named in 032's header, ignored by the schema comparison, and nothing else is):
+1. `execute_sql`, the AI chat's SQL function (ROADMAP P12): a new database gets no chat SQL function until the AI service replaces it with a safe one.
+2. The embedding queue: `embedding_input_jobseeker_bio` and `_position_description`, the `embed_*` triggers on `jobseeker_profiles` and `positions`, schema `util`, extensions `pgmq` and `pg_net`, and the `process-embeddings` cron job. They call an edge function that is not in this repo, and from inside Postgres no test guard can stop them. 011 creates the embedding columns and the triggers only if `util.queue_embeddings()` exists, so a database built from these files never calls out.
 
-## Added from GodspeedOps AI repo
+**In the files, not in production** (kept as the files have them; listed in `server/tests/schema/files-ahead-of-production.txt`, which fails when an entry goes stale): 028's trigger and function on `positions`, the three has_profile triggers on `jobseeker_profiles`, the `activity_change_trigger` on `recent_activities`, the `timesheets` updated-at trigger and function, and 023's weekly log-trim job.
 
-The AI repo (`d:\Development\godspeed-ops-ai`) does not contain SQL migration files, so schema additions were ported from its Supabase schema usage in:
-- `services/chat_database_service.py`
-- `models.py`
+**Differences between the four production databases** (listed with the same query on 2026-11-17; everything else is identical): one database has another version of the function `find_matching_candidates` (032 holds the version of the other three); one has the four invoice-attachment storage policies under other names (same rules) and its log-trim job named `prune_cron_job_run_details` (daily 02:00).
 
-Added files:
-- `011_embeddings.sql`
-  - Adds `bio_embedding` and `job_embedding` vector columns + HNSW indexes.
-  - Adds `jobseeker_profiles` embedding triggers only when `util.queue_embeddings()` exists.
-- `012_ai_validation_from_godspeed_ops_ai.sql`
-  - Adds the `ai_validation` table and RLS policies used by the AI service.
-
-## Removed as standalone files (now absorbed)
-
-- `supabase_direct_update.sql` was duplicate-intent SQL for the same `jobseeker_profiles` uniqueness change.
-- `remove_rls_policy_from_invoices_bucket.sql` was a byte-for-byte duplicate of `create_invoice_table.sql`.
-
-## MCP validation notes
-
-I cross-checked against the connected Supabase DB before consolidating.
-
-Observed drift in live DB was reviewed and incorporated into this consolidated set where requested. Any remaining runtime-only differences should now be much smaller and easier to patch with a dedicated follow-up migration if needed.
+**Running 032 on a live database: never.** 032 refuses to run unless the session sets `rhythence.catch_up = 'new-database'` (`PGOPTIONS="-c rhythence.catch_up=new-database"` for `psql`); only the test scripts set it. Production already has everything in it, and it is not a no-op there: read-only analysis says it would change nothing on three of the four databases, but on the database with the other `find_matching_candidates` it would replace that function. Nothing was run on any production or stage database.

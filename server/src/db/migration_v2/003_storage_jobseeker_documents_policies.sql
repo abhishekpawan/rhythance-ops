@@ -1,6 +1,13 @@
 -- Consolidated migration_v2: storage policies for jobseeker-documents
 
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+-- Row security is already on for storage.objects on every Supabase project, and on current Supabase the
+-- postgres role is no longer the table's owner, so the plain ALTER is refused. Only run it when needed.
+DO $$
+BEGIN
+  IF NOT (SELECT relrowsecurity FROM pg_class WHERE oid = 'storage.objects'::regclass) THEN
+    ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+  END IF;
+END $$;
 
 DROP POLICY IF EXISTS "Allow users to upload their own documents" ON storage.objects;
 DROP POLICY IF EXISTS "Allow users to view their own documents" ON storage.objects;

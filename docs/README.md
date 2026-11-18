@@ -29,6 +29,7 @@ Last reorganised: November 2026. Every page is checked against the code unless i
 | [development/translations.md](development/translations.md) | English/French translation files and coding rules |
 | [development/activity-logging.md](development/activity-logging.md) | How server operations are logged to the activity feed, and how to add an activity type |
 | [development/code-structure.md](development/code-structure.md) | The 300-line file limit, how to split a file, and where the dashboard code lives |
+| [development/testing.md](development/testing.md) | `pnpm test` in `server/`: the local test database, the guard that keeps it local, the synthetic data, how messages are recorded not sent, what is tested |
 | [../server/src/db/migration_v2/README.md](../server/src/db/migration_v2/README.md) | Database migrations, in run order |
 | [../server/src/db/seeds/README.md](../server/src/db/seeds/README.md) | Per-portal seed data |
 

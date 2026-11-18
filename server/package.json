@@ -14,7 +14,14 @@
     "dev": "nodemon --exec tsx src/index.ts",
     "build": "tsc -p .",
     "postinstall": "tsc",
-    "lint": "eslint \"src/**/*.{js,ts}\""
+    "lint": "eslint \"src/**/*.{js,ts}\"",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:db:up": "node tests/scripts/db-up.mjs",
+    "test:db:build": "node tests/scripts/db-build.mjs",
+    "test:db:seed": "node tests/scripts/db-seed.mjs",
+    "test:schema": "node tests/schema/compare.mjs",
+    "test:server": "node tests/scripts/start-test-server.mjs"
   },
   "keywords": [],
   "author": "",
@@ -37,9 +44,11 @@
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/express": "4.17.21",
+    "@types/node": "^24.19.2",
     "@types/uuid": "^10.0.0",
     "nodemon": "3.0.2",
     "tsx": "^4.23.0",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vitest": "^3.2.7"
   }
 }

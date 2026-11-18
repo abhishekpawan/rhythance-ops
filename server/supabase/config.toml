@@ -1,0 +1,80 @@
+# Local Supabase used ONLY by the automated tests (server/tests). See docs/development/testing.md.
+#
+# Not used by Render or Vercel. Migrations are NOT read from supabase/migrations: the test database
+# is built by tests/scripts/db-build.mjs, which applies src/db/migration_v2/*.sql in order.
+#
+# Ports differ from the CLI defaults (54321...) so this stack can run next to another local Supabase project.
+# `auto_expose_new_tables` is left unset on purpose: new tables get no grants for the Data API roles unless
+# the migrations grant them, which is how the migrations are proven to be complete (032).
+
+project_id = "portal-test"
+
+[api]
+enabled = true
+port = 54421
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54422
+major_version = 17
+
+[db.pooler]
+enabled = false
+
+[db.migrations]
+enabled = false
+
+[db.seed]
+enabled = false
+
+[realtime]
+enabled = true
+
+[studio]
+enabled = false
+
+[local_smtp]
+enabled = false
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[storage.s3_protocol]
+enabled = false
+
+[storage.analytics]
+enabled = false
+
+[storage.vector]
+enabled = false
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000"]
+jwt_expiry = 3600
+enable_signup = true
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false
+secure_password_change = false
+max_frequency = "1s"
+
+[auth.sms]
+enable_signup = false
+enable_confirmations = false
+
+[edge_runtime]
+enabled = false
+
+[analytics]
+enabled = false
+
+[experimental.pgdelta]
+enabled = false

@@ -1,0 +1,1045 @@
+# Production schema listing: structure only (names, types, definitions, grants); no row of any table.
+# Made by tests/schema/listing.sql, read-only, on 2026-11-17, from the CanHire production database, after
+# migrations 033 and 034 were applied. The other three production databases were listed with the same
+# query and compared line by line the same day. AllStaff: identical. Godspeed: one function body
+# (find_matching_candidates). GD Workforce: the four invoice-attachment storage policies have other
+# names (same rules) and the log-trim cron job is named prune_cron_job_run_details (daily 02:00).
+# The comparison (compare.mjs) ignores the "not covered" items named in migration 032 and the entries in
+# files-ahead-of-production.txt, and nothing else. Refresh this file when production changes.
+bucket|consent-documents|public=false limit=52428800 mime=application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/jpeg,image/png
+bucket|default-documents|public=false limit= mime=
+bucket|invoices|public=false limit=52428800 mime=image/jpeg,image/png,image/gif,image/webp,application/pdf,text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+bucket|jobseeker-documents|public=false limit= mime=
+bucket|support-attachments|public=false limit=10485760 mime=image/png,image/jpeg,image/webp,image/gif,application/pdf,text/plain,text/csv
+column|public.activity_action_types.code|text not null
+column|public.activity_action_types.created_at|timestamp with time zone default now()
+column|public.activity_action_types.description|text
+column|public.activity_action_types.id|uuid not null default gen_random_uuid()
+column|public.activity_action_types.is_active|boolean default true
+column|public.activity_action_types.name|text not null
+column|public.activity_categories.code|text not null
+column|public.activity_categories.created_at|timestamp with time zone default now()
+column|public.activity_categories.description|text
+column|public.activity_categories.id|uuid not null default gen_random_uuid()
+column|public.activity_categories.is_active|boolean default true
+column|public.activity_categories.name|text not null
+column|public.ai_validation.ai_response|json not null
+column|public.ai_validation.document_id|text not null
+column|public.ai_validation.document_status|text
+column|public.ai_validation.id|uuid not null default gen_random_uuid()
+column|public.ai_validation.input_tokens|integer not null
+column|public.ai_validation.llm_model_name|text not null
+column|public.ai_validation.output_tokens|integer not null
+column|public.ai_validation.user_id|uuid
+column|public.audit_logs.action|text not null
+column|public.audit_logs.details|jsonb not null default '{}'::jsonb
+column|public.audit_logs.id|uuid not null default uuid_generate_v4()
+column|public.audit_logs.timestamp|timestamp with time zone default now()
+column|public.audit_logs.user_id|uuid not null
+column|public.client_drafts.accounting_manager|character varying
+column|public.client_drafts.accounting_person|character varying(255)
+column|public.client_drafts.accounts_dept_email|character varying(255)
+column|public.client_drafts.billing_name|character varying(255)
+column|public.client_drafts.city1|character varying(255)
+column|public.client_drafts.city2|character varying(255)
+column|public.client_drafts.city3|character varying(255)
+column|public.client_drafts.client_manager|character varying(255)
+column|public.client_drafts.client_rep|character varying
+column|public.client_drafts.company_name|character varying(255)
+column|public.client_drafts.contact_person_name1|character varying(255)
+column|public.client_drafts.contact_person_name2|character varying(255)
+column|public.client_drafts.contact_person_name3|character varying(255)
+column|public.client_drafts.created_at|timestamp with time zone default now()
+column|public.client_drafts.created_by_user_id|uuid not null
+column|public.client_drafts.credit_limit|character varying(50)
+column|public.client_drafts.currency|character varying(3)
+column|public.client_drafts.dispatch_dept_email|character varying(255)
+column|public.client_drafts.email_address1|character varying(255)
+column|public.client_drafts.email_address2|character varying(255)
+column|public.client_drafts.email_address3|character varying(255)
+column|public.client_drafts.id|uuid not null default uuid_generate_v4()
+column|public.client_drafts.invoice_cc2|boolean default false
+column|public.client_drafts.invoice_cc3|boolean default false
+column|public.client_drafts.invoice_cc_accounts|boolean default false
+column|public.client_drafts.invoice_cc_dispatch|boolean default false
+column|public.client_drafts.invoice_language|character varying(10) default 'English'::character varying
+column|public.client_drafts.is_draft|boolean default true
+column|public.client_drafts.last_updated|timestamp with time zone default now()
+column|public.client_drafts.list_name|character varying(255)
+column|public.client_drafts.merge_invoice|boolean default false
+column|public.client_drafts.mobile1|character varying(50)
+column|public.client_drafts.mobile2|character varying(50)
+column|public.client_drafts.mobile3|character varying(50)
+column|public.client_drafts.notes|text
+column|public.client_drafts.pay_cycle|character varying(50)
+column|public.client_drafts.postal_code1|character varying(10)
+column|public.client_drafts.postal_code2|character varying(10)
+column|public.client_drafts.postal_code3|character varying(10)
+column|public.client_drafts.preferred_payment_method|character varying(50)
+column|public.client_drafts.province1|character varying(2)
+column|public.client_drafts.province2|character varying(2)
+column|public.client_drafts.province3|character varying(2)
+column|public.client_drafts.sales_person|character varying(255)
+column|public.client_drafts.short_code|character varying(5)
+column|public.client_drafts.street_address1|character varying(255)
+column|public.client_drafts.street_address2|character varying(255)
+column|public.client_drafts.street_address3|character varying(255)
+column|public.client_drafts.terms|character varying(50)
+column|public.client_drafts.updated_at|timestamp with time zone default now()
+column|public.client_drafts.updated_by_user_id|uuid not null
+column|public.client_drafts.website|character varying(255)
+column|public.client_drafts.work_province|character varying(2)
+column|public.client_drafts.wsib_code|character varying(2)
+column|public.client_dropdown_options.created_at|timestamp with time zone default now()
+column|public.client_dropdown_options.display_order|integer not null default 0
+column|public.client_dropdown_options.id|uuid not null default uuid_generate_v4()
+column|public.client_dropdown_options.list_type|character varying(50) not null
+column|public.client_dropdown_options.name|character varying(255) not null
+column|public.client_dropdown_options.updated_at|timestamp with time zone default now()
+column|public.clients.accounting_manager|character varying
+column|public.clients.accounting_person|character varying(255)
+column|public.clients.accounts_dept_email|character varying(255)
+column|public.clients.billing_name|character varying(255) not null
+column|public.clients.city1|character varying(255) not null
+column|public.clients.city2|character varying(255)
+column|public.clients.city3|character varying(255)
+column|public.clients.client_manager|character varying(255)
+column|public.clients.client_rep|character varying
+column|public.clients.company_name|character varying(255) not null
+column|public.clients.contact_person_name1|character varying(255) not null
+column|public.clients.contact_person_name2|character varying(255)
+column|public.clients.contact_person_name3|character varying(255)
+column|public.clients.created_at|timestamp with time zone default now()
+column|public.clients.created_by_user_id|uuid not null
+column|public.clients.credit_limit|character varying(50) not null
+column|public.clients.currency|character varying(3) not null
+column|public.clients.dispatch_dept_email|character varying(255)
+column|public.clients.email_address1|character varying(255) not null
+column|public.clients.email_address2|character varying(255)
+column|public.clients.email_address3|character varying(255)
+column|public.clients.id|uuid not null default uuid_generate_v4()
+column|public.clients.invoice_cc2|boolean default false
+column|public.clients.invoice_cc3|boolean default false
+column|public.clients.invoice_cc_accounts|boolean default false
+column|public.clients.invoice_cc_dispatch|boolean default false
+column|public.clients.invoice_language|character varying(10) not null default 'English'::character varying
+column|public.clients.is_draft|boolean default false
+column|public.clients.last_activity_at|timestamp with time zone default now()
+column|public.clients.list_name|character varying(255)
+column|public.clients.merge_invoice|boolean default false
+column|public.clients.mobile1|character varying(50) not null
+column|public.clients.mobile2|character varying(50)
+column|public.clients.mobile3|character varying(50)
+column|public.clients.notes|text
+column|public.clients.pay_cycle|character varying(50) not null
+column|public.clients.postal_code1|character varying(10) not null
+column|public.clients.postal_code2|character varying(10)
+column|public.clients.postal_code3|character varying(10)
+column|public.clients.preferred_payment_method|character varying(50) not null
+column|public.clients.province1|character varying(2) not null
+column|public.clients.province2|character varying(2)
+column|public.clients.province3|character varying(2)
+column|public.clients.sales_person|character varying(255)
+column|public.clients.short_code|character varying(5)
+column|public.clients.street_address1|character varying(255) not null
+column|public.clients.street_address2|character varying(255)
+column|public.clients.street_address3|character varying(255)
+column|public.clients.terms|character varying(50) not null
+column|public.clients.updated_at|timestamp with time zone default now()
+column|public.clients.updated_by_user_id|uuid not null
+column|public.clients.website|character varying(255)
+column|public.clients.work_province|character varying(2) not null
+column|public.clients.wsib_code|character varying(2)
+column|public.consent_document_templates.created_at|timestamp with time zone default now()
+column|public.consent_document_templates.created_by|uuid not null
+column|public.consent_document_templates.field_mappings|jsonb not null default '[]'::jsonb
+column|public.consent_document_templates.file_name|text not null
+column|public.consent_document_templates.file_path|text not null
+column|public.consent_document_templates.id|uuid not null default gen_random_uuid()
+column|public.consent_document_templates.is_active|boolean not null default true
+column|public.consent_document_templates.template_description|text
+column|public.consent_document_templates.template_name|text not null
+column|public.consent_document_templates.updated_at|timestamp with time zone default now()
+column|public.consent_documents.autofill_fields|jsonb not null default '[]'::jsonb
+column|public.consent_documents.consent_mode|text not null default 'standard'::text
+column|public.consent_documents.created_at|timestamp with time zone default now()
+column|public.consent_documents.file_name|text not null
+column|public.consent_documents.file_path|text not null
+column|public.consent_documents.id|uuid not null default gen_random_uuid()
+column|public.consent_documents.is_active|boolean default true
+column|public.consent_documents.is_jobseeker_onboarding|boolean not null default false
+column|public.consent_documents.template_id|uuid
+column|public.consent_documents.updated_at|timestamp with time zone default now()
+column|public.consent_documents.uploaded_by|uuid not null
+column|public.consent_documents.version|integer default 1
+column|public.consent_records.completed_at|timestamp with time zone
+column|public.consent_records.consent_token|text not null
+column|public.consent_records.consentable_id|uuid not null
+column|public.consent_records.consentable_type|text not null
+column|public.consent_records.consented_name|text
+column|public.consent_records.created_at|timestamp with time zone default now()
+column|public.consent_records.document_id|uuid not null
+column|public.consent_records.filled_document_file_name|text
+column|public.consent_records.filled_document_file_path|text
+column|public.consent_records.id|uuid not null default gen_random_uuid()
+column|public.consent_records.ip_address|text
+column|public.consent_records.is_jobseeker_onboarding|boolean not null default false
+column|public.consent_records.sent_at|timestamp with time zone default now()
+column|public.consent_records.status|text not null default 'pending'::text
+column|public.consent_records.updated_at|timestamp with time zone default now()
+column|public.email_checkpoint.day_30|boolean
+column|public.email_checkpoint.day_60|boolean
+column|public.email_checkpoint.day_90|boolean
+column|public.email_checkpoint.id|bigint identity=d not null
+column|public.email_checkpoint.jobseeker_id|uuid
+column|public.feature_flags.config|jsonb
+column|public.feature_flags.enabled|boolean not null
+column|public.feature_flags.key|text not null
+column|public.feature_flags.updated_at|timestamp with time zone not null default now()
+column|public.feature_flags.updated_by_name|text
+column|public.feature_flags.updated_by|uuid
+column|public.invoices.client_id|uuid not null
+column|public.invoices.created_at|timestamp with time zone not null default now()
+column|public.invoices.created_by_user_id|uuid
+column|public.invoices.currency|character varying(3) not null default 'CAD'::character varying
+column|public.invoices.document_file_name|text
+column|public.invoices.document_file_size|bigint
+column|public.invoices.document_generated_at|timestamp with time zone
+column|public.invoices.document_generated|boolean not null default false
+column|public.invoices.document_mime_type|text default 'application/pdf'::text
+column|public.invoices.document_path|text
+column|public.invoices.due_date|date not null
+column|public.invoices.email_sent_date|timestamp with time zone
+column|public.invoices.email_sent|boolean not null default false
+column|public.invoices.grand_total|numeric(12,2) not null default 0
+column|public.invoices.id|uuid not null default gen_random_uuid()
+column|public.invoices.invoice_data|jsonb not null
+column|public.invoices.invoice_date|date not null
+column|public.invoices.invoice_number|character varying(10) not null default generate_invoice_number()
+column|public.invoices.invoice_sent_to|text
+column|public.invoices.notes|text
+column|public.invoices.search_vector|tsvector default to_tsvector('english'::regconfig, (((((((COALESCE(invoice_number, ''::character varying))::text || ' '::text) || COALESCE(((invoice_data -> 'client'::text) ->> 'companyName'::text), ''::text)) || ' '::text) || COALESCE(((invoice_data -> 'client'::text) ->> 'shortCode'::text), ''::text)) || ' '::text) || COALESCE(((invoice_data -> 'additionalInfo'::text) ->> 'messageOnInvoice'::text), ''::text)))
+column|public.invoices.status|character varying(20) not null default 'draft'::character varying
+column|public.invoices.subtotal|numeric(12,2) not null default 0
+column|public.invoices.total_gst|numeric(12,2) not null default 0
+column|public.invoices.total_hours|numeric(8,2) not null default 0
+column|public.invoices.total_hst|numeric(12,2) not null default 0
+column|public.invoices.total_qst|numeric(12,2) not null default 0
+column|public.invoices.total_tax|numeric(12,2) not null default 0
+column|public.invoices.updated_at|timestamp with time zone not null default now()
+column|public.invoices.updated_by_user_id|uuid
+column|public.invoices.version_history|jsonb not null default '[]'::jsonb
+column|public.invoices.version|integer not null default 1
+column|public.jobseeker_profile_drafts.created_at|timestamp with time zone default now()
+column|public.jobseeker_profile_drafts.created_by_user_id|uuid
+column|public.jobseeker_profile_drafts.current_step|integer not null default 1
+column|public.jobseeker_profile_drafts.email|text
+column|public.jobseeker_profile_drafts.form_data|jsonb not null default '{}'::jsonb
+column|public.jobseeker_profile_drafts.id|uuid not null default uuid_generate_v4()
+column|public.jobseeker_profile_drafts.last_updated|timestamp with time zone default now()
+column|public.jobseeker_profile_drafts.updated_at|timestamp with time zone default now()
+column|public.jobseeker_profile_drafts.updated_by_user_id|uuid
+column|public.jobseeker_profile_drafts.user_id|uuid not null
+column|public.jobseeker_profiles.availability|text
+column|public.jobseeker_profiles.bill_rate|text
+column|public.jobseeker_profiles.billing_email|text
+column|public.jobseeker_profiles.bio_embedding|vector(1536)
+column|public.jobseeker_profiles.bio|text
+column|public.jobseeker_profiles.business_number|text
+column|public.jobseeker_profiles.cash_deduction|text
+column|public.jobseeker_profiles.city|text
+column|public.jobseeker_profiles.corporation_name|text
+column|public.jobseeker_profiles.created_at|timestamp with time zone default now()
+column|public.jobseeker_profiles.created_by_user_id|uuid
+column|public.jobseeker_profiles.dob|text not null
+column|public.jobseeker_profiles.documents|jsonb default '[]'::jsonb
+column|public.jobseeker_profiles.email|text not null
+column|public.jobseeker_profiles.employee_id|character varying(50) default NULL::character varying
+column|public.jobseeker_profiles.experience|text
+column|public.jobseeker_profiles.first_name|text not null
+column|public.jobseeker_profiles.hst_gst|text
+column|public.jobseeker_profiles.id|uuid not null default uuid_generate_v4()
+column|public.jobseeker_profiles.last_activity_at|timestamp with time zone default now()
+column|public.jobseeker_profiles.last_name|text not null
+column|public.jobseeker_profiles.license_number|text
+column|public.jobseeker_profiles.license_type|text
+column|public.jobseeker_profiles.manual_driving|text
+column|public.jobseeker_profiles.mobile|text not null
+column|public.jobseeker_profiles.overtime_bill_rate|text
+column|public.jobseeker_profiles.overtime_enabled|boolean
+column|public.jobseeker_profiles.overtime_hours|text
+column|public.jobseeker_profiles.overtime_pay_rate|text
+column|public.jobseeker_profiles.passport_number|text
+column|public.jobseeker_profiles.pay_rate|text
+column|public.jobseeker_profiles.payment_method|text
+column|public.jobseeker_profiles.payrate_type|text
+column|public.jobseeker_profiles.postal_code|text
+column|public.jobseeker_profiles.province|text
+column|public.jobseeker_profiles.rejection_reason|text
+column|public.jobseeker_profiles.sin_expiry|text
+column|public.jobseeker_profiles.sin_number|text
+column|public.jobseeker_profiles.sin_payroll_hours_cap|numeric(5,2)
+column|public.jobseeker_profiles.street|text
+column|public.jobseeker_profiles.updated_at|timestamp with time zone default now()
+column|public.jobseeker_profiles.updated_by_user_id|uuid
+column|public.jobseeker_profiles.user_id|uuid not null
+column|public.jobseeker_profiles.verification_status|text default 'pending'::text
+column|public.jobseeker_profiles.weekend_availability|boolean
+column|public.jobseeker_profiles.work_permit_expiry|text
+column|public.jobseeker_profiles.work_permit_uci|text
+column|public.jobseeker_profiles.work_preference|text
+column|public.portal_settings.key|text not null
+column|public.portal_settings.updated_at|timestamp with time zone not null default now()
+column|public.portal_settings.updated_by_name|text
+column|public.portal_settings.updated_by|uuid
+column|public.portal_settings.value|text not null
+column|public.position_candidate_assignments.candidate_id|uuid not null
+column|public.position_candidate_assignments.created_at|timestamp with time zone default now()
+column|public.position_candidate_assignments.created_by_user_id|uuid not null
+column|public.position_candidate_assignments.end_date|date
+column|public.position_candidate_assignments.id|uuid not null default uuid_generate_v4()
+column|public.position_candidate_assignments.position_id|uuid not null
+column|public.position_candidate_assignments.start_date|date not null
+column|public.position_candidate_assignments.status|character varying(50) default 'active'::character varying
+column|public.position_candidate_assignments.updated_at|timestamp with time zone default now()
+column|public.position_candidate_assignments.updated_by_user_id|uuid not null
+column|public.position_drafts.assigned_to|character varying(255)
+column|public.position_drafts.bill_rate|character varying(50)
+column|public.position_drafts.city|character varying(255)
+column|public.position_drafts.client_manager|character varying(255)
+column|public.position_drafts.client_name|character varying(255)
+column|public.position_drafts.client|uuid
+column|public.position_drafts.created_at|timestamp with time zone default now()
+column|public.position_drafts.created_by_user_id|uuid not null
+column|public.position_drafts.description|text
+column|public.position_drafts.documents_required|jsonb default '{"sin": false, "cvor": false, "resume": false, "license": false, "passport": false, "directDeposit": false, "driverAbstract": false, "tdgCertificate": false, "immigrationStatus": false, "articlesOfIncorporation": false}'::jsonb
+column|public.position_drafts.employment_term|character varying(50)
+column|public.position_drafts.employment_type|character varying(50)
+column|public.position_drafts.end_date|date
+column|public.position_drafts.experience|character varying(50)
+column|public.position_drafts.id|uuid not null default uuid_generate_v4()
+column|public.position_drafts.is_draft|boolean default true
+column|public.position_drafts.last_updated|timestamp with time zone default now()
+column|public.position_drafts.markup|character varying(50)
+column|public.position_drafts.notes|text
+column|public.position_drafts.number_of_positions|integer
+column|public.position_drafts.overtime_bill_rate|character varying(50)
+column|public.position_drafts.overtime_enabled|boolean default false
+column|public.position_drafts.overtime_hours|character varying(50)
+column|public.position_drafts.overtime_pay_rate|character varying(50)
+column|public.position_drafts.payrate_type|character varying(50)
+column|public.position_drafts.position_category|character varying(50)
+column|public.position_drafts.position_code|character varying(10)
+column|public.position_drafts.position_number|character varying(100)
+column|public.position_drafts.postal_code|character varying(10)
+column|public.position_drafts.preferred_payment_method|character varying(50)
+column|public.position_drafts.premium_pay_rate|character varying(50)
+column|public.position_drafts.proj_comp_date|date
+column|public.position_drafts.province|character varying(2)
+column|public.position_drafts.regular_pay_rate|character varying(50)
+column|public.position_drafts.sales_manager|character varying(255)
+column|public.position_drafts.show_on_job_portal|boolean default false
+column|public.position_drafts.start_date|date
+column|public.position_drafts.stat|boolean default false
+column|public.position_drafts.street_address|character varying(255)
+column|public.position_drafts.subcategory_group_id|uuid
+column|public.position_drafts.subcategory_position_details|jsonb
+column|public.position_drafts.subcategory_position|character varying(100)
+column|public.position_drafts.task_time|character varying(50)
+column|public.position_drafts.terms|character varying(50)
+column|public.position_drafts.title|character varying(255)
+column|public.position_drafts.updated_at|timestamp with time zone default now()
+column|public.position_drafts.updated_by_user_id|uuid not null
+column|public.positions.assigned_jobseekers|uuid[] not null default '{}'::uuid[]
+column|public.positions.assigned_to|character varying(255)
+column|public.positions.bill_rate|character varying(50) not null
+column|public.positions.city|character varying(255) not null
+column|public.positions.client_manager|character varying(255)
+column|public.positions.client_name|character varying(255)
+column|public.positions.client|uuid
+column|public.positions.created_at|timestamp with time zone default now()
+column|public.positions.created_by_user_id|uuid not null
+column|public.positions.description|text not null
+column|public.positions.documents_required|jsonb not null default '{"sin": false, "cvor": false, "resume": false, "license": false, "passport": false, "directDeposit": false, "driverAbstract": false, "tdgCertificate": false, "immigrationStatus": false, "articlesOfIncorporation": false}'::jsonb
+column|public.positions.employment_term|character varying(50) not null
+column|public.positions.employment_type|character varying(50) not null
+column|public.positions.end_date|date
+column|public.positions.experience|character varying(50) not null
+column|public.positions.id|uuid not null default uuid_generate_v4()
+column|public.positions.is_draft|boolean default false
+column|public.positions.is_primary_subcategory|boolean default false
+column|public.positions.is_subcategory|boolean not null default false
+column|public.positions.job_embedding|vector(1536)
+column|public.positions.markup|character varying(50)
+column|public.positions.notes|text not null
+column|public.positions.number_of_positions|integer not null
+column|public.positions.overtime_bill_rate|character varying(50)
+column|public.positions.overtime_enabled|boolean default false
+column|public.positions.overtime_hours|character varying(50)
+column|public.positions.overtime_pay_rate|character varying(50)
+column|public.positions.payrate_type|character varying(50) not null
+column|public.positions.position_category|character varying(50) not null
+column|public.positions.position_code|character varying(10)
+column|public.positions.position_number|character varying(100)
+column|public.positions.postal_code|character varying(10) not null
+column|public.positions.preferred_payment_method|character varying(50) not null
+column|public.positions.premium_pay_rate|character varying(50)
+column|public.positions.proj_comp_date|date
+column|public.positions.province|character varying(2) not null
+column|public.positions.regular_pay_rate|character varying(50) not null
+column|public.positions.sales_manager|character varying(255)
+column|public.positions.show_on_job_portal|boolean default false
+column|public.positions.start_date|date not null
+column|public.positions.stat|boolean default false
+column|public.positions.street_address|character varying(255) not null
+column|public.positions.subcategory_group_id|uuid
+column|public.positions.subcategory_position|character varying(100)
+column|public.positions.task_time|character varying(50)
+column|public.positions.terms|character varying(50) not null
+column|public.positions.title|character varying(255) not null
+column|public.positions.updated_at|timestamp with time zone default now()
+column|public.positions.updated_by_user_id|uuid not null
+column|public.recent_activities.action_type|text not null
+column|public.recent_activities.action_verb|text not null
+column|public.recent_activities.actor_id|uuid not null
+column|public.recent_activities.actor_name|text not null
+column|public.recent_activities.actor_type|text not null default 'recruiter'::text
+column|public.recent_activities.category|text not null
+column|public.recent_activities.created_at|timestamp with time zone default now()
+column|public.recent_activities.display_message|text not null
+column|public.recent_activities.id|uuid not null default gen_random_uuid()
+column|public.recent_activities.is_deleted|boolean default false
+column|public.recent_activities.metadata|jsonb default '{}'::jsonb
+column|public.recent_activities.primary_entity_id|uuid
+column|public.recent_activities.primary_entity_name|text
+column|public.recent_activities.primary_entity_type|text not null
+column|public.recent_activities.priority|text default 'normal'::text
+column|public.recent_activities.secondary_entity_id|uuid
+column|public.recent_activities.secondary_entity_name|text
+column|public.recent_activities.secondary_entity_type|text
+column|public.recent_activities.status|text
+column|public.recent_activities.tertiary_entity_id|uuid
+column|public.recent_activities.tertiary_entity_name|text
+column|public.recent_activities.tertiary_entity_type|text
+column|public.support_ticket_attachments.created_at|timestamp with time zone not null default now()
+column|public.support_ticket_attachments.file_name|text not null
+column|public.support_ticket_attachments.id|uuid not null default gen_random_uuid()
+column|public.support_ticket_attachments.message_id|uuid
+column|public.support_ticket_attachments.mime_type|text not null
+column|public.support_ticket_attachments.size_bytes|integer not null
+column|public.support_ticket_attachments.storage_path|text not null
+column|public.support_ticket_attachments.ticket_id|uuid not null
+column|public.support_ticket_attachments.uploaded_by|uuid
+column|public.support_ticket_messages.author_id|uuid
+column|public.support_ticket_messages.author_kind|text not null
+column|public.support_ticket_messages.author_name|text not null
+column|public.support_ticket_messages.body|text not null
+column|public.support_ticket_messages.created_at|timestamp with time zone not null default now()
+column|public.support_ticket_messages.id|uuid not null default gen_random_uuid()
+column|public.support_ticket_messages.is_internal|boolean not null default false
+column|public.support_ticket_messages.ticket_id|uuid not null
+column|public.support_ticket_status_events.changed_by|uuid
+column|public.support_ticket_status_events.created_at|timestamp with time zone not null default now()
+column|public.support_ticket_status_events.from_status|text
+column|public.support_ticket_status_events.id|uuid not null default gen_random_uuid()
+column|public.support_ticket_status_events.ticket_id|uuid not null
+column|public.support_ticket_status_events.to_status|text not null
+column|public.support_tickets.assigned_to|uuid
+column|public.support_tickets.closed_at|timestamp with time zone
+column|public.support_tickets.confirmed_by|text
+column|public.support_tickets.context|jsonb not null default '{}'::jsonb
+column|public.support_tickets.created_at|timestamp with time zone not null default now()
+column|public.support_tickets.effort_minutes|integer
+column|public.support_tickets.idempotency_key|uuid not null
+column|public.support_tickets.id|uuid not null default gen_random_uuid()
+column|public.support_tickets.locale|text not null default 'en'::text
+column|public.support_tickets.priority|text not null default 'p3'::text
+column|public.support_tickets.related_ticket_id|uuid
+column|public.support_tickets.requester_email|text not null
+column|public.support_tickets.requester_id|uuid
+column|public.support_tickets.requester_name|text not null
+column|public.support_tickets.requester_roles|text[] not null default '{}'::text[]
+column|public.support_tickets.resolved_at|timestamp with time zone
+column|public.support_tickets.status|text not null default 'open'::text
+column|public.support_tickets.ticket_number|integer not null default nextval('support_ticket_number_seq'::regclass)
+column|public.support_tickets.title|text not null
+column|public.support_tickets.type|text not null
+column|public.support_tickets.updated_at|timestamp with time zone not null default now()
+column|public.support_tickets.urgency|text not null
+column|public.timesheets.bonus_amount|numeric(10,2) not null default 0
+column|public.timesheets.bulk_breakdown|jsonb not null default '[]'::jsonb
+column|public.timesheets.created_at|timestamp with time zone not null default now()
+column|public.timesheets.created_by_user_id|uuid
+column|public.timesheets.daily_hours|jsonb not null default '[]'::jsonb
+column|public.timesheets.deduction_amount|numeric(10,2) not null default 0
+column|public.timesheets.document|text
+column|public.timesheets.email_sent|boolean not null default false
+column|public.timesheets.id|uuid not null default gen_random_uuid()
+column|public.timesheets.invoice_number|character varying(6)
+column|public.timesheets.is_bulk|boolean not null default false
+column|public.timesheets.jobseeker_profile_id|uuid not null
+column|public.timesheets.jobseeker_user_id|uuid not null
+column|public.timesheets.line_payment_method|text
+column|public.timesheets.markup|numeric(5,2)
+column|public.timesheets.notes|text
+column|public.timesheets.overtime_bill_rate|numeric(10,2) not null default 0
+column|public.timesheets.overtime_enabled|boolean default false
+column|public.timesheets.overtime_pay_rate|numeric(10,2) not null default 0
+column|public.timesheets.pay_split_segment|text not null default 'single'::text
+column|public.timesheets.position_id|uuid
+column|public.timesheets.premium_pay_rate|numeric(10,2) not null default 0
+column|public.timesheets.regular_bill_rate|numeric(10,2) not null default 0
+column|public.timesheets.regular_pay_rate|numeric(10,2) not null default 0
+column|public.timesheets.tax_amount|numeric(10,2) not null default 0
+column|public.timesheets.total_client_bill|numeric(10,2) not null default 0
+column|public.timesheets.total_jobseeker_pay|numeric(10,2) not null default 0
+column|public.timesheets.total_overtime_hours|numeric(8,2) not null default 0
+column|public.timesheets.total_regular_hours|numeric(8,2) not null default 0
+column|public.timesheets.updated_at|timestamp with time zone not null default now()
+column|public.timesheets.updated_by_user_id|uuid
+column|public.timesheets.version_history|jsonb default '[]'::jsonb
+column|public.timesheets.version|integer not null default 1
+column|public.timesheets.week_end_date|date not null
+column|public.timesheets.week_start_date|date not null
+constraint|public.activity_action_types.activity_action_types_code_key|UNIQUE code
+constraint|public.activity_action_types.activity_action_types_pkey|PRIMARY KEY id
+constraint|public.activity_categories.activity_categories_code_key|UNIQUE code
+constraint|public.activity_categories.activity_categories_pkey|PRIMARY KEY id
+constraint|public.ai_validation.ai_validation_document_status_check|CHECK document_status = ANY ARRAY['active', 'inactive']
+constraint|public.ai_validation.ai_validation_pkey|PRIMARY KEY id
+constraint|public.audit_logs.audit_logs_pkey|PRIMARY KEY id
+constraint|public.audit_logs.fk_user|FOREIGN KEY user_id REFERENCES auth.usersid ON DELETE CASCADE
+constraint|public.client_drafts.client_drafts_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.client_drafts.client_drafts_pkey|PRIMARY KEY id
+constraint|public.client_drafts.client_drafts_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.client_drafts.clients_wsib_code_format_check|CHECK wsib_code IS NULL OR wsib_code ~ '^[A-Z][0-9]$'
+constraint|public.client_dropdown_options.client_dropdown_options_list_type_name_key|UNIQUE list_type, name
+constraint|public.client_dropdown_options.client_dropdown_options_pkey|PRIMARY KEY id
+constraint|public.clients.clients_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.clients.clients_pkey|PRIMARY KEY id
+constraint|public.clients.clients_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.clients.clients_wsib_code_format_check|CHECK wsib_code IS NULL OR wsib_code ~ '^[A-Z][0-9]$'
+constraint|public.consent_document_templates.consent_document_templates_created_by_fkey|FOREIGN KEY created_by REFERENCES auth.usersid
+constraint|public.consent_document_templates.consent_document_templates_field_mappings_check|CHECK jsonb_typeoffield_mappings = 'array'
+constraint|public.consent_document_templates.consent_document_templates_pkey|PRIMARY KEY id
+constraint|public.consent_documents.consent_documents_consent_mode_check|CHECK consent_mode = ANY ARRAY['standard', 'autofill']
+constraint|public.consent_documents.consent_documents_pkey|PRIMARY KEY id
+constraint|public.consent_documents.consent_documents_template_id_fkey|FOREIGN KEY template_id REFERENCES consent_document_templatesid ON DELETE SET NULL
+constraint|public.consent_documents.consent_documents_uploaded_by_fkey|FOREIGN KEY uploaded_by REFERENCES auth.usersid
+constraint|public.consent_records.check_consentable_type|CHECK consentable_type = ANY ARRAY['client', 'jobseeker_profile', 'user']
+constraint|public.consent_records.check_status|CHECK status = ANY ARRAY['pending', 'completed', 'expired']
+constraint|public.consent_records.consent_records_consent_token_key|UNIQUE consent_token
+constraint|public.consent_records.consent_records_document_id_fkey|FOREIGN KEY document_id REFERENCES consent_documentsid ON DELETE CASCADE
+constraint|public.consent_records.consent_records_pkey|PRIMARY KEY id
+constraint|public.consent_records.unique_consentable_document_version|UNIQUE consentable_id, consentable_type, document_id
+constraint|public.feature_flags.feature_flags_key_check|CHECK char_lengthkey >= 1 AND char_lengthkey <= 100
+constraint|public.feature_flags.feature_flags_pkey|PRIMARY KEY key
+constraint|public.invoices.invoices_client_id_fkey|FOREIGN KEY client_id REFERENCES clientsid ON DELETE RESTRICT
+constraint|public.invoices.invoices_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.invoices.invoices_currency_check|CHECK currency = ANY ARRAY['CAD', 'USD']
+constraint|public.invoices.invoices_dates_check|CHECK due_date >= invoice_date
+constraint|public.invoices.invoices_document_consistency_check|CHECK document_generated = true AND document_path IS NOT NULL AND document_generated_at IS NOT NULL OR document_generated = false
+constraint|public.invoices.invoices_email_sent_consistency_check|CHECK email_sent = true AND email_sent_date IS NOT NULL AND invoice_sent_to IS NOT NULL OR email_sent = false AND email_sent_date IS NULL
+constraint|public.invoices.invoices_invoice_number_key|UNIQUE invoice_number
+constraint|public.invoices.invoices_pkey|PRIMARY KEY id
+constraint|public.invoices.invoices_sent_to_email_check|CHECK invoice_sent_to IS NULL OR invoice_sent_to ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+constraint|public.invoices.invoices_status_check|CHECK status = ANY ARRAY['draft', 'sent', 'paid', 'overdue', 'cancelled', 'void']
+constraint|public.invoices.invoices_totals_check|CHECK subtotal >= 0::numeric AND total_tax >= 0::numeric AND grand_total >= 0::numeric AND total_hours >= 0::numeric
+constraint|public.invoices.invoices_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.jobseeker_profile_drafts.jobseeker_profile_drafts_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.jobseeker_profile_drafts.jobseeker_profile_drafts_pkey|PRIMARY KEY id
+constraint|public.jobseeker_profile_drafts.jobseeker_profile_drafts_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.jobseeker_profile_drafts.jobseeker_profile_drafts_user_id_fkey|FOREIGN KEY user_id REFERENCES auth.usersid ON DELETE CASCADE
+constraint|public.jobseeker_profiles.jobseeker_profiles_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.jobseeker_profiles.jobseeker_profiles_email_key|UNIQUE email
+constraint|public.jobseeker_profiles.jobseeker_profiles_pkey|PRIMARY KEY id
+constraint|public.jobseeker_profiles.jobseeker_profiles_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.jobseeker_profiles.jobseeker_profiles_user_id_fkey|FOREIGN KEY user_id REFERENCES auth.usersid ON DELETE CASCADE
+constraint|public.jobseeker_profiles.unique_employee_id|UNIQUE employee_id
+constraint|public.portal_settings.portal_settings_key_check|CHECK char_lengthkey >= 1 AND char_lengthkey <= 100
+constraint|public.portal_settings.portal_settings_pkey|PRIMARY KEY key
+constraint|public.portal_settings.portal_settings_value_check|CHECK char_lengthvalue >= 1 AND char_lengthvalue <= 50000
+constraint|public.position_candidate_assignments.position_candidate_assignment_position_id_candidate_id_star_key|UNIQUE position_id, candidate_id, start_date
+constraint|public.position_candidate_assignments.position_candidate_assignments_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.position_candidate_assignments.position_candidate_assignments_pkey|PRIMARY KEY id
+constraint|public.position_candidate_assignments.position_candidate_assignments_position_id_fkey|FOREIGN KEY position_id REFERENCES positionsid ON DELETE CASCADE
+constraint|public.position_candidate_assignments.position_candidate_assignments_status_check|CHECK status = ANY ARRAY['active', 'completed', 'upcoming', 'cancelled']
+constraint|public.position_candidate_assignments.position_candidate_assignments_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.position_drafts.position_drafts_client_fkey|FOREIGN KEY client REFERENCES clientsid
+constraint|public.position_drafts.position_drafts_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.position_drafts.position_drafts_pkey|PRIMARY KEY id
+constraint|public.position_drafts.position_drafts_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.positions.positions_client_fkey|FOREIGN KEY client REFERENCES clientsid
+constraint|public.positions.positions_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.positions.positions_pkey|PRIMARY KEY id
+constraint|public.positions.positions_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.recent_activities.recent_activities_action_type_fkey|FOREIGN KEY action_type REFERENCES activity_action_typescode
+constraint|public.recent_activities.recent_activities_category_fkey|FOREIGN KEY category REFERENCES activity_categoriescode
+constraint|public.recent_activities.recent_activities_pkey|PRIMARY KEY id
+constraint|public.support_ticket_attachments.support_ticket_attachments_message_id_fkey|FOREIGN KEY message_id REFERENCES support_ticket_messagesid ON DELETE SET NULL
+constraint|public.support_ticket_attachments.support_ticket_attachments_pkey|PRIMARY KEY id
+constraint|public.support_ticket_attachments.support_ticket_attachments_size_bytes_check|CHECK size_bytes > 0 AND size_bytes <= 10485760
+constraint|public.support_ticket_attachments.support_ticket_attachments_storage_path_key|UNIQUE storage_path
+constraint|public.support_ticket_attachments.support_ticket_attachments_ticket_id_fkey|FOREIGN KEY ticket_id REFERENCES support_ticketsid ON DELETE CASCADE
+constraint|public.support_ticket_attachments.support_ticket_attachments_uploaded_by_fkey|FOREIGN KEY uploaded_by REFERENCES auth.usersid ON DELETE SET NULL
+constraint|public.support_ticket_messages.support_ticket_messages_author_id_fkey|FOREIGN KEY author_id REFERENCES auth.usersid ON DELETE SET NULL
+constraint|public.support_ticket_messages.support_ticket_messages_author_kind_check|CHECK author_kind = ANY ARRAY['requester', 'agent', 'system']
+constraint|public.support_ticket_messages.support_ticket_messages_body_check|CHECK char_lengthbody >= 1 AND char_lengthbody <= 10000
+constraint|public.support_ticket_messages.support_ticket_messages_pkey|PRIMARY KEY id
+constraint|public.support_ticket_messages.support_ticket_messages_ticket_id_fkey|FOREIGN KEY ticket_id REFERENCES support_ticketsid ON DELETE CASCADE
+constraint|public.support_ticket_status_events.support_ticket_status_events_changed_by_fkey|FOREIGN KEY changed_by REFERENCES auth.usersid ON DELETE SET NULL
+constraint|public.support_ticket_status_events.support_ticket_status_events_pkey|PRIMARY KEY id
+constraint|public.support_ticket_status_events.support_ticket_status_events_ticket_id_fkey|FOREIGN KEY ticket_id REFERENCES support_ticketsid ON DELETE CASCADE
+constraint|public.support_tickets.support_tickets_assigned_to_fkey|FOREIGN KEY assigned_to REFERENCES auth.usersid ON DELETE SET NULL
+constraint|public.support_tickets.support_tickets_confirmed_by_check|CHECK confirmed_by = ANY ARRAY['client', 'auto', 'agent']
+constraint|public.support_tickets.support_tickets_effort_minutes_check|CHECK effort_minutes >= 0
+constraint|public.support_tickets.support_tickets_idempotency_key_key|UNIQUE idempotency_key
+constraint|public.support_tickets.support_tickets_pkey|PRIMARY KEY id
+constraint|public.support_tickets.support_tickets_priority_check|CHECK priority = ANY ARRAY['p1', 'p2', 'p3']
+constraint|public.support_tickets.support_tickets_related_ticket_id_fkey|FOREIGN KEY related_ticket_id REFERENCES support_ticketsid ON DELETE SET NULL
+constraint|public.support_tickets.support_tickets_requester_id_fkey|FOREIGN KEY requester_id REFERENCES auth.usersid ON DELETE SET NULL
+constraint|public.support_tickets.support_tickets_status_check|CHECK status = ANY ARRAY['open', 'in_progress', 'waiting_on_client', 'resolved', 'closed']
+constraint|public.support_tickets.support_tickets_ticket_number_key|UNIQUE ticket_number
+constraint|public.support_tickets.support_tickets_title_check|CHECK char_lengthtitle >= 1 AND char_lengthtitle <= 200
+constraint|public.support_tickets.support_tickets_type_check|CHECK type = ANY ARRAY['bug', 'change', 'feature', 'question']
+constraint|public.support_tickets.support_tickets_urgency_check|CHECK urgency = ANY ARRAY['blocked', 'annoying', 'not_urgent']
+constraint|public.timesheets.timesheets_bonus_positive|CHECK bonus_amount >= 0::numeric
+constraint|public.timesheets.timesheets_created_by_user_id_fkey|FOREIGN KEY created_by_user_id REFERENCES auth.usersid
+constraint|public.timesheets.timesheets_deduction_positive|CHECK deduction_amount >= 0::numeric
+constraint|public.timesheets.timesheets_hours_positive|CHECK total_regular_hours >= 0::numeric AND total_overtime_hours >= 0::numeric
+constraint|public.timesheets.timesheets_jobseeker_profile_id_fkey|FOREIGN KEY jobseeker_profile_id REFERENCES jobseeker_profilesid ON DELETE CASCADE
+constraint|public.timesheets.timesheets_jobseeker_user_id_fkey|FOREIGN KEY jobseeker_user_id REFERENCES auth.usersid ON DELETE CASCADE
+constraint|public.timesheets.timesheets_pay_positive|CHECK total_jobseeker_pay >= 0::numeric AND total_client_bill >= 0::numeric
+constraint|public.timesheets.timesheets_pay_split_segment_check|CHECK pay_split_segment = ANY ARRAY['single', 'sin', 'cash', 'e_transfer']
+constraint|public.timesheets.timesheets_pkey|PRIMARY KEY id
+constraint|public.timesheets.timesheets_position_id_fkey|FOREIGN KEY position_id REFERENCES positionsid ON DELETE SET NULL
+constraint|public.timesheets.timesheets_rates_positive|CHECK regular_pay_rate >= 0::numeric AND overtime_pay_rate >= 0::numeric AND regular_bill_rate >= 0::numeric AND overtime_bill_rate >= 0::numeric
+constraint|public.timesheets.timesheets_unique_per_position_week_segment|UNIQUE jobseeker_profile_id, position_id, week_start_date, pay_split_segment
+constraint|public.timesheets.timesheets_updated_by_user_id_fkey|FOREIGN KEY updated_by_user_id REFERENCES auth.usersid
+constraint|public.timesheets.timesheets_week_dates_check|CHECK week_end_date > week_start_date
+constraint|public.timesheets.timesheets_week_span_check|CHECK week_end_date - week_start_date = 6
+cron|daily_update_job_status|schedule=0 4 * * * command_md5=28697d9918c4fb4c155b905f375220b5
+cron|process-embeddings|schedule=10 seconds command_md5=d85457594fe0ed763ad8fce75a232c45
+cron|support-auto-close|schedule=30 3 * * * command_md5=bd32dcce026f4bb14809b22a9eafd7c6
+extension|pg_cron|
+extension|pgcrypto|
+extension|plpgsql|
+extension|uuid-ossp|
+extension|vector|
+fngrant|public.default_app_role()|anon=false authenticated=false service_role=true
+fngrant|public.document_on_own_profile(object_name text)|anon=false authenticated=true service_role=true
+fngrant|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profiles)|anon=true authenticated=true service_role=true
+fngrant|public.embedding_input_position_description(pre_embedding_text positions)|anon=true authenticated=true service_role=true
+fngrant|public.ensure_invoice_number()|anon=true authenticated=true service_role=true
+fngrant|public.execute_sql(query text)|anon=false authenticated=false service_role=true
+fngrant|public.find_matching_candidates(p_position_id uuid, p_limit integer, p_filters jsonb)|anon=true authenticated=true service_role=true
+fngrant|public.generate_invoice_number()|anon=true authenticated=true service_role=true
+fngrant|public.generate_next_position_code(client_short_code text)|anon=true authenticated=true service_role=true
+fngrant|public.get_manager_id(user_id uuid)|anon=false authenticated=false service_role=true
+fngrant|public.get_org_id(user_id uuid)|anon=false authenticated=false service_role=true
+fngrant|public.get_role_change_log(user_id uuid)|anon=false authenticated=false service_role=true
+fngrant|public.get_table_info(table_name_param text, schema_name_param text)|anon=false authenticated=false service_role=true
+fngrant|public.get_user_id_by_email(user_email text)|anon=false authenticated=false service_role=true
+fngrant|public.get_user_id_by_phone(user_phone text)|anon=false authenticated=false service_role=true
+fngrant|public.get_user_role(user_id uuid)|anon=false authenticated=false service_role=true
+fngrant|public.get_user_roles(user_id uuid)|anon=false authenticated=false service_role=true
+fngrant|public.has_role(role user_role)|anon=true authenticated=true service_role=true
+fngrant|public.has_scope(scope text)|anon=true authenticated=true service_role=true
+fngrant|public.has_user_role(role text)|anon=true authenticated=true service_role=true
+fngrant|public.is_admin()|anon=true authenticated=true service_role=true
+fngrant|public.is_jobseeker()|anon=true authenticated=true service_role=true
+fngrant|public.is_recruiter()|anon=true authenticated=true service_role=true
+fngrant|public.list_auth_users(search text, name_filter text, email_filter text, mobile_filter text, user_type_filter text, email_verified_filter text, limit_count integer, offset_count integer)|anon=false authenticated=false service_role=true
+fngrant|public.notify_activity_change()|anon=true authenticated=true service_role=true
+fngrant|public.set_user_roles(target_user_id uuid, new_roles text[], changed_by uuid, reason text)|anon=false authenticated=false service_role=true
+fngrant|public.simple_matching_candidates(p_position_id uuid, p_limit integer)|anon=true authenticated=true service_role=true
+fngrant|public.support_add_message(p_ticket_id uuid, p_author_id uuid, p_author_name text, p_author_kind text, p_body text, p_is_internal boolean)|anon=false authenticated=false service_role=true
+fngrant|public.support_auto_close_resolved()|anon=false authenticated=false service_role=true
+fngrant|public.support_change_status(p_ticket_id uuid, p_to_status text, p_actor_id uuid, p_actor_kind text, p_effort_minutes integer)|anon=false authenticated=false service_role=true
+fngrant|public.support_create_ticket(p_requester_id uuid, p_requester_name text, p_requester_email text, p_requester_roles text[], p_type text, p_title text, p_description text, p_urgency text, p_context jsonb, p_locale text, p_idempotency_key uuid)|anon=false authenticated=false service_role=true
+fngrant|public.support_elapsed_minutes(p_ticket_id uuid)|anon=false authenticated=false service_role=true
+fngrant|public.support_set_updated_at()|anon=false authenticated=false service_role=true
+fngrant|public.test_connection()|anon=false authenticated=false service_role=true
+fngrant|public.update_bulk_timesheets_updated_at()|anon=true authenticated=true service_role=true
+fngrant|public.update_client_last_activity()|anon=true authenticated=true service_role=true
+fngrant|public.update_consent_updated_at_column()|anon=true authenticated=true service_role=true
+fngrant|public.update_job_status()|anon=true authenticated=true service_role=true
+fngrant|public.update_jobseeker_last_activity()|anon=true authenticated=true service_role=true
+fngrant|public.update_updated_at_column()|anon=true authenticated=true service_role=true
+fngrant|public.update_user_has_profile_on_profile_change()|anon=true authenticated=true service_role=true
+function|public.default_app_role()|returns trigger secdef=true volatility=v config=search_path="" body=5cb3204161d7cc2bb761defc8609c2a7
+function|public.document_on_own_profile(object_name text)|returns boolean secdef=true volatility=s config=search_path="" body=fab3d02c74e6414d303e2dc830a84b33
+function|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profiles)|returns text secdef=false volatility=i config= body=f48dd41255bd9a15c6216864c0c7867b
+function|public.embedding_input_position_description(pre_embedding_text positions)|returns text secdef=false volatility=i config= body=411f577d52fcbe7bfdfd017fa9d2fa46
+function|public.ensure_invoice_number()|returns trigger secdef=false volatility=v config= body=16086eadd050debfc8771a3edeea4855
+function|public.execute_sql(query text)|returns json secdef=true volatility=v config= body=1553b451ecada1038586c35e67c40d6f
+function|public.find_matching_candidates(p_position_id uuid, p_limit integer, p_filters jsonb)|returns TABLE(candidate_id uuid, first_name text, last_name text, email text, mobile text, bio text, experience text, weekend_availability boolean, availability text, similarity_score double precision, is_available boolean) secdef=false volatility=v config= body=02f9edea5bc7727845f823fc508155a6
+function|public.generate_invoice_number()|returns character varying secdef=false volatility=v config= body=90ee15c2b26d3b7bd78b9f6168799658
+function|public.generate_next_position_code(client_short_code text)|returns text secdef=false volatility=v config= body=c774eabdf5df1dfe348fe054a7015cab
+function|public.get_manager_id(user_id uuid)|returns uuid secdef=true volatility=v config= body=0c509edee3870d9f6952fd958b40f9bb
+function|public.get_org_id(user_id uuid)|returns uuid secdef=true volatility=v config= body=c2c75851bbbf35d7cf583d24e2db9d49
+function|public.get_role_change_log(user_id uuid)|returns jsonb secdef=true volatility=v config= body=d9c7ebb73242610daf2057bd0ebc64d3
+function|public.get_table_info(table_name_param text, schema_name_param text)|returns json secdef=true volatility=v config= body=e931eedf28d0a9190fb491272e3eb040
+function|public.get_user_id_by_email(user_email text)|returns text secdef=true volatility=v config=search_path=public body=e2c4013526c423067bd627a6251e54fc
+function|public.get_user_id_by_phone(user_phone text)|returns text secdef=true volatility=v config=search_path=public body=a2a647d7f811f6d22450347bc77d0b5c
+function|public.get_user_role(user_id uuid)|returns user_role secdef=true volatility=s config=search_path="" body=18df54ee9c6fe2791ed2e4801248fe43
+function|public.get_user_roles(user_id uuid)|returns text[] secdef=true volatility=s config=search_path="" body=4567906a12f316793d6129f93f4df385
+function|public.has_role(role user_role)|returns boolean secdef=true volatility=s config=search_path="" body=75e33868db386a5a11099ab1feaf26e7
+function|public.has_scope(scope text)|returns boolean secdef=true volatility=s config=search_path="" body=58b96989d6b0b7d7720479835caa5916
+function|public.has_user_role(role text)|returns boolean secdef=true volatility=s config=search_path="" body=117603532f076add6d3040f423823e69
+function|public.is_admin()|returns boolean secdef=true volatility=s config=search_path="" body=9626dec7394fd71b7b1b4d80f652a800
+function|public.is_jobseeker()|returns boolean secdef=true volatility=s config=search_path="" body=2ae9d87f0d20f1fc8db67fb829331100
+function|public.is_recruiter()|returns boolean secdef=true volatility=s config=search_path="" body=6d7f26bd1ea8630a02063c56aa927d90
+function|public.list_auth_users(search text, name_filter text, email_filter text, mobile_filter text, user_type_filter text, email_verified_filter text, limit_count integer, offset_count integer)|returns TABLE(id uuid, email text, user_metadata jsonb, created_at timestamp with time zone, last_sign_in_at timestamp with time zone, email_confirmed_at timestamp with time zone) secdef=true volatility=s config=search_path="" body=9638206166829411e6fa5eba1ea48c24
+function|public.notify_activity_change()|returns trigger secdef=false volatility=v config= body=16e85717618a919f4ad9c3c1840b93d2
+function|public.set_user_roles(target_user_id uuid, new_roles text[], changed_by uuid, reason text)|returns void secdef=true volatility=v config= body=9a0ff7c3d0bc420ad387e585fa8035ed
+function|public.simple_matching_candidates(p_position_id uuid, p_limit integer)|returns TABLE(candidate_id uuid, similarity_score double precision) secdef=false volatility=v config= body=bae55a208eeeec3e80002254b192eaf1
+function|public.support_add_message(p_ticket_id uuid, p_author_id uuid, p_author_name text, p_author_kind text, p_body text, p_is_internal boolean)|returns support_ticket_messages secdef=false volatility=v config=search_path=public body=c292201021f75b237a09fe7f1e0236dd
+function|public.support_auto_close_resolved()|returns integer secdef=false volatility=v config=search_path=public body=808e3211803b0cb92c4d75ad0e0b6553
+function|public.support_change_status(p_ticket_id uuid, p_to_status text, p_actor_id uuid, p_actor_kind text, p_effort_minutes integer)|returns support_tickets secdef=false volatility=v config=search_path=public body=1e7a97fea6373f027e21e9a7160fefd7
+function|public.support_create_ticket(p_requester_id uuid, p_requester_name text, p_requester_email text, p_requester_roles text[], p_type text, p_title text, p_description text, p_urgency text, p_context jsonb, p_locale text, p_idempotency_key uuid)|returns support_tickets secdef=false volatility=v config=search_path=public body=c14ca66c44c6fe8fde9fa26364ef1f0d
+function|public.support_elapsed_minutes(p_ticket_id uuid)|returns integer secdef=false volatility=v config=search_path=public body=2d057e7538a5b967338a4dff14e30f4f
+function|public.support_set_updated_at()|returns trigger secdef=false volatility=v config=search_path=public body=f019c2a85daf0ed4058b77a7a14664a9
+function|public.test_connection()|returns json secdef=true volatility=v config= body=d1257f1fd01c16c354701849d03171ae
+function|public.update_bulk_timesheets_updated_at()|returns trigger secdef=false volatility=v config= body=8d0d99f0f246f51e6e468e02e03e428b
+function|public.update_client_last_activity()|returns trigger secdef=false volatility=v config= body=893486006d57fae6d49a49372c4ebd76
+function|public.update_consent_updated_at_column()|returns trigger secdef=false volatility=v config= body=f019c2a85daf0ed4058b77a7a14664a9
+function|public.update_job_status()|returns void secdef=false volatility=v config= body=07db762f02f48158b23dd29e47810f70
+function|public.update_jobseeker_last_activity()|returns trigger secdef=false volatility=v config= body=eab25845b3b7f1dafb3a04663337cb6f
+function|public.update_updated_at_column()|returns trigger secdef=false volatility=v config= body=f019c2a85daf0ed4058b77a7a14664a9
+function|public.update_user_has_profile_on_profile_change()|returns trigger secdef=true volatility=v config= body=377dbfd3a0e5576f600350f982e75af1
+grant|public.activity_action_types|anon=adDrtwx
+grant|public.activity_action_types|authenticated=adDrtwx
+grant|public.activity_action_types|service_role=adDrtwx
+grant|public.activity_categories|anon=adDrtwx
+grant|public.activity_categories|authenticated=adDrtwx
+grant|public.activity_categories|service_role=adDrtwx
+grant|public.ai_validation|anon=
+grant|public.ai_validation|authenticated=adDrtwx
+grant|public.ai_validation|service_role=adDrtwx
+grant|public.audit_logs|anon=adDrtwx
+grant|public.audit_logs|authenticated=adDrtwx
+grant|public.audit_logs|service_role=adDrtwx
+grant|public.client_drafts|anon=adDrtwx
+grant|public.client_drafts|authenticated=adDrtwx
+grant|public.client_drafts|service_role=adDrtwx
+grant|public.client_dropdown_options|anon=adDrtwx
+grant|public.client_dropdown_options|authenticated=adDrtwx
+grant|public.client_dropdown_options|service_role=adDrtwx
+grant|public.clients|anon=adDrtwx
+grant|public.clients|authenticated=adDrtwx
+grant|public.clients|service_role=adDrtwx
+grant|public.consent_document_templates|anon=adDrtwx
+grant|public.consent_document_templates|authenticated=adDrtwx
+grant|public.consent_document_templates|service_role=adDrtwx
+grant|public.consent_documents|anon=adDrtwx
+grant|public.consent_documents|authenticated=adDrtwx
+grant|public.consent_documents|service_role=adDrtwx
+grant|public.consent_records|anon=adDrtwx
+grant|public.consent_records|authenticated=adDrtwx
+grant|public.consent_records|service_role=adDrtwx
+grant|public.email_checkpoint|anon=adDrtwx
+grant|public.email_checkpoint|authenticated=adDrtwx
+grant|public.email_checkpoint|service_role=adDrtwx
+grant|public.feature_flags|anon=adDrtwx
+grant|public.feature_flags|authenticated=adDrtwx
+grant|public.feature_flags|service_role=adDrtwx
+grant|public.invoices|anon=adDrtwx
+grant|public.invoices|authenticated=adDrtwx
+grant|public.invoices|service_role=adDrtwx
+grant|public.jobseeker_profile_drafts|anon=adDrtwx
+grant|public.jobseeker_profile_drafts|authenticated=adDrtwx
+grant|public.jobseeker_profile_drafts|service_role=adDrtwx
+grant|public.jobseeker_profiles|anon=adDrtwx
+grant|public.jobseeker_profiles|authenticated=adDrtwx
+grant|public.jobseeker_profiles|service_role=adDrtwx
+grant|public.portal_settings|anon=adDrtwx
+grant|public.portal_settings|authenticated=adDrtwx
+grant|public.portal_settings|service_role=adDrtwx
+grant|public.position_candidate_assignments|anon=adDrtwx
+grant|public.position_candidate_assignments|authenticated=adDrtwx
+grant|public.position_candidate_assignments|service_role=adDrtwx
+grant|public.position_drafts|anon=adDrtwx
+grant|public.position_drafts|authenticated=adDrtwx
+grant|public.position_drafts|service_role=adDrtwx
+grant|public.positions|anon=adDrtwx
+grant|public.positions|authenticated=adDrtwx
+grant|public.positions|service_role=adDrtwx
+grant|public.recent_activities|anon=adDrtwx
+grant|public.recent_activities|authenticated=adDrtwx
+grant|public.recent_activities|service_role=adDrtwx
+grant|public.support_ticket_attachments|anon=
+grant|public.support_ticket_attachments|authenticated=
+grant|public.support_ticket_attachments|service_role=adDrtwx
+grant|public.support_ticket_messages|anon=
+grant|public.support_ticket_messages|authenticated=
+grant|public.support_ticket_messages|service_role=adDrtwx
+grant|public.support_ticket_status_events|anon=
+grant|public.support_ticket_status_events|authenticated=
+grant|public.support_ticket_status_events|service_role=adDrtwx
+grant|public.support_tickets|anon=
+grant|public.support_tickets|authenticated=
+grant|public.support_tickets|service_role=adDrtwx
+grant|public.timesheets|anon=adDrtwx
+grant|public.timesheets|authenticated=adDrtwx
+grant|public.timesheets|service_role=adDrtwx
+index|public.activity_action_types.activity_action_types_code_key|USING btree (code)
+index|public.activity_action_types.activity_action_types_pkey|USING btree (id)
+index|public.activity_action_types.idx_activity_action_types_active|USING btree (is_active, code)
+index|public.activity_categories.activity_categories_code_key|USING btree (code)
+index|public.activity_categories.activity_categories_pkey|USING btree (id)
+index|public.activity_categories.idx_activity_categories_active|USING btree (is_active, code)
+index|public.ai_validation.ai_validation_pkey|USING btree (id)
+index|public.audit_logs.audit_logs_pkey|USING btree (id)
+index|public.client_drafts.client_drafts_pkey|USING btree (id)
+index|public.client_drafts.idx_client_drafts_created_by|USING btree (created_by_user_id)
+index|public.client_dropdown_options.client_dropdown_options_list_type_name_key|USING btree (list_type, name)
+index|public.client_dropdown_options.client_dropdown_options_pkey|USING btree (id)
+index|public.client_dropdown_options.idx_client_dropdown_options_list_type|USING btree (list_type)
+index|public.clients.clients_pkey|USING btree (id)
+index|public.clients.idx_clients_company_name|USING btree (company_name)
+index|public.clients.idx_clients_created_by|USING btree (created_by_user_id)
+index|public.clients.idx_clients_email|USING btree (email_address1)
+index|public.clients.idx_clients_last_activity_at|USING btree (last_activity_at)
+index|public.consent_document_templates.consent_document_templates_pkey|USING btree (id)
+index|public.consent_document_templates.idx_consent_document_templates_active|USING btree (is_active)
+index|public.consent_document_templates.idx_consent_document_templates_created_at|USING btree (created_at DESC)
+index|public.consent_document_templates.idx_consent_document_templates_created_by|USING btree (created_by)
+index|public.consent_documents.consent_documents_pkey|USING btree (id)
+index|public.consent_documents.idx_consent_documents_active|USING btree (is_active, created_at DESC)
+index|public.consent_documents.idx_consent_documents_consent_mode|USING btree (consent_mode)
+index|public.consent_documents.idx_consent_documents_created_at|USING btree (created_at DESC)
+index|public.consent_documents.idx_consent_documents_jobseeker_onboarding|USING btree (is_jobseeker_onboarding) WHERE (is_jobseeker_onboarding = true)
+index|public.consent_documents.idx_consent_documents_template_id|USING btree (template_id)
+index|public.consent_documents.idx_consent_documents_uploaded_by|USING btree (uploaded_by)
+index|public.consent_records.consent_records_consent_token_key|USING btree (consent_token)
+index|public.consent_records.consent_records_pkey|USING btree (id)
+index|public.consent_records.idx_consent_records_active_pending|USING btree (status, sent_at DESC) WHERE (status = 'pending'::text)
+index|public.consent_records.idx_consent_records_consentable|USING btree (consentable_id, consentable_type)
+index|public.consent_records.idx_consent_records_document_id|USING btree (document_id)
+index|public.consent_records.idx_consent_records_document_status|USING btree (document_id, status)
+index|public.consent_records.idx_consent_records_filled_document_path|USING btree (filled_document_file_path) WHERE (filled_document_file_path IS NOT NULL)
+index|public.consent_records.idx_consent_records_jobseeker_onboarding|USING btree (consentable_id, consentable_type) WHERE (is_jobseeker_onboarding = true)
+index|public.consent_records.idx_consent_records_sent_at|USING btree (sent_at DESC)
+index|public.consent_records.idx_consent_records_status|USING btree (status)
+index|public.consent_records.idx_consent_records_token|USING btree (consent_token)
+index|public.consent_records.unique_consentable_document_version|USING btree (consentable_id, consentable_type, document_id)
+index|public.feature_flags.feature_flags_pkey|USING btree (key)
+index|public.invoices.idx_invoices_client_company_name|USING btree ((((invoice_data -> 'client'::text) ->> 'companyName'::text)))
+index|public.invoices.idx_invoices_client_id|USING btree (client_id)
+index|public.invoices.idx_invoices_created_by|USING btree (created_by_user_id)
+index|public.invoices.idx_invoices_data_gin|USING gin (invoice_data)
+index|public.invoices.idx_invoices_document_generated_at|USING btree (document_generated_at)
+index|public.invoices.idx_invoices_document_generated|USING btree (document_generated)
+index|public.invoices.idx_invoices_due_date|USING btree (due_date)
+index|public.invoices.idx_invoices_email_sent|USING btree (email_sent)
+index|public.invoices.idx_invoices_grand_total|USING btree (grand_total)
+index|public.invoices.idx_invoices_invoice_date|USING btree (invoice_date)
+index|public.invoices.idx_invoices_invoice_number|USING btree (invoice_number)
+index|public.invoices.idx_invoices_line_items|USING gin (((invoice_data -> 'lineItems'::text)))
+index|public.invoices.idx_invoices_payment_terms|USING btree (((invoice_data ->> 'paymentTerms'::text)))
+index|public.invoices.idx_invoices_search_vector|USING gin (search_vector)
+index|public.invoices.idx_invoices_sent_to|USING btree (invoice_sent_to)
+index|public.invoices.idx_invoices_status|USING btree (status)
+index|public.invoices.invoices_invoice_number_key|USING btree (invoice_number)
+index|public.invoices.invoices_pkey|USING btree (id)
+index|public.jobseeker_profile_drafts.jobseeker_profile_drafts_pkey|USING btree (id)
+index|public.jobseeker_profiles.idx_jobseeker_docs|USING gin (documents)
+index|public.jobseeker_profiles.idx_jobseeker_profiles_employee_id|USING btree (employee_id)
+index|public.jobseeker_profiles.idx_jobseeker_profiles_last_activity_at|USING btree (last_activity_at)
+index|public.jobseeker_profiles.jobseeker_profiles_bio_embedding_idx|USING hnsw (bio_embedding vector_cosine_ops)
+index|public.jobseeker_profiles.jobseeker_profiles_email_key|USING btree (email)
+index|public.jobseeker_profiles.jobseeker_profiles_pkey|USING btree (id)
+index|public.jobseeker_profiles.unique_employee_id|USING btree (employee_id)
+index|public.portal_settings.portal_settings_pkey|USING btree (key)
+index|public.position_candidate_assignments.idx_position_candidate_assignments_candidate|USING btree (candidate_id)
+index|public.position_candidate_assignments.idx_position_candidate_assignments_dates|USING btree (start_date, end_date)
+index|public.position_candidate_assignments.idx_position_candidate_assignments_position|USING btree (position_id)
+index|public.position_candidate_assignments.idx_position_candidate_assignments_status|USING btree (status)
+index|public.position_candidate_assignments.position_candidate_assignment_position_id_candidate_id_star_key|USING btree (position_id, candidate_id, start_date)
+index|public.position_candidate_assignments.position_candidate_assignments_pkey|USING btree (id)
+index|public.position_drafts.idx_position_drafts_client_name|USING btree (client_name)
+index|public.position_drafts.idx_position_drafts_client_position_code|USING btree (client, position_code)
+index|public.position_drafts.idx_position_drafts_created_by|USING btree (created_by_user_id)
+index|public.position_drafts.idx_position_drafts_position_code_pattern|USING btree (position_code) WHERE (position_code IS NOT NULL)
+index|public.position_drafts.position_drafts_pkey|USING btree (id)
+index|public.positions.idx_positions_assigned_jobseekers|USING gin (assigned_jobseekers)
+index|public.positions.idx_positions_client_name|USING btree (client_name)
+index|public.positions.idx_positions_client_position_code|USING btree (client, position_code)
+index|public.positions.idx_positions_client|USING btree (client)
+index|public.positions.idx_positions_created_by|USING btree (created_by_user_id)
+index|public.positions.idx_positions_has_assigned_jobseekers|USING btree (((array_length(assigned_jobseekers, 1) > 0)))
+index|public.positions.idx_positions_position_code_pattern|USING btree (position_code) WHERE (position_code IS NOT NULL)
+index|public.positions.idx_positions_title|USING btree (title)
+index|public.positions.positions_job_embedding_idx|USING hnsw (job_embedding vector_cosine_ops)
+index|public.positions.positions_pkey|USING btree (id)
+index|public.positions.unique_position_code_subcategory_idx|USING btree (position_code, COALESCE(subcategory_position, ''::character varying))
+index|public.recent_activities.idx_recent_activities_action_type|USING btree (action_type)
+index|public.recent_activities.idx_recent_activities_actor_category_date|USING btree (actor_id, category, created_at DESC)
+index|public.recent_activities.idx_recent_activities_actor_id|USING btree (actor_id)
+index|public.recent_activities.idx_recent_activities_category|USING btree (category)
+index|public.recent_activities.idx_recent_activities_created_at|USING btree (created_at DESC)
+index|public.recent_activities.idx_recent_activities_display|USING btree (is_deleted, created_at DESC) WHERE (is_deleted = false)
+index|public.recent_activities.idx_recent_activities_primary_entity|USING btree (primary_entity_type, primary_entity_id)
+index|public.recent_activities.recent_activities_pkey|USING btree (id)
+index|public.support_ticket_attachments.idx_support_ticket_attachments_ticket|USING btree (ticket_id)
+index|public.support_ticket_attachments.support_ticket_attachments_pkey|USING btree (id)
+index|public.support_ticket_attachments.support_ticket_attachments_storage_path_key|USING btree (storage_path)
+index|public.support_ticket_messages.idx_support_ticket_messages_ticket_created|USING btree (ticket_id, created_at)
+index|public.support_ticket_messages.support_ticket_messages_pkey|USING btree (id)
+index|public.support_ticket_status_events.idx_support_ticket_status_events_ticket_created|USING btree (ticket_id, created_at)
+index|public.support_ticket_status_events.support_ticket_status_events_pkey|USING btree (id)
+index|public.support_tickets.idx_support_tickets_requester_created|USING btree (requester_id, created_at DESC)
+index|public.support_tickets.idx_support_tickets_status_created|USING btree (status, created_at DESC)
+index|public.support_tickets.support_tickets_idempotency_key_key|USING btree (idempotency_key)
+index|public.support_tickets.support_tickets_pkey|USING btree (id)
+index|public.support_tickets.support_tickets_ticket_number_key|USING btree (ticket_number)
+index|public.timesheets.idx_timesheets_bonus_amount|USING btree (bonus_amount) WHERE (bonus_amount > (0)::numeric)
+index|public.timesheets.idx_timesheets_created_by|USING btree (created_by_user_id)
+index|public.timesheets.idx_timesheets_deduction_amount|USING btree (deduction_amount) WHERE (deduction_amount > (0)::numeric)
+index|public.timesheets.idx_timesheets_document|USING btree (document) WHERE (document IS NOT NULL)
+index|public.timesheets.idx_timesheets_email_sent|USING btree (email_sent)
+index|public.timesheets.idx_timesheets_invoice_number_unique|USING btree (invoice_number) WHERE (invoice_number IS NOT NULL)
+index|public.timesheets.idx_timesheets_invoice_number|USING btree (invoice_number)
+index|public.timesheets.idx_timesheets_jobseeker_profile_id|USING btree (jobseeker_profile_id)
+index|public.timesheets.idx_timesheets_jobseeker_user_id|USING btree (jobseeker_user_id)
+index|public.timesheets.idx_timesheets_position_id|USING btree (position_id)
+index|public.timesheets.idx_timesheets_version_history|USING gin (version_history)
+index|public.timesheets.idx_timesheets_version|USING btree (version)
+index|public.timesheets.idx_timesheets_week_end_date|USING btree (week_end_date)
+index|public.timesheets.idx_timesheets_week_start_date|USING btree (week_start_date)
+index|public.timesheets.timesheets_pkey|USING btree (id)
+index|public.timesheets.timesheets_unique_per_position_week_segment|USING btree (jobseeker_profile_id, position_id, week_start_date, pay_split_segment)
+policy|public.activity_action_types|"Anyone can read action types" SELECT PERMISSIVE roles=public using=(auth.role() = 'authenticated'::text) check=
+policy|public.activity_action_types|"Service role can manage action types" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
+policy|public.activity_categories|"Anyone can read categories" SELECT PERMISSIVE roles=public using=(auth.role() = 'authenticated'::text) check=
+policy|public.activity_categories|"Service role can manage categories" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
+policy|public.ai_validation|"ai_validation_insert_own_or_staff" INSERT PERMISSIVE roles=authenticated using= check=((user_id = auth.uid()) OR is_admin() OR is_recruiter())
+policy|public.ai_validation|"ai_validation_select_own_or_staff" SELECT PERMISSIVE roles=authenticated using=((user_id = auth.uid()) OR is_admin() OR is_recruiter()) check=
+policy|public.ai_validation|"ai_validation_update_own_or_staff" UPDATE PERMISSIVE roles=authenticated using=((user_id = auth.uid()) OR is_admin() OR is_recruiter()) check=((user_id = auth.uid()) OR is_admin() OR is_recruiter())
+policy|public.audit_logs|"Service role can do anything with audit logs" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
+policy|public.client_drafts|"Users can delete their own drafts" DELETE PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
+policy|public.client_drafts|"Users can insert their own drafts" INSERT PERMISSIVE roles=public using= check=(auth.uid() = created_by_user_id)
+policy|public.client_drafts|"Users can update their own drafts" UPDATE PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
+policy|public.client_drafts|"Users can view their own drafts" SELECT PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
+policy|public.client_dropdown_options|"Admins and recruiters can view dropdown options" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.client_dropdown_options|"Only admins can delete dropdown options" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.client_dropdown_options|"Only admins can insert dropdown options" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text)))
+policy|public.client_dropdown_options|"Only admins can update dropdown options" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.clients|"Admins and recruiters can insert clients" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
+policy|public.clients|"Admins and recruiters can update clients" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.clients|"Admins and recruiters can view all clients" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.clients|"Only admins can delete clients" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.consent_document_templates|"Admins and recruiters can view consent templates" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.consent_document_templates|"Only admins can delete consent templates" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.consent_document_templates|"Only admins can insert consent templates" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text)))
+policy|public.consent_document_templates|"Only admins can update consent templates" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.consent_documents|"Admins and recruiters can insert consent documents" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
+policy|public.consent_documents|"Admins and recruiters can update consent documents" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.consent_documents|"Admins and recruiters can view all consent documents" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.consent_documents|"Only admins can delete consent documents" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.consent_records|"Admins and recruiters can insert consent records" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
+policy|public.consent_records|"Admins and recruiters can update consent records" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.consent_records|"Admins and recruiters can view all consent records" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.invoices|"Admin and recruiters can update any invoice" UPDATE PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND ((users.raw_user_meta_data ->> 'role'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))) check=
+policy|public.invoices|"Admin and recruiters can view all invoices" SELECT PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND ((users.raw_user_meta_data ->> 'role'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))) check=
+policy|public.invoices|"Admin can delete invoices" DELETE PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND ((users.raw_user_meta_data ->> 'role'::text) = 'admin'::text)))) check=
+policy|public.invoices|"Users can create invoices" INSERT PERMISSIVE roles=public using= check=(created_by_user_id = auth.uid())
+policy|public.invoices|"Users can update own draft invoices" UPDATE PERMISSIVE roles=public using=((created_by_user_id = auth.uid()) AND ((status)::text = 'draft'::text)) check=(created_by_user_id = auth.uid())
+policy|public.invoices|"Users can view own invoices" SELECT PERMISSIVE roles=public using=(created_by_user_id = auth.uid()) check=
+policy|public.jobseeker_profile_drafts|"Service role can do anything with drafts" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
+policy|public.jobseeker_profile_drafts|"Users can delete their own drafts" DELETE PERMISSIVE roles=public using=(auth.uid() = user_id) check=
+policy|public.jobseeker_profile_drafts|"Users can insert their own drafts" INSERT PERMISSIVE roles=public using= check=(auth.uid() = user_id)
+policy|public.jobseeker_profile_drafts|"Users can update their own drafts" UPDATE PERMISSIVE roles=public using=(auth.uid() = user_id) check=
+policy|public.jobseeker_profile_drafts|"Users can view their own drafts" SELECT PERMISSIVE roles=public using=(auth.uid() = user_id) check=
+policy|public.jobseeker_profiles|"Only admins and recruiters can update verification status" UPDATE PERMISSIVE roles=public using=(is_admin() OR is_recruiter()) check=
+policy|public.jobseeker_profiles|"Service role can do anything with profiles" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
+policy|public.jobseeker_profiles|"Staff can view all profiles" SELECT PERMISSIVE roles=public using=(is_admin() OR is_recruiter()) check=
+policy|public.jobseeker_profiles|"Users can insert their own profiles" INSERT PERMISSIVE roles=public using= check=(auth.uid() = user_id)
+policy|public.jobseeker_profiles|"Users can update their own profiles" UPDATE PERMISSIVE roles=public using=(auth.uid() = user_id) check=
+policy|public.jobseeker_profiles|"Users can view their own profiles" SELECT PERMISSIVE roles=public using=(auth.uid() = user_id) check=
+policy|public.position_drafts|"Users can delete their own position drafts" DELETE PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
+policy|public.position_drafts|"Users can insert their own position drafts" INSERT PERMISSIVE roles=public using= check=(auth.uid() = created_by_user_id)
+policy|public.position_drafts|"Users can update their own position drafts" UPDATE PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
+policy|public.position_drafts|"Users can view their own position drafts" SELECT PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
+policy|public.positions|"Admins and recruiters can insert positions" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
+policy|public.positions|"Admins and recruiters can update positions" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.positions|"Admins and recruiters can view all positions" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
+policy|public.positions|"Only admins can delete positions" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
+policy|public.recent_activities|"Authenticated users can insert activities" INSERT PERMISSIVE roles=public using= check=((auth.role() = 'authenticated'::text) AND ((auth.uid())::text = (actor_id)::text))
+policy|public.recent_activities|"Service role has full access" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
+policy|public.recent_activities|"Staff can view activities" SELECT PERMISSIVE roles=authenticated using=(is_admin() OR is_recruiter()) check=
+policy|public.recent_activities|"Users can update their own activities" UPDATE PERMISSIVE roles=public using=((auth.uid())::text = (actor_id)::text) check=((auth.uid())::text = (actor_id)::text)
+policy|public.timesheets|"Jobseekers can insert own timesheets" INSERT PERMISSIVE roles=public using= check=((auth.uid() = jobseeker_user_id) OR (auth.uid() IN ( SELECT jobseeker_profiles.user_id FROM jobseeker_profiles WHERE (jobseeker_profiles.id = timesheets.jobseeker_profile_id))))
+policy|public.timesheets|"Jobseekers can update own timesheets" UPDATE PERMISSIVE roles=public using=((auth.uid() = jobseeker_user_id) OR (auth.uid() IN ( SELECT jobseeker_profiles.user_id FROM jobseeker_profiles WHERE (jobseeker_profiles.id = timesheets.jobseeker_profile_id)))) check=
+policy|public.timesheets|"Jobseekers can view own timesheets" SELECT PERMISSIVE roles=public using=((auth.uid() = jobseeker_user_id) OR (auth.uid() IN ( SELECT jobseeker_profiles.user_id FROM jobseeker_profiles WHERE (jobseeker_profiles.id = timesheets.jobseeker_profile_id)))) check=
+policy|public.timesheets|"Recruiters and admins can update all timesheets" UPDATE PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND (((users.raw_user_meta_data ->> 'user_type'::text) = 'recruiter'::text) OR ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))))) check=
+policy|public.timesheets|"Recruiters and admins can view all timesheets" SELECT PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND (((users.raw_user_meta_data ->> 'user_type'::text) = 'recruiter'::text) OR ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))))) check=
+policy|storage.objects|"Allow authenticated users to delete invoice attachments" DELETE PERMISSIVE roles=authenticated using=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
+policy|storage.objects|"Allow authenticated users to delete own documents" DELETE PERMISSIVE roles=authenticated using=((bucket_id = 'jobseeker-documents'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
+policy|storage.objects|"Allow authenticated users to select invoice attachments" SELECT PERMISSIVE roles=authenticated using=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
+policy|storage.objects|"Allow authenticated users to select own documents" SELECT PERMISSIVE roles=authenticated using=((bucket_id = 'jobseeker-documents'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
+policy|storage.objects|"Allow authenticated users to update invoice attachments" UPDATE PERMISSIVE roles=authenticated using=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text))
+policy|storage.objects|"Allow authenticated users to update own documents" UPDATE PERMISSIVE roles=authenticated using=((bucket_id = 'jobseeker-documents'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=((bucket_id = 'jobseeker-documents'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text))
+policy|storage.objects|"Allow authenticated users to upload invoice attachments" INSERT PERMISSIVE roles=authenticated using= check=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text))
+policy|storage.objects|"Allow authenticated users to upload own documents" INSERT PERMISSIVE roles=authenticated using= check=((bucket_id = 'jobseeker-documents'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text))
+policy|storage.objects|"consent_documents_read_originals" SELECT PERMISSIVE roles=anon,authenticated using=((bucket_id = 'consent-documents'::text) AND ((storage.foldername(name))[1] IS DISTINCT FROM 'filled-consents'::text)) check=
+policy|storage.objects|"consent_documents_staff" ALL PERMISSIVE roles=authenticated using=((bucket_id = 'consent-documents'::text) AND (is_admin() OR is_recruiter())) check=((bucket_id = 'consent-documents'::text) AND (is_admin() OR is_recruiter()))
+policy|storage.objects|"invoices_staff_read" SELECT PERMISSIVE roles=authenticated using=((bucket_id = 'invoices'::text) AND (is_admin() OR is_recruiter())) check=
+policy|storage.objects|"jobseeker_documents_listed_on_own_profile" SELECT PERMISSIVE roles=authenticated using=((bucket_id = 'jobseeker-documents'::text) AND document_on_own_profile(name)) check=
+policy|storage.objects|"jobseeker_documents_staff" ALL PERMISSIVE roles=authenticated using=((bucket_id = 'jobseeker-documents'::text) AND (is_admin() OR is_recruiter())) check=((bucket_id = 'jobseeker-documents'::text) AND (is_admin() OR is_recruiter()))
+publication|supabase_realtime|public.recent_activities
+table|public.activity_action_types|kind=r rls=true
+table|public.activity_categories|kind=r rls=true
+table|public.ai_validation|kind=r rls=true
+table|public.audit_logs|kind=r rls=true
+table|public.client_drafts|kind=r rls=true
+table|public.client_dropdown_options|kind=r rls=true
+table|public.clients|kind=r rls=true
+table|public.consent_document_templates|kind=r rls=true
+table|public.consent_documents|kind=r rls=true
+table|public.consent_records|kind=r rls=true
+table|public.email_checkpoint_id_seq|kind=S rls=false
+table|public.email_checkpoint|kind=r rls=true
+table|public.feature_flags|kind=r rls=true
+table|public.invoice_number_seq|kind=S rls=false
+table|public.invoices|kind=r rls=true
+table|public.jobseeker_profile_drafts|kind=r rls=true
+table|public.jobseeker_profiles|kind=r rls=true
+table|public.portal_settings|kind=r rls=true
+table|public.position_candidate_assignments|kind=r rls=true
+table|public.position_drafts|kind=r rls=true
+table|public.positions|kind=r rls=true
+table|public.recent_activities|kind=r rls=true
+table|public.support_ticket_attachments|kind=r rls=true
+table|public.support_ticket_messages|kind=r rls=true
+table|public.support_ticket_number_seq|kind=S rls=false
+table|public.support_ticket_status_events|kind=r rls=true
+table|public.support_tickets|kind=r rls=true
+table|public.timesheet_invoice_seq|kind=S rls=false
+table|public.timesheets|kind=r rls=true
+trigger|auth.users.default_app_role|enabled=O BEFORE INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION default_app_role()
+trigger|public.clients.trg_client_activity_on_client_update|enabled=O AFTER UPDATE ON public.clients FOR EACH ROW WHEN ((old.* IS DISTINCT FROM new.*)) EXECUTE FUNCTION update_client_last_activity()
+trigger|public.consent_document_templates.update_consent_document_templates_updated_at|enabled=O BEFORE UPDATE ON public.consent_document_templates FOR EACH ROW EXECUTE FUNCTION update_consent_updated_at_column()
+trigger|public.consent_documents.update_consent_documents_updated_at|enabled=O BEFORE UPDATE ON public.consent_documents FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
+trigger|public.consent_records.update_consent_records_updated_at|enabled=O BEFORE UPDATE ON public.consent_records FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
+trigger|public.invoices.trg_client_activity_on_invoice|enabled=O AFTER INSERT OR UPDATE ON public.invoices FOR EACH ROW EXECUTE FUNCTION update_client_last_activity()
+trigger|public.invoices.trg_jobseeker_activity_on_invoice|enabled=O AFTER INSERT OR UPDATE ON public.invoices FOR EACH ROW EXECUTE FUNCTION update_jobseeker_last_activity()
+trigger|public.invoices.trigger_ensure_invoice_number|enabled=O BEFORE INSERT ON public.invoices FOR EACH ROW EXECUTE FUNCTION ensure_invoice_number()
+trigger|public.invoices.update_invoices_updated_at|enabled=O BEFORE UPDATE ON public.invoices FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
+trigger|public.jobseeker_profiles.embed_bio_on_insert|enabled=O AFTER INSERT ON public.jobseeker_profiles FOR EACH ROW EXECUTE FUNCTION util.queue_embeddings('embedding_input_jobseeker_bio', 'bio_embedding')
+trigger|public.jobseeker_profiles.embed_bio_on_update|enabled=O AFTER UPDATE OF bio ON public.jobseeker_profiles FOR EACH ROW EXECUTE FUNCTION util.queue_embeddings('embedding_input_jobseeker_bio', 'bio_embedding')
+trigger|public.jobseeker_profiles.trg_jobseeker_activity_on_profile_update|enabled=O AFTER UPDATE ON public.jobseeker_profiles FOR EACH ROW WHEN ((old.* IS DISTINCT FROM new.*)) EXECUTE FUNCTION update_jobseeker_last_activity()
+trigger|public.position_candidate_assignments.trg_client_activity_on_assignment|enabled=O AFTER INSERT ON public.position_candidate_assignments FOR EACH ROW EXECUTE FUNCTION update_client_last_activity()
+trigger|public.position_candidate_assignments.trg_jobseeker_activity_on_assignment|enabled=O AFTER INSERT ON public.position_candidate_assignments FOR EACH ROW EXECUTE FUNCTION update_jobseeker_last_activity()
+trigger|public.positions.embed_job_description_on_insert|enabled=O AFTER INSERT ON public.positions FOR EACH ROW EXECUTE FUNCTION util.queue_embeddings('embedding_input_position_description', 'job_embedding')
+trigger|public.positions.embed_job_description_on_update|enabled=O AFTER UPDATE OF description ON public.positions FOR EACH ROW EXECUTE FUNCTION util.queue_embeddings('embedding_input_position_description', 'job_embedding')
+trigger|public.positions.trg_client_activity_on_position|enabled=O AFTER INSERT OR UPDATE ON public.positions FOR EACH ROW EXECUTE FUNCTION update_client_last_activity()
+trigger|public.support_tickets.trg_support_tickets_updated_at|enabled=O BEFORE UPDATE ON public.support_tickets FOR EACH ROW EXECUTE FUNCTION support_set_updated_at()
+trigger|public.timesheets.trg_client_activity_on_timesheet|enabled=O AFTER INSERT OR UPDATE ON public.timesheets FOR EACH ROW EXECUTE FUNCTION update_client_last_activity()
+trigger|public.timesheets.trg_jobseeker_activity_on_timesheet|enabled=O AFTER INSERT OR UPDATE ON public.timesheets FOR EACH ROW EXECUTE FUNCTION update_jobseeker_last_activity()
+trigger|storage.objects.protect_objects_delete|enabled=O BEFORE DELETE ON storage.objects FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()
+trigger|storage.objects.update_objects_updated_at|enabled=O BEFORE UPDATE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column()
+type|public.jobseeker_verification_status|verified,rejected,pending,needs_attention
+type|public.position_candidate_mapping_status|active,completed,cancelled,upcoming
+type|public.user_role|jobseeker,recruiter,admin
