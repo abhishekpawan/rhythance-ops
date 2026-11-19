@@ -26,10 +26,10 @@
 599 client/src/pages/ClientManagement/ClientView.tsx
 872 client/src/pages/Consent/ConsentDetailPage.tsx
 582 client/src/pages/Consent/ConsentListPage.tsx
-874 client/src/pages/Consent/ConsentPage.tsx
-959 client/src/pages/Consent/ConsentTemplatePage.tsx
+873 client/src/pages/Consent/ConsentPage.tsx
+957 client/src/pages/Consent/ConsentTemplatePage.tsx
 1365 client/src/pages/Consent/CreateConsentPage.tsx
-559 client/src/pages/Consent/OnboardingConsent.tsx
+558 client/src/pages/Consent/OnboardingConsent.tsx
 364 client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx
 942 client/src/pages/InvoiceManagement/InvoiceList.tsx
 3756 client/src/pages/InvoiceManagement/InvoiceManagement.tsx

@@ -56,7 +56,8 @@ import {
   generateInvoicePDF as generatePDF,
   InvoiceData as PDFInvoiceData,
 } from "../../utils/pdfGenerator.tsx";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
+import { pdfDocumentOptions } from "../../utils/pdfViewer";
 
 // Interface for assigned jobseeker data
 interface AssignedJobseeker {
@@ -106,8 +107,6 @@ const SALES_TAX_OPTIONS = [
 ];
 
 // Combined supplier and PO options - will be generated inside component with translation
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface TimesheetData {
   id: string;
@@ -3620,6 +3619,7 @@ export function InvoiceManagement() {
               <div className="invoice-success-modal-pdf-page-container">
                 <Document
                   file={pdfBlobUrl || ""}
+                  options={pdfDocumentOptions}
                   onLoadSuccess={onPdfLoadSuccess}
                   loading={<div>{t("invoiceManagement.loadingPDF")}</div>}
                   error={<div>{t("invoiceManagement.failedToLoadPDF")}</div>}

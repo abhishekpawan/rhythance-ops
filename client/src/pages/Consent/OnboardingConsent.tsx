@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, AlertCircle, FileText, User, Calendar, ZoomIn, ZoomOut, RotateCw } from 'lucide-react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
+import { pdfDocumentOptions } from '../../utils/pdfViewer';
 import { getJobseekerOnboardingConsent, submitConsent } from '../../services/api/consent';
 import { useLanguage } from '../../contexts/language/language-provider';
 import { useAuth } from '../../contexts/AuthContext';
@@ -9,9 +10,6 @@ import { supabase } from '../../lib/supabaseClient';
 import { AppHeader } from '../../components/AppHeader';
 import '../../styles/pages/ConsentPage.css';
 import '../../styles/pages/OnboardingConsent.css';
-
-// Set worker path for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface OnboardingConsentData {
   status: string;
@@ -391,6 +389,7 @@ export function OnboardingConsent() {
             {pdfUrl && (
               <Document
                 file={pdfUrl}
+                options={pdfDocumentOptions}
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={onDocumentLoadError}
                 className="ccp-pdf-document"

@@ -10,7 +10,8 @@ import {
   ZoomOut,
   RotateCw,
 } from "lucide-react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
+import { pdfDocumentOptions } from "../../utils/pdfViewer";
 import { viewConsentByToken, submitConsent } from "../../services/api/consent";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { ThemeToggle } from "../../components/theme-toggle";
@@ -18,9 +19,6 @@ import { LanguageToggle } from "../../components/LanguageToggle";
 import { supabase } from "../../lib/supabaseClient";
 import consentLogo from "../../assets/brand/consent.png";
 import "../../styles/pages/ConsentPage.css";
-
-// Set worker path for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface ConsentData {
   recordId: string;
@@ -640,6 +638,7 @@ export function ConsentPage() {
             {pdfUrl && (
               <Document
                 file={pdfUrl}
+                options={pdfDocumentOptions}
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={onDocumentLoadError}
                 className="ccp-pdf-document"

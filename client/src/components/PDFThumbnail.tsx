@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
+import { pdfDocumentOptions } from '../utils/pdfViewer';
 import { Search } from 'lucide-react';
 import '../styles/components/PDFThumbnail.css';
-
-// Set worker path if not already set in the application
-if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-  pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
-}
 
 interface PDFThumbnailProps {
   pdfUrl: string | null;
@@ -66,6 +62,7 @@ const PDFThumbnail: React.FC<PDFThumbnailProps> = ({ pdfUrl, onClick }) => {
 
           <Document
             file={pdfUrl}
+            options={pdfDocumentOptions}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
             loading={null}

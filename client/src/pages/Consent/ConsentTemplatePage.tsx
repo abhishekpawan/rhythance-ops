@@ -12,7 +12,8 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
+import { pdfDocumentOptions } from "../../utils/pdfViewer";
 import {
   createConsentTemplate,
   deleteConsentTemplate,
@@ -29,10 +30,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/language/language-provider";
 import "../../styles/pages/CreateConsentPage.css";
 import "../../styles/pages/ConsentTemplatePage.css";
-
-if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-  pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
-}
 
 type FieldType = "consentedName" | "consentDate";
 
@@ -810,6 +807,7 @@ export function ConsentTemplatePage() {
                       >
                         <Document
                           file={pdfUrl}
+                          options={pdfDocumentOptions}
                           onLoadSuccess={onTemplateLoadSuccess}
                           onLoadError={onTemplateLoadError}
                           loading={null}

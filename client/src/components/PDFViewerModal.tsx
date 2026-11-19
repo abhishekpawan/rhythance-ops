@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
+import { pdfDocumentOptions } from "../utils/pdfViewer";
 import { X } from "lucide-react";
 import "../styles/components/PDFViewerModal.css";
-
-// Set worker path - this is required for react-pdf to work
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PDFViewerModalProps {
   pdfUrl: string | null;
@@ -178,6 +176,7 @@ const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
           {pdfUrl && !isImage && (
             <Document
               file={pdfUrl}
+              options={pdfDocumentOptions}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
               loading={<div className="pdf-loading">Loading PDF...</div>}
