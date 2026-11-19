@@ -49,24 +49,6 @@ router.post(
           .json({ error: "At least one valid week period is required." });
       }
 
-      // Additional filters
-      let filterSql = "";
-      if (clientIds && Array.isArray(clientIds) && clientIds.length > 0) {
-        filterSql += ` AND c.id = ANY($${paramIdx}::uuid[])`;
-        params.push(clientIds);
-        paramIdx++;
-      }
-      if (payCycles && Array.isArray(payCycles) && payCycles.length > 0) {
-        filterSql += ` AND c.pay_cycle = ANY($${paramIdx})`;
-        params.push(payCycles);
-        paramIdx++;
-      }
-      if (listNames && Array.isArray(listNames) && listNames.length > 0) {
-        filterSql += ` AND c.list_name = ANY($${paramIdx})`;
-        params.push(listNames);
-        paramIdx++;
-      }
-
       let positionIds: string[] = [];
       let positionsMap: Record<string, any> = {};
       if (clientIds && Array.isArray(clientIds) && clientIds.length > 0) {

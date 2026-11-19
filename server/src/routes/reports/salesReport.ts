@@ -125,15 +125,11 @@ router.post(
 
       // Process invoices and extract timesheets
       const salesData: any[] = [];
-      let totalTimesheets = 0;
-      let afterJobseekerFilter = 0;
-      let afterSalesPersonFilter = 0;
 
       (invoices || []).forEach((invoice: any) => {
         const invoiceData = invoice.invoice_data || {};
         const timesheets = invoiceData.timesheets || [];
         const client = clientInfoMap[invoice.client_id] || {};
-        totalTimesheets += timesheets.length;
 
         timesheets.forEach((ts: any) => {
           const profileId =
@@ -156,7 +152,6 @@ router.post(
           ) {
             if (!jobseekerIds.includes(profileId)) return;
           }
-          afterJobseekerFilter++;
 
           // Apply sales person filter
           if (
@@ -166,7 +161,6 @@ router.post(
           ) {
             if (!salesPersons.includes(client.sales_person)) return;
           }
-          afterSalesPersonFilter++;
 
           // Parse tax rate from salesTax string
           let taxRate = 0;
