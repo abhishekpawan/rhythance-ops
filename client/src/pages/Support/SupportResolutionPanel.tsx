@@ -45,7 +45,11 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
     <>
       {/* Resolved Panel for Owner */}
       {status === "resolved" && (
-        <div className="support-resolution-card" role="region" aria-label="Resolution confirmation">
+        <div
+          className="support-resolution-card"
+          role="region"
+          aria-label="Resolution confirmation"
+        >
           <h3 className="support-resolution-title">
             {t("support.ticket.resolvedBannerTitle")}
           </h3>
@@ -77,8 +81,15 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
           </div>
 
           {showReopenInput && (
-            <div className="mt-4 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
-              <label htmlFor="reopen-reason" className="form-label" style={{ fontSize: "13px" }}>
+            <div
+              className="mt-4 pt-3"
+              style={{ borderTop: "1px solid var(--border)" }}
+            >
+              <label
+                htmlFor="reopen-reason"
+                className="form-label"
+                style={{ fontSize: "13px" }}
+              >
                 {t("support.ticket.reopenReasonPrompt")}
               </label>
               <textarea
@@ -96,7 +107,9 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
                   onClick={onReopenTicket}
                   disabled={reopening}
                 >
-                  {reopening ? t("support.ticket.reopening") : t("support.ticket.btnSubmitReopen")}
+                  {reopening
+                    ? t("support.ticket.reopening")
+                    : t("support.ticket.btnSubmitReopen")}
                 </button>
                 <button
                   type="button"
@@ -118,7 +131,10 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
             <>
               <div>
                 <strong>{t("support.ticket.closedNoticeTitle")}</strong>
-                <p className="text-muted" style={{ fontSize: "13px", margin: "4px 0 0" }}>
+                <p
+                  className="text-muted"
+                  style={{ fontSize: "13px", margin: "4px 0 0" }}
+                >
                   {t("support.ticket.closedWithin14Days")}
                 </p>
               </div>
@@ -135,7 +151,10 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
             <>
               <div>
                 <strong>{t("support.ticket.closedExpiredTitle")}</strong>
-                <p className="text-muted" style={{ fontSize: "13px", margin: "4px 0 0" }}>
+                <p
+                  className="text-muted"
+                  style={{ fontSize: "13px", margin: "4px 0 0" }}
+                >
                   {t("support.ticket.closedExpiredDesc")}
                 </p>
               </div>
@@ -150,8 +169,15 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
           )}
 
           {showReopenInput && isWithin14Days && (
-            <div className="w-full mt-3 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
-              <label htmlFor="closed-reopen-reason" className="form-label" style={{ fontSize: "13px" }}>
+            <div
+              className="w-full mt-3 pt-3"
+              style={{ borderTop: "1px solid var(--border)" }}
+            >
+              <label
+                htmlFor="closed-reopen-reason"
+                className="form-label"
+                style={{ fontSize: "13px" }}
+              >
                 {t("support.ticket.reopenReasonPrompt")}
               </label>
               <textarea
@@ -169,7 +195,9 @@ export const SupportResolutionPanel: React.FC<SupportResolutionPanelProps> = ({
                   onClick={onReopenTicket}
                   disabled={reopening}
                 >
-                  {reopening ? t("support.ticket.reopening") : t("support.ticket.btnSubmitReopen")}
+                  {reopening
+                    ? t("support.ticket.reopening")
+                    : t("support.ticket.btnSubmitReopen")}
                 </button>
                 <button
                   type="button"

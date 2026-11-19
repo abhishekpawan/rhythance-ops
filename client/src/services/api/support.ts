@@ -95,12 +95,14 @@ export async function getAttachmentDownloadUrl(
 /**
  * Fetches paginated support tickets with optional scope and status filters.
  */
-export async function getTickets(params: {
-  scope?: "mine" | "all";
-  status?: string;
-  page?: number;
-  limit?: number;
-} = {}): Promise<SupportTicketListResponse> {
+export async function getTickets(
+  params: {
+    scope?: "mine" | "all";
+    status?: string;
+    page?: number;
+    limit?: number;
+  } = {}
+): Promise<SupportTicketListResponse> {
   try {
     const query = new URLSearchParams();
     if (params.scope) query.append("scope", params.scope);
@@ -124,7 +126,9 @@ export async function getTicketById(
   id: string
 ): Promise<SupportTicketDetailResponse> {
   try {
-    const res = await api.get<SupportTicketDetailResponse>(`/api/support/tickets/${id}`);
+    const res = await api.get<SupportTicketDetailResponse>(
+      `/api/support/tickets/${id}`
+    );
     return res.data;
   } catch (error) {
     return handleApiError(error, "Failed to fetch ticket");

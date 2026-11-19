@@ -37,7 +37,10 @@ export const SupportReplyBox: React.FC<SupportReplyBoxProps> = ({
 
   if (!canReply) {
     return (
-      <div className="support-reply-card text-center" style={{ padding: "24px" }}>
+      <div
+        className="support-reply-card text-center"
+        style={{ padding: "24px" }}
+      >
         <p className="text-muted" style={{ margin: 0 }}>
           {t("support.ticket.readOnlyNote")}
         </p>
@@ -50,7 +53,10 @@ export const SupportReplyBox: React.FC<SupportReplyBoxProps> = ({
       <h3 className="support-reply-title">{t("support.ticket.replyTitle")}</h3>
 
       {replyError && (
-        <div className="error-message mb-3 flex items-center gap-2" role="alert">
+        <div
+          className="error-message mb-3 flex items-center gap-2"
+          role="alert"
+        >
           <AlertCircle size={14} />
           <span>{replyError}</span>
         </div>
@@ -86,7 +92,10 @@ export const SupportReplyBox: React.FC<SupportReplyBoxProps> = ({
                 onChange={(e) => onReplyIsInternalChange(e.target.checked)}
                 style={{ accentColor: "#d97706" }}
               />
-              <span className="checkbox-label" style={{ fontSize: "13px", fontWeight: 500 }}>
+              <span
+                className="checkbox-label"
+                style={{ fontSize: "13px", fontWeight: 500 }}
+              >
                 {t("support.ticket.checkboxInternalNote")}
               </span>
             </label>

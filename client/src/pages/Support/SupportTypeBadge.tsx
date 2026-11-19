@@ -20,13 +20,33 @@ export const SupportTypeBadge: React.FC<SupportTypeBadgeProps> = ({
     if (!showIcon) return null;
     switch (type) {
       case "bug":
-        return <Bug size={13} className="support-type-icon" aria-hidden="true" />;
+        return (
+          <Bug size={13} className="support-type-icon" aria-hidden="true" />
+        );
       case "change":
-        return <FileEdit size={13} className="support-type-icon" aria-hidden="true" />;
+        return (
+          <FileEdit
+            size={13}
+            className="support-type-icon"
+            aria-hidden="true"
+          />
+        );
       case "feature":
-        return <Sparkles size={13} className="support-type-icon" aria-hidden="true" />;
+        return (
+          <Sparkles
+            size={13}
+            className="support-type-icon"
+            aria-hidden="true"
+          />
+        );
       case "question":
-        return <HelpCircle size={13} className="support-type-icon" aria-hidden="true" />;
+        return (
+          <HelpCircle
+            size={13}
+            className="support-type-icon"
+            aria-hidden="true"
+          />
+        );
       default:
         return null;
     }

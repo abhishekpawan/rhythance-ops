@@ -81,16 +81,25 @@ function initSupportContextCapture(): void {
   });
 
   // Intercept unhandled promise rejections
-  window.addEventListener("unhandledrejection", (event: PromiseRejectionEvent) => {
-    recordConsoleError(event.reason);
-  });
+  window.addEventListener(
+    "unhandledrejection",
+    (event: PromiseRejectionEvent) => {
+      recordConsoleError(event.reason);
+    }
+  );
 
   // Intercept console.error calls while preserving original console behavior
   const originalConsoleError = console.error;
   console.error = function (...args: any[]) {
     try {
       const formatted = args
-        .map((a) => (typeof a === "string" ? a : a instanceof Error ? `${a.name}: ${a.message}` : ""))
+        .map((a) =>
+          typeof a === "string"
+            ? a
+            : a instanceof Error
+              ? `${a.name}: ${a.message}`
+              : ""
+        )
         .filter(Boolean)
         .join(" ");
       if (formatted) {

@@ -34,20 +34,34 @@ router.post(
       const { fileName, mimeType, sizeBytes } = req.body || {};
 
       if (!fileName || typeof fileName !== "string") {
-        return res.status(400).json({ success: false, error: "fileName is required" });
+        return res
+          .status(400)
+          .json({ success: false, error: "fileName is required" });
       }
 
       if (!mimeType || typeof mimeType !== "string") {
-        return res.status(400).json({ success: false, error: "mimeType is required" });
+        return res
+          .status(400)
+          .json({ success: false, error: "mimeType is required" });
       }
 
       if (!validateFileMimeAndExt(fileName, mimeType)) {
-        return res.status(400).json({ success: false, error: "Invalid file type or extension mismatch" });
+        return res
+          .status(400)
+          .json({
+            success: false,
+            error: "Invalid file type or extension mismatch",
+          });
       }
 
       const numBytes = Number(sizeBytes);
       if (isNaN(numBytes) || numBytes <= 0 || numBytes > 10485760) {
-        return res.status(400).json({ success: false, error: "sizeBytes must be between 1 and 10485760 (10MB)" });
+        return res
+          .status(400)
+          .json({
+            success: false,
+            error: "sizeBytes must be between 1 and 10485760 (10MB)",
+          });
       }
 
       const sanitized = sanitizeFileName(fileName);
@@ -59,7 +73,9 @@ router.post(
 
       if (error || !data) {
         console.error("Error creating signed upload URL:", error);
-        return res.status(500).json({ success: false, error: "Failed to create upload URL" });
+        return res
+          .status(500)
+          .json({ success: false, error: "Failed to create upload URL" });
       }
 
       return res.json({
@@ -69,8 +85,13 @@ router.post(
         path: uniquePath,
       });
     } catch (err: any) {
-      console.error("POST /attachments/sign unhandled error:", err?.message || err);
-      return res.status(500).json({ success: false, error: "Internal server error" });
+      console.error(
+        "POST /attachments/sign unhandled error:",
+        err?.message || err
+      );
+      return res
+        .status(500)
+        .json({ success: false, error: "Internal server error" });
     }
   }
 );
@@ -130,7 +151,9 @@ router.get(
 
       if (error || !data) {
         console.error("Error creating signed download URL:", error);
-        return res.status(500).json({ success: false, error: "Failed to generate download URL" });
+        return res
+          .status(500)
+          .json({ success: false, error: "Failed to generate download URL" });
       }
 
       return res.json({
@@ -138,8 +161,13 @@ router.get(
         url: data.signedUrl,
       });
     } catch (err: any) {
-      console.error("GET /attachments/:id/url unhandled error:", err?.message || err);
-      return res.status(500).json({ success: false, error: "Internal server error" });
+      console.error(
+        "GET /attachments/:id/url unhandled error:",
+        err?.message || err
+      );
+      return res
+        .status(500)
+        .json({ success: false, error: "Internal server error" });
     }
   }
 );

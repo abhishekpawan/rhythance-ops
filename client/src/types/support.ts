@@ -2,11 +2,7 @@ export type SupportTicketType = "bug" | "change" | "feature" | "question";
 type SupportTicketUrgency = "blocked" | "annoying" | "not_urgent";
 export type SupportTicketPriority = "p1" | "p2" | "p3";
 export type SupportTicketStatus =
-  | "open"
-  | "in_progress"
-  | "waiting_on_client"
-  | "resolved"
-  | "closed";
+  "open" | "in_progress" | "waiting_on_client" | "resolved" | "closed";
 type SupportActorKind = "requester" | "agent" | "system";
 type SupportConfirmedBy = "client" | "auto" | "agent";
 
