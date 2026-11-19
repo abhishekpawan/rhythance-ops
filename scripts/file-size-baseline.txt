@@ -74,7 +74,6 @@
 546 client/src/services/api/invoice.ts
 324 client/src/services/api/jobseeker.ts
 896 client/src/services/api/position.ts
-392 client/src/services/api/reports.ts
 320 client/src/services/api/timesheet.ts
 663 client/src/styles/components/CommonTable.css
 329 client/src/styles/components/CustomDropdown.css
