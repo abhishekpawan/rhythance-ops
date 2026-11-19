@@ -119,7 +119,7 @@
 998 server/src/routes/positionDrafts.ts
 3095 server/src/routes/positions.ts
 1026 server/src/routes/profile.ts
-2107 server/src/routes/reports.ts
+2106 server/src/routes/reports.ts
 544 server/src/routes/support/ticketActions.ts
 391 server/src/routes/support/tickets.ts
 330 server/src/routes/timesheet.routes.ts

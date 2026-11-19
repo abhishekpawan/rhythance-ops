@@ -208,4 +208,3 @@ export function DeductionReport() {
   );
 }
 
-export default DeductionReport; 

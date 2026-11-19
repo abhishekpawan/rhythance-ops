@@ -220,4 +220,3 @@ export function MarginReport() {
   );
 }
 
-export default MarginReport; 

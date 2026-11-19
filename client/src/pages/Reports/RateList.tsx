@@ -242,4 +242,3 @@ export function RateList() {
   );
 }
 
-export default RateList; 

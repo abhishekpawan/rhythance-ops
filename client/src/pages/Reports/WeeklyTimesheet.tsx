@@ -389,4 +389,3 @@ export function WeeklyTimesheet() {
   );
 }
 
-export default WeeklyTimesheet; 

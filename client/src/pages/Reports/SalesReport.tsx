@@ -392,4 +392,3 @@ export function SalesReport() {
   );
 }
 
-export default SalesReport; 

@@ -1113,7 +1113,6 @@ router.post(
       // Process invoices and extract timesheets
       const salesData: any[] = [];
       let totalTimesheets = 0;
-      let afterWeekFilter = 0;
       let afterJobseekerFilter = 0;
       let afterSalesPersonFilter = 0;
 

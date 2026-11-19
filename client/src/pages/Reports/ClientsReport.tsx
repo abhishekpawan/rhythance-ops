@@ -309,4 +309,3 @@ export function ClientsReport() {
   );
 }
 
-export default ClientsReport; 

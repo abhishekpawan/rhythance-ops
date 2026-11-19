@@ -50,5 +50,3 @@ export function ReportTableToolbar({
     </div>
   );
 }
-
-export default ReportTableToolbar;
