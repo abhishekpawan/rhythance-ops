@@ -1,0 +1,74 @@
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .support-choice-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .support-choice-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .support-choice-grid {
+    grid-template-columns: 1fr;
+  }
+  .support-urgency-grid,
+  .support-urgency-group {
+    grid-template-columns: 1fr;
+  }
+  .support-message-bubble {
+    max-width: 100%;
+  }
+  .support-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .support-agent-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .form-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+  .form-footer button,
+  .form-footer .button,
+  .support-resolution-actions .button,
+  .support-resolution-actions button,
+  .support-resolution-card .button,
+  .support-resolution-card button,
+  .support-closed-notice .button,
+  .support-closed-notice button,
+  .support-reply-card .button,
+  .support-reply-card button,
+  .support-agent-panel .button,
+  .support-agent-panel button,
+  .support-not-found-btn {
+    width: auto !important;
+    min-width: 120px;
+    max-width: fit-content;
+  }
+  .support-file-item {
+    padding: 0.5rem 0.625rem;
+  }
+  .support-file-thumb-wrap,
+  .support-file-icon-badge {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .support-preview-modal-backdrop {
+    padding: 0.5rem;
+  }
+}

@@ -92,7 +92,6 @@
 435 client/src/styles/pages/PositionManagement.css
 1230 client/src/styles/pages/PositionMatching.css
 478 client/src/styles/pages/RecruiterHierarchy.css
-1390 client/src/styles/pages/Support.css
 787 client/src/styles/pages/TimesheetManagement.css
 345 client/src/styles/pages/TrainingModules.css
 393 client/src/styles/pages/userProfile.css

@@ -1,0 +1,115 @@
+/* Support.css - Styling for Support ticketing module */
+/* Strict use of design system variables for light & dark themes */
+
+/* Full-width content container matching Client Management and Create Client */
+.support-container,
+.content-container {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Base Card styling matching Client Management */
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 1.5rem;
+  transition: all var(--transition-normal);
+}
+
+/* Form layout matching ClientCreate */
+.form-section {
+  margin-bottom: var(--spacing-6);
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-row:last-child {
+  margin-bottom: 0;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-6);
+}
+
+.form-footer button,
+.form-footer .button {
+  width: 140px !important;
+  min-width: 140px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.support-raise-btn {
+  width: auto !important;
+  min-width: 140px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* Action Button Sizing across Support (prevent 100% full stretch) */
+.support-resolution-actions .button,
+.support-resolution-actions button,
+.support-resolution-card .button,
+.support-resolution-card button,
+.support-closed-notice .button,
+.support-closed-notice button,
+.support-reply-card .button,
+.support-reply-card button,
+.support-agent-panel .button,
+.support-agent-panel button,
+.support-not-found-btn {
+  width: auto !important;
+  min-width: 130px;
+  max-width: fit-content;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* Keep reply action button aligned to the right */
+.support-reply-card .button,
+.support-reply-card button {
+  margin-left: auto;
+}
+
+/* Header actions buttons */
+.header-actions .button,
+.header-actions button {
+  width: auto !important;
+  min-width: auto;
+  white-space: nowrap;
+}
+
+/* Preserve compact inline retry button */
+.support-file-status .button {
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+  padding: 1px 6px !important;
+  display: inline-flex !important;
+}
