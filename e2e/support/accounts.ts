@@ -21,3 +21,11 @@ export const SMS_CODE = "000000";
 
 /** The accounts the Reports journeys start signed in as (tests/auth.setup.ts saves their browser state). */
 export const SIGNED_IN_ROLES = ["admin", "accountant_manager"] as const;
+
+/** Extra accounts the Support journeys start signed in as (saved by tests/auth.setup.ts like the ones above). */
+export const SUPPORT_SIGNED_IN_ROLES = [
+  "recruiter",
+  "superadmin",
+  "bookkeeper",
+  "sales",
+] as const;

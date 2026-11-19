@@ -1,0 +1,23 @@
+Actualiser
+Retour aux tickets
+SUP-NNNN: The invoice list is blank in fr
+SUP-NNNN
+Je propose une amélioration
+Ouvert
+URGENCE
+C'est gênant, mais je peux continuer
+CRÉÉ PAR
+Test Recruiter
+DATE DE CRÉATION
+<date>
+Test Recruiter
+<date>
+The invoice list is blank in fr
+It shows nothing after I pick a client.
+TXT
+note.txt
+(11 B)
+Laisser une réponse
+Glissez-déposez des fichiers ici ou cliquez pour parcourir. Vous pouvez aussi coller des images avec Ctrl+V.
+Jusqu'à 5 fichiers (PNG, JPG, WebP, GIF, PDF, TXT, CSV), 10 Mo max par fichier.
+Envoyer la réponse

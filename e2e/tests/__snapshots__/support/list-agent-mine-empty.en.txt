@@ -1,0 +1,14 @@
+Raise a ticket
+Support
+My tickets
+All tickets
+Status:
+All
+Open
+In progress
+Waiting on you
+Fixed - please confirm
+Closed
+No support tickets found
+If you are encountering an issue or need assistance, feel free to raise a ticket.
+Raise a ticket

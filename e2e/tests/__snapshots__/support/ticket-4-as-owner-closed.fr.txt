@@ -1,0 +1,25 @@
+Actualiser
+Retour aux tickets
+SUP-0004: Export the client list to a spreadsheet
+SUP-0004
+Je propose une amélioration
+Fermé
+URGENCE
+Pas urgent
+CRÉÉ PAR
+Test Sales
+DATE DE CRÉATION
+Nov 5, 2026, 04:00 a.m.
+Ce ticket est fermé.
+Vous pouvez le rouvrir si vous avez encore besoin d'aide pour ce problème.
+Rouvrir le ticket
+Test Sales
+Nov 5, 2026, 04:00 a.m.
+Export the client list to a spreadsheet
+Équipe de soutien
+Nov 12, 2026, 04:00 a.m.
+Done: the Clients report has a CSV button.
+Laisser une réponse
+Glissez-déposez des fichiers ici ou cliquez pour parcourir. Vous pouvez aussi coller des images avec Ctrl+V.
+Jusqu'à 5 fichiers (PNG, JPG, WebP, GIF, PDF, TXT, CSV), 10 Mo max par fichier.
+Envoyer la réponse

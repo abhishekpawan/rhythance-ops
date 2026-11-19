@@ -1,0 +1,14 @@
+Créer un ticket
+Soutien
+Statut:
+Tous
+Ouvert
+En cours
+En attente de votre réponse
+Résolu - veuillez confirmer
+Fermé
+N° de ticket Titre Type Statut Dernière mise à jour
+SUP-0002 How do I print the envelope list?
+J'ai une question
+Résolu - veuillez confirmer
+Nov 12, 2026, 10:00 a.m.

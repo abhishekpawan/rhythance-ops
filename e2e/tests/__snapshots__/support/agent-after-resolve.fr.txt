@@ -1,0 +1,58 @@
+Actualiser
+Retour aux tickets
+Les paramètres de l'agent ont été mis à jour avec succès.
+SUP-NNNN: The invoice list is blank in fr
+SUP-NNNN
+Je propose une amélioration
+Résolu - veuillez confirmer
+URGENCE
+C'est gênant, mais je peux continuer
+CRÉÉ PAR
+Test Recruiter
+DATE DE CRÉATION
+<date>
+Test Recruiter
+<date>
+The invoice list is blank in fr
+It shows nothing after I pick a client.
+TXT
+note.txt
+(11 B)
+Test Recruiter
+<date>
+It is the invoice list, not the timesheet.
+Équipe de soutien
+Seul vous pouvez voir ceci
+<date>
+Internal: looks like the client filter.
+Laisser une réponse
+Glissez-déposez des fichiers ici ou cliquez pour parcourir. Vous pouvez aussi coller des images avec Ctrl+V.
+Jusqu'à 5 fichiers (PNG, JPG, WebP, GIF, PDF, TXT, CSV), 10 Mo max par fichier.
+Note interne (visible uniquement par les agents et administrateurs)
+Envoyer la réponse
+Contrôles de l'agent
+Temps ouvert (hors attente client): <time open>
+Informations du demandeur
+Test Recruiter
+recruiter@example.test
+Statut
+Résolu - veuillez confirmer (Statut actuel)
+Fermé
+En cours
+Priorité
+P1 - Urgent
+P2 - High
+P3 - Normal
+Heures consacrées
+Enregistrer les modifications
+HISTORIQUE DES STATUTS:
+•
+<date>:
+Ouvert
+(Test Recruiter)
+•
+<date>:
+Ouvert →
+Résolu - veuillez confirmer
+(Test Super Admin)
+Détails techniques

@@ -1,0 +1,33 @@
+Actualiser
+Retour aux tickets
+Ticket confirmé comme résolu.
+SUP-NNNN: The invoice list is blank in fr
+SUP-NNNN
+Je propose une amélioration
+Fermé
+URGENCE
+C'est gênant, mais je peux continuer
+CRÉÉ PAR
+Test Recruiter
+DATE DE CRÉATION
+<date>
+Ce ticket est fermé.
+Vous pouvez le rouvrir si vous avez encore besoin d'aide pour ce problème.
+Rouvrir le ticket
+Test Recruiter
+<date>
+The invoice list is blank in fr
+It shows nothing after I pick a client.
+TXT
+note.txt
+(11 B)
+Test Recruiter
+<date>
+It is the invoice list, not the timesheet.
+Test Recruiter
+<date>
+The list is still blank.
+Laisser une réponse
+Glissez-déposez des fichiers ici ou cliquez pour parcourir. Vous pouvez aussi coller des images avec Ctrl+V.
+Jusqu'à 5 fichiers (PNG, JPG, WebP, GIF, PDF, TXT, CSV), 10 Mo max par fichier.
+Envoyer la réponse

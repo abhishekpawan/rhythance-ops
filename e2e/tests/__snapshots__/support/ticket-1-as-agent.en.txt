@@ -1,0 +1,60 @@
+Refresh
+Back to tickets
+SUP-0001: Timesheet total shows zero after saving
+SUP-0001
+Something is broken
+In progress
+URGENCY
+It's annoying, but I can still work
+RAISED BY
+Test Recruiter
+DATE CREATED
+Nov 10, 2026, 09:00 a.m.
+Test Recruiter
+Nov 10, 2026, 09:00 a.m.
+Timesheet total shows zero after saving
+I save a weekly timesheet and the total on the screen is 0.00 until I reload.
+PDF
+screenshot-error.pdf
+(69 B)
+Support Team
+Nov 11, 2026, 05:00 a.m.
+Thanks, we can see it. Looking into it now.
+Support Team
+Only you can see this
+Nov 12, 2026, 11:30 a.m.
+Internal: the total is calculated in the browser; check the rounding helper.
+PDF
+internal-log.pdf
+(69 B)
+Leave a reply
+Drag and drop files here, or click to browse. You can also paste images with Ctrl+V.
+Up to 5 files (PNG, JPG, WebP, GIF, PDF, TXT, CSV), up to 10 MB each.
+Internal note (only agents and admins can see this)
+Send Reply
+Agent Controls
+Time open, not counting waiting on client: <time open>
+Requester Info
+Test Recruiter
+recruiter@example.test
+Status
+In progress (Current status)
+Waiting on you
+Fixed - please confirm
+Priority
+P1 - Urgent
+P2 - High
+P3 - Normal
+Hours spent
+Save Changes
+STATUS HISTORY:
+•
+Nov 10, 2026, 09:00 a.m.:
+Open
+(Test Recruiter)
+•
+Nov 11, 2026, 05:00 a.m.:
+Open →
+In progress
+(Test Super Admin)
+Technical Details

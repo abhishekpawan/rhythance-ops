@@ -1,0 +1,14 @@
+Raise a ticket
+Support
+Status:
+All
+Open
+In progress
+Waiting on you
+Fixed - please confirm
+Closed
+Ticket ID Title Type Status Last updated
+SUP-0002 How do I print the envelope list?
+I have a question
+Fixed - please confirm
+Nov 12, 2026, 10:00 a.m.

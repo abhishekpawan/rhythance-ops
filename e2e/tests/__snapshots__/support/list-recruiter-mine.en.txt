@@ -1,0 +1,16 @@
+Raise a ticket
+Support
+My tickets
+All tickets
+Status:
+All
+Open
+In progress
+Waiting on you
+Fixed - please confirm
+Closed
+Ticket ID Title Type Status Last updated
+SUP-0001 Timesheet total shows zero after saving
+Something is broken
+In progress
+Nov 12, 2026, 11:30 a.m.

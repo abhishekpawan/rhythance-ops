@@ -1,0 +1,14 @@
+Créer un ticket
+Soutien
+Mes tickets
+Tous les tickets
+Statut:
+Tous
+Ouvert
+En cours
+En attente de votre réponse
+Résolu - veuillez confirmer
+Fermé
+Aucun ticket de soutien trouvé
+Si vous rencontrez une difficulté ou avez une question, n'hésitez pas à créer un ticket.
+Créer un ticket

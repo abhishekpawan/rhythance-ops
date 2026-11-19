@@ -1,0 +1,26 @@
+Refresh
+Back to tickets
+SUP-0002: How do I print the envelope list?
+SUP-0002
+I have a question
+Fixed - please confirm
+URGENCY
+Not urgent
+RAISED BY
+Test Bookkeeper
+DATE CREATED
+Nov 11, 2026, 08:00 a.m.
+We've marked this as fixed. Did that solve it?
+Please confirm whether this has been resolved to your satisfaction.
+Yes, it's fixed
+No, it's not fixed
+Test Bookkeeper
+Nov 11, 2026, 08:00 a.m.
+How do I print the envelope list?
+Support Team
+Nov 12, 2026, 10:00 a.m.
+Open Reports, choose the envelope report and use the CSV button.
+Leave a reply
+Drag and drop files here, or click to browse. You can also paste images with Ctrl+V.
+Up to 5 files (PNG, JPG, WebP, GIF, PDF, TXT, CSV), up to 10 MB each.
+Send Reply

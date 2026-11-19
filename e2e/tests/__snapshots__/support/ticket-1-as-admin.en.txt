@@ -1,0 +1,23 @@
+Refresh
+Back to tickets
+SUP-0001: Timesheet total shows zero after saving
+SUP-0001
+Something is broken
+In progress
+URGENCY
+It's annoying, but I can still work
+RAISED BY
+Test Recruiter
+DATE CREATED
+Nov 10, 2026, 09:00 a.m.
+Test Recruiter
+Nov 10, 2026, 09:00 a.m.
+Timesheet total shows zero after saving
+I save a weekly timesheet and the total on the screen is 0.00 until I reload.
+PDF
+screenshot-error.pdf
+(69 B)
+Support Team
+Nov 11, 2026, 05:00 a.m.
+Thanks, we can see it. Looking into it now.
+You are viewing this ticket read-only.

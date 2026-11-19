@@ -1,0 +1,58 @@
+Refresh
+Back to tickets
+Agent controls updated successfully.
+SUP-NNNN: The invoice list is blank in en
+SUP-NNNN
+I want a new feature
+Fixed - please confirm
+URGENCY
+It's annoying, but I can still work
+RAISED BY
+Test Recruiter
+DATE CREATED
+<date>
+Test Recruiter
+<date>
+The invoice list is blank in en
+It shows nothing after I pick a client.
+TXT
+note.txt
+(11 B)
+Test Recruiter
+<date>
+It is the invoice list, not the timesheet.
+Support Team
+Only you can see this
+<date>
+Internal: looks like the client filter.
+Leave a reply
+Drag and drop files here, or click to browse. You can also paste images with Ctrl+V.
+Up to 5 files (PNG, JPG, WebP, GIF, PDF, TXT, CSV), up to 10 MB each.
+Internal note (only agents and admins can see this)
+Send Reply
+Agent Controls
+Time open, not counting waiting on client: <time open>
+Requester Info
+Test Recruiter
+recruiter@example.test
+Status
+Fixed - please confirm (Current status)
+Closed
+In progress
+Priority
+P1 - Urgent
+P2 - High
+P3 - Normal
+Hours spent
+Save Changes
+STATUS HISTORY:
+•
+<date>:
+Open
+(Test Recruiter)
+•
+<date>:
+Open →
+Fixed - please confirm
+(Test Super Admin)
+Technical Details

@@ -1,0 +1,25 @@
+Refresh
+Back to tickets
+SUP-0004: Export the client list to a spreadsheet
+SUP-0004
+I want a new feature
+Closed
+URGENCY
+Not urgent
+RAISED BY
+Test Sales
+DATE CREATED
+Nov 5, 2026, 04:00 a.m.
+This ticket is closed.
+You can reopen it if you still need help with this issue.
+Reopen ticket
+Test Sales
+Nov 5, 2026, 04:00 a.m.
+Export the client list to a spreadsheet
+Support Team
+Nov 12, 2026, 04:00 a.m.
+Done: the Clients report has a CSV button.
+Leave a reply
+Drag and drop files here, or click to browse. You can also paste images with Ctrl+V.
+Up to 5 files (PNG, JPG, WebP, GIF, PDF, TXT, CSV), up to 10 MB each.
+Send Reply

@@ -1,0 +1,32 @@
+Raise a ticket
+Support
+My tickets
+All tickets
+Status:
+All
+Open
+In progress
+Waiting on you
+Fixed - please confirm
+Closed
+Ticket ID Title Type Status Raised by Last updated
+SUP-0005 Cannot open the weekly timesheet report
+Something is broken
+Open
+Test Accountant Manager Nov 16, 2026, 07:00 a.m.
+SUP-0003 Add a column for the client code to the invoice list
+I want something changed
+Waiting on you
+Test Admin Nov 14, 2026, 05:00 a.m.
+SUP-0004 Export the client list to a spreadsheet
+I want a new feature
+Closed
+Test Sales Nov 13, 2026, 04:00 a.m.
+SUP-0001 Timesheet total shows zero after saving
+Something is broken
+In progress
+Test Recruiter Nov 12, 2026, 11:30 a.m.
+SUP-0002 How do I print the envelope list?
+I have a question
+Fixed - please confirm
+Test Bookkeeper Nov 12, 2026, 10:00 a.m.

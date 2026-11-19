@@ -1,0 +1,26 @@
+Refresh
+Back to tickets
+SUP-NNNN: The invoice list is blank in en
+SUP-NNNN
+I want a new feature
+Open
+URGENCY
+It's annoying, but I can still work
+RAISED BY
+Test Recruiter
+DATE CREATED
+<date>
+Test Recruiter
+<date>
+The invoice list is blank in en
+It shows nothing after I pick a client.
+TXT
+note.txt
+(11 B)
+Test Recruiter
+<date>
+It is the invoice list, not the timesheet.
+Leave a reply
+Drag and drop files here, or click to browse. You can also paste images with Ctrl+V.
+Up to 5 files (PNG, JPG, WebP, GIF, PDF, TXT, CSV), up to 10 MB each.
+Send Reply
