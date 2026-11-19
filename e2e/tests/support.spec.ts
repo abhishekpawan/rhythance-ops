@@ -258,7 +258,8 @@ for (const language of ["en", "fr"] as const) {
             route: "/support/new",
             language,
             browser: expect.stringMatching(/^Chrome \d+$/),
-            os: "macOS",
+            // the OS of the machine the journeys run on (lib/supportContext.ts reads it from the user agent)
+            os: process.platform === "darwin" ? "macOS" : "Linux",
             consoleErrors: expect.any(Array),
             failedRequests: expect.any(Array),
           }),
