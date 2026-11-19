@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validateCredentials, demoLogin } from "../../lib/auth";
+import { authErrorMessage } from "../../services/api/authErrors";
 import { Eye, EyeOff } from "lucide-react";
 import { ThemeToggle } from "../../components/theme-toggle";
 import { useLanguage } from "../../contexts/language/language-provider";
@@ -101,19 +102,7 @@ export function Login() {
       // Regular user - proceed to dashboard (session already set)
       navigate("/dashboard");
     } catch (error) {
-      if (error instanceof Error) {
-        if (
-          error.message === "Invalid login credentials" ||
-          error.message.toLowerCase().includes("invalid login credentials") ||
-          error.message.toLowerCase().includes("invalid credential")
-        ) {
-          setError(t("auth.invalidCredentials"));
-        } else {
-          setError(error.message);
-        }
-      } else {
-        setError(t("auth.invalidCredentials"));
-      }
+      setError(authErrorMessage(error, t, "auth.invalidCredentials"));
       setIsLoading(false);
     }
   };
@@ -143,11 +132,7 @@ export function Login() {
       setIsDemoModalOpen(false);
       navigate("/dashboard");
     } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError(t("demoLogin.error.failed"));
-      }
+      setError(authErrorMessage(error, t, "demoLogin.error.failed"));
       setIsDemoLoading(false);
     }
   };

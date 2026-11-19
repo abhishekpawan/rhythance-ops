@@ -2,13 +2,13 @@ import express from "express";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
-import twilio from "twilio";
 import { activityLogger } from "../middleware/activityLogger.js";
 import { getPortalSettingSync } from "../services/portalSettings.js";
 import { createSignInClient } from "../utils/signInClient.js";
 import { isRecruiterEmail } from "../utils/recruiterEmail.js";
 import { pinnedPhone, recordVerifiedSession, sessionIdFromToken } from "../services/staffTwoFactor.js";
 import { roleAppMetadata, PortalUserType } from "../utils/trustedRoles.js";
+import { normalizeToE164 } from "../utils/phoneNumber.js";
 
 dotenv.config();
 
@@ -21,171 +21,8 @@ if (!supabaseUrl || !supabaseKey) {
   process.exit(1);
 }
 
-// Initialize Twilio client
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
-const twilioVerifyServiceSid = process.env.TWILIO_VERIFY_SERVICE_SID || "";
-
-// Check if Twilio credentials are available
-const isTwilioConfigured = !!(
-  process.env.TWILIO_ACCOUNT_SID &&
-  process.env.TWILIO_AUTH_TOKEN &&
-  process.env.TWILIO_VERIFY_SERVICE_SID
-);
-
 const supabase = createClient(supabaseUrl, supabaseKey);
 const router = express.Router();
-
-// Ensure phone numbers are in E.164 format with leading '+' for external services and metadata
-const normalizeToE164 = (phone?: string) => {
-  if (!phone) return phone;
-  const trimmed = String(phone).replace(/\s+/g, "");
-  return trimmed.startsWith("+") ? trimmed : `+${trimmed}`;
-};
-
-// Send phone verification code
-router.post("/send-verification", async (req, res) => {
-  try {
-    let { phoneNumber } = req.body;
-    phoneNumber = normalizeToE164(phoneNumber);
-
-    if (!phoneNumber) {
-      return res.status(400).json({ error: "Phone number is required" });
-    }
-
-    // Check if Twilio is configured
-    if (!isTwilioConfigured) {
-      console.error("Twilio is not configured");
-      return res
-        .status(500)
-        .json({ error: "Phone verification service is not available" });
-    }
-
-    // Send verification code using Twilio Verify
-    try {
-      const verification = await twilioClient.verify.v2
-        .services(twilioVerifyServiceSid)
-        .verifications.create({
-          to: phoneNumber,
-          channel: "sms",
-        });
-
-      return res.status(200).json({
-        message: "Verification code sent successfully",
-        status: verification.status,
-      });
-    } catch (error) {
-      console.error("Twilio verification error:", error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to send verification code";
-      return res.status(400).json({
-        error: "Failed to send verification code",
-        details: errorMessage,
-      });
-    }
-  } catch (error) {
-    console.error("Send verification error:", error);
-    return res.status(500).json({ error: "Failed to send verification code" });
-  }
-});
-
-// Verify phone verification code
-router.post("/verify-otp", async (req, res) => {
-  try {
-    let { phoneNumber, code, userId } = req.body as {
-      phoneNumber: string;
-      code: string;
-      userId?: string;
-    };
-    phoneNumber = normalizeToE164(phoneNumber) as string;
-
-    if (!phoneNumber || !code) {
-      return res
-        .status(400)
-        .json({ error: "Phone number and verification code are required" });
-    }
-
-    // Check if Twilio is configured
-    if (!isTwilioConfigured) {
-      console.error("Twilio is not configured");
-      return res
-        .status(500)
-        .json({ error: "Phone verification service is not available" });
-    }
-
-    // Verify the code using Twilio Verify
-    try {
-      const verificationCheck = await twilioClient.verify.v2
-        .services(twilioVerifyServiceSid)
-        .verificationChecks.create({
-          to: phoneNumber,
-          code,
-        });
-
-      if (verificationCheck.status === "approved") {
-        // If userId is provided, update the user's phone data
-        if (userId) {
-          // Update the user's phone in auth.users table
-          const { error: updateError } =
-            await supabase.auth.admin.updateUserById(userId, {
-              phone: phoneNumber,
-            });
-
-          if (updateError) {
-            console.error("Error updating user phone:", updateError);
-          } else {
-            // Also update the user_metadata to set phone_verified flag
-            const { data: userData } =
-              await supabase.auth.admin.getUserById(userId);
-
-            if (userData?.user) {
-              const currentMetadata = userData.user.user_metadata || {};
-
-              const { error: metadataError } =
-                await supabase.auth.admin.updateUserById(userId, {
-                  user_metadata: {
-                    ...currentMetadata,
-                    phone_verified: true,
-                  },
-                });
-
-              if (metadataError) {
-                console.error("Error updating user metadata:", metadataError);
-              }
-            }
-          }
-        }
-
-        return res.status(200).json({
-          message: "Phone number verified successfully",
-          status: verificationCheck.status,
-          verified: true,
-        });
-      } else {
-        return res.status(400).json({
-          error: "Invalid verification code",
-          status: verificationCheck.status,
-          verified: false,
-        });
-      }
-    } catch (error) {
-      console.error("Twilio verification check error:", error);
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to verify code";
-      return res.status(400).json({
-        error: "Failed to verify code",
-        details: errorMessage,
-      });
-    }
-  } catch (error) {
-    console.error("Verify OTP error:", error);
-    return res.status(500).json({ error: "Failed to verify code" });
-  }
-});
 
 // Register a new user
 router.post(
@@ -905,7 +742,7 @@ router.post(
         );
       } else {
         console.log(
-          `[send-confirmation-welcome] Welcome + employment agreement emails sent to ${email}`
+          `[send-confirmation-welcome] Welcome + employment agreement emails sent to user ${userId}`
         );
       }
 
@@ -999,7 +836,7 @@ router.post("/first-login-reminder", authenticateToken, async (req, res) => {
     });
 
     console.log(
-      `[first-login-reminder] Account setup reminder sent to ${email}`
+      `[first-login-reminder] Account setup reminder sent to user ${req.user?.id}`
     );
     return res.status(200).json({ sent: true });
   } catch (error) {

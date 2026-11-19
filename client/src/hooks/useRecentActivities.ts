@@ -221,7 +221,6 @@ export function useRecentActivities(options: UseRecentActivitiesOptions = {}): U
           table: 'recent_activities'
         },
         (payload) => {
-          console.log('Received postgres change:', payload);
           
           // Transform the payload to match our expected format
           const transformedPayload = {

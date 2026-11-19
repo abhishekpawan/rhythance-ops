@@ -140,7 +140,6 @@ export function PositionManagement() {
       };
 
       const data = await getPositions(params);
-      console.log("Fetched positions:", data);
 
       const convertedPositions = data.positions.map((position) =>
         convertToCamelCase(position as unknown as Record<string, unknown>)

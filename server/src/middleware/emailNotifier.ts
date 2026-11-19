@@ -102,15 +102,11 @@ export const emailNotifier = (options: EmailNotifierOptions = {}) => {
               const text = email.text ?? "";
               const fromEmail = email.from || getNoReplyFromEmail();
               console.log("[EmailNotifier] Sending email:", {
-                to: email.to,
                 subject: email.subject,
                 from: fromEmail,
               });
               await sgMail.send({ from: fromEmail, ...email, text });
-              console.log(
-                "[EmailNotifier] Email sent successfully to",
-                email.to
-              );
+              console.log("[EmailNotifier] Email sent successfully");
             }
           } else {
             console.log(

@@ -26,6 +26,26 @@ const TWO_FACTOR_REQUIRED = {
   code: "TWO_FACTOR_REQUIRED",
 };
 
+const EMAIL_AND_PASSWORD_REQUIRED = {
+  error: "Email and password are required",
+  code: "EMAIL_AND_PASSWORD_REQUIRED",
+};
+
+// Supabase's own sign-in errors, as a stable `code` the screen translates (the English `error` text stays).
+function signInFailure(error: { code?: string; message?: string }) {
+  switch (error.code) {
+    case "invalid_credentials":
+      return { error: error.message, code: "INVALID_CREDENTIALS" };
+    case "over_request_rate_limit":
+    case "over_email_send_rate_limit":
+      return { error: error.message, code: "TOO_MANY_ATTEMPTS" };
+    case "user_banned":
+      return { error: error.message, code: "ACCOUNT_DISABLED" };
+    default:
+      return { error: error.message, code: "SIGN_IN_FAILED" };
+  }
+}
+
 // An "email not confirmed" error becomes a normal answer so the screen can offer to resend the email.
 async function emailNotConfirmedReply(error: any, email: string) {
   const isEmailNotConfirmed =
@@ -58,7 +78,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+      return res.status(400).json(EMAIL_AND_PASSWORD_REQUIRED);
     }
 
     const signInClient = createSignInClient();
@@ -68,7 +88,7 @@ router.post("/login", async (req, res) => {
     });
 
     if (error) {
-      return res.status(401).json({ error: error.message });
+      return res.status(401).json(signInFailure(error));
     }
 
     // With enforcement on, staff get a session only through complete-2fa (after the phone code).
@@ -84,7 +104,9 @@ router.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    return res.status(500).json({ error: "Login failed" });
+    return res
+      .status(500)
+      .json({ error: "Login failed", code: "SIGN_IN_FAILED" });
   }
 });
 
@@ -94,7 +116,7 @@ router.post("/validate-credentials", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+      return res.status(400).json(EMAIL_AND_PASSWORD_REQUIRED);
     }
 
     const enforced = await twoFactorEnforced();
@@ -107,7 +129,7 @@ router.post("/validate-credentials", async (req, res) => {
     if (error) {
       const notConfirmed = await emailNotConfirmedReply(error, email);
       if (notConfirmed) return res.status(200).json(notConfirmed);
-      return res.status(401).json({ error: error.message });
+      return res.status(401).json(signInFailure(error));
     }
 
     // Staff: by their role when the server enforces the phone code, otherwise by their email as before.
@@ -146,7 +168,9 @@ router.post("/validate-credentials", async (req, res) => {
     });
   } catch (error) {
     console.error("Validate credentials error:", error);
-    return res.status(500).json({ error: "Credential validation failed" });
+    return res
+      .status(500)
+      .json({ error: "Credential validation failed", code: "SIGN_IN_FAILED" });
   }
 });
 
@@ -156,7 +180,7 @@ router.post("/complete-2fa", async (req, res) => {
     const { email, password, code } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+      return res.status(400).json(EMAIL_AND_PASSWORD_REQUIRED);
     }
 
     const signInClient = createSignInClient();
@@ -166,7 +190,7 @@ router.post("/complete-2fa", async (req, res) => {
     });
 
     if (error) {
-      return res.status(401).json({ error: error.message });
+      return res.status(401).json(signInFailure(error));
     }
 
     if (isStaffUser(data.user) && (code || (await twoFactorEnforced()))) {
@@ -198,13 +222,19 @@ router.post("/complete-2fa", async (req, res) => {
         ? sessionIdFromToken(data.session.access_token)
         : null;
       if (!sessionId) {
-        return refuse(500, { error: "Failed to complete 2FA login" });
+        return refuse(500, {
+          error: "Failed to complete 2FA login",
+          code: "TWO_FACTOR_FAILED",
+        });
       }
       try {
         await recordVerifiedSession(data.user.id, sessionId);
       } catch (recordError) {
         console.error("Complete 2FA error:", recordError);
-        return refuse(500, { error: "Failed to complete 2FA login" });
+        return refuse(500, {
+          error: "Failed to complete 2FA login",
+          code: "TWO_FACTOR_FAILED",
+        });
       }
     }
 
@@ -215,7 +245,10 @@ router.post("/complete-2fa", async (req, res) => {
     });
   } catch (error) {
     console.error("Complete 2FA error:", error);
-    return res.status(500).json({ error: "Failed to complete 2FA login" });
+    return res.status(500).json({
+      error: "Failed to complete 2FA login",
+      code: "TWO_FACTOR_FAILED",
+    });
   }
 });
 

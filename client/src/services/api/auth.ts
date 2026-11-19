@@ -8,6 +8,9 @@ import {
   clearTokenCache,
   clearRequestCache,
 } from "./index";
+import { toAuthApiError } from "./authErrors";
+
+export { authErrorMessage } from "./authErrors";
 
 // Auth API calls
 export const registerUserAPI = async (
@@ -62,10 +65,7 @@ export const loginUserAPI = async (email: string, password: string) => {
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "Login failed");
-    }
-    throw error;
+    throw toAuthApiError(error, "Login failed");
   }
 };
 
@@ -134,12 +134,7 @@ export const sendOtpAPI = async (phoneNumber: string) => {
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(
-        error.response.data.error || "Failed to send verification code"
-      );
-    }
-    throw error;
+    throw toAuthApiError(error, "Failed to send verification code");
   }
 };
 
@@ -151,10 +146,7 @@ export const verifyOtpAPI = async (phoneNumber: string, code: string) => {
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "Invalid verification code");
-    }
-    throw error;
+    throw toAuthApiError(error, "Invalid verification code");
   }
 };
 
@@ -268,12 +260,7 @@ export const validateCredentialsAPI = async (
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(
-        error.response.data.error || "Credential validation failed"
-      );
-    }
-    throw error;
+    throw toAuthApiError(error, "Credential validation failed");
   }
 };
 
@@ -287,10 +274,7 @@ export const complete2FAAPI = async (email: string, password: string, code: stri
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "Failed to complete 2FA");
-    }
-    throw error;
+    throw toAuthApiError(error, "Failed to complete 2FA");
   }
 };
 

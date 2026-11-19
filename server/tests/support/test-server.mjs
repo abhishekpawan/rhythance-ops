@@ -33,7 +33,16 @@ function freePort() {
 /** The only variables the test server gets. Keys for vendors are fake; the database keys are the local demo keys. */
 export function serverEnvironment(
   stack,
-  { port, aiUrl, outboundLog, tsconfig, fixedNow, forceFlags, clientUrl }
+  {
+    port,
+    aiUrl,
+    outboundLog,
+    tsconfig,
+    fixedNow,
+    forceFlags,
+    clientUrl,
+    extraEnv,
+  }
 ) {
   return {
     PATH: process.env.PATH ?? "",
@@ -62,6 +71,7 @@ export function serverEnvironment(
     ...(fixedNow ? { TEST_FIXED_NOW: fixedNow } : {}),
     ...(forceFlags?.length ? { TEST_FORCE_FLAGS: forceFlags.join(",") } : {}),
     TSX_TSCONFIG_PATH: tsconfig,
+    ...(extraEnv ?? {}),
   };
 }
 
@@ -71,10 +81,11 @@ export function serverEnvironment(
  * example "created less than 30 seconds ago") needs the two to agree.
  * clientUrl: the origin of the browser client under test (the server's CORS rule allows only this origin);
  * defaults to http://localhost:3000.
+ * extraEnv: more environment values for this server only (the phone-code rate limits, for example).
  */
 export async function startTestServer(
   stack,
-  { fixedNow, forceFlags, clientUrl } = {}
+  { fixedNow, forceFlags, clientUrl, extraEnv } = {}
 ) {
   requireLocal({ database: stack.dbUrl, api: stack.apiUrl });
 
@@ -102,6 +113,7 @@ export async function startTestServer(
       fixedNow,
       forceFlags,
       clientUrl,
+      extraEnv,
     });
     requireLocal({
       SUPABASE_URL: env.SUPABASE_URL,

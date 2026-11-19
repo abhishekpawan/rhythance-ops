@@ -98,22 +98,37 @@ for (const language of ["en", "fr"] as const) {
       });
     }
 
-    // TODAY'S BEHAVIOUR, pinned (inbox row): the server answers a wrong password with 401 and the client's
-    // global 401 handler (services/api/index.ts) reloads /login, so the form is emptied and the error
-    // text the login page would show (auth.invalidCredentials, in both languages) never appears.
-    test("a wrong password sends the person back to an empty login form with no error shown", async ({
+    // Inbox 22 (fixed in DEV-2): a wrong password used to send the person back to an empty login form with no
+    // error, because the client's global 401 handler reloaded /login. Now the form keeps what was typed and
+    // shows the server's INVALID_CREDENTIALS code in the language of the screen (auth.errors.INVALID_CREDENTIALS).
+    test("a wrong password keeps the form and shows the error in the language of the screen", async ({
       page,
     }) => {
       await page.goto("/login");
       await page.locator("#email").fill(staff.admin.email);
       await page.locator("#password").fill("not-the-password");
-      const reloaded = page.waitForEvent("load");
       await page.locator('form button[type="submit"]').click();
-      await reloaded;
-      await page.waitForLoadState("networkidle");
+      await expect(page.locator(".error-container")).toHaveText(
+        language === "en"
+          ? "Invalid email or password"
+          : "Email ou mot de passe invalide"
+      );
       await expect(page).toHaveURL(/\/login$/);
-      await expect(page.locator("#email")).toHaveValue("");
-      await expect(page.locator(".error-container")).toHaveCount(0);
+      await expect(page.locator("#email")).toHaveValue(staff.admin.email);
+    });
+
+    // Inbox 23 (fixed in DEV-2): the two-step screen used to ask for the code twice per sign-in (a second
+    // text, and the digits typed so far were cleared). Counted on this page's own requests.
+    test("the two-step screen asks for the phone code once per sign-in", async ({
+      page,
+    }) => {
+      let sends = 0;
+      page.on("request", (request) => {
+        if (request.url().endsWith("/api/auth/send-verification")) sends++;
+      });
+      await signIn(page, staff.recruiter, true);
+      await expect(page).toHaveURL(/\/dashboard$/);
+      expect(sends).toBe(1);
     });
   });
 }

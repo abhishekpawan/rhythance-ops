@@ -315,7 +315,7 @@ router.post(
           // If a user with the provided email exists, use their ID
           profileUserId = userByEmail;
           console.log(
-            `Found existing user account for email ${emailNormalized}, using ID: ${profileUserId}`
+            `Found existing user account, using ID: ${profileUserId}`
           );
 
           // Get existing user metadata to merge with updates
@@ -326,7 +326,7 @@ router.post(
           }
         } else {
           console.log(
-            `No existing user account found for email ${emailNormalized}, creating new account`
+            "No existing user account found for the profile email, creating new account"
           );
 
           // Generate a random password that meets password validation requirements
@@ -533,7 +533,7 @@ router.post(
       }
 
       console.log(
-        `Profile created with user_id: ${profileUserId}, creator_id: ${userId}, email: ${emailNormalized}`
+        `Profile created with user_id: ${profileUserId}, creator_id: ${userId}`
       );
 
       // Create onboarding employment agreement consent record for the jobseeker
@@ -629,7 +629,7 @@ router.post(
                 }),
               });
               console.log(
-                `✉️ Employment agreement email sent to ${emailNormalized}`
+                `✉️ Employment agreement email sent for user ${profileUserId}`
               );
             } catch (emailErr) {
               console.error(

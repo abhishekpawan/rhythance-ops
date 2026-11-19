@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { Shield, CheckCircle } from "lucide-react";
 import { sendOtpAPI } from "../../services/api/auth";
+import { authErrorMessage } from "../../services/api/authErrors";
 import { complete2FA } from "../../lib/auth";
 import "../../styles/variables.css";
 import "../../styles/pages/TwoFactorAuth.css";
@@ -52,11 +53,7 @@ export function TwoFactorAuth() {
       setResendTimer(30);
       setResendSuccess(true);
     } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : t('twoFactor.error.failedToSendCode')
-      );
+      setError(authErrorMessage(error, t, 'twoFactor.error.failedToSendCode'));
     } finally {
       setIsResending(false);
     }
@@ -78,17 +75,19 @@ export function TwoFactorAuth() {
       // 2FA verification successful, proceed to dashboard
       navigate("/dashboard");
     } catch (error) {
-      setError(
-        error instanceof Error ? error.message : t('twoFactor.error.failedToVerifyCode')
-      );
+      setError(authErrorMessage(error, t, 'twoFactor.error.failedToVerifyCode'));
     } finally {
       setIsVerifying(false);
     }
   }, [phoneNumber, otpCode, email, password, navigate, t]);
 
-  // Auto-send OTP on component mount - only if we have complete required state
+  // Send the first code once per visit to this screen. `sendOtp` changes whenever the language provider
+  // re-renders (it depends on `t`), and this effect runs twice in development: without the guard each of those
+  // re-runs texted the number again and cleared the digits already typed. Resend is the button below.
+  const firstCodeSent = useRef(false);
   useEffect(() => {
-    if (hasRequiredState && phoneNumber) {
+    if (hasRequiredState && phoneNumber && !firstCodeSent.current) {
+      firstCodeSent.current = true;
       sendOtp();
     }
   }, [sendOtp, phoneNumber, hasRequiredState]);

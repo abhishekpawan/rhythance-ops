@@ -456,9 +456,8 @@ export async function sendTimesheetEmail(
   };
 
   console.log(
-    "Sending timesheet email to:",
-    emailTo,
-    jobseekerProfile.billing_email ? "(billing email)" : "(primary email)"
+    "Sending timesheet email to the",
+    jobseekerProfile.billing_email ? "billing email" : "primary email"
   );
 
   const html = timesheetHtmlTemplate(templateVars);

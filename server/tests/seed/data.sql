@@ -279,3 +279,10 @@ FROM (VALUES
   ('00000000-0000-4000-8000-000000000045', '2026-08-15T14:00:00Z')) AS v(id, at)
 WHERE p.id = v.id::uuid;
 SET LOCAL session_replication_role = origin;
+
+-- Feature flags: the registry makes the staff two-step login on by default (a new portal is protected from day one).
+-- The stage database, which the demos use, stores it off; the test database does the same, so the normal test
+-- servers behave as before and the third one forces it on (tests/support/force-flags.mjs).
+INSERT INTO public.feature_flags (key, enabled, updated_by_name)
+VALUES ('staff_two_factor_enforced', false, 'Test seed')
+ON CONFLICT (key) DO UPDATE SET enabled = false;

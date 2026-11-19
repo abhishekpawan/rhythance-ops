@@ -361,12 +361,6 @@ export function InvoiceManagement() {
         createdInvoice.client?.emailAddress1 ||
         selectedClient?.emailAddress1 ||
         "";
-      console.log("Setting emailToSend:", {
-        invoice_sent_to: createdInvoice.invoice_sent_to,
-        client_email: createdInvoice.client?.emailAddress1,
-        selected_client_email: selectedClient?.emailAddress1,
-        final_email: emailToSet,
-      });
       setEmailToSend(emailToSet);
     }
   }, [showInvoiceSuccessModal, createdInvoice, selectedClient?.emailAddress1]);
@@ -1356,17 +1350,6 @@ export function InvoiceManagement() {
       (item) =>
         parseFloat(item.hours) > 0 && parseFloat(item.regularBillRate) > 0
     );
-    lineItems.forEach((item, index) => {
-      console.log(`Item ${index}:`, {
-        hours: item.hours,
-        regularBillRate: item.regularBillRate,
-        regularPayRate: item.regularPayRate,
-        hoursFloat: parseFloat(item.hours),
-        regularBillRateFloat: parseFloat(item.regularBillRate),
-        regularPayRateFloat: parseFloat(item.regularPayRate),
-        valid: parseFloat(item.hours) > 0 && parseFloat(item.regularBillRate),
-      });
-    });
 
     if (!hasValidLineItems) {
       setGenerationError(
@@ -1667,14 +1650,6 @@ export function InvoiceManagement() {
           // summary and document are intentionally omitted
         };
 
-        // Log the data being sent to API
-        console.log("=== INVOICE DATA BEING SENT TO API ===");
-        console.log(
-          "Invoice API Data:",
-          JSON.stringify(invoiceApiData, null, 2)
-        );
-        console.log("=== END API DATA ===");
-
         // Call the API to create the invoice
         result = await createInvoiceFromFrontendData(invoiceApiData);
         pdfInvoiceId = result.invoice.id || "";
@@ -1826,12 +1801,6 @@ export function InvoiceManagement() {
         result.invoice.client?.emailAddress1 ||
         selectedClient?.emailAddress1 ||
         "";
-      console.log("Setting emailToSend in handleInvoiceSubmit:", {
-        invoice_sent_to: result.invoice.invoice_sent_to,
-        client_email: result.invoice.client?.emailAddress1,
-        selected_client_email: selectedClient?.emailAddress1,
-        final_email: emailToSet,
-      });
       setEmailToSend(emailToSet);
       setShowInvoiceSuccessModal(true);
     } catch (error) {
@@ -1968,10 +1937,6 @@ export function InvoiceManagement() {
     setSendInvoiceMessage("");
 
     try {
-      console.log("=== SENDING INVOICE TO CLIENT ===");
-      console.log("Invoice ID:", createdInvoice.id);
-      console.log("Email to send:", emailToSend);
-
       // Call the new API to send the invoice email
       const response = await sendInvoiceEmail(createdInvoice.id, emailToSend);
 

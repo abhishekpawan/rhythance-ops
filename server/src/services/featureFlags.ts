@@ -152,12 +152,6 @@ export async function getFeatureFlagSnapshot(): Promise<FeatureFlagSnapshot> {
   };
 }
 
-/** Effective on/off value for every flag (sent to every logged-in client). */
-export async function getEffectiveFlags(): Promise<Record<string, boolean>> {
-  const { flags } = await getFeatureFlagSnapshot();
-  return Object.fromEntries(flags.map((f) => [f.key, f.enabled]));
-}
-
 /** Server-side check. Unknown keys are always off. */
 export async function isFeatureEnabled(key: string): Promise<boolean> {
   const def = getFeatureFlagDefinition(key);

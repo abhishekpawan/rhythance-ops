@@ -1040,9 +1040,6 @@ export function ProfileCreate({
         for (const doc of draftData.documents) {
           // Only upload if it's a new file without a path
           if (doc.documentFile instanceof File && !doc.documentPath) {
-            console.log(
-              `Draft Save: Found file for document ID ${doc.id}, Type: ${doc.documentType}. Uploading...`
-            );
             setLoading("fileUploading", true);
 
             const fileToUpload = doc.documentFile;
@@ -1051,8 +1048,6 @@ export function ProfileCreate({
             const filePath = `${user.id}/${
               doc.documentType || "uncategorized"
             }/${uniqueFileName}`;
-
-            console.log(`Draft Save: Uploading to Supabase path: ${filePath}`);
 
             const { data: uploadData, error: uploadError } =
               await supabase.storage
@@ -1073,18 +1068,7 @@ export function ProfileCreate({
               // Update document with path info
               doc.documentPath = uploadData?.path || "";
               doc.documentFileName = fileToUpload.name; // Store the original file name
-              console.log(
-                `Draft Save: File uploaded successfully to ${doc.documentPath}`
-              );
             }
-          } else if (doc.documentFile && doc.documentPath) {
-            console.log(
-              `Draft Save: File for document ID ${doc.id} already has a path (${doc.documentPath}), skipping upload.`
-            );
-          } else {
-            console.log(
-              `Draft Save: No new file selected for document ID ${doc.id}, skipping upload.`
-            );
           }
 
           // Always remove the file object before saving the draft JSON
@@ -1177,8 +1161,6 @@ export function ProfileCreate({
           email,
         });
       }
-
-      console.log("Draft saved successfully:", response);
 
       setLoading("draftSaving", false);
       // Show success message (using whatever toast system is available)
@@ -1388,8 +1370,6 @@ export function ProfileCreate({
           doc.documentType || "uncategorized"
         }/${uniqueFileName}`;
 
-        console.log(`Uploading file to: ${filePath}`);
-
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("jobseeker-documents")
           .upload(filePath, fileToUpload);
@@ -1401,7 +1381,6 @@ export function ProfileCreate({
 
         doc.documentPath = uploadData?.path || "";
         doc.documentFileName = fileToUpload.name;
-        console.log(`File uploaded successfully: ${doc.documentPath}`);
 
         // Remove the File object before sending the payload to the API.
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

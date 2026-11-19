@@ -1290,20 +1290,6 @@ router.post('/request',
       res.locals.consentRecords = records;
       res.locals.recipientCount = recipientIds.length;
 
-      // Console log the unique consent links for testing
-      console.log('\n🔗 CONSENT LINKS GENERATED:');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      records.forEach((record: any, index: number) => {
-        const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
-        const consentUrl = `${clientURL}/consent?token=${record.consent_token}`;
-        console.log(`${index + 1}. ${record.entityName || 'Unknown'} (${record.entityEmail || 'No Email'}):`);
-        console.log(`   🌐 ${consentUrl}`);
-        console.log(`   🎫 Token: ${record.consent_token}`);
-        console.log('');
-      });
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log(`📧 Total ${records.length} consent emails should be sent.\n`);
-
       return res.status(201).json({
         success: true,
         message: 'Consent request created successfully',
@@ -1460,21 +1446,6 @@ router.post('/resend',
       // Store data for email notification
       res.locals.consentRecordsWithDetails = recordsWithDetails;
 
-      // Console log the resent consent links for testing
-      console.log('\n🔄 CONSENT LINKS RESENT:');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      recordsWithDetails.forEach((record: any, index: number) => {
-        const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
-        const consentUrl = `${clientURL}/consent?token=${record.consent_token}`;
-        console.log(`${index + 1}. ${record.entityName || 'Unknown'} (${record.entityEmail || 'No Email'}):`);
-        console.log(`   🌐 ${consentUrl}`);
-        console.log(`   🎫 Token: ${record.consent_token}`);
-        console.log(`   📄 Document: ${record.consent_documents?.file_name || 'Unknown'}`);
-        console.log('');
-      });
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log(`📧 Total ${recordsWithDetails.length} consent emails should be resent.\n`);
-
       return res.status(200).json({
         success: true,
         message: `Successfully resent ${records.length} consent emails`,
@@ -1522,17 +1493,8 @@ router.get('/view', // apiRateLimiter,
       .single();
 
     if (recordError || !record) {
-      console.log(`❌ CONSENT VIEW FAILED: Invalid token "${token}"`);
       return res.status(404).json({ error: 'Invalid or expired consent token' });
     }
-
-    // Log successful consent view access
-    console.log(`\n👀 CONSENT LINK ACCESSED:`);
-    console.log(`📧 Entity: ${record.entityName || 'Unknown'} (${record.entityEmail || 'No Email'})`);
-    console.log(`📄 Document: ${record.consent_documents?.file_name || 'Unknown'}`);
-    console.log(`🎫 Token: ${token}`);
-    console.log(`📊 Status: ${record.status}`);
-    console.log(`🌐 URL: ${req.protocol}://${req.get('host')}${req.originalUrl}\n`);
 
     // Check if document is still active
     if (!record.consent_documents.is_active) {
@@ -1696,27 +1658,16 @@ router.post('/submit',
         .single();
 
       if (recordError || !record) {
-        console.log(`❌ CONSENT SUBMIT FAILED: Invalid token "${token}"`);
         return res.status(404).json({ error: 'Invalid or expired consent token' });
       }
 
-      // Log consent submission attempt
-      console.log(`\n✍️ CONSENT SUBMISSION ATTEMPT:`);
-      console.log(`📧 Entity: ${record.entityName || 'Unknown'} (${record.entityEmail || 'No Email'})`);
-      console.log(`📄 Document: ${record.consent_documents?.file_name || 'Unknown'}`);
-      console.log(`🎫 Token: ${token}`);
-      console.log(`📊 Current Status: ${record.status}`);
-      console.log(`✏️ Consented Name: "${consentedName}"`);
-
       // Check if document is still active
       if (!record.consent_documents.is_active) {
-        console.log(`❌ DOCUMENT INACTIVE\n`);
         return res.status(400).json({ error: 'This consent document is no longer active' });
       }
 
       // Check if consent already provided
       if (record.status === 'completed') {
-        console.log(`❌ CONSENT ALREADY COMPLETED\n`);
         return res.status(400).json({ 
           error: 'Consent has already been provided for this document',
           alreadyCompleted: true
@@ -1845,14 +1796,6 @@ router.post('/submit',
         return res.status(500).json({ error: 'Failed to record consent' });
       }
 
-      // Log successful consent submission
-      console.log(`✅ CONSENT SUCCESSFULLY SUBMITTED!`);
-      console.log(`📧 Entity: ${entityName} (${entityEmail})`);
-      console.log(`📄 Document: ${record.consent_documents?.file_name || 'Unknown'}`);
-      console.log(`✏️ Consented Name: "${consentedName.trim()}"`);
-      console.log(`📅 Completed At: ${completedAt}`);
-      console.log(`🌐 IP Address: ${clientIP}\n`);
-
       // If this is a jobseeker onboarding consent, update user_metadata
       if (record.is_jobseeker_onboarding && record.consentable_type === 'user') {
         try {
@@ -1865,7 +1808,6 @@ router.post('/submit',
                 employment_agreement_signed: true
               }
             });
-            console.log(`✅ Updated employment_agreement_signed for user ${record.consentable_id}`);
           }
         } catch (metaError) {
           console.error('Error updating employment_agreement_signed in user_metadata:', metaError);
@@ -2132,7 +2074,6 @@ router.get('/jobseeker-onboarding-consent',
               html: htmlContent,
               text: textContent
             });
-            console.log(`✉️ Employment agreement email sent to ${userEmail}`);
           }
         } catch (emailError) {
           // Don't fail the endpoint if email fails

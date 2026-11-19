@@ -331,11 +331,9 @@ export const updatePosition = async (
   id: string,
   positionData: PositionData
 ): Promise<PositionResponse> => {
-  console.log(`Attempting to update position with ID ${id}`, positionData);
   try {
     console.log(`Making PUT request to /api/positions/${id}`);
     const response = await api.put(`/api/positions/${id}`, positionData);
-    console.log("Update position response:", response);
 
     // Clear cache for this position and the positions list
     clearCacheFor(`/api/positions/${id}`);

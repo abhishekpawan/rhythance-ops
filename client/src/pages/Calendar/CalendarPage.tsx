@@ -76,8 +76,7 @@ export function CalendarPage() {
   }, [fetchCalendarData]);
 
   // Event handlers
-  const handleSelectEvent = useCallback((event: CalendarEvent) => {
-    console.log('Selected event:', event);
+  const handleSelectEvent = useCallback(() => {
     // Could open a modal or navigate to event details
   }, []);
 

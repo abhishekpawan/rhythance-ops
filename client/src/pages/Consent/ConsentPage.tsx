@@ -120,7 +120,6 @@ export function ConsentPage() {
     async (filePath: string): Promise<string | null> => {
       try {
         const decodedPath = decodeFilePath(filePath);
-        console.log(`Getting signed URL for consent document: ${decodedPath}`);
 
         const { data, error } = await supabase.storage
           .from("consent-documents")

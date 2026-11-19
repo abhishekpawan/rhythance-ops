@@ -1913,10 +1913,8 @@ router.post(
         premium_pay_rate: res.locals.position?.premium_pay_rate || "",
         task_time: res.locals.position?.task_time || "",
       };
-      console.log("[EmailNotifier] templateVars:", templateVars);
       // Use template functions
       const html = jobseekerAssignmentHtmlTemplate(templateVars);
-      console.log("[EmailNotifier] Generated HTML:", html);
       const text = jobseekerAssignmentTextTemplate(templateVars);
       // Extract subject (first line from text template)
       const [subjectLine, ...bodyLines] = text.split("\n");
@@ -2301,9 +2299,7 @@ router.delete(
         experience: res.locals.position?.experience || "",
         number_of_positions: res.locals.position?.number_of_positions || "",
       };
-      console.log("[EmailNotifier] templateVars (removal):", templateVars);
       const html = jobseekerRemovalHtmlTemplate(templateVars);
-      console.log("[EmailNotifier] Generated HTML (removal):", html);
       const text = jobseekerRemovalTextTemplate(templateVars);
       // Extract subject (first line from text template)
       const [subjectLine, ...bodyLines] = text.split("\n");

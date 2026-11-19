@@ -103,7 +103,6 @@ export function JobseekerDrafts() {
         createdDateFilter,
       });
 
-      console.log("Fetched drafts:", data);
       setDrafts(data.drafts);
       setPagination(data.pagination);
     } catch (err) {

@@ -411,7 +411,6 @@ export function JobSeekerProfile() {
         setLoading(true);
         if (!id) throw new Error(t("messages.profileIdMissing"));
         const data = await getJobseekerProfile(id);
-        console.log("Fetched detailed profile:", data);
         setProfile(data);
       } catch (err) {
         setError(
@@ -672,7 +671,6 @@ export function JobSeekerProfile() {
       );
 
       // Check the structure of the response to find the correct property
-      console.log("Status update response:", response);
 
       // Preserve the original documents with AI validation data
       const preservedDocuments = profile.documents || [];
@@ -857,8 +855,6 @@ export function JobSeekerProfile() {
         // Decode the path before using it
         const decodedPath = decodePath(documentPath);
 
-        console.log(`Download requested for path: '${documentPath}'`);
-        console.log(`Using decoded path: '${decodedPath}'`);
 
         if (!decodedPath) {
           throw new Error("Document path is missing or invalid.");
@@ -886,7 +882,6 @@ export function JobSeekerProfile() {
       }
 
       if (signedUrl) {
-        console.log("Download URL generated:", signedUrl);
 
         // Create a temporary anchor element to trigger download
         const downloadLink = document.createElement("a");

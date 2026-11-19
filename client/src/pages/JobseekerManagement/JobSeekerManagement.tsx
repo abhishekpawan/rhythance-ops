@@ -157,7 +157,6 @@ export function JobSeekerManagement() {
         statusFilter,
         dateFilter,
       });
-      console.log("Fetched profiles:", data);
       setProfiles(data.profiles);
       setPagination(data.pagination);
     } catch (err) {

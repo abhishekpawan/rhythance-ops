@@ -83,6 +83,15 @@ export default async function globalSetup() {
   const server = await startTestServer(stack, {
     fixedNow: FIXED_NOW,
     clientUrl,
+    // every seeded staff account shares one phone number and every sign-in texts it: the phone-code limits
+    // (server/src/middleware/otpRateLimits.ts, tested in server/tests/access/phone-code-endpoints.test.ts)
+    // would stop the journeys
+    extraEnv: {
+      OTP_SEND_LIMIT_PER_NUMBER: "100000",
+      OTP_SEND_LIMIT_PER_ADDRESS: "100000",
+      OTP_CHECK_LIMIT_PER_NUMBER: "100000",
+      OTP_CHECK_LIMIT_PER_ADDRESS: "100000",
+    },
   });
 
   const clientEnv = {

@@ -1560,10 +1560,8 @@ router.post(
         attachments,
       };
       console.log("[SendGrid] Sending email with payload:", {
-        to: sendPayload.to,
         from: sendPayload.from,
         subject: sendPayload.subject,
-        cc: sendPayload.cc,
         attachments: sendPayload.attachments.map((a) => ({
           filename: a.filename,
           type: a.type,

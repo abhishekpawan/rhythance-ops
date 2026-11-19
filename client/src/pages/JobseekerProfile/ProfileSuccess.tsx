@@ -77,7 +77,6 @@ export function ProfileSuccess() {
   // Get data from state
   const state = location.state as SuccessState;
   
-  console.log('[ProfileSuccess] Received state:', state);
   
   // Check if we have valid state data on component mount
   useEffect(() => {

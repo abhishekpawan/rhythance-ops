@@ -490,12 +490,10 @@ export function ClientCreate({
         setLoading(true);
         try {
           const client = await getClient(id);
-          console.log("Client data loaded:", client);
 
           if (client) {
             // Prepare client data for form (decode HTML entities, etc.)
             const formattedClient = prepareClientDataForForm(client);
-            console.log("Formatted client data:", formattedClient);
 
             setClientId(id);
 
@@ -528,12 +526,10 @@ export function ClientCreate({
         setLoading(true);
         try {
           const { draft, lastUpdated } = await getClientDraftById(id);
-          console.log("Draft data loaded:", draft);
 
           if (draft) {
             // Prepare draft data for form (decode HTML entities, etc.)
             const formattedDraft = prepareClientDataForForm(draft);
-            console.log("Formatted draft data:", formattedDraft);
 
             setDraftId(draft.id as string);
             setLastSaved(lastUpdated);

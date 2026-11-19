@@ -134,7 +134,6 @@ export function PositionDrafts() {
 
       const data = await getAllPositionDrafts(params);
 
-      console.log("Fetched drafts:", data);
       setDrafts(data.drafts);
       setPagination(data.pagination);
     } catch (err) {

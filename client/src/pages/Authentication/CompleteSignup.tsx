@@ -3,7 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "../../lib/supabaseClient";
-import { completeOnboardingAPI, sendOtpAPI, verifyOtpAPI, checkPhoneAvailability } from "../../services/api/auth";
+import { completeOnboardingAPI, sendOtpAPI, verifyOtpAPI, checkPhoneAvailability, authErrorMessage } from "../../services/api/auth";
 import { Eye, EyeOff, CheckCircle, AlertCircle, Check } from "lucide-react";
 import { isValidPhoneNumber } from "../../utils/validation";
 import { useLanguage } from "../../contexts/language/language-provider";
@@ -179,7 +179,7 @@ export function CompleteSignup() {
       setShowOtpInput(true);
       setResendTimer(30);
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("signup.error.failedToSendCode"));
+      setError(authErrorMessage(err, t, "signup.error.failedToSendCode"));
     } finally {
       setIsVerifyingPhone(false);
     }
@@ -200,7 +200,7 @@ export function CompleteSignup() {
       setIsPhoneVerified(true);
       setShowOtpInput(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("signup.error.failedToVerifyCode"));
+      setError(authErrorMessage(err, t, "signup.error.failedToVerifyCode"));
     } finally {
       setIsVerifyingPhone(false);
     }

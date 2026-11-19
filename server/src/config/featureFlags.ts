@@ -51,6 +51,11 @@ export interface FeatureFlagDefinition {
   wired: boolean;
   /** Intended state per portal (documentation / tracking). */
   intended: Partial<Record<PortalId, boolean>>;
+  /**
+   * True when the browser reads this flag (`useFeatureFlag`, `FeatureGate`): only these are sent by
+   * `GET /api/feature-flags`. Leave it out for a flag only the server reads; unmarked is the default.
+   */
+  clientVisible?: boolean;
   /** Extra context for the super-admin page. */
   notes?: string;
   /** Text values this flag needs besides on/off (editable on the super-admin page). */
@@ -60,6 +65,7 @@ export interface FeatureFlagDefinition {
 export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
   {
     key: "jobseeker_payroll_summary",
+    clientVisible: true,
     title: "Jobseeker payroll summary cards",
     description:
       'Shows "Total No. Hours" and "Gross Amount" cards on the Jobseeker dashboard.',
@@ -77,6 +83,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
   },
   {
     key: "subcategory_positions",
+    clientVisible: true,
     title: "Subcategory positions",
     description:
       "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
@@ -131,6 +138,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
   },
   {
     key: "hide_jobseeker_pay_rate",
+    clientVisible: true,
     title: "Hide pay rate in jobseeker compensation",
     description:
       "Hides the pay rate and bill rate inputs on the jobseeker profile Compensation step (values default to 0).",
@@ -147,6 +155,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
   },
   {
     key: "jobseeker_profile_godspeed_rules",
+    clientVisible: true,
     title: "Godspeed jobseeker profile rules",
     description:
       "Lighter jobseeker profile rules: the driver's licence number is required; SIN, most address/qualification fields and the compensation fields are optional; the mandatory document is a driver's licence or passport (instead of SIN + government ID). Applies to the profile forms and to the server checks.",
@@ -164,6 +173,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
   },
   {
     key: "ai_chat",
+    clientVisible: true,
     title: "AI chat in the menu",
     description:
       "Shows the AI Chat entry in the side menu for staff. The AI chat service has been switched off on every portal since the AI service was made safe (it answers a notice), so this is off everywhere until the chat is rebuilt.",
@@ -185,16 +195,16 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
     description:
       "Admin and recruiter accounts must enter the phone code before the server accepts their session. Without it the code is only checked by the login screen, so anyone with the password can skip it. Jobseekers are never affected.",
     category: "admin",
-    defaultEnabled: false,
+    defaultEnabled: true,
     wired: true,
     intended: {
-      godspeed: false,
-      gdworkforce: false,
-      canhire: false,
-      allstaff: false,
+      godspeed: true,
+      gdworkforce: true,
+      canhire: true,
+      allstaff: true,
     },
     notes:
-      "Turn on per portal after migration 035 is applied to its database. Staff who are signed in when it is turned on are sent back to the login screen once and enter a phone code. Keep it off on the demo portals (the demo login bypasses the code).",
+      "On by default, so a new portal is protected from day one; the four live portals have it on (2026-11-19). Staff who are signed in when it is turned on are sent back to the login screen once and enter a phone code. The demo portals (stage database) store enabled=false: the demo login bypasses the code. Apply migration 035 to a new portal's database first.",
   },
 ];
 

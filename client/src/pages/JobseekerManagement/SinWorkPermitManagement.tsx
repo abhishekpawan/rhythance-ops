@@ -207,7 +207,6 @@ export function SinWorkPermitManagement() {
         workPermitExpiryStatusFilter,
       });
       
-      console.log("Fetched profiles:", data);
       setProfiles(data.profiles);
       setPagination(data.pagination);
     } catch (err) {

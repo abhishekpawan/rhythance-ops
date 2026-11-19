@@ -4,12 +4,12 @@ import { requireSuperAdmin } from "../middleware/superAdmin.js";
 import { PORTALS, getFeatureFlagDefinition } from "../config/featureFlags.js";
 import {
   FeatureFlagError,
-  getEffectiveFlags,
   getFeatureFlagSnapshot,
   resetFeatureFlag,
   setFeatureFlag,
   setFeatureFlagSettings,
 } from "../services/featureFlags.js";
+import { getClientFlags } from "../services/clientFeatureFlags.js";
 
 const router = Router();
 
@@ -30,12 +30,13 @@ function sendError(res: Response, error: unknown) {
 
 /**
  * GET /api/feature-flags
- * Effective on/off value of every flag. Any logged-in user (the client needs it
- * to decide what to render). Contains no metadata, only booleans.
+ * Effective on/off value of the flags the browser reads (marked `clientVisible` in
+ * config/featureFlags.ts), for any logged-in user. Server-only flags are not sent; the
+ * full list is on /admin for super admins. Contains no metadata, only booleans.
  */
 router.get("/", authenticateToken, async (_req: Request, res: Response) => {
   try {
-    res.json({ flags: await getEffectiveFlags() });
+    res.json({ flags: await getClientFlags() });
   } catch (error) {
     sendError(res, error);
   }

@@ -186,6 +186,18 @@ api.interceptors.request.use(
   }
 );
 
+// The public sign-in and phone-code calls answer 401/403 for a wrong password or code. The screen shows that
+// error (services/api/authErrors.ts); signing the person out and reloading /login would empty the form.
+const PUBLIC_SIGN_IN_PATHS = [
+  "/api/auth/login",
+  "/api/auth/validate-credentials",
+  "/api/auth/complete-2fa",
+  "/api/auth/send-verification",
+  "/api/auth/verify-otp",
+];
+const isPublicSignInCall = (url?: string) =>
+  PUBLIC_SIGN_IN_PATHS.includes((url || "").split("?")[0].split("#")[0]);
+
 // Response interceptor
 api.interceptors.response.use(
   (response) => {
@@ -214,7 +226,8 @@ api.interceptors.response.use(
 
     if (
       error.response &&
-      (error.response.status === 401 || error.response.status === 403)
+      (error.response.status === 401 || error.response.status === 403) &&
+      !isPublicSignInCall(error.config?.url)
     ) {
       // Global handler: sign out user, clear token, redirect to login
       await import('../../lib/supabaseClient').then(({ supabase }) => supabase.auth.signOut());

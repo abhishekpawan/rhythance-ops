@@ -36,7 +36,18 @@ export default async function setup(project: TestProject) {
   const twoFactorServer = await startTestServer(stack, {
     forceFlags: ["staff_two_factor_enforced"],
   });
+  // fourth server: low phone-code limits, so the rate-limit tests can reach them with a few requests
+  const limitedServer = await startTestServer(stack, {
+    extraEnv: {
+      OTP_SEND_LIMIT_PER_NUMBER: "3",
+      OTP_SEND_LIMIT_PER_ADDRESS: "6",
+      OTP_CHECK_LIMIT_PER_NUMBER: "3",
+      OTP_CHECK_LIMIT_PER_ADDRESS: "6",
+    },
+  });
   project.provide("stack", stack);
+  project.provide("limitedServerUrl", limitedServer.url);
+  project.provide("limitedOutboundLog", limitedServer.outboundLog);
   project.provide("twoFactorServerUrl", twoFactorServer.url);
   project.provide("twoFactorOutboundLog", twoFactorServer.outboundLog);
   project.provide("serverUrl", server.url);
@@ -44,6 +55,7 @@ export default async function setup(project: TestProject) {
   project.provide("serverWorkDir", server.workDir);
   project.provide("fixedClockServerUrl", fixedServer.url);
   return async () => {
+    await limitedServer.stop();
     await twoFactorServer.stop();
     await fixedServer.stop();
     await server.stop();

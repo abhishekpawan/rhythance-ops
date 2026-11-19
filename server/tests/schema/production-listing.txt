@@ -5,6 +5,8 @@
 # find_matching_candidates was aligned on 2026-11-18 (same 1037 lines, checked read-only that day).
 # GD Workforce: the four invoice-attachment storage policies have other names (same rules) and the
 # log-trim cron job is named prune_cron_job_run_details (daily 02:00).
+# 2026-11-19: the lines of migrations 028, 035 and 036 (applied that day) were added from a read-only run of the same
+# query on the CanHire production database (only those objects); the rest is as of 2026-11-17.
 # The comparison (compare.mjs) ignores the "not covered" items named in migration 032 and the entries in
 # files-ahead-of-production.txt, and nothing else. Refresh this file when production changes.
 bucket|consent-documents|public=false limit=52428800 mime=application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/jpeg,image/png
@@ -422,6 +424,9 @@ column|public.recent_activities.status|text
 column|public.recent_activities.tertiary_entity_id|uuid
 column|public.recent_activities.tertiary_entity_name|text
 column|public.recent_activities.tertiary_entity_type|text
+column|public.staff_2fa_sessions.session_id|uuid not null
+column|public.staff_2fa_sessions.user_id|uuid not null
+column|public.staff_2fa_sessions.verified_at|timestamp with time zone not null default now()
 column|public.support_ticket_attachments.created_at|timestamp with time zone not null default now()
 column|public.support_ticket_attachments.file_name|text not null
 column|public.support_ticket_attachments.id|uuid not null default gen_random_uuid()
@@ -577,6 +582,7 @@ constraint|public.positions.positions_updated_by_user_id_fkey|FOREIGN KEY update
 constraint|public.recent_activities.recent_activities_action_type_fkey|FOREIGN KEY action_type REFERENCES activity_action_typescode
 constraint|public.recent_activities.recent_activities_category_fkey|FOREIGN KEY category REFERENCES activity_categoriescode
 constraint|public.recent_activities.recent_activities_pkey|PRIMARY KEY id
+constraint|public.staff_2fa_sessions.staff_2fa_sessions_pkey|PRIMARY KEY session_id
 constraint|public.support_ticket_attachments.support_ticket_attachments_message_id_fkey|FOREIGN KEY message_id REFERENCES support_ticket_messagesid ON DELETE SET NULL
 constraint|public.support_ticket_attachments.support_ticket_attachments_pkey|PRIMARY KEY id
 constraint|public.support_ticket_attachments.support_ticket_attachments_size_bytes_check|CHECK size_bytes > 0 AND size_bytes <= 10485760
@@ -660,6 +666,7 @@ fngrant|public.support_change_status(p_ticket_id uuid, p_to_status text, p_actor
 fngrant|public.support_create_ticket(p_requester_id uuid, p_requester_name text, p_requester_email text, p_requester_roles text[], p_type text, p_title text, p_description text, p_urgency text, p_context jsonb, p_locale text, p_idempotency_key uuid)|anon=false authenticated=false service_role=true
 fngrant|public.support_elapsed_minutes(p_ticket_id uuid)|anon=false authenticated=false service_role=true
 fngrant|public.support_set_updated_at()|anon=false authenticated=false service_role=true
+fngrant|public.sync_position_dates_to_assignments()|anon=true authenticated=true service_role=true
 fngrant|public.test_connection()|anon=false authenticated=false service_role=true
 fngrant|public.update_bulk_timesheets_updated_at()|anon=true authenticated=true service_role=true
 fngrant|public.update_client_last_activity()|anon=true authenticated=true service_role=true
@@ -674,7 +681,7 @@ function|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profi
 function|public.embedding_input_position_description(pre_embedding_text positions)|returns text secdef=false volatility=i config= body=411f577d52fcbe7bfdfd017fa9d2fa46
 function|public.ensure_invoice_number()|returns trigger secdef=false volatility=v config= body=16086eadd050debfc8771a3edeea4855
 function|public.execute_sql(query text)|returns json secdef=true volatility=v config= body=1553b451ecada1038586c35e67c40d6f
-function|public.find_matching_candidates(p_position_id uuid, p_limit integer, p_filters jsonb)|returns TABLE(candidate_id uuid, first_name text, last_name text, email text, mobile text, bio text, experience text, weekend_availability boolean, availability text, similarity_score double precision, is_available boolean) secdef=false volatility=v config= body=02f9edea5bc7727845f823fc508155a6
+function|public.find_matching_candidates(p_position_id uuid, p_limit integer, p_filters jsonb)|returns TABLE(candidate_id uuid, first_name text, last_name text, email text, mobile text, bio text, experience text, weekend_availability boolean, availability text, similarity_score double precision, is_available boolean) secdef=false volatility=v config= body=06e157acfe95772bfca41d7c2836b3db
 function|public.generate_invoice_number()|returns character varying secdef=false volatility=v config= body=90ee15c2b26d3b7bd78b9f6168799658
 function|public.generate_next_position_code(client_short_code text)|returns text secdef=false volatility=v config= body=c774eabdf5df1dfe348fe054a7015cab
 function|public.get_manager_id(user_id uuid)|returns uuid secdef=true volatility=v config= body=0c509edee3870d9f6952fd958b40f9bb
@@ -701,6 +708,7 @@ function|public.support_change_status(p_ticket_id uuid, p_to_status text, p_acto
 function|public.support_create_ticket(p_requester_id uuid, p_requester_name text, p_requester_email text, p_requester_roles text[], p_type text, p_title text, p_description text, p_urgency text, p_context jsonb, p_locale text, p_idempotency_key uuid)|returns support_tickets secdef=false volatility=v config=search_path=public body=c14ca66c44c6fe8fde9fa26364ef1f0d
 function|public.support_elapsed_minutes(p_ticket_id uuid)|returns integer secdef=false volatility=v config=search_path=public body=2d057e7538a5b967338a4dff14e30f4f
 function|public.support_set_updated_at()|returns trigger secdef=false volatility=v config=search_path=public body=f019c2a85daf0ed4058b77a7a14664a9
+function|public.sync_position_dates_to_assignments()|returns trigger secdef=false volatility=v config= body=30a96a3277248f98ffcb66d060e924d4
 function|public.test_connection()|returns json secdef=true volatility=v config= body=d1257f1fd01c16c354701849d03171ae
 function|public.update_bulk_timesheets_updated_at()|returns trigger secdef=false volatility=v config= body=8d0d99f0f246f51e6e468e02e03e428b
 function|public.update_client_last_activity()|returns trigger secdef=false volatility=v config= body=893486006d57fae6d49a49372c4ebd76
@@ -769,6 +777,9 @@ grant|public.positions|service_role=adDrtwx
 grant|public.recent_activities|anon=adDrtwx
 grant|public.recent_activities|authenticated=adDrtwx
 grant|public.recent_activities|service_role=adDrtwx
+grant|public.staff_2fa_sessions|anon=
+grant|public.staff_2fa_sessions|authenticated=
+grant|public.staff_2fa_sessions|service_role=adDrtwx
 grant|public.support_ticket_attachments|anon=
 grant|public.support_ticket_attachments|authenticated=
 grant|public.support_ticket_attachments|service_role=adDrtwx
@@ -883,6 +894,8 @@ index|public.recent_activities.idx_recent_activities_created_at|USING btree (cre
 index|public.recent_activities.idx_recent_activities_display|USING btree (is_deleted, created_at DESC) WHERE (is_deleted = false)
 index|public.recent_activities.idx_recent_activities_primary_entity|USING btree (primary_entity_type, primary_entity_id)
 index|public.recent_activities.recent_activities_pkey|USING btree (id)
+index|public.staff_2fa_sessions.idx_staff_2fa_sessions_verified_at|USING btree (verified_at)
+index|public.staff_2fa_sessions.staff_2fa_sessions_pkey|USING btree (session_id)
 index|public.support_ticket_attachments.idx_support_ticket_attachments_ticket|USING btree (ticket_id)
 index|public.support_ticket_attachments.support_ticket_attachments_pkey|USING btree (id)
 index|public.support_ticket_attachments.support_ticket_attachments_storage_path_key|USING btree (storage_path)
@@ -1012,6 +1025,7 @@ table|public.position_candidate_assignments|kind=r rls=true
 table|public.position_drafts|kind=r rls=true
 table|public.positions|kind=r rls=true
 table|public.recent_activities|kind=r rls=true
+table|public.staff_2fa_sessions|kind=r rls=true
 table|public.support_ticket_attachments|kind=r rls=true
 table|public.support_ticket_messages|kind=r rls=true
 table|public.support_ticket_number_seq|kind=S rls=false
@@ -1036,6 +1050,7 @@ trigger|public.position_candidate_assignments.trg_jobseeker_activity_on_assignme
 trigger|public.positions.embed_job_description_on_insert|enabled=O AFTER INSERT ON public.positions FOR EACH ROW EXECUTE FUNCTION util.queue_embeddings('embedding_input_position_description', 'job_embedding')
 trigger|public.positions.embed_job_description_on_update|enabled=O AFTER UPDATE OF description ON public.positions FOR EACH ROW EXECUTE FUNCTION util.queue_embeddings('embedding_input_position_description', 'job_embedding')
 trigger|public.positions.trg_client_activity_on_position|enabled=O AFTER INSERT OR UPDATE ON public.positions FOR EACH ROW EXECUTE FUNCTION update_client_last_activity()
+trigger|public.positions.trg_sync_position_dates|enabled=O BEFORE UPDATE OF start_date, end_date ON public.positions FOR EACH ROW EXECUTE FUNCTION sync_position_dates_to_assignments()
 trigger|public.support_tickets.trg_support_tickets_updated_at|enabled=O BEFORE UPDATE ON public.support_tickets FOR EACH ROW EXECUTE FUNCTION support_set_updated_at()
 trigger|public.timesheets.trg_client_activity_on_timesheet|enabled=O AFTER INSERT OR UPDATE ON public.timesheets FOR EACH ROW EXECUTE FUNCTION update_client_last_activity()
 trigger|public.timesheets.trg_jobseeker_activity_on_timesheet|enabled=O AFTER INSERT OR UPDATE ON public.timesheets FOR EACH ROW EXECUTE FUNCTION update_jobseeker_last_activity()

@@ -23,6 +23,7 @@ import {
   sendOtpAPI,
   verifyOtpAPI,
 } from "../../services/api/auth";
+import { authErrorMessage } from "../../services/api/authErrors";
 import { LanguageToggle } from "../../components/LanguageToggle";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { usePortalSetting } from "../../contexts/PortalSettingsContext";
@@ -236,11 +237,7 @@ export function Signup() {
       setShowOtpInput(true);
       setResendTimer(30);
     } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : t("signup.error.failedToSendCode")
-      );
+      setError(authErrorMessage(error, t, "signup.error.failedToSendCode"));
     } finally {
       setIsVerifyingPhone(false);
     }
@@ -260,11 +257,7 @@ export function Signup() {
       setIsPhoneVerified(true);
       setShowOtpInput(false);
     } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : t("signup.error.failedToVerifyCode")
-      );
+      setError(authErrorMessage(error, t, "signup.error.failedToVerifyCode"));
     } finally {
       setIsVerifyingPhone(false);
     }

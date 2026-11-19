@@ -3,10 +3,6 @@
 # then "#" and why. Whether the item goes live is client work, not the safety net's decision.
 # Stale entries fail the comparison: when production gets the object, delete its line here.
 #
-# 028 (position date changes follow to assignments), applied on no production database (portal inbox 4)
-function|public.sync_position_dates_to_assignments()|  # 028
-fngrant|public.sync_position_dates_to_assignments()|  # 028
-trigger|public.positions.trg_sync_position_dates|  # 028
 # has_profile triggers (014 era): production has the function but none of these three triggers
 trigger|public.jobseeker_profiles.trg_jobseeker_profile_delete|  # has_profile
 trigger|public.jobseeker_profiles.trg_jobseeker_profile_insert|  # has_profile
@@ -19,9 +15,3 @@ fngrant|public.update_timesheets_updated_at_column()|  # 005
 trigger|public.timesheets.update_timesheets_updated_at|  # 005
 # 023 weekly log-trim job: GD Workforce has its own (prune_cron_job_run_details), the others have none
 cron|purge-cron-job-run-details|  # 023
-# 035 staff two-step login: the table of verified sessions; delete these lines once 035 is applied to production
-table|public.staff_2fa_sessions|  # 035
-column|public.staff_2fa_sessions.  # 035
-constraint|public.staff_2fa_sessions.  # 035
-index|public.staff_2fa_sessions.  # 035
-grant|public.staff_2fa_sessions|  # 035

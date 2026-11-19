@@ -20,6 +20,9 @@ export const fixedClockServerUrl = () => inject("fixedClockServerUrl");
 /** The third test server, with the staff two-step login enforced (feature flag staff_two_factor_enforced on). */
 export const twoFactorServerUrl = () => inject("twoFactorServerUrl");
 
+/** The fourth test server, with low phone-code rate limits (3 per number, 6 per address, per hour). */
+export const limitedServerUrl = () => inject("limitedServerUrl");
+
 const tokens = new Map<string, string>();
 
 /** Access token of a seeded account; cached for the run. */
@@ -74,13 +77,16 @@ export async function server(
     body?: unknown;
     fixedClock?: boolean;
     twoFactor?: boolean;
+    limited?: boolean;
   } = {}
 ): Promise<Reply> {
-  const base = opts.twoFactor
-    ? twoFactorServerUrl()
-    : opts.fixedClock
-      ? fixedClockServerUrl()
-      : serverUrl();
+  const base = opts.limited
+    ? limitedServerUrl()
+    : opts.twoFactor
+      ? twoFactorServerUrl()
+      : opts.fixedClock
+        ? fixedClockServerUrl()
+        : serverUrl();
   const res = await fetch(`${base}${path}`, {
     method: opts.method ?? "GET",
     headers: {
