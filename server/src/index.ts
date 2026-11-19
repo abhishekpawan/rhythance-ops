@@ -65,7 +65,9 @@ app.use(
     ],
   })
 );
-app.use(express.json());
+// inflate: false rejects compressed request bodies (GHSA-27r3-jxmh-p828, body-parser < 1.20.9).
+// No client of this API sends one.
+app.use(express.json({ inflate: false }));
 
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
