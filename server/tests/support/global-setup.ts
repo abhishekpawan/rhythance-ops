@@ -32,12 +32,19 @@ export default async function setup(project: TestProject) {
   const stack = localStack();
   const server = await startTestServer(stack);
   const fixedServer = await startTestServer(stack, { fixedNow: FIXED_NOW });
+  // third server: the staff two-step login enforced (feature flag forced on for this process only)
+  const twoFactorServer = await startTestServer(stack, {
+    forceFlags: ["staff_two_factor_enforced"],
+  });
   project.provide("stack", stack);
+  project.provide("twoFactorServerUrl", twoFactorServer.url);
+  project.provide("twoFactorOutboundLog", twoFactorServer.outboundLog);
   project.provide("serverUrl", server.url);
   project.provide("outboundLog", server.outboundLog);
   project.provide("serverWorkDir", server.workDir);
   project.provide("fixedClockServerUrl", fixedServer.url);
   return async () => {
+    await twoFactorServer.stop();
     await fixedServer.stop();
     await server.stop();
   };

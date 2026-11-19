@@ -19,3 +19,9 @@ fngrant|public.update_timesheets_updated_at_column()|  # 005
 trigger|public.timesheets.update_timesheets_updated_at|  # 005
 # 023 weekly log-trim job: GD Workforce has its own (prune_cron_job_run_details), the others have none
 cron|purge-cron-job-run-details|  # 023
+# 035 staff two-step login: the table of verified sessions; delete these lines once 035 is applied to production
+table|public.staff_2fa_sessions|  # 035
+column|public.staff_2fa_sessions.  # 035
+constraint|public.staff_2fa_sessions.  # 035
+index|public.staff_2fa_sessions.  # 035
+grant|public.staff_2fa_sessions|  # 035

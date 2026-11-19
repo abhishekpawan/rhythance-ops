@@ -33,7 +33,7 @@ function freePort() {
 /** The only variables the test server gets. Keys for vendors are fake; the database keys are the local demo keys. */
 export function serverEnvironment(
   stack,
-  { port, aiUrl, outboundLog, tsconfig, fixedNow }
+  { port, aiUrl, outboundLog, tsconfig, fixedNow, forceFlags }
 ) {
   return {
     PATH: process.env.PATH ?? "",
@@ -60,6 +60,7 @@ export function serverEnvironment(
     AI_VERIFICATION_URL: aiUrl,
     TEST_OUTBOUND_LOG: outboundLog,
     ...(fixedNow ? { TEST_FIXED_NOW: fixedNow } : {}),
+    ...(forceFlags?.length ? { TEST_FORCE_FLAGS: forceFlags.join(",") } : {}),
     TSX_TSCONFIG_PATH: tsconfig,
   };
 }
@@ -69,7 +70,7 @@ export function serverEnvironment(
  * real clock. The real clock is the default: code that compares "now" with a timestamp the database wrote (for
  * example "created less than 30 seconds ago") needs the two to agree.
  */
-export async function startTestServer(stack, { fixedNow } = {}) {
+export async function startTestServer(stack, { fixedNow, forceFlags } = {}) {
   requireLocal({ database: stack.dbUrl, api: stack.apiUrl });
 
   const workDir = mkdtempSync(path.join(os.tmpdir(), "portal-test-server-"));
@@ -94,6 +95,7 @@ export async function startTestServer(stack, { fixedNow } = {}) {
       outboundLog,
       tsconfig: path.join(SERVER_DIR, "tsconfig.json"),
       fixedNow,
+      forceFlags,
     });
     requireLocal({
       SUPABASE_URL: env.SUPABASE_URL,
@@ -108,6 +110,8 @@ export async function startTestServer(stack, { fixedNow } = {}) {
       new URL("./outbound-guard.mjs", here).href,
       "--import",
       new URL("./fixed-clock.mjs", here).href,
+      "--import",
+      new URL("./force-flags.mjs", here).href,
       path.join(SERVER_DIR, "src/index.ts"),
     ];
     child = spawn(process.execPath, args, {

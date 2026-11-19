@@ -1,0 +1,7 @@
+# Things production HAS whose definition the migration FILES have changed (a newer version waiting to be applied).
+# The comparison accepts exactly production's old line and the files' new line for each prefix below.
+# Stale entries fail the comparison: once the migration is applied to production (and production-listing.txt is
+# refreshed) the two lines are equal, and the entry must be deleted.
+#
+# 036: candidate matching returns each candidate once (portal inbox 11); applied to no database yet
+function|public.find_matching_candidates(  # 036

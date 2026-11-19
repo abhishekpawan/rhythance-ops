@@ -339,7 +339,7 @@ sequenceDiagram
 | Trigger (create) | [`server/src/routes/profile.ts`](../../../server/src/routes/profile.ts) — `POST /api/profile/submit` |
 | Trigger (update) | [`server/src/routes/jobseekers.ts`](../../../server/src/routes/jobseekers.ts) — `PUT /api/jobseekers/profile/:id/update` |
 | Read merge | `GET /api/jobseekers/profile/:id` in same file |
-| External URL | `AI_VERIFICATION_URL` or default Heroku `analyze-profile-documents` ([`server/.env.example`](../../../server/.env.example)) |
+| External URL | `AI_VERIFICATION_URL`, no default: when unset the check is skipped and an error is logged ([`server/.env.example`](../../../server/.env.example)) |
 | Schema | [`server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql`](../../../server/src/db/migration_v2/012_ai_validation_from_godspeed_ops_ai.sql) |
 
 **Returns to UI (`ai_response` fields used):** `document_authentication_percentage`, `is_tampered`, `is_blurry`, `is_text_clear`, `is_resubmission_required`, `notes`; types in [`client/src/types/jobseeker.ts`](../../../client/src/types/jobseeker.ts).

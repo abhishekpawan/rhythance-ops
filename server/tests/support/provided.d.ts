@@ -13,5 +13,7 @@ declare module "vitest" {
     outboundLog: string;
     serverWorkDir: string;
     fixedClockServerUrl: string;
+    twoFactorServerUrl: string;
+    twoFactorOutboundLog: string;
   }
 }

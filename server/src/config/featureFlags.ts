@@ -162,6 +162,40 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
     notes:
       "Previously a code fork in the Godspeed branch. Turn on only for portals that want the lighter rules; Godspeed has it on.",
   },
+  {
+    key: "ai_chat",
+    title: "AI chat in the menu",
+    description:
+      "Shows the AI Chat entry in the side menu for staff. The AI chat service has been switched off on every portal since the AI service was made safe (it answers a notice), so this is off everywhere until the chat is rebuilt.",
+    category: "admin",
+    defaultEnabled: false,
+    wired: true,
+    intended: {
+      godspeed: false,
+      gdworkforce: false,
+      canhire: false,
+      allstaff: false,
+    },
+    notes:
+      "Hides the menu entry only; the /ai-chat page itself still opens and shows the service's notice. Turn it on for a portal when its chat service is working again.",
+  },
+  {
+    key: "staff_two_factor_enforced",
+    title: "Enforce two-step login for staff on the server",
+    description:
+      "Admin and recruiter accounts must enter the phone code before the server accepts their session. Without it the code is only checked by the login screen, so anyone with the password can skip it. Jobseekers are never affected.",
+    category: "admin",
+    defaultEnabled: false,
+    wired: true,
+    intended: {
+      godspeed: false,
+      gdworkforce: false,
+      canhire: false,
+      allstaff: false,
+    },
+    notes:
+      "Turn on per portal after migration 035 is applied to its database. Staff who are signed in when it is turned on are sent back to the login screen once and enter a phone code. Keep it off on the demo portals (the demo login bypasses the code).",
+  },
 ];
 
 const FLAG_BY_KEY = new Map(FEATURE_FLAGS.map((f) => [f.key, f]));

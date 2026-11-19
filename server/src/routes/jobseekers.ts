@@ -16,13 +16,9 @@ import {
 } from "../utils/paymentMethods.js";
 import { getTodayInCanada, addDaysToDateStr } from "../utils/dateUtils.js";
 import { isFeatureEnabled } from "../services/featureFlags.js";
+import { sendDocumentsToAiCheck } from "../services/aiVerification.js";
 
 dotenv.config();
-
-// Get AI verification service URL from environment variables
-const aiVerificationUrl =
-  process.env.AI_VERIFICATION_URL ||
-  "https://ai-verification-ff5a17fb5c4a.herokuapp.com/analyze-profile-documents";
 
 // Type definition for the document structure within the JSONB column
 interface DocumentRecord {
@@ -1605,60 +1601,17 @@ router.put(
       // Store the updated profile for activity logging
       res.locals.updatedProfile = updatedProfile;
 
-      console.log(updateData);
-
-      // Send profile data to AI verification service asynchronously (fire-and-forget)
-      // This runs in the background and doesn't block the response
-      (async () => {
-        try {
-          console.log(
-            `Sending updated profile data to AI verification service at: ${aiVerificationUrl}`
-          );
-
-          // Create payload with user_id included
-          const verificationPayload = {
-            ...updateData,
-            user_id: existingProfile.user_id, // Add the user_id to the payload
-          };
-
-          // Extract the authorization header from the original request
-          const authHeader = req.headers.authorization;
-          console.log("authHeader", authHeader);
-          const headers: Record<string, string> = {
-            "Content-Type": "application/json",
-          };
-
-          // Add the bearer token if available
-          if (authHeader) {
-            headers["Authorization"] = authHeader;
-          }
-
-          const verificationResponse = await fetch(aiVerificationUrl, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(verificationPayload),
-          });
-
-          if (verificationResponse.ok) {
-            const verificationResult = await verificationResponse.json();
-            console.log(
-              "AI verification service response:",
-              verificationResult
-            );
-          } else {
-            console.error(
-              "AI verification service error:",
-              verificationResponse.status,
-              await verificationResponse.text()
-            );
-          }
-        } catch (verificationError) {
-          console.error(
-            "Error sending data to AI verification service:",
-            verificationError
-          );
-        }
-      })();
+      // Send the documents to the AI document check in the background (see services/aiVerification.ts)
+      if (Array.isArray(updateData.documents)) {
+        void sendDocumentsToAiCheck(
+          {
+            id,
+            user_id: existingProfile.user_id,
+            documents: updateData.documents,
+          },
+          req.headers.authorization
+        );
+      }
 
       // Return response immediately without waiting for AI verification
       res.json({

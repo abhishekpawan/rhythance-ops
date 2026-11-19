@@ -38,17 +38,30 @@ export function readAllowances(file) {
  * @param {string[]} ahead prefixes from files-ahead-of-production.txt
  * @returns {{missing: string[], extra: string[], staleAllowances: string[]}}
  */
-export function compareListings(production, local, ahead) {
+export function compareListings(production, local, ahead, changed = []) {
   const prod = new Set(
     production.filter((l) => !NOT_COVERED.some((re) => re.test(l)))
   );
   const loc = new Set(local);
-  const missing = [...prod].filter((l) => !loc.has(l)).sort();
+  const missingAll = [...prod].filter((l) => !loc.has(l)).sort();
   const extraAll = [...loc].filter((l) => !prod.has(l)).sort();
-  const extra = extraAll.filter((l) => !ahead.some((p) => l.startsWith(p)));
-  const staleAllowances = ahead.filter(
-    (p) => !extraAll.some((l) => l.startsWith(p))
+  const isChanged = (l) => changed.some((p) => l.startsWith(p));
+  // "changed": the files hold a newer definition of something production has (listed in
+  // changed-ahead-of-production.txt): production's old line and the files' new line are both accepted.
+  const missing = missingAll.filter((l) => !isChanged(l));
+  const extra = extraAll.filter(
+    (l) => !ahead.some((p) => l.startsWith(p)) && !isChanged(l)
   );
+  const staleAllowances = [
+    ...ahead.filter((p) => !extraAll.some((l) => l.startsWith(p))),
+    ...changed.filter(
+      (p) =>
+        !(
+          missingAll.some((l) => l.startsWith(p)) &&
+          extraAll.some((l) => l.startsWith(p))
+        )
+    ),
+  ];
   return { missing, extra, staleAllowances };
 }
 
@@ -90,7 +103,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const result = compareListings(
     readLines(path.join(here, "production-listing.txt")),
     await listLocal(),
-    readAllowances(path.join(here, "files-ahead-of-production.txt"))
+    readAllowances(path.join(here, "files-ahead-of-production.txt")),
+    readAllowances(path.join(here, "changed-ahead-of-production.txt"))
   );
   const text = formatResult(result);
   if (text) {
@@ -98,6 +112,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   }
   console.log(
-    "schema matches production (apart from the items 032 lists as not covered and files-ahead-of-production.txt)"
+    "schema matches production (apart from the items 032 lists as not covered, files-ahead-of-production.txt and changed-ahead-of-production.txt)"
   );
 }

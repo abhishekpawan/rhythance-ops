@@ -57,6 +57,9 @@ An on/off switch for behaviour that only some portals want.
 | `hide_jobseeker_pay_rate` | Hides pay rate and bill rate in the jobseeker Compensation step | off | GD Workforce |
 | `jobseeker_profile_godspeed_rules` | Lighter jobseeker profile rules (licence number required, SIN and most address/qualification/compensation fields optional, document rule driver's licence or passport), in the forms and on the server | off | Godspeed |
 
+| `ai_chat` | Shows the AI Chat entry in the side menu (the chat service is switched off on every portal, so the entry is hidden) | off | none |
+| `staff_two_factor_enforced` | The server refuses staff sessions that have not passed the phone code ([role-access-control.md](role-access-control.md#two-step-login-staff)); needs migration 035 first | off | none yet |
+
 The Feature Flags page shows the intended state per portal next to the real one.
 
 ### Adding a flag
@@ -111,7 +114,7 @@ Server (`server/.env`, see `.env.example`):
 | `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_KEY` | The portal's database; the service key is a secret |
 | `SENDGRID_API_KEY` | Email delivery (secret) |
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_VERIFY_SERVICE_SID` | SMS codes for phone verification and 2FA (secrets) |
-| `AI_VERIFICATION_URL` | The portal's AI service, used for document verification |
+| `AI_VERIFICATION_URL` | The portal's AI service, used for document verification. No default: unset means documents are not checked and the server logs an error |
 | `ENCRYPTION_KEY`, `ENCRYPTION_IV` | Read by `server/src/utils/encryption.ts`, which refuses to load without them. Nothing imports that helper today (secrets; see [TODO.md](TODO.md)) |
 | `PORTAL_NAME`, `NO_REPLY_FROM_EMAIL`, `ASSIGNMENT_FROM_EMAIL`, `DEFAULT_FROM_EMAIL`, `INVOICE_CC_EMAILS`, `SUPPORT_NOTIFY_TO`, `SUPPORT_NOTIFY_CC` | **Fallbacks** for portal settings; used only when the setting is empty. To be removed once every portal has its settings filled in |
 

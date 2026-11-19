@@ -303,14 +303,17 @@ BEGIN
             jp.weekend_availability,
             jp.availability,
             jp.bio_embedding,
-            CASE WHEN pca.candidate_id IS NULL THEN TRUE ELSE FALSE END AS is_available
+            -- busy = has an active or upcoming assignment overlapping the position's dates.
+            -- NOT EXISTS (not a join) so a candidate with two overlapping assignments is one row.
+            NOT EXISTS (
+                SELECT 1
+                FROM position_candidate_assignments pca
+                WHERE pca.candidate_id = jp.user_id  -- user_id, not the profile id
+                AND pca.status IN ('active', 'upcoming')
+                AND daterange(pca.start_date, COALESCE(pca.end_date, 'infinity'::date), '[]')
+                    && daterange(v_start_date, COALESCE(v_end_date, 'infinity'::date), '[]')
+            ) AS is_available
         FROM jobseeker_profiles jp
-        -- LEFT JOIN: if match found, candidate is busy; NULL means available
-        LEFT JOIN position_candidate_assignments pca
-            ON pca.candidate_id = jp.user_id  -- Now correctly using user_id
-            AND pca.status IN ('active', 'upcoming')
-            AND daterange(pca.start_date, COALESCE(pca.end_date, 'infinity'::date), '[]') 
-                && daterange(v_start_date, COALESCE(v_end_date, 'infinity'::date), '[]')
         WHERE jp.verification_status = 'verified'
         AND jp.bio_embedding IS NOT NULL
     ),

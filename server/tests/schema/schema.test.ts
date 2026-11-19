@@ -1,5 +1,5 @@
 // The schema built from migration_v2 is production's schema (apart from what 032 lists as not covered and
-// files-ahead-of-production.txt), and 032, 033 and 034 can run again without changing anything.
+// files-ahead-of-production.txt), and 032 to 035 can run again without changing anything.
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,10 +19,18 @@ import { stack } from "../support/api";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const production = readLines(path.join(here, "production-listing.txt"));
 const ahead = readAllowances(path.join(here, "files-ahead-of-production.txt"));
+const changed = readAllowances(
+  path.join(here, "changed-ahead-of-production.txt")
+);
 
 describe("schema comparison", () => {
   it("matches production", async () => {
-    const result = compareListings(production, await listLocal(), ahead);
+    const result = compareListings(
+      production,
+      await listLocal(),
+      ahead,
+      changed
+    );
     expect(formatResult(result), "differences").toBe("");
   });
 
@@ -47,6 +55,34 @@ describe("schema comparison", () => {
     expect(compareListings(production, local, ahead).staleAllowances).toEqual(
       ahead
     );
+  });
+
+  it("accepts a newer definition in the files only while production still has the old one", () => {
+    const fn = "function|public.find_matching_candidates(";
+    const old = production.find((l) => l.startsWith(fn)) as string;
+    const newer = old.replace(/body=\w+$/, "body=0");
+    const covered = production.filter(
+      (l) => !NOT_COVERED.some((re) => re.test(l))
+    );
+    const local = [...covered.filter((l) => l !== old), newer];
+    expect(compareListings(production, local, [], [fn])).toEqual({
+      missing: [],
+      extra: [],
+      staleAllowances: [],
+    });
+    // without the allowance both lines are reported
+    const bare = compareListings(production, local, [], []);
+    expect(bare.missing).toEqual([old]);
+    expect(bare.extra).toEqual([newer]);
+    // once production has the new definition the allowance is stale and must go
+    expect(
+      compareListings(
+        [...covered.filter((l) => l !== old), newer],
+        local,
+        [],
+        [fn]
+      ).staleAllowances
+    ).toEqual([fn]);
   });
 
   it("ignores exactly the items 032 lists as not covered", () => {
@@ -80,13 +116,14 @@ describe("schema comparison", () => {
   });
 });
 
-describe("migrations 032, 033 and 034 run twice", () => {
+describe("migrations 032 to 035 run twice", () => {
   it("change nothing the second time, and nothing fails", async () => {
     const before = (await listLocal()).sort();
     for (const file of [
       "032_catch_up_to_production.sql",
       "033_close_public_access.sql",
       "034_roles_from_app_metadata.sql",
+      "035_staff_two_factor.sql",
       "032_catch_up_to_production.sql",
     ]) {
       const r = psql(stack().dbUrl, { file: path.join(MIGRATIONS_DIR, file) });

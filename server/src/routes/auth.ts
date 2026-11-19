@@ -6,6 +6,8 @@ import twilio from "twilio";
 import { activityLogger } from "../middleware/activityLogger.js";
 import { getPortalSettingSync } from "../services/portalSettings.js";
 import { createSignInClient } from "../utils/signInClient.js";
+import { isRecruiterEmail } from "../utils/recruiterEmail.js";
+import { pinnedPhone, recordVerifiedSession, sessionIdFromToken } from "../services/staffTwoFactor.js";
 import { roleAppMetadata, PortalUserType } from "../utils/trustedRoles.js";
 
 dotenv.config();
@@ -41,27 +43,6 @@ const normalizeToE164 = (phone?: string) => {
   if (!phone) return phone;
   const trimmed = String(phone).replace(/\s+/g, "");
   return trimmed.startsWith("+") ? trimmed : `+${trimmed}`;
-};
-
-const settingList = (key: string): string[] =>
-  getPortalSettingSync(key)
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
-
-// Helper function to check if user is a recruiter based on email. The list comes
-// from this portal's settings (Portal Settings > Access); nothing is hard-coded.
-const isRecruiterEmail = (rawEmail: string): boolean => {
-  // Case does not matter: "Admin@Email.com" is the same address as "admin@email.com".
-  const email = String(rawEmail ?? "").trim().toLowerCase();
-  const list = (key: string) => settingList(key).map((item) => item.toLowerCase());
-  if (list("access.staffEmailExcluded").includes(email)) return false;
-  // An entry ending with "$" must match the end of the email (@email.com$).
-  return list("access.staffEmailContains").some((part) =>
-    part.endsWith("$")
-      ? email.endsWith(part.slice(0, -1))
-      : email.includes(part)
-  );
 };
 
 // Send phone verification code
@@ -332,7 +313,11 @@ router.post(
         try {
           await supabase.auth.admin.updateUserById(user.id, {
             user_metadata: updatedMeta,
-            app_metadata: roleAppMetadata(userType as PortalUserType, userMetadata.user_role),
+            app_metadata: {
+              ...roleAppMetadata(userType as PortalUserType, userMetadata.user_role),
+              // Staff phone code is checked against this number (users cannot edit app_metadata)
+              ...(userType === "recruiter" && normalizedPhone ? { twofa_phone: normalizedPhone } : {}),
+            },
             ...(normalizedPhone ? { phone: normalizedPhone as any } : {}),
           });
         } catch (metaUpdateErr) {
@@ -354,180 +339,6 @@ router.post(
     }
   }
 );
-
-// Login user
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
-
-    const { data, error } = await createSignInClient().auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      return res.status(401).json({ error: error.message });
-    }
-
-    return res.status(200).json({
-      message: "Login successful",
-      user: data.user,
-      session: data.session,
-    });
-  } catch (error) {
-    console.error("Login error:", error);
-    return res.status(500).json({ error: "Login failed" });
-  }
-});
-
-// New endpoint: Validate credentials without creating session (for 2FA flow)
-router.post("/validate-credentials", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
-
-    // Determine if user is a recruiter or admin based on email
-    const isRecruiterOrAdmin = isRecruiterEmail(email);
-
-    // For recruiters or admins, we validate credentials without creating a session
-    if (isRecruiterOrAdmin) {
-      // First, try to sign in to validate credentials
-      const signInClient = createSignInClient();
-      const { data, error } = await signInClient.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        // Check if the error is specifically due to unconfirmed email (not invalid credentials)
-        const isEmailNotConfirmed =
-          (error.message === "Email not confirmed" ||
-            (error as any).code === "email_not_confirmed" ||
-            error.message?.toLowerCase().includes("email not confirmed")) &&
-          (error as any).code !== "invalid_credentials" &&
-          error.message !== "Invalid login credentials";
-
-        if (isEmailNotConfirmed) {
-          // Get user by email to verify if email is actually not confirmed
-          const {
-            data: { users },
-            error: listError,
-          } = await supabase.auth.admin.listUsers();
-          if (!listError && users) {
-            const user = users.find((u) => u.email === email);
-            if (user && !user.email_confirmed_at) {
-              return res.status(200).json({
-                message: "Email not confirmed",
-                requiresTwoFactor: false,
-                emailVerified: false,
-                user: user,
-                email: email,
-              });
-            }
-          }
-        }
-        return res.status(401).json({ error: error.message });
-      }
-
-      // Immediately sign out to invalidate the session
-      await signInClient.auth.signOut();
-
-      // Return user data without session for 2FA flow
-      return res.status(200).json({
-        message: "Credentials validated - 2FA required",
-        requiresTwoFactor: true,
-        emailVerified: true,
-        user: data.user,
-        // Don't return session data
-      });
-    }
-
-    // For non-recruiters, proceed with normal login
-    const { data, error } = await createSignInClient().auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      // Check if the error is specifically due to unconfirmed email (not invalid credentials)
-      const isEmailNotConfirmed =
-        (error.message === "Email not confirmed" ||
-          (error as any).code === "email_not_confirmed" ||
-          error.message?.toLowerCase().includes("email not confirmed")) &&
-        (error as any).code !== "invalid_credentials" &&
-        error.message !== "Invalid login credentials";
-
-      if (isEmailNotConfirmed) {
-        // Get user by email to verify if email is actually not confirmed
-        const {
-          data: { users },
-          error: listError,
-        } = await supabase.auth.admin.listUsers();
-        if (!listError && users) {
-          const user = users.find((u) => u.email === email);
-          if (user && !user.email_confirmed_at) {
-            return res.status(200).json({
-              message: "Email not confirmed",
-              requiresTwoFactor: false,
-              emailVerified: false,
-              user: user,
-              email: email,
-            });
-          }
-        }
-      }
-      return res.status(401).json({ error: error.message });
-    }
-
-    return res.status(200).json({
-      message: "Login successful",
-      requiresTwoFactor: false,
-      emailVerified: true,
-      user: data.user,
-      session: data.session,
-    });
-  } catch (error) {
-    console.error("Validate credentials error:", error);
-    return res.status(500).json({ error: "Credential validation failed" });
-  }
-});
-
-// Complete 2FA and create session
-router.post("/complete-2fa", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
-
-    // Create the actual session after successful 2FA
-    const { data, error } = await createSignInClient().auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      return res.status(401).json({ error: error.message });
-    }
-
-    return res.status(200).json({
-      message: "2FA completed - Login successful",
-      user: data.user,
-      session: data.session,
-    });
-  } catch (error) {
-    console.error("Complete 2FA error:", error);
-    return res.status(500).json({ error: "Failed to complete 2FA login" });
-  }
-});
 
 // Logout user
 router.post("/logout", async (req, res) => {
@@ -734,14 +545,28 @@ router.post(
           phone: phoneNumber as any,
         });
       }
+      // First onboarding of invited staff: this number becomes the one their phone code is checked
+      // against (changing it later is not possible from here), and this session counts as verified
+      // (they proved the number with a code on the previous screen).
+      const pinsPhone =
+        !!phoneNumber && !pinnedPhone(current.user as any);
       const { error: metaErr } = await supabase.auth.admin.updateUserById(
         userId,
         {
           user_metadata: updatedMeta,
+          ...(pinsPhone ? { app_metadata: { twofa_phone: phoneNumber } } : {}),
         }
       );
       if (metaErr) {
         return res.status(400).json({ error: "Failed to update profile" });
+      }
+      const sessionId = sessionIdFromToken(
+        String(req.headers.authorization ?? "").split(" ")[1] ?? ""
+      );
+      if (pinsPhone && sessionId) {
+        await recordVerifiedSession(userId, sessionId).catch((e) =>
+          console.error("Onboarding session record error:", e)
+        );
       }
 
       return res.status(200).json({ success: true });

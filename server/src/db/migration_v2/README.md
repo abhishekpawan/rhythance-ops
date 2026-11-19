@@ -48,10 +48,14 @@ or, on macOS/Linux: `ls server/src/db/migration_v2/*.sql | sort`
 | `032_catch_up_to_production.sql` | Catch-up: what the four production databases have and files 000 to 031 lack (see below). **New databases only; refuses to run without an explicit opt-in; never run on a live database.** |
 | `033_close_public_access.sql` | Closes access the public key and signed-in users should not have: account and schema functions become server-only, `ai_validation` gets row security (owner and staff), the activity feed is staff-only, the anonymous consent-update policy and anonymous read of `jobseeker-documents` are removed. Skips anything a database lacks |
 | `034_roles_from_app_metadata.sql` | Roles are decided from `app_metadata` (only the server can write it), not `user_metadata` (users can edit their own): copies each account's role, gives new accounts the jobseeker role until the server sets another, role helpers and `list_auth_users` read it; storage rules for jobseeker documents (staff, uploader, the jobseeker whose profile lists the file), signed consent PDFs (staff) and invoice files (staff, uploader); email/phone lookups server-only. **Run after the server version that writes `app_metadata` is deployed** |
+| `035_staff_two_factor.sql` | Staff two-step login on the server: table `staff_2fa_sessions` (server only) and each staff phone number copied to `app_metadata.twofa_phone`. Changes nothing visible until the flag `staff_two_factor_enforced` is switched on |
+| `036_matching_one_row_per_candidate.sql` | `find_matching_candidates` lists each candidate once (it listed a candidate once per overlapping assignment); same body as in 032 |
 
 Run **every file once, in order, on each portal's database**, then that portal's seed from `../seeds/` (see `../seeds/README.md`).
 
 **032 is different:** it is for a NEW database only and refuses to run unless the session sets `rhythence.catch_up = 'new-database'`. Live databases already have what it holds; do not run it on them.
+
+**035** (stage: applied 2026-11-19; production: not yet, with Abhishek's yes; it changes nothing until the flag is switched on) and **036** (applied nowhere yet, stage first) are the newest; **028 is applied nowhere** (inbox 4).
 
 **Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet. **032 is applied nowhere** (it was written for a database built from these files; see below).
 

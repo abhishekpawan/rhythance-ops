@@ -260,7 +260,6 @@ export const validateCredentialsAPI = async (
   password: string
 ) => {
   try {
-    // Clear caches before validation
     clearTokenCache();
     clearRequestCache();
     const response = await api.post("/api/auth/validate-credentials", {
@@ -279,11 +278,12 @@ export const validateCredentialsAPI = async (
 };
 
 // New function for completing 2FA and creating session
-export const complete2FAAPI = async (email: string, password: string) => {
+export const complete2FAAPI = async (email: string, password: string, code: string) => {
   try {
     const response = await api.post("/api/auth/complete-2fa", {
       email,
       password,
+      code,
     });
     return response.data;
   } catch (error) {

@@ -8,7 +8,7 @@ Build check (Nov 2026): `tsc --noEmit` passes with no errors on both `client` an
 
 **Platform & Access**
 - Authentication and account lifecycle: Users can register, log in, verify email/phone, reset passwords, complete onboarding, and fetch their current session/profile. Access: all user types. Status: **Fully working**.
-- Internal 2FA: Internal users are required to verify by phone OTP after password login. Access: admin/recruiter-type internal users. Status: **Partially built** because the password is temporarily carried through client route state during 2FA.
+- Internal 2FA: Internal users are required to verify by phone OTP after password login. Access: admin/recruiter-type internal users. Status: **Partially built**: the phone code is checked by the server when the flag `staff_two_factor_enforced` is on (off by default until each portal is switched), and the password is still carried through client route state between the two steps.
 - Role-based access control: Routes, menus, and backend middleware restrict features by role; a `superadmin` value unlocks the configuration pages. Access: all roles. Status: **Partially built** because several frontend/backend role rules do not match (see [role-access-control.md](role-access-control.md)). *(Nov 2026)*
 - Jobseeker onboarding gates: Jobseekers are forced through employment agreement, profile creation, pending, rejected, or verified flows. Access: jobseeker. Status: **Fully working**.
 - Internal user invitations and hierarchy: Admin-style users can invite recruiters/internal users, assign managers, and manage user roles/hierarchy. Access: admin, recruiter managers/directors in UI. Status: **Partially built** due permission mismatches with backend.
@@ -84,7 +84,7 @@ _Module layout (May 2026):_ Client code lives under `client/src/pages/TimesheetM
 - Legal pages: Terms and privacy pages exist as public routes. Access: public/all users. Status: **Fully working**.
 
 **AI Features**
-- AI chat page: Internal users can open an embedded external AI chat app in an iframe. The page title is the Portal Setting `branding.aiChatTitle`; the address is `VITE_AI_CHAT_URL` or a built-in default. Access: internal staff roles. Status: **Partially built** because the main app delegates functionality to an external service. *(Nov 2026)*
+- AI chat page: Internal users can open an embedded external AI chat app in an iframe. The page title is the Portal Setting `branding.aiChatTitle`; the address is `VITE_AI_CHAT_URL` or a built-in default. Access: internal staff roles. Status: **Partially built** because the main app delegates functionality to an external service; the chat service is switched off on every portal and the menu entry is hidden by the feature flag `ai_chat` (off). *(Nov 2026)*
 - Floating AI chat widget: A richer streaming chat component exists. Access: would be internal users. Status: **Scaffolded/stubbed**; it is commented out in `App.tsx`.
 - AI document validation: Profile create/update calls an AI validation service asynchronously for uploaded documents. Access: jobseeker/profile flows. Status: **Partially built** because failures are logged but do not affect user flow.
 - AI candidate matching infrastructure: Vector/embedding schema and candidate matching behavior exist. Access: placement roles. Status: **Partially built** because it depends on optional DB embedding functions/services.

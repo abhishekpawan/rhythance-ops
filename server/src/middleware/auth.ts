@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import { withTrustedRoles } from '../utils/trustedRoles.js';
+import { staffSessionGate } from '../services/staffTwoFactor.js';
 
 dotenv.config();
 
@@ -121,6 +122,15 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
     // Role fields come from app_metadata (users can edit their own user_metadata)
     req.user = withTrustedRoles(data.user) as any;
+
+    // Staff sessions must have passed the phone code (when the portal enforces it): see staffTwoFactor.ts
+    const gate = await staffSessionGate(data.user, token, req.originalUrl.split('?')[0]);
+    if (gate === 'refuse') {
+      return res.status(401).json({ error: 'Phone verification required', code: 'TWO_FACTOR_REQUIRED' });
+    }
+    if (gate === 'unavailable') {
+      return res.status(503).json({ error: 'Could not check the sign-in, try again' });
+    }
     next();
   } catch (error) {
     console.error('Authentication error:', error);

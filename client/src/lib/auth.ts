@@ -384,24 +384,16 @@ export const validateCredentials = async (email: string, password: string) => {
 export const complete2FA = async (
   email: string,
   password: string,
-  rememberMe: boolean = false
+  code: string
 ) => {
-  const result = await complete2FAAPI(email, password);
+  // The server checks the phone code itself and only then returns a session
+  const result = await complete2FAAPI(email, password, code);
 
   if (result.session) {
-    // Set the session in Supabase
     await supabase.auth.setSession({
       access_token: result.session.access_token,
       refresh_token: result.session.refresh_token,
     });
-
-    if (rememberMe) {
-      // Configure persistent session (30 days)
-      await supabase.auth.setSession({
-        access_token: result.session.access_token,
-        refresh_token: result.session.refresh_token,
-      });
-    }
   }
 
   return result;

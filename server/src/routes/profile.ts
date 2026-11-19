@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { sendDocumentsToAiCheck } from "../services/aiVerification.js";
 import { authenticateToken } from "../middleware/auth.js";
 import { createClient } from "@supabase/supabase-js";
 import {
@@ -26,11 +27,6 @@ const router = Router();
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
-
-// Get AI verification service URL from environment variables
-const aiVerificationUrl =
-  process.env.AI_VERIFICATION_URL ||
-  "https://ai-verification-ff5a17fb5c4a.herokuapp.com/analyze-profile-documents";
 
 if (!supabaseUrl || !supabaseKey) {
   console.error("Missing Supabase credentials");
@@ -661,51 +657,15 @@ router.post(
         .delete()
         .eq("user_id", userId);
 
-      // Send profile data to AI verification service asynchronously (fire-and-forget)
-      // This runs in the background and doesn't block the response
-      (async () => {
-        try {
-          console.log(
-            `Sending profile data to AI verification service at: ${aiVerificationUrl}`
-          );
-
-          // Extract the authorization header from the original request
-          const authHeader = req.headers.authorization;
-          const headers: Record<string, string> = {
-            "Content-Type": "application/json",
-          };
-
-          // Add the bearer token if available
-          if (authHeader) {
-            headers["Authorization"] = authHeader;
-          }
-
-          const verificationResponse = await fetch(aiVerificationUrl, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(finalProfileData),
-          });
-
-          if (verificationResponse.ok) {
-            const verificationResult = await verificationResponse.json();
-            console.log(
-              "AI verification service response:",
-              verificationResult
-            );
-          } else {
-            console.error(
-              "AI verification service error:",
-              verificationResponse.status,
-              await verificationResponse.text()
-            );
-          }
-        } catch (verificationError) {
-          console.error(
-            "Error sending data to AI verification service:",
-            verificationError
-          );
-        }
-      })();
+      // Send the documents to the AI document check in the background (see services/aiVerification.ts)
+      void sendDocumentsToAiCheck(
+        {
+          id: data && data.length > 0 ? data[0].id : null,
+          user_id: finalProfileData.user_id,
+          documents: finalProfileData.documents,
+        },
+        req.headers.authorization
+      );
 
       // Return response immediately without waiting for AI verification
       return res.status(200).json({

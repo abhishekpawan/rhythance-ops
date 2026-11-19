@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
 import authRoutes from "./routes/auth.js";
+import authSignInRoutes from "./routes/authSignIn.js";
 import userRoutes from "./routes/user.js";
 import profileRoutes from "./routes/profile.js";
 import jobseekersRoutes from "./routes/jobseekers.js";
@@ -94,6 +95,7 @@ app.get("/health", (req, res) => {
 });
 
 // Auth routes
+app.use("/api/auth", authSignInRoutes);
 app.use("/api/auth", authRoutes);
 
 // User routes

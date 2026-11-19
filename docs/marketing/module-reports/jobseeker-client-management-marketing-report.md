@@ -157,7 +157,7 @@ flowchart TD
 
 **Trigger (async, fire-and-forget):** after `POST /api/profile/submit` and `PUT /api/jobseekers/profile/:id/update`.
 
-**Outbound:** POST to `AI_VERIFICATION_URL` or default Heroku `.../analyze-profile-documents` with full profile payload + forwarded `Authorization` header.
+**Outbound:** POST to `AI_VERIFICATION_URL` (no default; skipped with a logged error when unset) with only the profile id, user id and documents + the user's own `Authorization` header (`server/src/services/aiVerification.ts`).
 
 **Inbound:** Response is logged only; external service expected to write **`ai_validation`** table.
 

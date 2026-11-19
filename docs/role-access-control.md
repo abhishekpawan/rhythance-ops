@@ -150,6 +150,23 @@ These routes inherit the menu-page access above.
 - Legacy metadata roles are still normalized:
   - `manager` -> `recruiter_manager`
   - `accountant` -> `bookkeeper`
+- A user's role is read from `app_metadata` (only the server can write it), never from `user_metadata`, which users can edit about themselves (migration 034, `server/src/utils/trustedRoles.ts`). Promote someone by writing `app_metadata.user_type` and `user_role`.
+
+## Two-step login (staff)
+
+Admin and recruiter accounts enter a phone code after the password; jobseekers sign in with email and password only and are never affected. The login screen alone cannot enforce this, because the browser holds Supabase's public key and can sign in to Supabase directly. The server therefore enforces it when the feature flag `staff_two_factor_enforced` is on for the portal (default off):
+
+- `POST /api/auth/validate-credentials` answers a staff account with `requiresTwoFactor: true` and **no session**. Staff are recognised by their role in `app_metadata`, not by their email.
+- `POST /api/auth/complete-2fa` takes email, password and the code, checks the code with Twilio against the number **on file** (`app_metadata.twofa_phone`, written by migration 035, sign-up and first onboarding; the number in `user_metadata` is only a fallback for an account without a pinned one), then signs in and records the new session in `staff_2fa_sessions`. A missing or wrong code gives a 400 and no session.
+- `authenticateToken` refuses a staff token whose session is not in `staff_2fa_sessions` (401 `TWO_FACTOR_REQUIRED`; the client signs out and returns to login). A recorded session is accepted for 90 days. If the lookup itself fails the answer is 503, not 401, so a database hiccup does not sign everyone out. If migration 035 is missing the check is skipped.
+- `POST /api/auth/login` (password only) refuses staff with 403.
+- An invited staff member, who arrives with a session from the email link and has no number on file yet, may call `POST /api/auth/complete-onboarding` once; it pins the number and records that session.
+
+Code: `server/src/services/staffTwoFactor.ts`, `server/src/routes/authSignIn.ts`, `server/src/middleware/auth.ts`. Tests: `server/tests/access/staff-two-factor.test.ts`.
+
+**Turning it on for a portal:** apply migration 035 to its database, deploy the server and client, then switch the flag on in Feature Flags. Staff who are signed in at that moment are sent back to the login screen once. **If something goes wrong:** switch the flag off (Feature Flags), or if nobody can sign in, `delete from feature_flags where key = 'staff_two_factor_enforced'` in that database. Keep it off on the demo portals: the demo login signs in directly and would be refused.
+
+Not covered: with only the password, someone can still use Supabase's data API as a staff user (row security still applies); closing that means making `has_role` / `is_admin` in the database require a recorded session too (a separate step, `ops/inbox.md`).
 
 ## Action-Level Permissions
 

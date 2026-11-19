@@ -377,6 +377,7 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
     "subcategory_positions",
     true
   );
+  const aiChatEnabled = useFeatureFlag("ai_chat", false);
   const navigate = useNavigate();
   const menuRef = useRef<HTMLElement>(null);
   const menuItemsRef = useRef<HTMLUListElement>(null);
@@ -840,10 +841,9 @@ export function HamburgerMenu({ isOpen, onClose, onOpen }: HamburgerMenuProps) {
   const getFilteredMenuItems = (): MenuItem[] => {
     return allMenuItems
       .filter((item) => {
-        if (item.requiresSuperAdmin && !isSuperAdmin) {
-          return false;
-        }
+        if (item.requiresSuperAdmin && !isSuperAdmin) return false;
 
+        if (item.path === "/ai-chat" && !aiChatEnabled) return false; // flag ai_chat
         // Handle authentication requirement
         if (isAuthenticated) {
           if (item.requiresAuth === false) return false; // Don't show login/signup when authenticated

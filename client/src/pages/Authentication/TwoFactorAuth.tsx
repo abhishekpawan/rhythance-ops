@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { Shield, CheckCircle } from "lucide-react";
-import { sendOtpAPI, verifyOtpAPI } from "../../services/api/auth";
+import { sendOtpAPI } from "../../services/api/auth";
 import { complete2FA } from "../../lib/auth";
 import "../../styles/variables.css";
 import "../../styles/pages/TwoFactorAuth.css";
@@ -18,7 +18,6 @@ export function TwoFactorAuth() {
   const user = location.state?.user;
   const email = location.state?.email;
   const password = location.state?.password;
-  const rememberMe = location.state?.rememberMe;
   const phoneNumber = user?.user_metadata?.phoneNumber;
   
   // Check if we have all required data (should only be present from login redirect)
@@ -73,12 +72,8 @@ export function TwoFactorAuth() {
     setError(null);
 
     try {
-      // First verify the OTP
-      await verifyOtpAPI(phoneNumber, otpCode);
-      
-      // After successful OTP verification, complete the 2FA process
-      // This will create the actual session
-      await complete2FA(email, password, rememberMe);
+      // The server checks the code against the phone number on file, then creates the session
+      await complete2FA(email, password, otpCode);
       
       // 2FA verification successful, proceed to dashboard
       navigate("/dashboard");
@@ -89,7 +84,7 @@ export function TwoFactorAuth() {
     } finally {
       setIsVerifying(false);
     }
-  }, [phoneNumber, otpCode, email, password, rememberMe, navigate, t]);
+  }, [phoneNumber, otpCode, email, password, navigate, t]);
 
   // Auto-send OTP on component mount - only if we have complete required state
   useEffect(() => {

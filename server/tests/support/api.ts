@@ -17,6 +17,9 @@ export const serverUrl = () => inject("serverUrl");
 /** The second test server, whose clock stands still at 10:00 on 17 November 2026 in Toronto (for date-based answers). */
 export const fixedClockServerUrl = () => inject("fixedClockServerUrl");
 
+/** The third test server, with the staff two-step login enforced (feature flag staff_two_factor_enforced on). */
+export const twoFactorServerUrl = () => inject("twoFactorServerUrl");
+
 const tokens = new Map<string, string>();
 
 /** Access token of a seeded account; cached for the run. */
@@ -70,21 +73,24 @@ export async function server(
     method?: string;
     body?: unknown;
     fixedClock?: boolean;
+    twoFactor?: boolean;
   } = {}
 ): Promise<Reply> {
-  const res = await fetch(
-    `${opts.fixedClock ? fixedClockServerUrl() : serverUrl()}${path}`,
-    {
-      method: opts.method ?? "GET",
-      headers: {
-        ...(opts.token ? { Authorization: `Bearer ${opts.token}` } : {}),
-        ...(opts.body !== undefined
-          ? { "Content-Type": "application/json" }
-          : {}),
-      },
-      body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
-    }
-  );
+  const base = opts.twoFactor
+    ? twoFactorServerUrl()
+    : opts.fixedClock
+      ? fixedClockServerUrl()
+      : serverUrl();
+  const res = await fetch(`${base}${path}`, {
+    method: opts.method ?? "GET",
+    headers: {
+      ...(opts.token ? { Authorization: `Bearer ${opts.token}` } : {}),
+      ...(opts.body !== undefined
+        ? { "Content-Type": "application/json" }
+        : {}),
+    },
+    body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+  });
   return reply(res);
 }
 
