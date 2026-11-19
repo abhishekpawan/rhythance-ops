@@ -16,6 +16,7 @@ import { getDropdownOptions } from '../../services/api/dropdownOptions';
 import { useColumnSearch } from "../../hooks/useColumnSearch";
 import { ReportTableToolbar } from "../../components/ReportTableToolbar";
 import { ColumnSearchInput } from "../../components/ColumnSearchInput";
+import { weeklyTimesheetSubTotal } from "./weeklyTimesheetCalc";
 
 
 // Define the columns and headers as used in the UI table and CSV export (matching old CSV structure)
@@ -44,14 +45,7 @@ const getTableColumns = (_t: (key: string) => string): { key: string; label: str
   { key: 'total_overtime_hours', label: 'OT. Hrs', format: (val) => String(val ?? '0') },
   { key: 'regular_pay_rate', label: 'Reg. Pay', format: (val) => val !== undefined && val !== null && val !== 'N/A' && val !== '' ? `$${val}` : '$0.00' },
   { key: 'overtime_pay_rate', label: 'OT Pay', format: (val) => val !== undefined && val !== null && val !== 'N/A' && val !== '' ? `$${val}` : '$0.00' },
-  { key: 'sub_total', label: 'Sub Total', format: (_val, row) => {
-    const regHrs = Number((row as any)?.total_regular_hours || 0);
-    const regPay = Number((row as any)?.regular_pay_rate || 0);
-    const otHrs = Number((row as any)?.total_overtime_hours || 0);
-    const otPay = Number((row as any)?.overtime_pay_rate || 0);
-    const sub = (regHrs * regPay) + (otHrs * otPay);
-    return `$${sub.toFixed(2)}`;
-  } },
+  { key: 'sub_total', label: 'Sub Total', format: (_val, row) => weeklyTimesheetSubTotal(row) },
   { key: 'bonus_amount', label: 'Bonus', format: (val) => val !== undefined && val !== null && val !== 'N/A' && val !== '' && Number(val) > 0 ? `+$${val}` : '$0.00' },
   { key: 'deduction_amount', label: 'Deductions', format: (val) => val !== undefined && val !== null && val !== 'N/A' && val !== '' && Number(val) > 0 ? `-$${val}` : '$0.00' },
   { key: 'hst_gst', label: 'HST', format: (val) => val !== undefined && val !== null && val !== 'N/A' && val !== '' ? `${val}%` : 'N/A' },

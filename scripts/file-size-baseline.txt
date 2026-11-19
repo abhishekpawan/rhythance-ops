@@ -55,10 +55,10 @@
 326 client/src/pages/PositionManagement/components/BasicDetailsSection.tsx
 515 client/src/pages/RecruiterHierarchy.tsx
 311 client/src/pages/Reports/ClientsReport.tsx
-506 client/src/pages/Reports/EnvelopePrintingByDueDateReport.tsx
-591 client/src/pages/Reports/EnvelopePrintingReport.tsx
+449 client/src/pages/Reports/EnvelopePrintingByDueDateReport.tsx
+534 client/src/pages/Reports/EnvelopePrintingReport.tsx
 394 client/src/pages/Reports/SalesReport.tsx
-397 client/src/pages/Reports/WeeklyTimesheet.tsx
+391 client/src/pages/Reports/WeeklyTimesheet.tsx
 447 client/src/pages/Support/SupportAttachmentUploader.tsx
 354 client/src/pages/Support/SupportList.tsx
 353 client/src/pages/Support/SupportNew.tsx
