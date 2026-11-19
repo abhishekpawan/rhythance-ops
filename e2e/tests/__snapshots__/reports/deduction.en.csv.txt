@@ -1,0 +1,3 @@
+FILE: Deduction Report.csv
+"S.No.","Invoice #","Client Name","Accounting Person","Total Amount","Jobseeker(s) & Deducted Amount","Total Deductions Amount","Invoice Date"
+"1","900006","Northwind Test Staffing Client","Test Bookkeeper","$1875.00","Sam Sinclair (-$50.00)","$50.00","Nov 12, 2026"

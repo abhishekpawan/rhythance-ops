@@ -58,6 +58,22 @@ describe("the environment the test server gets", () => {
     expect(env.CLIENT_URL).toBe("http://localhost:3000");
   });
 
+  it("lets the browser journeys set the one origin its CORS rule allows", () => {
+    const withClient = serverEnvironment(stack, {
+      port: 1,
+      aiUrl: "http://127.0.0.1:2/x",
+      outboundLog: "/tmp/o",
+      tsconfig: "t",
+      clientUrl: "http://localhost:51234",
+    }) as Record<string, string>;
+    expect(withClient.CLIENT_URL).toBe("http://localhost:51234");
+    expect(Object.keys(withClient).sort()).toEqual(
+      Object.keys(env)
+        .filter((k) => k !== "TEST_FIXED_NOW")
+        .sort()
+    );
+  });
+
   it("holds only fake vendor keys and synthetic addresses", () => {
     expect(env.SENDGRID_API_KEY).toMatch(/fake/);
     expect(env.TWILIO_AUTH_TOKEN).toMatch(/fake/);

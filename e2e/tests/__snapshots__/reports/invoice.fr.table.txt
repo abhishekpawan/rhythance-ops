@@ -1,0 +1,7 @@
+TABLE 1
+HEADER: Statut | N° facture | Nom du client | Personne de contact | Conditions | Date de facture | Date d'échéance | Montant total | Devise | Email envoyé | Date d'envoi de l'email
+ROW: Active | 900003 | Quebec Test Logistics Client | Quentin Quebec | Net 15 | Nov 17, 2026 | Dec 2, 2026 | $1609.65 | CAD | No | N/A
+ROW: Active | 900006 | Northwind Test Staffing Client | Nora North | Net 30 | Nov 12, 2026 | Dec 12, 2026 | $2118.75 | CAD | No | N/A
+ROW: Active | 900001 | Northwind Test Staffing Client | Nora North | Net 30 | Nov 10, 2026 | Dec 10, 2026 | $4746.00 | CAD | Yes | Nov 10, 2026, 10:00 a.m.
+ROW: Active | 900004 | Pacific Test Warehousing Client | Paige Pacific | Net 30 | Nov 2, 2026 | Dec 2, 2026 | $1470.00 | CAD | Yes | Nov 2, 2026, 10:00 a.m.
+ROW: Inactive | 900005 | Prairie Test Foods Client | Pat Prairie | Net 45 | Sep 28, 2026 | Nov 12, 2026 | $1400.00 | USD | Yes | Sep 28, 2026, 11:00 a.m.

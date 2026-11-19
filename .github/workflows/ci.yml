@@ -3,6 +3,9 @@
 #     Supabase built from migration_v2 and the full test suite (job "suite").
 #   the four production branches (push): type checks and server lint only (job "static"); the drift check already proves
 #     their code equals multiple-login-demo, this catches a cherry-pick that applies but does not compile.
+#   multiple-login-demo (push and pull request), only when the client or the browser harness changed (or by hand):
+#     the browser journeys (job "journeys", Playwright, Chromium) against a local Supabase, the real server and the
+#     client, all on the runner (refactor plan D4.3, D7).
 # It does not run on the public mirror: that repository's branch is `main`, which is not listed here.
 # No secrets: the tests run against a local database with fake vendor keys and every outbound message recorded.
 name: CI
@@ -130,3 +133,115 @@ jobs:
         run: |
           docker ps -a
           supabase status || true
+
+  # Decides whether the browser journeys run: when something that can change what the browser shows changed (the
+  # client, the journeys themselves, or the test server and seed they run against), or when started by hand.
+  changes:
+    name: Did the client change?
+    if: github.ref_name == 'multiple-login-demo' || github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      browser: ${{ steps.diff.outputs.browser }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: diff
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          paths="client e2e server/tests/support server/tests/seed server/tests/scripts server/supabase .github/workflows/ci.yml"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "started by hand: running the journeys"; echo "browser=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ "$EVENT" = "pull_request" ]; then
+            range="origin/$BASE_REF...HEAD"
+          elif git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            range="$BEFORE..HEAD"
+          else
+            echo "no earlier commit to compare with: running the journeys"; echo "browser=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          changed=$(git diff --name-only $range -- $paths)
+          if [ -n "$changed" ]; then
+            echo "browser=true" >> "$GITHUB_OUTPUT"; echo "changed:"; echo "$changed"
+          else
+            echo "browser=false" >> "$GITHUB_OUTPUT"; echo "nothing the browser shows changed: journeys skipped"
+          fi
+
+  journeys:
+    name: Browser journeys (Playwright)
+    needs: changes
+    if: needs.changes.outputs.browser == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: |
+            client/pnpm-lock.yaml
+            server/pnpm-lock.yaml
+            e2e/pnpm-lock.yaml
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: ${{ env.SUPABASE_CLI_VERSION }}
+
+      - name: Install client
+        working-directory: client
+        run: pnpm install --frozen-lockfile
+
+      - name: Install server
+        working-directory: server
+        run: pnpm install --frozen-lockfile
+
+      - name: Install the journeys
+        working-directory: e2e
+        run: pnpm install --frozen-lockfile
+
+      # the browser download (about 100 MB) is cached by the Playwright version in the lock file
+      - name: Playwright browser cache
+        id: browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('e2e/pnpm-lock.yaml') }}
+
+      - name: Download Chromium
+        if: steps.browsers.outputs.cache-hit != 'true'
+        working-directory: e2e
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: System libraries for Chromium
+        if: steps.browsers.outputs.cache-hit == 'true'
+        working-directory: e2e
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Type check (journeys)
+        working-directory: e2e
+        run: pnpm typecheck
+
+      # builds the database from migration_v2, seeds it, starts the real server and the client on this runner, and
+      # drives Chromium through sign-in for every role and every Reports screen, in English and French
+      - name: Browser journeys
+        working-directory: e2e
+        run: pnpm test:e2e
+
+      - name: Traces and screenshots (only when something failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: journey-results
+          path: e2e/test-results
+          retention-days: 7

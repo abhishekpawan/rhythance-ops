@@ -33,7 +33,7 @@ function freePort() {
 /** The only variables the test server gets. Keys for vendors are fake; the database keys are the local demo keys. */
 export function serverEnvironment(
   stack,
-  { port, aiUrl, outboundLog, tsconfig, fixedNow, forceFlags }
+  { port, aiUrl, outboundLog, tsconfig, fixedNow, forceFlags, clientUrl }
 ) {
   return {
     PATH: process.env.PATH ?? "",
@@ -45,7 +45,7 @@ export function serverEnvironment(
     SUPABASE_URL: stack.apiUrl,
     SUPABASE_ANON_KEY: stack.anonKey,
     SUPABASE_SERVICE_KEY: stack.serviceKey,
-    CLIENT_URL: "http://localhost:3000",
+    CLIENT_URL: clientUrl ?? "http://localhost:3000",
     SENDGRID_API_KEY: "SG.fake-test-key",
     NO_REPLY_FROM_EMAIL: "no-reply@example.test",
     ASSIGNMENT_FROM_EMAIL: "assignments@example.test",
@@ -69,8 +69,13 @@ export function serverEnvironment(
  * fixedNow: an ISO instant at which the server's clock stands still (date-based answers), or undefined for the
  * real clock. The real clock is the default: code that compares "now" with a timestamp the database wrote (for
  * example "created less than 30 seconds ago") needs the two to agree.
+ * clientUrl: the origin of the browser client under test (the server's CORS rule allows only this origin);
+ * defaults to http://localhost:3000.
  */
-export async function startTestServer(stack, { fixedNow, forceFlags } = {}) {
+export async function startTestServer(
+  stack,
+  { fixedNow, forceFlags, clientUrl } = {}
+) {
   requireLocal({ database: stack.dbUrl, api: stack.apiUrl });
 
   const workDir = mkdtempSync(path.join(os.tmpdir(), "portal-test-server-"));
@@ -96,10 +101,12 @@ export async function startTestServer(stack, { fixedNow, forceFlags } = {}) {
       tsconfig: path.join(SERVER_DIR, "tsconfig.json"),
       fixedNow,
       forceFlags,
+      clientUrl,
     });
     requireLocal({
       SUPABASE_URL: env.SUPABASE_URL,
       AI_VERIFICATION_URL: env.AI_VERIFICATION_URL,
+      CLIENT_URL: env.CLIENT_URL,
     });
 
     const here = import.meta.url;

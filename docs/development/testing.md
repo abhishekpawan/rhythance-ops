@@ -74,6 +74,50 @@ A pin is a stored answer: the same request must give the same answer. Where they
 
 To pin a new module: add `tests/pins/<module>.test.ts` with `pinEndpoint` for each endpoint of its route files (every role that may call it, one that may not), seed rows only where an answer would come back empty (synthetic, fixed ids in `tests/seed/`), run it twice from a fresh database, then break the code on purpose and watch it fail.
 
+## Browser journeys
+
+`pnpm test:e2e` in `e2e/` drives a real browser (Playwright, Chromium only) through the portal against the same local test database: it builds and seeds the database, starts the real server (fixed clock, every message recorded) and the client (the Vite dev server, source unchanged) on this machine, and opens the screens like a person. It replaces clicking through a module's screens by hand (step 5 of the routine in [code-structure.md](code-structure.md)).
+
+| Command (in `e2e/`) | What it does |
+| --- | --- |
+| `pnpm install`, `pnpm test:e2e:install` | Once per machine: the dependencies, and the Chromium download (about 100 MB, kept in `~/Library/Caches/ms-playwright`). Needs Node 24, Docker (Colima) and the Supabase CLI like `pnpm test`. |
+| `pnpm test:e2e` | Everything: fresh database, servers, all journeys. About 2 minutes on this Mac (3 browsers at a time, 67 tests). |
+| `E2E_REUSE_DB=1 pnpm test:e2e tests/reports.spec.ts -g "margin"` | Keeps the database of the last run and runs part of the journeys (faster while writing one). |
+| `pnpm test:e2e:update` | Rewrites the text snapshots (see below) after a change that was meant. |
+| `pnpm exec playwright show-trace test-results/<test>/trace.zip` | What a failed journey did, step by step (traces and screenshots are kept only for failures). |
+| `pnpm typecheck` | Type check of the journeys. |
+
+**Where it lives and why.** In its own folder, `e2e/`, with its own `package.json` and lock file, not in `client/` or `server/`: Vercel builds `client/` and Render builds `server/` (its `postinstall` compiles it), so a Playwright dependency in either would change what those builds install. `e2e/` is read by neither. It reuses the server's test scripts (`server/tests/scripts/`, `server/tests/support/`) and the seed, so there is one database recipe.
+
+**It can only run on this machine**, the same rules as the database tests, plus the browser's side:
+
+- `support/start-client.mjs` starts the client with its own explicit environment: the Supabase and API addresses come from the test scripts and never from `client/.env` (Vite is told to look for `.env` files in an empty folder). It refuses with **exit code 2** unless `VITE_SUPABASE_URL`, `VITE_API_URL` and `VITE_AI_CHAT_URL` are localhost, `127.0.0.1` or `::1` (the same `requireLocal()`); `tests/guard.spec.ts` proves it for each address.
+- The test server's `CLIENT_URL` (its CORS rule) is set to the client's own address and port (`startTestServer(stack, { clientUrl })`). The client's port is free-picked each run.
+- **Every request from the browser to a host other than localhost is aborted and counted** (`support/outside-requests.ts`). A test **fails** if the page tries a host that is not in `KNOWN_OUTSIDE_HOSTS`, so a new font, CDN, analytics script or API call is noticed at once. Known hosts are still aborted, never let through. Today the only one is `fonts.googleapis.com` (the Inter font `@import` in `client/src/styles/main.css`, every page); the AI chat widget would add `cdn.jsdelivr.net` (marked, prism) when it is opened, which no journey does. The run prints what was tried at its end.
+
+**What is covered.**
+
+| File | What |
+| --- | --- |
+| `tests/sign-in.spec.ts` | The eight seeded staff accounts (admin, super admin, recruiter, bookkeeper, recruiter manager, accountant manager, sales, recruiter director) sign in through the real form and the phone code (the stand-in approves `000000`), in English and in French: they land on `/dashboard` with the right heading and role label; the Reports menu opens (nine cards) for the roles in `REPORTS_ROLES` and sends the others back to the dashboard. Two jobseekers (seeded and open sign-up) land on the employment agreement page (the seed has not signed it). A wrong password; the language switch on the login page. |
+| `tests/reports.spec.ts` | Every Reports screen (all nine), as the admin and as the accountant manager, in English and in French: the filters set like a person does, **the request body the browser sends** compared with the one worked out from the screen's code, the table as plain text, the CSV file the button downloads. The two roles must show the same, so the snapshots are per screen and language (`tests/__snapshots__/reports/`). |
+| `tests/guard.spec.ts` | The local-only proof above. |
+| `tests/auth.setup.ts` | Signs the Reports accounts in once and saves their browser state in `e2e/.auth/` (git-ignored). |
+
+**The request-body pattern (for the Timesheets and Invoices money journeys).** `tests/reports.spec.ts` starts `page.waitForRequest(...)` for the POST to the screen's endpoint whose JSON body equals the expected one *before* touching the screen, drives the filters, then `expect(request.postDataJSON()).toEqual(expected)` and checks the answer was 200. The expected body is written by hand from what the screen's code holds (`support/report-screens.ts`), never copied from a run. For a money screen the same code captures the invoice or timesheet payload the browser sends and pins the totals to the cent.
+
+**Snapshots** are plain text (`tests/__snapshots__/`): the table as `HEADER:` and `ROW:` lines (cells joined by ` | `) and the CSV file as downloaded (without the byte-order mark). **A snapshot that changes is a change in behaviour**, exactly like an API pin: read the diff before deciding. During a refactor none may change. CI never writes a missing snapshot (it fails). Reports whose rows have equal sort keys (weekly timesheet, rate list, both envelope reports; inbox 12) are compared with their rows sorted, the serial column left out and the running number of the envelope reference masked (`NW-20261107-NNN`), because the server answers ties in no fixed order; the API pins hold the rest.
+
+**No fixed sleeps.** Every wait is for something the page shows or sends: a URL, an element, a request, the end of network activity. The two places that retry (opening a dropdown whose list is still being fetched, typing the phone code) retry a check, not a delay. The browser's clock stands still at the server's moment (10:00 on 17 November 2026 in Toronto, `context.clock.setFixedTime`; timers keep running), so the week lists and default dates are the same on every run.
+
+**Writing a journey.** Copy the shape of `support/report-screens.ts`: how the screen is driven, and the body it must send. Two things made journeys unsteady and are handled in `tests/reports.spec.ts`: several Reports screens ask the server again after every filter, and nothing stops an older answer arriving after a newer one, so (1) drive the filters so that the last one set is the one that triggers the single request (the envelope screens start with default dates or a default due date: set those first, the client last), and (2) read the table only when the page is quiet and the last request the screen made is the expected one. Every run attaches the list of requests and the order of the answers (`requests` attachment), which is what to read when a journey fails. The three checks that follow a change on purpose (a wrong column format, a wrong request body, a role removed from `REPORTS_ROLES`) each failed the journeys when tried in SAFE-3.
+
+**Steadiness.** Five runs from a freshly built database and one with the CI settings (`CI=true`: two browsers at a time, snapshots never written) were all green, 112 to 133 seconds each.
+
+**CI** (job `journeys` in `.github/workflows/ci.yml`): on push and pull request to `multiple-login-demo`, only when `client/`, `e2e/`, the test server and seed (`server/tests/support`, `server/tests/seed`, `server/tests/scripts`, `server/supabase`) or the workflow changed, or when started by hand (`workflow_dispatch`). The Chromium download is cached by the Playwright version in `e2e/pnpm-lock.yaml`. A failed run uploads `e2e/test-results` (traces, screenshots) for 7 days.
+
+**Known limits.** The seeded jobseekers have not signed the employment agreement, so journeys cannot reach the jobseeker dashboard yet; `Select All`, `Deselect All` and `Search options...` in the dropdown widget are English in French (not changed). The staff sign-in currently sends the phone code twice (see inbox) and the login page shows no error for a wrong password (pinned in `sign-in.spec.ts`).
+
 ## Checks around the tests
 
 | Check | Where | What |
@@ -85,4 +129,4 @@ To pin a new module: add `tests/pins/<module>.test.ts` with `pinEndpoint` for ea
 | **Server lint** | `server/.eslintrc.cjs` | `pnpm lint` in `server/` now runs: typescript-eslint's recommended rules plus a few core ones, **all warnings** (about 314 on 2026-11-18, mostly `no-explicit-any` and unused variables); it fails only on an error. Tighten later rule by rule. **Client lint** (`pnpm lint` in `client/`) was found to fail already on 2026-11-18 (81 errors, 55 warnings: `no-explicit-any`, `exhaustive-deps` and a few more, none new), so CI runs `scripts/check-client-lint.sh`, a ratchet on those two counts (`scripts/client-lint-baseline.txt`): more fails, fewer fails until you lower the baseline with `UPDATE=1 scripts/check-client-lint.sh`. |
 | **knip** | `knip.json` in `client/` and `server/`, `pnpm knip` | Reports unused files, exports, types and packages from the import graph. Reads only; nothing is removed by it. Per module, before a split, the unused code of that module is removed in its own commit. Notes: the client report flags exports only the server's unit tests import (`hybridPayrollSplit.ts`, `timesheetWeek.ts`); check before deleting. The first full report is linked from the SAFE-2b session report. |
 
-Not covered yet: browser journeys (Playwright, they come with the Timesheets module), API pins for the other modules (each module's first refactor step), the Prettier formatting of the existing source. The tests are not type-checked (Vitest transpiles them).
+Not covered yet: browser journeys for the modules other than sign-in and Reports (each module's first refactor step; Timesheets and Invoices also need the money journey), API pins for the other modules (each module's first refactor step), the Prettier formatting of the existing source. The tests are not type-checked (Vitest transpiles them).

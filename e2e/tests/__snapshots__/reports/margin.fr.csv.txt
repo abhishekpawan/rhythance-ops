@@ -1,0 +1,7 @@
+FILE: Margin Report.csv
+"N°","N° facture","Nom du client","Personne comptable","Montant total facturé","Montant payé","Comptant","Chèque corporatif","Dépôt direct corporatif","Virement électronique","Dépôt direct","Chèque","Montant de marge","Marge %","Date de facture"
+"1","900003","Quebec Test Logistics Client","N/A","$1400.00","$1017.00","$0.00","$0.00","$1017.00","$0.00","$0.00","$0.00","$383.00","27.36%","Nov 17, 2026"
+"2","900006","Northwind Test Staffing Client","Test Bookkeeper","$1875.00","$1100.00","$0.00","$0.00","$0.00","$0.00","$1100.00","$0.00","$775.00","41.33%","Nov 12, 2026"
+"3","900001","Northwind Test Staffing Client","N/A","$4200.00","$2280.00","$1080.00","$0.00","$0.00","$0.00","$1200.00","$0.00","$1920.00","45.71%","Nov 10, 2026"
+"4","900004","Pacific Test Warehousing Client","N/A","$1400.00","$840.00","$0.00","$0.00","$0.00","$190.00","$650.00","$0.00","$560.00","40.00%","Nov 2, 2026"
+"5","900005","Prairie Test Foods Client","N/A","$1400.00","$800.00","$0.00","$0.00","$0.00","$0.00","$800.00","$0.00","$600.00","42.86%","Sep 28, 2026"

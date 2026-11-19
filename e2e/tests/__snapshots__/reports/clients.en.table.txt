@@ -1,0 +1,5 @@
+TABLE 1
+HEADER: Status | Company Name | Billing Name | Short Code | List Name | Accounting Person | Sales Person | Client Manager | Contact Person | Email Address | Mobile | Address | Payment Method | Payment Cycle | Terms | Notes
+ROW: Active | Northwind Test Staffing Client | Northwind Test Billing | NW | Northwind | Test Bookkeeper | Test Sales | Test Recruiter Manager | Nora North | nora.north@example.test | +15555550121 | 1 Test Street, Toronto, ON, M5V 0A1 | Cheque | Weekly - 1 week hold | Net 30 | 
+ROW: Active | Pacific Test Warehousing Client | Pacific Test Billing | PW | Pacific Warehousing | Test Bookkeeper | Test Sales | Test Recruiter Manager | Paige Pacific | paige.pacific@example.test | +15555550123 | 3 Test Road, Vancouver, BC, V6B 1A1 | e-Transfer | Weekly - 2 week hold | Net 30 | 
+ROW: Inactive | Prairie Test Foods Client | Prairie Test Billing | PF | Prairie Foods | Test Bookkeeper | Test Sales | Test Recruiter Manager | Pat Prairie | pat.prairie@example.test | +15555550124 | 4 Test Lane, Calgary, AB, T2P 1A1 | Cheque | Weekly - 1 week hold | Net 45 | 

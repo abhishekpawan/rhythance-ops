@@ -1,0 +1,8 @@
+TABLE 1
+HEADER: Client Name | Position Details | Position Category | Bill Rate | Pay Rate | Premium Pay Rate | Overtime after how many hours | Overtime Bill Rate | Overtime Pay Rate
+ROW: Northwind Test Staffing Client | Forklift Operator [NW002 - N/A] | Warehouse | $35 | $20 | N/A | 40 hrs | $52.5 | $30
+ROW: Northwind Test Staffing Client | Warehouse Associate (training portion) [NW003 - N/A] | Warehouse | $31.5 | $18 | N/A | N/A | N/A | N/A
+ROW: Northwind Test Staffing Client | Warehouse Associate [NW001 - N/A] | Warehouse | $35 | $20 | N/A | N/A | N/A | N/A
+ROW: Pacific Test Warehousing Client | Loader [PW001 - N/A] | Warehouse | $35 | $20 | N/A | N/A | N/A | N/A
+ROW: Prairie Test Foods Client | Line Cook Helper [PF001 - N/A] | Food | $35 | $20 | N/A | N/A | N/A | N/A
+ROW: Quebec Test Logistics Client | Driver Helper [QL001 - N/A] | Logistics | $35 | $20 | $2.5 | N/A | N/A | N/A

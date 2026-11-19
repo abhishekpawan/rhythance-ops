@@ -1,0 +1,3 @@
+TABLE 1
+HEADER: N° facture | Nom du client | Personne comptable | Montant total | Demandeur(s) d'emploi et montant déduit | Montant total des déductions | Date de facture
+ROW: 900006 | Northwind Test Staffing Client | Test Bookkeeper | $1875.00 | Sam Sinclair (-$50.00) | -$50.00 | Nov 12, 2026
