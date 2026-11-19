@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Download, FileText, Eye, RefreshCw, Image as ImageIcon, X } from "lucide-react";
+import {
+  Download,
+  FileText,
+  Eye,
+  RefreshCw,
+  Image as ImageIcon,
+} from "lucide-react";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { getAttachmentDownloadUrl } from "../../services/api/support";
 import { SupportMessage, SupportAttachment } from "../../types/support";
+import { formatFileSize } from "./supportFormat";
+import {
+  PreviewModalData,
+  SupportThreadPreviewModal,
+} from "./SupportThreadPreviewModal";
 
 interface SupportThreadProps {
   messages: SupportMessage[];
   attachments: SupportAttachment[];
   onDownloadAttachment: (attachmentId: string) => void;
-}
-
-interface PreviewModalData {
-  id: string;
-  fileName: string;
-  sizeBytes: number;
-  url: string;
 }
 
 export const SupportThread: React.FC<SupportThreadProps> = ({
@@ -25,7 +29,8 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
   const { t } = useLanguage();
   const [imageUrls, setImageUrls] = useState<Record<string, string>>({});
   const [loadingUrls, setLoadingUrls] = useState<Record<string, boolean>>({});
-  const [previewModalItem, setPreviewModalItem] = useState<PreviewModalData | null>(null);
+  const [previewModalItem, setPreviewModalItem] =
+    useState<PreviewModalData | null>(null);
 
   // Close preview modal on ESC key
   useEffect(() => {
@@ -55,7 +60,11 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
         const url = await getAttachmentDownloadUrl(att.id);
         setImageUrls((prev) => ({ ...prev, [att.id]: url }));
       } catch (err) {
-        console.error("Failed to load image preview url for attachment:", att.id, err);
+        console.error(
+          "Failed to load image preview url for attachment:",
+          att.id,
+          err
+        );
       } finally {
         setLoadingUrls((prev) => ({ ...prev, [att.id]: false }));
       }
@@ -75,12 +84,6 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
     } catch {
       return isoStr;
     }
-  };
-
-  const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
   return (
@@ -111,8 +114,8 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
                   {isSystemMsg
                     ? t("support.ticket.systemAuthor")
                     : isRequesterMsg
-                    ? msg.authorName || t("support.ticket.requesterAuthor")
-                    : t("support.ticket.supportTeamAuthor")}
+                      ? msg.authorName || t("support.ticket.requesterAuthor")
+                      : t("support.ticket.supportTeamAuthor")}
                 </span>
                 {isInternalMsg && (
                   <span className="support-internal-badge">
@@ -182,7 +185,10 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
                                   className="support-file-thumb-img"
                                 />
                               ) : isLoading ? (
-                                <RefreshCw size={14} className="spin text-muted" />
+                                <RefreshCw
+                                  size={14}
+                                  className="spin text-muted"
+                                />
                               ) : (
                                 <ImageIcon size={20} className="text-muted" />
                               )}
@@ -196,14 +202,18 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
                             <div className="support-file-icon-badge">
                               <FileText size={20} />
                               <span className="support-file-ext-tag">
-                                {att.fileName.split(".").pop()?.slice(0, 4) || "FILE"}
+                                {att.fileName.split(".").pop()?.slice(0, 4) ||
+                                  "FILE"}
                               </span>
                             </div>
                           )}
 
                           <div className="support-file-details">
                             <div className="support-file-header-line">
-                              <span className="support-file-name" title={att.fileName}>
+                              <span
+                                className="support-file-name"
+                                title={att.fileName}
+                              >
                                 {att.fileName}
                               </span>
                               <span className="support-file-size">
@@ -254,56 +264,11 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
       })}
 
       {previewModalItem && (
-        <div
-          className="support-preview-modal-backdrop"
-          onClick={() => setPreviewModalItem(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("support.attachments.preview")}
-        >
-          <div
-            className="support-preview-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="support-preview-modal-header">
-              <div className="support-preview-modal-title">
-                <span className="support-preview-filename" title={previewModalItem.fileName}>
-                  {previewModalItem.fileName}
-                </span>
-                <span className="support-preview-filesize">
-                  ({formatFileSize(previewModalItem.sizeBytes)})
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  className="support-file-preview-btn"
-                  onClick={() => onDownloadAttachment(previewModalItem.id)}
-                  title={t("support.ticket.downloadAttachment")}
-                >
-                  <Download size={14} />
-                  <span>{t("support.ticket.downloadAttachment")}</span>
-                </button>
-                <button
-                  type="button"
-                  className="support-preview-modal-close"
-                  onClick={() => setPreviewModalItem(null)}
-                  title={t("support.attachments.closePreview")}
-                  aria-label={t("support.attachments.closePreview")}
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            </div>
-            <div className="support-preview-modal-body">
-              <img
-                src={previewModalItem.url}
-                alt={previewModalItem.fileName}
-                className="support-preview-full-img"
-              />
-            </div>
-          </div>
-        </div>
+        <SupportThreadPreviewModal
+          item={previewModalItem}
+          onClose={() => setPreviewModalItem(null)}
+          onDownloadAttachment={onDownloadAttachment}
+        />
       )}
     </div>
   );

@@ -54,11 +54,6 @@
 616 client/src/pages/PositionManagement/PositionView.tsx
 326 client/src/pages/PositionManagement/components/BasicDetailsSection.tsx
 515 client/src/pages/RecruiterHierarchy.tsx
-447 client/src/pages/Support/SupportAttachmentUploader.tsx
-354 client/src/pages/Support/SupportList.tsx
-353 client/src/pages/Support/SupportNew.tsx
-310 client/src/pages/Support/SupportThread.tsx
-477 client/src/pages/Support/SupportTicket.tsx
 850 client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx
 927 client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx
 488 client/src/pages/TimesheetManagement/TimesheetView.tsx

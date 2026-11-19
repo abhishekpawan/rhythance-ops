@@ -2,41 +2,20 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  ArrowLeft,
-  AlertTriangle,
-  Bug,
-  Sparkles,
-  FileEdit,
-  ShieldAlert,
-  Send,
-} from "lucide-react";
+import { ArrowLeft, AlertTriangle, ShieldAlert, Send } from "lucide-react";
 import { AppHeader } from "../../components/AppHeader";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { createTicket } from "../../services/api/support";
 import { SupportAttachmentUploader } from "./SupportAttachmentUploader";
+import { SupportNewTypeSection } from "./SupportNewTypeSection";
+import { SupportNewUrgencySection } from "./SupportNewUrgencySection";
+import { newTicketSchema, NewTicketFormData } from "./supportNewForm";
 import { buildSupportContext } from "../../lib/supportContext";
 import {
   SupportTicketType,
   PendingAttachmentUpload,
 } from "../../types/support";
 import "../../styles/pages/Support.css";
-
-const newTicketSchema = z.object({
-  type: z.enum(["bug", "change", "feature"] as const, {
-    required_error: "Please select what you need",
-  }),
-  description: z
-    .string()
-    .min(10, "Please provide at least 10 characters to describe what happened")
-    .max(10000, "Description is too long"),
-  urgency: z.enum(["blocked", "annoying", "not_urgent"] as const, {
-    required_error: "Please indicate how urgent this is",
-  }),
-});
-
-type NewTicketFormData = z.infer<typeof newTicketSchema>;
 
 export const SupportNew: React.FC = () => {
   const { t, language } = useLanguage();
@@ -111,7 +90,12 @@ export const SupportNew: React.FC = () => {
 
       const formattedNum = `SUP-${String(res.ticket.ticketNumber).padStart(4, "0")}`;
       navigate(`/support/${res.ticket.id}`, {
-        state: { message: t("support.new.ticketCreated").replace("{number}", formattedNum) },
+        state: {
+          message: t("support.new.ticketCreated").replace(
+            "{number}",
+            formattedNum
+          ),
+        },
       });
     } catch (err: any) {
       console.error("Failed to submit ticket:", err);
@@ -145,86 +129,35 @@ export const SupportNew: React.FC = () => {
 
       <div className="content-container">
         {submitError && (
-          <div className="error-message mb-4 flex items-center gap-2" role="alert">
+          <div
+            className="error-message mb-4 flex items-center gap-2"
+            role="alert"
+          >
             <AlertTriangle size={16} />
             <span>{submitError}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="client-form" noValidate>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="client-form"
+          noValidate
+        >
           <div className="card">
             {/* 1. What do you need? (Choice cards) */}
-            <div className="form-section">
-              <h2 className="form-section-title">
-                <span>{t("support.new.whatDoYouNeed")}</span>
-                <span className="required-star">*</span>
-              </h2>
-
-              <div className="support-choice-grid" role="radiogroup" aria-label={t("support.new.whatDoYouNeed")}>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={selectedType === "bug"}
-                  tabIndex={0}
-                  className={`support-choice-card ${selectedType === "bug" ? "selected" : ""}`}
-                  onClick={() => setValue("type", "bug")}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setValue("type", "bug");
-                    }
-                  }}
-                >
-                  <Bug size={24} className="support-choice-icon" />
-                  <span className="support-choice-title">{t("support.new.typeBugTitle")}</span>
-                  <span className="support-choice-desc">{t("support.new.typeBugDesc")}</span>
-                </button>
-
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={selectedType === "change"}
-                  tabIndex={0}
-                  className={`support-choice-card ${selectedType === "change" ? "selected" : ""}`}
-                  onClick={() => setValue("type", "change")}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setValue("type", "change");
-                    }
-                  }}
-                >
-                  <FileEdit size={24} className="support-choice-icon" />
-                  <span className="support-choice-title">{t("support.new.typeChangeTitle")}</span>
-                  <span className="support-choice-desc">{t("support.new.typeChangeDesc")}</span>
-                </button>
-
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={selectedType === "feature"}
-                  tabIndex={0}
-                  className={`support-choice-card ${selectedType === "feature" ? "selected" : ""}`}
-                  onClick={() => setValue("type", "feature")}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setValue("type", "feature");
-                    }
-                  }}
-                >
-                  <Sparkles size={24} className="support-choice-icon" />
-                  <span className="support-choice-title">{t("support.new.typeFeatureTitle")}</span>
-                  <span className="support-choice-desc">{t("support.new.typeFeatureDesc")}</span>
-                </button>
-              </div>
-              {errors.type && <span className="form-error">{errors.type.message}</span>}
-            </div>
+            <SupportNewTypeSection
+              selectedType={selectedType}
+              onSelect={(type) => setValue("type", type)}
+              error={errors.type?.message}
+            />
 
             {/* 2. Tell us what happened */}
             <div className="form-section">
               <div className="form-group">
-                <label htmlFor="support-description" className="form-section-title">
+                <label
+                  htmlFor="support-description"
+                  className="form-section-title"
+                >
                   <span>{t("support.new.tellUsWhatHappened")}</span>
                   <span className="required-star">*</span>
                 </label>
@@ -236,7 +169,9 @@ export const SupportNew: React.FC = () => {
                   {...register("description")}
                 />
                 {errors.description && (
-                  <span className="form-error">{errors.description.message}</span>
+                  <span className="form-error">
+                    {errors.description.message}
+                  </span>
                 )}
               </div>
             </div>
@@ -258,60 +193,21 @@ export const SupportNew: React.FC = () => {
                 disabled={submitting}
               />
               {attachmentError && (
-                <span className="form-error" style={{ display: "block", marginTop: "8px" }}>
+                <span
+                  className="form-error"
+                  style={{ display: "block", marginTop: "8px" }}
+                >
                   {attachmentError}
                 </span>
               )}
             </div>
 
             {/* 4. How urgent is this? */}
-            <div className="form-section">
-              <h2 className="form-section-title">
-                <span>{t("support.new.howUrgent")}</span>
-                <span className="required-star">*</span>
-              </h2>
-
-              <div className="support-urgency-grid" role="radiogroup" aria-label={t("support.new.howUrgent")}>
-                <label
-                  className={`support-urgency-card ${selectedUrgency === "blocked" ? "selected" : ""}`}
-                >
-                  <input
-                    type="radio"
-                    value="blocked"
-                    {...register("urgency")}
-                    style={{ accentColor: "var(--primary)" }}
-                  />
-                  <span className="support-urgency-label">{t("support.new.urgencyBlocked")}</span>
-                </label>
-
-                <label
-                  className={`support-urgency-card ${selectedUrgency === "annoying" ? "selected" : ""}`}
-                >
-                  <input
-                    type="radio"
-                    value="annoying"
-                    {...register("urgency")}
-                    style={{ accentColor: "var(--primary)" }}
-                  />
-                  <span className="support-urgency-label">{t("support.new.urgencyAnnoying")}</span>
-                </label>
-
-                <label
-                  className={`support-urgency-card ${selectedUrgency === "not_urgent" ? "selected" : ""}`}
-                >
-                  <input
-                    type="radio"
-                    value="not_urgent"
-                    {...register("urgency")}
-                    style={{ accentColor: "var(--primary)" }}
-                  />
-                  <span className="support-urgency-label">{t("support.new.urgencyNotUrgent")}</span>
-                </label>
-              </div>
-              {errors.urgency && (
-                <span className="form-error">{errors.urgency.message}</span>
-              )}
-            </div>
+            <SupportNewUrgencySection
+              register={register}
+              selectedUrgency={selectedUrgency}
+              error={errors.urgency?.message}
+            />
 
             {/* Privacy notice */}
             <div className="support-notice-box" role="note">
@@ -340,8 +236,8 @@ export const SupportNew: React.FC = () => {
                   {submitting
                     ? t("support.new.sending")
                     : isUploading
-                    ? t("support.new.uploadingFiles")
-                    : t("support.new.submitButton")}
+                      ? t("support.new.uploadingFiles")
+                      : t("support.new.submitButton")}
                 </span>
               </button>
             </div>

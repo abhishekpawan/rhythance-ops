@@ -1,32 +1,18 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { UploadCloud, X, RefreshCw, FileText, AlertCircle, CheckCircle, Eye } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { uploadSupportAttachment } from "../../services/api/support";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { CreateAttachmentInput } from "../../types/support";
-
-const MAX_FILES = 5;
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
-const ALLOWED_MIME_TYPES = [
-  "image/png",
-  "image/jpeg",
-  "image/jpg",
-  "image/webp",
-  "image/gif",
-  "application/pdf",
-  "text/plain",
-  "text/csv",
-];
-const ALLOWED_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".pdf", ".txt", ".csv"];
-
-interface UploadItem {
-  id: string;
-  file: File;
-  status: "uploading" | "success" | "error";
-  error?: string;
-  attachment?: CreateAttachmentInput;
-  previewUrl?: string;
-  isImage: boolean;
-}
+import { SupportDropzone } from "./SupportDropzone";
+import { SupportUploadItemRow } from "./SupportUploadItemRow";
+import { SupportUploadPreviewModal } from "./SupportUploadPreviewModal";
+import {
+  ALLOWED_EXTENSIONS,
+  ALLOWED_MIME_TYPES,
+  MAX_FILES,
+  MAX_FILE_SIZE,
+  UploadItem,
+} from "./supportUploadItem";
 
 interface SupportAttachmentUploaderProps {
   onAttachmentsChange: (attachments: CreateAttachmentInput[]) => void;
@@ -34,16 +20,16 @@ interface SupportAttachmentUploaderProps {
   disabled?: boolean;
 }
 
-export const SupportAttachmentUploader: React.FC<SupportAttachmentUploaderProps> = ({
-  onAttachmentsChange,
-  onUploadingChange,
-  disabled = false,
-}) => {
+export const SupportAttachmentUploader: React.FC<
+  SupportAttachmentUploaderProps
+> = ({ onAttachmentsChange, onUploadingChange, disabled = false }) => {
   const { t } = useLanguage();
   const [items, setItems] = useState<UploadItem[]>([]);
   const [isDragActive, setIsDragActive] = useState(false);
   const [generalError, setGeneralError] = useState<string | null>(null);
-  const [previewModalItem, setPreviewModalItem] = useState<UploadItem | null>(null);
+  const [previewModalItem, setPreviewModalItem] = useState<UploadItem | null>(
+    null
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const itemsRef = useRef<UploadItem[]>(items);
 
@@ -88,36 +74,44 @@ export const SupportAttachmentUploader: React.FC<SupportAttachmentUploaderProps>
     onAttachmentsChange(successfulAttachments);
   }, [items, onAttachmentsChange, onUploadingChange]);
 
-  const uploadSingleFile = useCallback(async (item: UploadItem) => {
-    setItems((prev) =>
-      prev.map((i) => (i.id === item.id ? { ...i, status: "uploading", error: undefined } : i))
-    );
-
-    try {
-      const uploaded = await uploadSupportAttachment(item.file);
+  const uploadSingleFile = useCallback(
+    async (item: UploadItem) => {
       setItems((prev) =>
         prev.map((i) =>
-          i.id === item.id
-            ? {
-                ...i,
-                status: "success",
-                attachment: {
-                  path: uploaded.path,
-                  fileName: uploaded.fileName,
-                  mimeType: uploaded.mimeType,
-                  sizeBytes: uploaded.sizeBytes,
-                },
-              }
-            : i
+          i.id === item.id ? { ...i, status: "uploading", error: undefined } : i
         )
       );
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : t("support.errors.uploadFailed");
-      setItems((prev) =>
-        prev.map((i) => (i.id === item.id ? { ...i, status: "error", error: msg } : i))
-      );
-    }
-  }, [t]);
+
+      try {
+        const uploaded = await uploadSupportAttachment(item.file);
+        setItems((prev) =>
+          prev.map((i) =>
+            i.id === item.id
+              ? {
+                  ...i,
+                  status: "success",
+                  attachment: {
+                    path: uploaded.path,
+                    fileName: uploaded.fileName,
+                    mimeType: uploaded.mimeType,
+                    sizeBytes: uploaded.sizeBytes,
+                  },
+                }
+              : i
+          )
+        );
+      } catch (err) {
+        const msg =
+          err instanceof Error ? err.message : t("support.errors.uploadFailed");
+        setItems((prev) =>
+          prev.map((i) =>
+            i.id === item.id ? { ...i, status: "error", error: msg } : i
+          )
+        );
+      }
+    },
+    [t]
+  );
 
   const processFiles = useCallback(
     (filesToAdd: File[]) => {
@@ -139,7 +133,8 @@ export const SupportAttachmentUploader: React.FC<SupportAttachmentUploaderProps>
 
         const ext = `.${file.name.split(".").pop()?.toLowerCase()}`;
         const isTypeAllowed =
-          ALLOWED_MIME_TYPES.includes(file.type) || ALLOWED_EXTENSIONS.includes(ext);
+          ALLOWED_MIME_TYPES.includes(file.type) ||
+          ALLOWED_EXTENSIONS.includes(ext);
 
         if (!isTypeAllowed) {
           setGeneralError(t("support.errors.unsupportedFileType"));
@@ -246,12 +241,6 @@ export const SupportAttachmentUploader: React.FC<SupportAttachmentUploaderProps>
     uploadSingleFile(item);
   };
 
-  const formatSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  };
-
   return (
     <div className="support-uploader">
       <input
@@ -265,28 +254,13 @@ export const SupportAttachmentUploader: React.FC<SupportAttachmentUploaderProps>
       />
 
       {items.length < MAX_FILES && (
-        <div
-          className={`support-dropzone ${isDragActive ? "drag-active" : ""}`}
+        <SupportDropzone
+          isDragActive={isDragActive}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              fileInputRef.current?.click();
-            }
-          }}
-          aria-label={t("support.new.dropzoneHint")}
-        >
-          <UploadCloud size={28} className="support-dropzone-icon" />
-          <div className="support-dropzone-text">
-            <strong>{t("support.new.clickOrDrag")}</strong>
-          </div>
-          <div className="support-dropzone-hint">{t("support.new.dropzoneHint")}</div>
-        </div>
+          onOpen={() => fileInputRef.current?.click()}
+        />
       )}
 
       {generalError && (
@@ -298,149 +272,22 @@ export const SupportAttachmentUploader: React.FC<SupportAttachmentUploaderProps>
 
       <div className="support-file-list" aria-live="polite">
         {items.map((item) => (
-          <div key={item.id} className="support-file-item">
-            <div className="support-file-info">
-              {item.isImage && item.previewUrl ? (
-                <div
-                  className="support-file-thumb-wrap"
-                  onClick={() => setPreviewModalItem(item)}
-                  title={t("support.attachments.preview")}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setPreviewModalItem(item);
-                    }
-                  }}
-                  aria-label={t("support.attachments.preview")}
-                >
-                  <img
-                    src={item.previewUrl}
-                    alt={item.file.name}
-                    className="support-file-thumb-img"
-                  />
-                  <div className="support-file-thumb-overlay">
-                    <Eye size={16} />
-                  </div>
-                </div>
-              ) : (
-                <div className="support-file-icon-badge">
-                  <FileText size={20} />
-                  <span className="support-file-ext-tag">
-                    {item.file.name.split(".").pop()?.slice(0, 4) || "FILE"}
-                  </span>
-                </div>
-              )}
-
-              <div className="support-file-details">
-                <div className="support-file-header-line">
-                  <span className="support-file-name" title={item.file.name}>
-                    {item.file.name}
-                  </span>
-                  <span className="support-file-size">({formatSize(item.file.size)})</span>
-                </div>
-
-                <div className="support-file-meta-line">
-                  {item.status === "uploading" && (
-                    <span className="support-file-status uploading flex items-center gap-1">
-                      <RefreshCw size={12} className="spin" />
-                      <span>{t("support.attachments.uploading")}</span>
-                    </span>
-                  )}
-                  {item.status === "success" && (
-                    <span className="support-file-status success flex items-center gap-1">
-                      <CheckCircle size={13} />
-                      <span>{t("support.attachments.uploaded")}</span>
-                    </span>
-                  )}
-                  {item.status === "error" && (
-                    <span className="support-file-status error flex items-center gap-1">
-                      <AlertCircle size={13} />
-                      <span>{item.error || t("support.errors.uploadFailed")}</span>
-                      <button
-                        type="button"
-                        className="button secondary button-icon"
-                        onClick={() => handleRetry(item)}
-                        title={t("support.attachments.retry")}
-                        style={{ padding: "1px 6px", fontSize: "11px", height: "auto" }}
-                      >
-                        <RefreshCw size={10} />
-                      </button>
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="support-file-actions">
-              {item.isImage && item.previewUrl && (
-                <button
-                  type="button"
-                  className="support-file-preview-btn"
-                  onClick={() => setPreviewModalItem(item)}
-                  title={t("support.attachments.preview")}
-                  aria-label={t("support.attachments.preview")}
-                >
-                  <Eye size={14} />
-                </button>
-              )}
-
-              <button
-                type="button"
-                className="support-file-remove-btn"
-                onClick={() => handleRemove(item.id)}
-                title={t("support.attachments.remove")}
-                aria-label={t("support.attachments.remove")}
-                disabled={disabled}
-              >
-                <X size={16} />
-              </button>
-            </div>
-          </div>
+          <SupportUploadItemRow
+            key={item.id}
+            item={item}
+            disabled={disabled}
+            onPreview={setPreviewModalItem}
+            onRetry={handleRetry}
+            onRemove={handleRemove}
+          />
         ))}
       </div>
 
       {previewModalItem && previewModalItem.previewUrl && (
-        <div
-          className="support-preview-modal-backdrop"
-          onClick={() => setPreviewModalItem(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("support.attachments.preview")}
-        >
-          <div
-            className="support-preview-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="support-preview-modal-header">
-              <div className="support-preview-modal-title">
-                <span className="support-preview-filename" title={previewModalItem.file.name}>
-                  {previewModalItem.file.name}
-                </span>
-                <span className="support-preview-filesize">
-                  ({formatSize(previewModalItem.file.size)})
-                </span>
-              </div>
-              <button
-                type="button"
-                className="support-preview-modal-close"
-                onClick={() => setPreviewModalItem(null)}
-                title={t("support.attachments.closePreview")}
-                aria-label={t("support.attachments.closePreview")}
-              >
-                <X size={18} />
-              </button>
-            </div>
-            <div className="support-preview-modal-body">
-              <img
-                src={previewModalItem.previewUrl}
-                alt={previewModalItem.file.name}
-                className="support-preview-full-img"
-              />
-            </div>
-          </div>
-        </div>
+        <SupportUploadPreviewModal
+          item={previewModalItem}
+          onClose={() => setPreviewModalItem(null)}
+        />
       )}
     </div>
   );
