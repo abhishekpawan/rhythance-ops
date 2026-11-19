@@ -55,7 +55,7 @@ Run **every file once, in order, on each portal's database**, then that portal's
 
 **032 is different:** it is for a NEW database only and refuses to run unless the session sets `rhythence.catch_up = 'new-database'`. Live databases already have what it holds; do not run it on them.
 
-**035** (stage: applied 2026-11-19; production: not yet, with Abhishek's yes; it changes nothing until the flag is switched on) and **036** (applied nowhere yet, stage first) are the newest; **028 is applied nowhere** (inbox 4).
+**035** and **036** are applied on stage and all four production databases (2026-11-19; 035 changes nothing until the flag `staff_two_factor_enforced` is switched on, and it is off). **028 is applied nowhere** (inbox 4).
 
 **Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet. **032 is applied nowhere** (it was written for a database built from these files; see below).
 
