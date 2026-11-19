@@ -217,12 +217,20 @@ export function settle(value: unknown): unknown {
       if (k === "ticketNumber" && typeof v === "number" && v > SEEDED_TICKETS)
         return "<number>";
       if (typeof v !== "string") return v;
-      return v
-        .replace(/^https?:\/\/[^/\s]+/, "<host>")
-        .replace(/token=[\w.-]+/g, "token=<token>")
-        .replace(/SUP-(\d{4})/g, (m, n) =>
-          Number(n) > SEEDED_TICKETS ? "SUP-<number>" : m
-        );
+      return (
+        v
+          // Postgres drops trailing zeros, so a run-time stamp can have one or two digits after the seconds;
+          // `normalise` only knows three to six. The seeded stamps have no fraction at all.
+          .replace(
+            /\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{1,2}(?:Z|[+-]\d\d:\d\d)/g,
+            "<timestamp>"
+          )
+          .replace(/^https?:\/\/[^/\s]+/, "<host>")
+          .replace(/token=[\w.-]+/g, "token=<token>")
+          .replace(/SUP-(\d{4})/g, (m, n) =>
+            Number(n) > SEEDED_TICKETS ? "SUP-<number>" : m
+          )
+      );
     })
   );
 }

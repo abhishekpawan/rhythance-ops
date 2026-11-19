@@ -4,7 +4,7 @@
 
 **No source file over 300 lines** (TypeScript, TSX and CSS). A longer file is split by responsibility: data fetching into hooks or services, pure calculations into their own files, repeated markup into shared components, and CSS by section. JSON translation files follow the same idea by module (see [translations.md](translations.md)).
 
-The rule is applied module by module. **Done: dashboard (Nov 2026), reports (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
+The rule is applied module by module. **Done: dashboard (Nov 2026), reports (Nov 2026), support tickets (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
 
 ## The routine for one module
 
@@ -48,3 +48,21 @@ When splitting:
 | `client/src/pages/Reports/envelopeReportShared.ts`, `weeklyTimesheetCalc.ts` | The numbers the browser works out itself (currency and phone display, the CSV download's sort and serial renumbering, the weekly timesheet Sub Total); unit-tested in `server/tests/unit/reportCalculations.test.ts` |
 | `client/src/services/api/reports.ts`, `reports/` | The API calls and row types, one file per report; `reports.ts` re-exports them so imports did not change |
 | `client/src/styles/pages/Reports.css`, `CommonReportsStyles.css` | The module's CSS (both under 300 lines, not split) |
+
+## Support module
+
+| Where | What |
+| --- | --- |
+| `server/src/routes/support/index.ts` | Mounts the three routers in the original order (attachments, tickets, ticket actions); `/api/support/...` |
+| `server/src/routes/support/tickets.ts`, `ticketActions.ts` | Routers only: `tickets.ts` mounts `ticketCreate`, `ticketList`, `ticketGet`; `ticketActions.ts` mounts `ticketMessages`, `ticketConfirm`, `ticketReopen`, `ticketPatch` |
+| `server/src/routes/support/ticket<Name>.ts` | One file per endpoint: its route, access rule (404 for anyone who may not), validation, the call to the database function, and the message it sends |
+| `server/src/routes/support/attachments.ts` | The signed upload link and the signed download link |
+| `client/src/pages/Support/SupportList.tsx`, `SupportListTable.tsx`, `SupportPagination.tsx` | The ticket list: state and fetching; the table; the page buttons |
+| `client/src/pages/Support/SupportNew.tsx`, `SupportNewTypeSection.tsx`, `SupportNewUrgencySection.tsx`, `supportNewForm.ts` | Raise a ticket: the form and its submit; the three type cards; the three urgency options; the form's schema and type |
+| `client/src/pages/Support/SupportTicket.tsx`, `SupportTicketHeaderCard.tsx`, `useSupportTicket.ts`, `useSupportTicketActions.ts`, `supportTicketHelpers.ts` | One ticket: the page; the header card; the data hook (ticket, messages, files, the agent panel's starting values, download); the actions hook (reply, confirm, reopen, agent save); the next-status table and the number and date formats |
+| `client/src/pages/Support/SupportThread.tsx`, `SupportThreadPreviewModal.tsx` | The messages with their files; the image preview |
+| `client/src/pages/Support/SupportAttachmentUploader.tsx`, `SupportDropzone.tsx`, `SupportUploadItemRow.tsx`, `SupportUploadPreviewModal.tsx`, `supportUploadItem.ts`, `supportFormat.ts` | The upload widget: logic and paste; the drop area; one file row; the preview; the limits and the item type; the file size text |
+| `client/src/pages/Support/SupportReplyBox.tsx`, `SupportResolutionPanel.tsx`, `SupportAgentPanel.tsx`, `SupportStatusBadge.tsx`, `SupportTypeBadge.tsx` | Unchanged (under 300 lines) |
+| `client/src/styles/pages/Support.css`, `Support.<area>.css` | `Support.css` only imports the nine parts (base, toolbar, badges, new, files, modal, ticket, agent, responsive) in the original order; the built CSS file is byte-identical to before the split |
+
+Safety net for this module: `server/tests/pins/support-*.test.ts` (all nine endpoints, every role) and `e2e/tests/support.spec.ts` (`docs/development/testing.md`).
