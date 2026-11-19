@@ -176,7 +176,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
     clientVisible: true,
     title: "AI chat in the menu",
     description:
-      "Shows the AI Chat entry in the side menu for staff. The AI chat service has been switched off on every portal since the AI service was made safe (it answers a notice), so this is off everywhere until the chat is rebuilt.",
+      "Shows the AI Chat entry in the side menu for staff. Turn it on for a portal only after its database has migration 037 and its AI service has the chat switched on (CHAT_ENABLED); until then the chat page shows a notice.",
     category: "admin",
     defaultEnabled: false,
     wired: true,
@@ -187,7 +187,7 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
       allstaff: false,
     },
     notes:
-      "Hides the menu entry only; the /ai-chat page itself still opens and shows the service's notice. Turn it on for a portal when its chat service is working again.",
+      "Hides the menu entry only; the /ai-chat page itself still opens and shows the service's notice until the chat is switched on. Rollout is one portal at a time, stage first (docs/features/ai-chat.md).",
   },
   {
     key: "staff_two_factor_enforced",

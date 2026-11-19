@@ -116,7 +116,7 @@ describe("schema comparison", () => {
   });
 });
 
-describe("migrations 032 to 035 run twice", () => {
+describe("migrations 032 to 035 and 037 run twice", () => {
   it("change nothing the second time, and nothing fails", async () => {
     const before = (await listLocal()).sort();
     for (const file of [
@@ -124,6 +124,7 @@ describe("migrations 032 to 035 run twice", () => {
       "033_close_public_access.sql",
       "034_roles_from_app_metadata.sql",
       "035_staff_two_factor.sql",
+      "037_ai_chat_read_layer.sql",
       "032_catch_up_to_production.sql",
     ]) {
       const r = psql(stack().dbUrl, { file: path.join(MIGRATIONS_DIR, file) });

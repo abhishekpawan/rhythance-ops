@@ -26,6 +26,7 @@ Last reorganised: November 2026. Every page is checked against the code unless i
 | [features/support-tickets.md](features/support-tickets.md) | Support ticket module |
 | [features/digital-consent.md](features/digital-consent.md) | Digital consent module |
 | [features/calendar.md](features/calendar.md) | Calendar module |
+| [features/ai-chat.md](features/ai-chat.md) | AI chat: who can read what, how it is protected, how to switch it on per portal |
 | [development/translations.md](development/translations.md) | English/French translation files and coding rules |
 | [development/activity-logging.md](development/activity-logging.md) | How server operations are logged to the activity feed, and how to add an activity type |
 | [development/code-structure.md](development/code-structure.md) | The 300-line file limit, how to split a file, and where the dashboard code lives |

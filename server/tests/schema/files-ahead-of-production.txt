@@ -15,3 +15,11 @@ fngrant|public.update_timesheets_updated_at_column()|  # 005
 trigger|public.timesheets.update_timesheets_updated_at|  # 005
 # 023 weekly log-trim job: GD Workforce has its own (prune_cron_job_run_details), the others have none
 cron|purge-cron-job-run-details|  # 023
+# 037 AI chat read layer (AI-5a): table, four functions; the views, roles and runner functions live in other schemas the listing does not cover
+table|public.ai_chat_usage|  # 037
+column|public.ai_chat_usage.  # 037
+constraint|public.ai_chat_usage.  # 037
+index|public.ai_chat_usage.  # 037
+grant|public.ai_chat_usage|  # 037
+function|public.ai_chat_  # 037
+fngrant|public.ai_chat_  # 037

@@ -57,7 +57,7 @@ An on/off switch for behaviour that only some portals want.
 | `hide_jobseeker_pay_rate` | Hides pay rate and bill rate in the jobseeker Compensation step | off | GD Workforce |
 | `jobseeker_profile_godspeed_rules` | Lighter jobseeker profile rules (licence number required, SIN and most address/qualification/compensation fields optional, document rule driver's licence or passport), in the forms and on the server | off | Godspeed |
 
-| `ai_chat` | Shows the AI Chat entry in the side menu (the chat service is switched off on every portal, so the entry is hidden) | off | none |
+| `ai_chat` | Shows the AI Chat entry in the side menu. Turn it on only after migration 037 is applied and the portal's AI service has `CHAT_ENABLED=true` ([features/ai-chat.md](features/ai-chat.md)) | off | none |
 | `staff_two_factor_enforced` | The server refuses staff sessions that have not passed the phone code ([role-access-control.md](role-access-control.md#two-step-login-staff)); needs migration 035 first | **on**, so a new portal is protected from day one | AllStaff, CanHire, Godspeed, GD Workforce (since 2026-11-19); the demo database stores `enabled=false` because the demo login bypasses the code |
 
 The Feature Flags page shows the intended state per portal next to the real one.

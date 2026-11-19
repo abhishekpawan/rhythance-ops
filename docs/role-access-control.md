@@ -28,7 +28,7 @@ These rules map directly to the hamburger menu pages and route guards.
 | Dashboard | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director`, `jobseeker` |
 | Calendar | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` |
 | Training | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director`, `jobseeker` |
-| AI Chat | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director` |
+| AI Chat | `admin`, `recruiter`, `bookkeeper`, `recruiter_manager`, `accountant_manager`, `sales`, `recruiter_director`. What a question can read depends on the role and is enforced by the database (migration 037): change it together with the page lists, see [features/ai-chat.md](features/ai-chat.md) |
 | Dropdown Options | `admin`, `recruiter_manager`, `accountant_manager`, `recruiter_director` |
 
 ### User Management

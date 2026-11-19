@@ -12,6 +12,7 @@ import { localStack } from "../../server/tests/support/stack.mjs";
 import { startTestServer } from "../../server/tests/support/test-server.mjs";
 import { FIXED_NOW } from "../../server/tests/seed/ids.mjs";
 import { OUTSIDE_LOG } from "./outside-requests";
+import { startChatStandIn } from "./ai-chat-stand-in.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const serverScripts = path.resolve(here, "../../server/tests/scripts");
@@ -78,7 +79,8 @@ export default async function globalSetup() {
     run("db-seed.mjs");
   }
   const stack = localStack();
-  const clientPort = await freePort();
+  // E2E_CLIENT_PORT and E2E_AI_CHAT_URL are for checking the real chat service by hand (tests/ai-chat-real.spec.ts)
+  const clientPort = Number(process.env.E2E_CLIENT_PORT) || (await freePort());
   const clientUrl = `http://localhost:${clientPort}`;
   const server = await startTestServer(stack, {
     fixedNow: FIXED_NOW,
@@ -94,6 +96,12 @@ export default async function globalSetup() {
     },
   });
 
+  // the AI chat's page is a stand-in that speaks the same token contract (support/ai-chat-stand-in.mjs)
+  const chat = await startChatStandIn({
+    apiUrl: stack.apiUrl,
+    anonKey: stack.anonKey,
+  });
+
   const clientEnv = {
     PATH: process.env.PATH ?? "",
     HOME: process.env.HOME ?? "",
@@ -103,8 +111,7 @@ export default async function globalSetup() {
     VITE_SUPABASE_URL: stack.apiUrl,
     VITE_SUPABASE_ANON_KEY: stack.anonKey,
     VITE_API_URL: server.url,
-    // the AI chat is not part of the journeys; the address only has to be local
-    VITE_AI_CHAT_URL: "http://127.0.0.1:9",
+    VITE_AI_CHAT_URL: process.env.E2E_AI_CHAT_URL || chat.url,
   };
   requireLocal({
     VITE_SUPABASE_URL: clientEnv.VITE_SUPABASE_URL,
@@ -116,6 +123,7 @@ export default async function globalSetup() {
     stopClient = await startClient(clientEnv, clientUrl);
   } catch (error) {
     await server.stop();
+    await chat.stop();
     throw error;
   }
 
@@ -125,6 +133,7 @@ export default async function globalSetup() {
   return async () => {
     await stopClient();
     await server.stop();
+    await chat.stop();
     printOutsideRequests();
   };
 }
