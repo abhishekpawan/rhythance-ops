@@ -1,6 +1,4 @@
-export function formatWeekEndingForSrNo(
-  dateValue: string | null | undefined
-): string {
+function formatWeekEndingForSrNo(dateValue: string | null | undefined): string {
   if (!dateValue) return "00000000";
 
   const digitsOnly = dateValue.replace(/\D/g, "");

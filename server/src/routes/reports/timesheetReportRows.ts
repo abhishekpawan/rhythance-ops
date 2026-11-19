@@ -1,13 +1,13 @@
 import { checkJobseekerInactive } from "./clientActivity.js";
 
-export function toNumReport(v: unknown): number {
+function toNumReport(v: unknown): number {
   if (v === null || v === undefined) return 0;
   const n = Number(v);
   return Number.isFinite(n) ? n : 0;
 }
 
 /** Cash / e-Transfer % deduction on base pay; aligns with timesheet email logic (line_payment_method for split rows). */
-export function computeTimesheetCashDeductionAmount(
+function computeTimesheetCashDeductionAmount(
   row: {
     total_regular_hours?: unknown;
     total_overtime_hours?: unknown;

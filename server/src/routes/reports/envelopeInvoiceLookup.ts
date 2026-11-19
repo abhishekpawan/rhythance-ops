@@ -3,7 +3,7 @@ export type EnvelopeInvoiceLookup = {
   invoice_date: string;
 };
 
-export function invoiceLineMatchesJobseekerPosition(
+function invoiceLineMatchesJobseekerPosition(
   line: {
     jobseekerProfile?: { jobseekerProfileId?: string };
     jobseekerProfileId?: string;
