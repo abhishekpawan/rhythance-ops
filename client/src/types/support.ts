@@ -1,5 +1,5 @@
 export type SupportTicketType = "bug" | "change" | "feature" | "question";
-export type SupportTicketUrgency = "blocked" | "annoying" | "not_urgent";
+type SupportTicketUrgency = "blocked" | "annoying" | "not_urgent";
 export type SupportTicketPriority = "p1" | "p2" | "p3";
 export type SupportTicketStatus =
   | "open"
@@ -7,8 +7,8 @@ export type SupportTicketStatus =
   | "waiting_on_client"
   | "resolved"
   | "closed";
-export type SupportActorKind = "requester" | "agent" | "system";
-export type SupportConfirmedBy = "client" | "auto" | "agent";
+type SupportActorKind = "requester" | "agent" | "system";
+type SupportConfirmedBy = "client" | "auto" | "agent";
 
 export interface SupportAttachment {
   id: string;
@@ -30,7 +30,7 @@ export interface SupportMessage {
   authorId?: string | null;
 }
 
-export interface SupportTicketStatusEvent {
+interface SupportTicketStatusEvent {
   id: string;
   ticketId: string;
   fromStatus: string | null;

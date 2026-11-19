@@ -6,7 +6,7 @@
  * Normalizes legacy role names to current system role names.
  * Existing server normalization: manager -> recruiter_manager, accountant -> bookkeeper.
  */
-export function normalizeRoleName(role: string): string {
+function normalizeRoleName(role: string): string {
   const r = role.toLowerCase().trim();
   if (r === "manager") return "recruiter_manager";
   if (r === "accountant") return "bookkeeper";

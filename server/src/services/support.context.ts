@@ -5,7 +5,7 @@ import { getPortalSettingSync } from "./portalSettings.js";
 /**
  * Strips query string and fragment/hash from a URL or path.
  */
-export function stripQueryAndHash(str: unknown): string {
+function stripQueryAndHash(str: unknown): string {
   if (typeof str !== "string") return "";
   return str.split("?")[0].split("#")[0].trim();
 }

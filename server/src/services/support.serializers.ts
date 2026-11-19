@@ -36,7 +36,7 @@ export function convertObjectToCamelCase<T = any>(obj: any): T {
  * relatedTicketId, resolvedAt, closedAt, confirmedBy, createdAt, updatedAt, isOwner.
  * Never includes requesterId, requesterEmail, assignedTo, context, effortMinutes or idempotencyKey.
  */
-export function toPublicTicket(row: any, viewerId?: string) {
+function toPublicTicket(row: any, viewerId?: string) {
   const isOwner = Boolean(
     viewerId && (row.requester_id === viewerId || row.requesterId === viewerId)
   );
@@ -67,7 +67,7 @@ export function toPublicTicket(row: any, viewerId?: string) {
  * Returns public fields plus requesterId, requesterEmail, assignedTo, context, effortMinutes.
  * Never includes idempotencyKey.
  */
-export function toAgentTicket(row: any, viewerId?: string) {
+function toAgentTicket(row: any, viewerId?: string) {
   const pub = toPublicTicket(row, viewerId);
   return {
     ...pub,

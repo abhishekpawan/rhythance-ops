@@ -30,7 +30,7 @@ function sanitizeErrorString(err: unknown): string {
 /**
  * Adds a console or window error message to the circular buffer.
  */
-export function recordConsoleError(errorMsg: unknown): void {
+function recordConsoleError(errorMsg: unknown): void {
   const sanitized = sanitizeErrorString(errorMsg);
   if (!sanitized) return;
 
@@ -69,7 +69,7 @@ export function recordFailedApiCall(req: {
 /**
  * Initializes error listeners once on app start.
  */
-export function initSupportContextCapture(): void {
+function initSupportContextCapture(): void {
   if (isInitialized || typeof window === "undefined") {
     return;
   }
@@ -108,7 +108,7 @@ export function initSupportContextCapture(): void {
  * Browser: Chrome/Edge/Firefox/Safari with major version.
  * OS: Windows/macOS/Linux/Android/iOS.
  */
-export function parseBrowserAndOs(): { browser: string; os: string } {
+function parseBrowserAndOs(): { browser: string; os: string } {
   if (typeof navigator === "undefined") {
     return { browser: "Unknown", os: "Unknown" };
   }

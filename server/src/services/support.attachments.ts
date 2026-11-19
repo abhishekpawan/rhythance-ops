@@ -1,6 +1,6 @@
 import { supabase } from "./support.db.js";
 
-export const MIME_EXTENSION_MAP: Record<string, string[]> = {
+const MIME_EXTENSION_MAP: Record<string, string[]> = {
   "image/png": [".png"],
   "image/jpeg": [".jpg", ".jpeg"],
   "image/webp": [".webp"],

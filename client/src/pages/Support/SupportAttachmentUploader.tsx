@@ -18,7 +18,7 @@ const ALLOWED_MIME_TYPES = [
 ];
 const ALLOWED_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".pdf", ".txt", ".csv"];
 
-export interface UploadItem {
+interface UploadItem {
   id: string;
   file: File;
   status: "uploading" | "success" | "error";

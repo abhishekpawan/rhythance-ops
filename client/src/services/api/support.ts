@@ -33,7 +33,7 @@ function handleApiError(error: unknown, fallbackMessage: string): never {
 /**
  * Signs an upload URL for an attachment in 'support-attachments'.
  */
-export async function signAttachmentUpload(
+async function signAttachmentUpload(
   fileName: string,
   mimeType: string,
   sizeBytes: number

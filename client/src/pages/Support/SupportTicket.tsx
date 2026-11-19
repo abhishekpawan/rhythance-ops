@@ -475,4 +475,3 @@ export const SupportTicketPage: React.FC = () => {
   );
 };
 
-export { SupportTicketPage as SupportTicket };
