@@ -1,0 +1,380 @@
+{
+  "steps": [
+    {
+      "step": "as admin",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as superadmin",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Super Admin",
+          "requesterRoles": [
+            "superadmin",
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true,
+          "requesterId": "00000000-0000-4000-8000-000000000002",
+          "requesterEmail": "superadmin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "superadmin",
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000002",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "as recruiter",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as bookkeeper",
+      "as": "bookkeeper",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as recruiter_manager",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as accountant_manager",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Accountant Manager",
+          "requesterRoles": [
+            "accountant_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as sales",
+      "as": "sales",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as recruiter_director",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Director",
+          "requesterRoles": [
+            "recruiter_director"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "as jobseeker",
+      "as": "jobseeker",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    }
+  ]
+}

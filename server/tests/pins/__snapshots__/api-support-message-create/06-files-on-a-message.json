@@ -1,0 +1,335 @@
+{
+  "steps": [
+    {
+      "step": "a message with a file",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "The log is attached",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000006/<uuid>-log.txt",
+            "fileName": "log.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "The log is attached",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "the same file again, as another message",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "Again",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000006/<uuid>-log.txt",
+            "fileName": "log.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Again",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "the agent reads the ticket",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Accountant Manager",
+          "requesterRoles": [
+            "accountant_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000006",
+          "requesterEmail": "accountant.manager@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "accountant_manager"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000006",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by accountant_manager",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000006"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "The log is attached",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000006"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "Again",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000006"
+            }
+          ],
+          "attachments": [
+            {
+              "id": "<uuid>",
+              "fileName": "log.txt",
+              "mimeType": "text/plain",
+              "sizeBytes": 9,
+              "createdAt": "<timestamp>",
+              "messageId": "<uuid>"
+            }
+          ],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000006",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Accountant Manager"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by accountant_manager",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000006"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "The log is attached",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000006"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Again",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000006"
+          }
+        ],
+        "attachments": [
+          {
+            "id": "<uuid>",
+            "fileName": "log.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9,
+            "createdAt": "<timestamp>",
+            "messageId": "<uuid>"
+          }
+        ],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000006",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Accountant Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    },
+    {
+      "step": "the owner reads the ticket",
+      "as": "accountant_manager",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Accountant Manager",
+          "requesterRoles": [
+            "accountant_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by accountant_manager",
+              "createdAt": "<timestamp>"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "The log is attached",
+              "createdAt": "<timestamp>"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "Again",
+              "createdAt": "<timestamp>"
+            }
+          ],
+          "attachments": [
+            {
+              "id": "<uuid>",
+              "fileName": "log.txt",
+              "mimeType": "text/plain",
+              "sizeBytes": 9,
+              "createdAt": "<timestamp>"
+            }
+          ]
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by accountant_manager",
+            "createdAt": "<timestamp>"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "The log is attached",
+            "createdAt": "<timestamp>"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Again",
+            "createdAt": "<timestamp>"
+          }
+        ],
+        "attachments": [
+          {
+            "id": "<uuid>",
+            "fileName": "log.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9,
+            "createdAt": "<timestamp>"
+          }
+        ]
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

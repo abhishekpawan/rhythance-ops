@@ -113,6 +113,30 @@ export const SIGNUP_JOBSEEKER = {
   mobile: "+15555550199",
 };
 
+/**
+ * Support tickets of the seed (tests/seed/data.sql): fixed ids, ticket numbers 1 to 5 (the sequence hands them out in
+ * insert order), fixed dates. Tickets made by a test at run time get the next numbers.
+ * owner: who raised it. The messages and attachments are listed under `messages` and `attachments`.
+ */
+export const SUPPORT = {
+  /** in progress, raised by the recruiter: agent reply, internal note, two files (one on the internal note) */
+  recruiterBug: { id: uid(1001), number: 1 },
+  /** resolved, raised by the bookkeeper */
+  bookkeeperQuestion: { id: uid(1002), number: 2 },
+  /** waiting on the client, raised by the admin */
+  adminChange: { id: uid(1003), number: 3 },
+  /** closed (confirmed by the client), raised by sales */
+  salesFeature: { id: uid(1004), number: 4 },
+  /** open and blocked, raised by the accountant manager */
+  accountantBug: { id: uid(1005), number: 5 },
+};
+export const SUPPORT_SEEDED = Object.values(SUPPORT).map((t) => t.id);
+/** Files of ticket 1: on the first message (visible to the owner, admins and agents) and on the internal note (agents only). */
+export const SUPPORT_ATTACHMENTS = {
+  onDescription: { id: uid(1081), ticket: SUPPORT.recruiterBug.id },
+  onInternalNote: { id: uid(1082), ticket: SUPPORT.recruiterBug.id },
+};
+
 /** Files uploaded by the seed: bucket, object name, owner. */
 export const FILES = {
   sinDocument: {
@@ -135,6 +159,15 @@ export const FILES = {
   invoiceFile: {
     bucket: "invoices",
     name: `${STAFF.recruiter.id}/invoice-900001.pdf`,
+  },
+  // support ticket 1: the two files the seeded attachment rows point to
+  supportOnDescription: {
+    bucket: "support-attachments",
+    name: `${SUPPORT.recruiterBug.id}/screenshot-error.pdf`,
+  },
+  supportOnInternalNote: {
+    bucket: "support-attachments",
+    name: `${SUPPORT.recruiterBug.id}/internal-log.pdf`,
   },
 };
 

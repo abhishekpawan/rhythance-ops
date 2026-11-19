@@ -1,0 +1,254 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {
+            "os": "macOS",
+            "roles": [
+              "recruiter"
+            ],
+            "route": "/timesheets",
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "browser": "Chrome 130",
+            "language": "en",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 45
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "bookkeeper": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "accountant_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "sales": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

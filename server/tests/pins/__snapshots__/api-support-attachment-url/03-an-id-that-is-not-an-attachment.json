@@ -1,0 +1,20 @@
+{
+  "not a uuid": {
+    "admin": {
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    }
+  },
+  "a uuid nobody has": {
+    "admin": {
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    }
+  }
+}

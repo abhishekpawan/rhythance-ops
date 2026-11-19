@@ -1,0 +1,685 @@
+{
+  "steps": [
+    {
+      "step": "nothing to change",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {},
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "priority p1",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "a priority that does not exist",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p9"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "priority must be p1, p2, or p3"
+      }
+    },
+    {
+      "step": "a new title, with spaces around it",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "  A clearer title  "
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "an empty title",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "   "
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "title must be between 1 and 200 characters"
+      }
+    },
+    {
+      "step": "a title of 201 characters",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "title must be between 1 and 200 characters"
+      }
+    },
+    {
+      "step": "assigned to the agent",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": "00000000-0000-4000-8000-000000000002"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "assigned to nobody",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": null
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "assigned to something that is not an id",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": "me"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "assignedTo must be a valid UUID or null"
+      }
+    },
+    {
+      "step": "hours 1.5",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": 1.5
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 90
+        }
+      }
+    },
+    {
+      "step": "hours as text",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": "2.25"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 135
+        }
+      }
+    },
+    {
+      "step": "hours 0",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": 0
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 0
+        }
+      }
+    },
+    {
+      "step": "hours below zero",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": -1
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "effortHours must be a number between 0 and 1000"
+      }
+    },
+    {
+      "step": "hours over 1000",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": 1001
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "effortHours must be a number between 0 and 1000"
+      }
+    },
+    {
+      "step": "hours that are not a number",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": "lots"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "effortHours must be a number between 0 and 1000"
+      }
+    },
+    {
+      "step": "several at once, one of them wrong: nothing changes",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p2",
+        "title": "Half done",
+        "effortHours": "x"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "effortHours must be a number between 0 and 1000"
+      }
+    },
+    {
+      "step": "status and hours together",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved",
+        "effortHours": 3
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 180
+        }
+      }
+    },
+    {
+      "step": "hours with the status it already has",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved",
+        "effortHours": 4
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 240
+        }
+      }
+    },
+    {
+      "step": "the ticket afterwards",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "A clearer title",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 240,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Bookkeeper",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by bookkeeper",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000004"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000004",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Bookkeeper"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "resolved",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "resolved",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by bookkeeper",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000004"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000004",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Bookkeeper"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "bookkeeper@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: A clearer title"
+    }
+  ]
+}

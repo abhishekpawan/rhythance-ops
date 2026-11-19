@@ -1,0 +1,512 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001004",
+        "ticketNumber": 4,
+        "type": "feature",
+        "title": "Export the client list to a spreadsheet",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "closed",
+        "requesterName": "Test Sales",
+        "requesterRoles": [
+          "sales"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T09:00:00+00:00",
+        "closedAt": "2026-11-13T09:00:00+00:00",
+        "confirmedBy": "client",
+        "createdAt": "2026-11-05T09:00:00+00:00",
+        "updatedAt": "2026-11-13T09:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001041",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Test Sales",
+            "authorKind": "requester",
+            "body": "Export the client list to a spreadsheet",
+            "createdAt": "2026-11-05T09:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001042",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Done: the Clients report has a CSV button.",
+            "createdAt": "2026-11-12T09:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001041",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Test Sales",
+          "authorKind": "requester",
+          "body": "Export the client list to a spreadsheet",
+          "createdAt": "2026-11-05T09:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001042",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Done: the Clients report has a CSV button.",
+          "createdAt": "2026-11-12T09:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001004",
+        "ticketNumber": 4,
+        "type": "feature",
+        "title": "Export the client list to a spreadsheet",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "closed",
+        "requesterName": "Test Sales",
+        "requesterRoles": [
+          "sales"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T09:00:00+00:00",
+        "closedAt": "2026-11-13T09:00:00+00:00",
+        "confirmedBy": "client",
+        "createdAt": "2026-11-05T09:00:00+00:00",
+        "updatedAt": "2026-11-13T09:00:00+00:00",
+        "isOwner": false,
+        "requesterId": "00000000-0000-4000-8000-000000000007",
+        "requesterEmail": "sales@example.test",
+        "assignedTo": null,
+        "context": {
+          "roles": [
+            "sales"
+          ],
+          "route": "/clients",
+          "userId": "00000000-0000-4000-8000-000000000007",
+          "language": "en",
+          "deployment": "Test Portal"
+        },
+        "effortMinutes": 90,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001041",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Test Sales",
+            "authorKind": "requester",
+            "body": "Export the client list to a spreadsheet",
+            "createdAt": "2026-11-05T09:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000007"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001042",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Done: the Clients report has a CSV button.",
+            "createdAt": "2026-11-12T09:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "00000000-0000-4000-8000-000000001107",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000007",
+            "createdAt": "2026-11-05T09:00:00+00:00",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Sales"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001108",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "fromStatus": "open",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "2026-11-12T09:00:00+00:00",
+            "oldStatus": "open",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001109",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "fromStatus": "resolved",
+            "toStatus": "closed",
+            "changedBy": "00000000-0000-4000-8000-000000000007",
+            "createdAt": "2026-11-13T09:00:00+00:00",
+            "oldStatus": "resolved",
+            "newStatus": "closed",
+            "actorKind": "requester",
+            "actorName": "Test Sales"
+          }
+        ],
+        "elapsedMinutes": 10080
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001041",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Test Sales",
+          "authorKind": "requester",
+          "body": "Export the client list to a spreadsheet",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000007"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001042",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Done: the Clients report has a CSV button.",
+          "createdAt": "2026-11-12T09:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      ],
+      "attachments": [],
+      "statusEvents": [
+        {
+          "id": "00000000-0000-4000-8000-000000001107",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "fromStatus": null,
+          "toStatus": "open",
+          "changedBy": "00000000-0000-4000-8000-000000000007",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "oldStatus": null,
+          "newStatus": "open",
+          "actorKind": "requester",
+          "actorName": "Test Sales"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001108",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "fromStatus": "open",
+          "toStatus": "resolved",
+          "changedBy": "00000000-0000-4000-8000-000000000002",
+          "createdAt": "2026-11-12T09:00:00+00:00",
+          "oldStatus": "open",
+          "newStatus": "resolved",
+          "actorKind": "agent",
+          "actorName": "Test Super Admin"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001109",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "fromStatus": "resolved",
+          "toStatus": "closed",
+          "changedBy": "00000000-0000-4000-8000-000000000007",
+          "createdAt": "2026-11-13T09:00:00+00:00",
+          "oldStatus": "resolved",
+          "newStatus": "closed",
+          "actorKind": "requester",
+          "actorName": "Test Sales"
+        }
+      ],
+      "elapsedMinutes": 10080
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001004",
+        "ticketNumber": 4,
+        "type": "feature",
+        "title": "Export the client list to a spreadsheet",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "closed",
+        "requesterName": "Test Sales",
+        "requesterRoles": [
+          "sales"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T09:00:00+00:00",
+        "closedAt": "2026-11-13T09:00:00+00:00",
+        "confirmedBy": "client",
+        "createdAt": "2026-11-05T09:00:00+00:00",
+        "updatedAt": "2026-11-13T09:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001041",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Test Sales",
+            "authorKind": "requester",
+            "body": "Export the client list to a spreadsheet",
+            "createdAt": "2026-11-05T09:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001042",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Done: the Clients report has a CSV button.",
+            "createdAt": "2026-11-12T09:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001041",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Test Sales",
+          "authorKind": "requester",
+          "body": "Export the client list to a spreadsheet",
+          "createdAt": "2026-11-05T09:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001042",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Done: the Clients report has a CSV button.",
+          "createdAt": "2026-11-12T09:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "bookkeeper": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001004",
+        "ticketNumber": 4,
+        "type": "feature",
+        "title": "Export the client list to a spreadsheet",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "closed",
+        "requesterName": "Test Sales",
+        "requesterRoles": [
+          "sales"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T09:00:00+00:00",
+        "closedAt": "2026-11-13T09:00:00+00:00",
+        "confirmedBy": "client",
+        "createdAt": "2026-11-05T09:00:00+00:00",
+        "updatedAt": "2026-11-13T09:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001041",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Test Sales",
+            "authorKind": "requester",
+            "body": "Export the client list to a spreadsheet",
+            "createdAt": "2026-11-05T09:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001042",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Done: the Clients report has a CSV button.",
+            "createdAt": "2026-11-12T09:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001041",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Test Sales",
+          "authorKind": "requester",
+          "body": "Export the client list to a spreadsheet",
+          "createdAt": "2026-11-05T09:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001042",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Done: the Clients report has a CSV button.",
+          "createdAt": "2026-11-12T09:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "accountant_manager": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "sales": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001004",
+        "ticketNumber": 4,
+        "type": "feature",
+        "title": "Export the client list to a spreadsheet",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "closed",
+        "requesterName": "Test Sales",
+        "requesterRoles": [
+          "sales"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T09:00:00+00:00",
+        "closedAt": "2026-11-13T09:00:00+00:00",
+        "confirmedBy": "client",
+        "createdAt": "2026-11-05T09:00:00+00:00",
+        "updatedAt": "2026-11-13T09:00:00+00:00",
+        "isOwner": true,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001041",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Test Sales",
+            "authorKind": "requester",
+            "body": "Export the client list to a spreadsheet",
+            "createdAt": "2026-11-05T09:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001042",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Done: the Clients report has a CSV button.",
+            "createdAt": "2026-11-12T09:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001041",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Test Sales",
+          "authorKind": "requester",
+          "body": "Export the client list to a spreadsheet",
+          "createdAt": "2026-11-05T09:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001042",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Done: the Clients report has a CSV button.",
+          "createdAt": "2026-11-12T09:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001004",
+        "ticketNumber": 4,
+        "type": "feature",
+        "title": "Export the client list to a spreadsheet",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "closed",
+        "requesterName": "Test Sales",
+        "requesterRoles": [
+          "sales"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T09:00:00+00:00",
+        "closedAt": "2026-11-13T09:00:00+00:00",
+        "confirmedBy": "client",
+        "createdAt": "2026-11-05T09:00:00+00:00",
+        "updatedAt": "2026-11-13T09:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001041",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Test Sales",
+            "authorKind": "requester",
+            "body": "Export the client list to a spreadsheet",
+            "createdAt": "2026-11-05T09:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001042",
+            "ticketId": "00000000-0000-4000-8000-000000001004",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Done: the Clients report has a CSV button.",
+            "createdAt": "2026-11-12T09:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001041",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Test Sales",
+          "authorKind": "requester",
+          "body": "Export the client list to a spreadsheet",
+          "createdAt": "2026-11-05T09:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001042",
+          "ticketId": "00000000-0000-4000-8000-000000001004",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Done: the Clients report has a CSV button.",
+          "createdAt": "2026-11-12T09:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

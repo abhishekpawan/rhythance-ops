@@ -1,0 +1,218 @@
+{
+  "steps": [
+    {
+      "step": "no body",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "fileName is required"
+      }
+    },
+    {
+      "step": "no name",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "mimeType": "image/png",
+        "sizeBytes": 1200
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "fileName is required"
+      }
+    },
+    {
+      "step": "no type",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "sizeBytes": 1200
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "mimeType is required"
+      }
+    },
+    {
+      "step": "a type that does not match the extension",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.jpg",
+        "mimeType": "image/png",
+        "sizeBytes": 1200
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Invalid file type or extension mismatch"
+      }
+    },
+    {
+      "step": "a type that is not allowed",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "run.exe",
+        "mimeType": "application/x-msdownload",
+        "sizeBytes": 5
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Invalid file type or extension mismatch"
+      }
+    },
+    {
+      "step": "a name with no extension",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen",
+        "mimeType": "image/png",
+        "sizeBytes": 1200
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Invalid file type or extension mismatch"
+      }
+    },
+    {
+      "step": "size zero",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "mimeType": "image/png",
+        "sizeBytes": 0
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "sizeBytes must be between 1 and 10485760 (10MB)"
+      }
+    },
+    {
+      "step": "size over 10 MB",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "mimeType": "image/png",
+        "sizeBytes": 10485761
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "sizeBytes must be between 1 and 10485760 (10MB)"
+      }
+    },
+    {
+      "step": "size 10 MB exactly",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "mimeType": "image/png",
+        "sizeBytes": 10485760
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png?token=<token>",
+        "token": "<token>",
+        "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png"
+      }
+    },
+    {
+      "step": "size not a number",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "mimeType": "image/png",
+        "sizeBytes": "big"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "sizeBytes must be between 1 and 10485760 (10MB)"
+      }
+    },
+    {
+      "step": "size as text that is a number",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "mimeType": "image/png",
+        "sizeBytes": "1200"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png?token=<token>",
+        "token": "<token>",
+        "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png"
+      }
+    },
+    {
+      "step": "a name with a path and odd characters",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "..\\..\\my screen (1).PNG",
+        "mimeType": "image/png",
+        "sizeBytes": 1200
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000001/<uuid>-my_screen__1_.PNG?token=<token>",
+        "token": "<token>",
+        "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-my_screen__1_.PNG"
+      }
+    },
+    {
+      "step": "a very long name",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn.png",
+        "mimeType": "image/png",
+        "sizeBytes": 1200
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000001/<uuid>-nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn?token=<token>",
+        "token": "<token>",
+        "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+      }
+    },
+    {
+      "step": "upper case type",
+      "as": "admin",
+      "request": "POST /api/support/attachments/sign",
+      "requestBody": {
+        "fileName": "screen.png",
+        "mimeType": "IMAGE/PNG",
+        "sizeBytes": 1200
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png?token=<token>",
+        "token": "<token>",
+        "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png"
+      }
+    }
+  ],
+  "messagesSent": []
+}

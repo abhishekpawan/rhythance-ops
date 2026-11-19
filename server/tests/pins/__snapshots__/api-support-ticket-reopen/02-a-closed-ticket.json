@@ -1,0 +1,91 @@
+{
+  "steps": [
+    {
+      "step": "closed a moment ago, the owner reopens with a reason",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/reopen",
+      "requestBody": {
+        "body": "Sorry, it came back"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "closed 15 days ago, the owner reopens",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/reopen",
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "REOPEN_WINDOW_EXPIRED: Cannot reopen ticket <uuid> closed more than 14 days ago",
+        "code": "REOPEN_WINDOW_EXPIRED"
+      }
+    },
+    {
+      "step": "closed 15 days ago, the agent reopens",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/reopen",
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "REOPEN_WINDOW_EXPIRED: Cannot reopen ticket <uuid> closed more than 14 days ago",
+        "code": "REOPEN_WINDOW_EXPIRED"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter.manager@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter.manager@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

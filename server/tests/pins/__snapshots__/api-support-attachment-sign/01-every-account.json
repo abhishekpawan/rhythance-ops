@@ -1,0 +1,81 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-screen.png"
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000002/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000002/<uuid>-screen.png"
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000003/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000003/<uuid>-screen.png"
+    }
+  },
+  "bookkeeper": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000004/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000004/<uuid>-screen.png"
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000005/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000005/<uuid>-screen.png"
+    }
+  },
+  "accountant_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000006/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000006/<uuid>-screen.png"
+    }
+  },
+  "sales": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000007/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000007/<uuid>-screen.png"
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "uploadUrl": "<host>/storage/v1/object/upload/sign/support-attachments/pending/00000000-0000-4000-8000-000000000008/<uuid>-screen.png?token=<token>",
+      "token": "<token>",
+      "path": "pending/00000000-0000-4000-8000-000000000008/<uuid>-screen.png"
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

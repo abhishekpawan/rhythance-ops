@@ -1,0 +1,348 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001004",
+          "ticketNumber": 4,
+          "type": "feature",
+          "title": "Export the client list to a spreadsheet",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T09:00:00+00:00",
+          "closedAt": "2026-11-13T09:00:00+00:00",
+          "confirmedBy": "client",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "updatedAt": "2026-11-13T09:00:00+00:00",
+          "isOwner": false
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 2,
+        "total": 5,
+        "totalPages": 3,
+        "hasNextPage": true,
+        "hasPrevPage": true
+      }
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001004",
+          "ticketNumber": 4,
+          "type": "feature",
+          "title": "Export the client list to a spreadsheet",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T09:00:00+00:00",
+          "closedAt": "2026-11-13T09:00:00+00:00",
+          "confirmedBy": "client",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "updatedAt": "2026-11-13T09:00:00+00:00",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "sales"
+            ],
+            "route": "/clients",
+            "userId": "00000000-0000-4000-8000-000000000007",
+            "language": "en",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 90
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {
+            "os": "macOS",
+            "roles": [
+              "recruiter"
+            ],
+            "route": "/timesheets",
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "browser": "Chrome 130",
+            "language": "en",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 45
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 2,
+        "total": 5,
+        "totalPages": 3,
+        "hasNextPage": true,
+        "hasPrevPage": true
+      }
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001004",
+          "ticketNumber": 4,
+          "type": "feature",
+          "title": "Export the client list to a spreadsheet",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T09:00:00+00:00",
+          "closedAt": "2026-11-13T09:00:00+00:00",
+          "confirmedBy": "client",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "updatedAt": "2026-11-13T09:00:00+00:00",
+          "isOwner": false
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 2,
+        "total": 5,
+        "totalPages": 3,
+        "hasNextPage": true,
+        "hasPrevPage": true
+      }
+    }
+  },
+  "bookkeeper": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001004",
+          "ticketNumber": 4,
+          "type": "feature",
+          "title": "Export the client list to a spreadsheet",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T09:00:00+00:00",
+          "closedAt": "2026-11-13T09:00:00+00:00",
+          "confirmedBy": "client",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "updatedAt": "2026-11-13T09:00:00+00:00",
+          "isOwner": false
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 2,
+        "total": 5,
+        "totalPages": 3,
+        "hasNextPage": true,
+        "hasPrevPage": true
+      }
+    }
+  },
+  "accountant_manager": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "sales": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001004",
+          "ticketNumber": 4,
+          "type": "feature",
+          "title": "Export the client list to a spreadsheet",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T09:00:00+00:00",
+          "closedAt": "2026-11-13T09:00:00+00:00",
+          "confirmedBy": "client",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "updatedAt": "2026-11-13T09:00:00+00:00",
+          "isOwner": false
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 2,
+        "total": 5,
+        "totalPages": 3,
+        "hasNextPage": true,
+        "hasPrevPage": true
+      }
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

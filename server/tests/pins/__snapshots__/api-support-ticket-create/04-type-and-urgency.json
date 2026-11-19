@@ -1,0 +1,135 @@
+{
+  "steps": [
+    {
+      "step": "question, blocked",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "question",
+        "urgency": "blocked",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "question",
+          "title": "The invoice list is empty",
+          "urgency": "blocked",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Recruiter Director",
+          "requesterRoles": [
+            "recruiter_director"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "change, annoying",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "change",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "change",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Director",
+          "requesterRoles": [
+            "recruiter_director"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "feature, not urgent",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "feature",
+        "urgency": "not_urgent",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "feature",
+          "title": "The invoice list is empty",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Recruiter Director",
+          "requesterRoles": [
+            "recruiter_director"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    }
+  ]
+}

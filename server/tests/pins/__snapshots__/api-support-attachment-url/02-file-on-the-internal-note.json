@@ -1,0 +1,65 @@
+{
+  "admin": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "url": "<host>/storage/v1/object/sign/support-attachments/00000000-0000-4000-8000-000000001001/internal-log.pdf?token=<token>"
+    }
+  },
+  "recruiter": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "bookkeeper": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_manager": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "accountant_manager": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "sales": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_director": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

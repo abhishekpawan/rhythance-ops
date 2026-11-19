@@ -1,0 +1,196 @@
+{
+  "steps": [
+    {
+      "step": "a long first line, a messy context",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "  \nTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT\nsecond line  ",
+        "idempotencyKey": "<uuid>",
+        "locale": "fr-CA-and-a-lot-more",
+        "context": {
+          "route": "/invoices?token=<token>#top",
+          "fromPage": "/reports?x=1",
+          "language": "  fr  ",
+          "browser": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+          "consoleErrors": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            {
+              "a": 1
+            }
+          ],
+          "failedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/x?y=1",
+              "status": "500",
+              "time": "now"
+            }
+          ],
+          "userId": "someone-else",
+          "roles": [
+            "admin"
+          ],
+          "deployment": "elsewhere",
+          "unknownKey": "dropped"
+        }
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "fr-CA-and-",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "what the agent sees stored",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "fr-CA-and-",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000005",
+          "requesterEmail": "recruiter.manager@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter_manager"
+            ],
+            "route": "/invoices",
+            "userId": "00000000-0000-4000-8000-000000000005",
+            "browser": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+            "fromPage": "/reports",
+            "language": "fr",
+            "deployment": "Test Portal",
+            "consoleErrors": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ],
+            "failedRequests": [
+              {
+                "path": "/api/x",
+                "time": "now",
+                "method": "POST",
+                "status": 500
+              }
+            ]
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT\nsecond line",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000005"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000005",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter Manager"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT\nsecond line",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000005",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
+    }
+  ]
+}

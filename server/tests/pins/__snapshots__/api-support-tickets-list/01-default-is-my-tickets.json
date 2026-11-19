@@ -1,0 +1,239 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001003",
+          "ticketNumber": 3,
+          "type": "change",
+          "title": "Add a column for the client code to the invoice list",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "waiting_on_client",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-13T15:00:00+00:00",
+          "updatedAt": "2026-11-14T10:00:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001001",
+          "ticketNumber": 1,
+          "type": "bug",
+          "title": "Timesheet total shows zero after saving",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "updatedAt": "2026-11-12T16:30:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "bookkeeper": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "accountant_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001005",
+          "ticketNumber": 5,
+          "type": "bug",
+          "title": "Cannot open the weekly timesheet report",
+          "urgency": "blocked",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Accountant Manager",
+          "requesterRoles": [
+            "accountant_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-16T12:00:00+00:00",
+          "updatedAt": "2026-11-16T12:00:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "sales": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001004",
+          "ticketNumber": 4,
+          "type": "feature",
+          "title": "Export the client list to a spreadsheet",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T09:00:00+00:00",
+          "closedAt": "2026-11-13T09:00:00+00:00",
+          "confirmedBy": "client",
+          "createdAt": "2026-11-05T09:00:00+00:00",
+          "updatedAt": "2026-11-13T09:00:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

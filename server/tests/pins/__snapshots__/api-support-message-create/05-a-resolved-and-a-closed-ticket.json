@@ -1,0 +1,436 @@
+{
+  "steps": [
+    {
+      "step": "the owner replies to a resolved ticket",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "It is still wrong"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "It is still wrong",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "the ticket",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "It is still wrong",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "resolved",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "resolved",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "resolved",
+              "toStatus": "in_progress",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": "resolved",
+              "newStatus": "in_progress",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "It is still wrong",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "resolved",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": "resolved",
+            "newStatus": "in_progress",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    },
+    {
+      "step": "the owner replies to a closed ticket",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "Sorry, it came back"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "Sorry, it came back",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "the closed ticket now",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "Sorry, it came back",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "resolved",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "resolved",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "resolved",
+              "toStatus": "closed",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": "resolved",
+              "newStatus": "closed",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "closed",
+              "toStatus": "in_progress",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": "closed",
+              "newStatus": "in_progress",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Sorry, it came back",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "resolved",
+            "toStatus": "closed",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": "resolved",
+            "newStatus": "closed",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "closed",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": "closed",
+            "newStatus": "in_progress",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

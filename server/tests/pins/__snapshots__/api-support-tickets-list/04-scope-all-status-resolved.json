@@ -1,0 +1,274 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000004",
+          "requesterEmail": "bookkeeper@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "bookkeeper"
+            ],
+            "route": "/reports",
+            "userId": "00000000-0000-4000-8000-000000000004",
+            "language": "fr",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": 15
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "bookkeeper": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": true
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "accountant_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "sales": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "tickets": [
+        {
+          "id": "00000000-0000-4000-8000-000000001002",
+          "ticketNumber": 2,
+          "type": "question",
+          "title": "How do I print the envelope list?",
+          "urgency": "not_urgent",
+          "priority": "p3",
+          "status": "resolved",
+          "requesterName": "Test Bookkeeper",
+          "requesterRoles": [
+            "bookkeeper"
+          ],
+          "locale": "fr",
+          "relatedTicketId": null,
+          "resolvedAt": "2026-11-12T15:00:00+00:00",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "updatedAt": "2026-11-12T15:00:00+00:00",
+          "isOwner": false
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

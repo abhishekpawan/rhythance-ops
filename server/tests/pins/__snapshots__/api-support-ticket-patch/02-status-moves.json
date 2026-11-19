@@ -1,0 +1,560 @@
+{
+  "steps": [
+    {
+      "step": "open to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'open' to 'closed'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "open to open (nothing to change)",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "open"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "open to in progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "in progress to waiting on the client (tells the requester)",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "waiting_on_client",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "waiting to resolved (tells the requester)",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "resolved",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "resolved to waiting",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'resolved' to 'waiting_on_client'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "resolved to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "closed",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": "<timestamp>",
+          "confirmedBy": "agent",
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "closed to resolved",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'closed' to 'resolved'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "closed back to in progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "a status that does not exist",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "paused"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "status must be one of: open, in_progress, waiting_on_client, resolved, closed"
+      }
+    },
+    {
+      "step": "the ticket afterwards",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000001",
+          "requesterEmail": "admin@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "admin"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000001",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Admin",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by admin",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000001"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000001",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "in_progress",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "in_progress",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "in_progress",
+              "toStatus": "waiting_on_client",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "in_progress",
+              "newStatus": "waiting_on_client",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "waiting_on_client",
+              "toStatus": "resolved",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "waiting_on_client",
+              "newStatus": "resolved",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "resolved",
+              "toStatus": "closed",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "resolved",
+              "newStatus": "closed",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "closed",
+              "toStatus": "in_progress",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "closed",
+              "newStatus": "in_progress",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Admin",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by admin",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000001",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "in_progress",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "in_progress",
+            "toStatus": "waiting_on_client",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "in_progress",
+            "newStatus": "waiting_on_client",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "waiting_on_client",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "waiting_on_client",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "resolved",
+            "toStatus": "closed",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "resolved",
+            "newStatus": "closed",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "closed",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "closed",
+            "newStatus": "in_progress",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "admin@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "admin@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

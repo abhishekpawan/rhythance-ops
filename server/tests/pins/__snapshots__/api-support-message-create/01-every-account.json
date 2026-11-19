@@ -1,0 +1,294 @@
+{
+  "steps": [
+    {
+      "step": "as admin",
+      "as": "admin",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from admin"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as superadmin",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from superadmin"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "A reply from superadmin",
+          "createdAt": "<timestamp>",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      }
+    },
+    {
+      "step": "as recruiter",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from recruiter"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as bookkeeper",
+      "as": "bookkeeper",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from bookkeeper"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as recruiter_manager",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from recruiter_manager"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as accountant_manager",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from accountant_manager"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "A reply from accountant_manager",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "as sales",
+      "as": "sales",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from sales"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as recruiter_director",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from recruiter_director"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as jobseeker",
+      "as": "jobseeker",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "A reply from jobseeker"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "how it reads afterwards, to the agent",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Accountant Manager",
+          "requesterRoles": [
+            "accountant_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000006",
+          "requesterEmail": "accountant.manager@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "accountant_manager"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000006",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by accountant_manager",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000006"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Support Team",
+              "authorKind": "agent",
+              "body": "A reply from superadmin",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000002"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Accountant Manager",
+              "authorKind": "requester",
+              "body": "A reply from accountant_manager",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000006"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000006",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Accountant Manager"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by accountant_manager",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000006"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "A reply from superadmin",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "A reply from accountant_manager",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000006"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000006",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Accountant Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "accountant.manager@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

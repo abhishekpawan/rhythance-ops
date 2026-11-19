@@ -1,0 +1,364 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001005",
+        "ticketNumber": 5,
+        "type": "bug",
+        "title": "Cannot open the weekly timesheet report",
+        "urgency": "blocked",
+        "priority": "p1",
+        "status": "open",
+        "requesterName": "Test Accountant Manager",
+        "requesterRoles": [
+          "accountant_manager"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-16T12:00:00+00:00",
+        "updatedAt": "2026-11-16T12:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001051",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+            "createdAt": "2026-11-16T12:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001051",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+          "createdAt": "2026-11-16T12:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001005",
+        "ticketNumber": 5,
+        "type": "bug",
+        "title": "Cannot open the weekly timesheet report",
+        "urgency": "blocked",
+        "priority": "p1",
+        "status": "open",
+        "requesterName": "Test Accountant Manager",
+        "requesterRoles": [
+          "accountant_manager"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-16T12:00:00+00:00",
+        "updatedAt": "2026-11-16T12:00:00+00:00",
+        "isOwner": false,
+        "requesterId": "00000000-0000-4000-8000-000000000006",
+        "requesterEmail": "accountant.manager@example.test",
+        "assignedTo": null,
+        "context": {
+          "roles": [
+            "accountant_manager"
+          ],
+          "route": "/reports/weekly-timesheet",
+          "userId": "00000000-0000-4000-8000-000000000006",
+          "language": "en",
+          "deployment": "Test Portal"
+        },
+        "effortMinutes": null,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001051",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+            "createdAt": "2026-11-16T12:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000006"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "00000000-0000-4000-8000-000000001110",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000006",
+            "createdAt": "2026-11-16T12:00:00+00:00",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Accountant Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001051",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+          "createdAt": "2026-11-16T12:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000006"
+        }
+      ],
+      "attachments": [],
+      "statusEvents": [
+        {
+          "id": "00000000-0000-4000-8000-000000001110",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "fromStatus": null,
+          "toStatus": "open",
+          "changedBy": "00000000-0000-4000-8000-000000000006",
+          "createdAt": "2026-11-16T12:00:00+00:00",
+          "oldStatus": null,
+          "newStatus": "open",
+          "actorKind": "requester",
+          "actorName": "Test Accountant Manager"
+        }
+      ],
+      "elapsedMinutes": "<minutes>"
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001005",
+        "ticketNumber": 5,
+        "type": "bug",
+        "title": "Cannot open the weekly timesheet report",
+        "urgency": "blocked",
+        "priority": "p1",
+        "status": "open",
+        "requesterName": "Test Accountant Manager",
+        "requesterRoles": [
+          "accountant_manager"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-16T12:00:00+00:00",
+        "updatedAt": "2026-11-16T12:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001051",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+            "createdAt": "2026-11-16T12:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001051",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+          "createdAt": "2026-11-16T12:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "bookkeeper": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001005",
+        "ticketNumber": 5,
+        "type": "bug",
+        "title": "Cannot open the weekly timesheet report",
+        "urgency": "blocked",
+        "priority": "p1",
+        "status": "open",
+        "requesterName": "Test Accountant Manager",
+        "requesterRoles": [
+          "accountant_manager"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-16T12:00:00+00:00",
+        "updatedAt": "2026-11-16T12:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001051",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+            "createdAt": "2026-11-16T12:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001051",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+          "createdAt": "2026-11-16T12:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "accountant_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001005",
+        "ticketNumber": 5,
+        "type": "bug",
+        "title": "Cannot open the weekly timesheet report",
+        "urgency": "blocked",
+        "priority": "p1",
+        "status": "open",
+        "requesterName": "Test Accountant Manager",
+        "requesterRoles": [
+          "accountant_manager"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-16T12:00:00+00:00",
+        "updatedAt": "2026-11-16T12:00:00+00:00",
+        "isOwner": true,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001051",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+            "createdAt": "2026-11-16T12:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001051",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+          "createdAt": "2026-11-16T12:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "sales": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001005",
+        "ticketNumber": 5,
+        "type": "bug",
+        "title": "Cannot open the weekly timesheet report",
+        "urgency": "blocked",
+        "priority": "p1",
+        "status": "open",
+        "requesterName": "Test Accountant Manager",
+        "requesterRoles": [
+          "accountant_manager"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-16T12:00:00+00:00",
+        "updatedAt": "2026-11-16T12:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001051",
+            "ticketId": "00000000-0000-4000-8000-000000001005",
+            "authorName": "Test Accountant Manager",
+            "authorKind": "requester",
+            "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+            "createdAt": "2026-11-16T12:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001051",
+          "ticketId": "00000000-0000-4000-8000-000000001005",
+          "authorName": "Test Accountant Manager",
+          "authorKind": "requester",
+          "body": "Cannot open the weekly timesheet report\nThe page stays blank when I open it.",
+          "createdAt": "2026-11-16T12:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

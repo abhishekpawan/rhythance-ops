@@ -1,0 +1,40 @@
+{
+  "steps": [
+    {
+      "step": "the 201st message",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "one too many"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "MESSAGE_LIMIT: Ticket <uuid> already has 200 messages (maximum 200)",
+        "code": "MESSAGE_LIMIT"
+      }
+    },
+    {
+      "step": "the agent's too",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "also too many"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "MESSAGE_LIMIT: Ticket <uuid> already has 200 messages (maximum 200)",
+        "code": "MESSAGE_LIMIT"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

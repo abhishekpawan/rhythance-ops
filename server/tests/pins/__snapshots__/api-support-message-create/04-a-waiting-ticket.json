@@ -1,0 +1,398 @@
+{
+  "steps": [
+    {
+      "step": "the agent answers a waiting ticket",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "Which page was it?"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Which page was it?",
+          "createdAt": "<timestamp>",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      }
+    },
+    {
+      "step": "the ticket",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "waiting_on_client",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Support Team",
+              "authorKind": "agent",
+              "body": "Which page was it?",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000002"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "waiting_on_client",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "waiting_on_client",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which page was it?",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "waiting_on_client",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "waiting_on_client",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    },
+    {
+      "step": "the owner answers",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "The weekly timesheet"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "The weekly timesheet",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "the ticket again",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Support Team",
+              "authorKind": "agent",
+              "body": "Which page was it?",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000002"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "The weekly timesheet",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "waiting_on_client",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "waiting_on_client",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "waiting_on_client",
+              "toStatus": "in_progress",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": "waiting_on_client",
+              "newStatus": "in_progress",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which page was it?",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "The weekly timesheet",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "waiting_on_client",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "waiting_on_client",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "waiting_on_client",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": "waiting_on_client",
+            "newStatus": "in_progress",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

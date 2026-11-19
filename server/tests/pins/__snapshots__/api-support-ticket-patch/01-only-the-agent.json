@@ -1,0 +1,266 @@
+{
+  "steps": [
+    {
+      "step": "as admin",
+      "as": "admin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by admin"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as superadmin",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by superadmin"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Changed by superadmin",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "as recruiter",
+      "as": "recruiter",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by recruiter"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as bookkeeper",
+      "as": "bookkeeper",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by bookkeeper"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as recruiter_manager",
+      "as": "recruiter_manager",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by recruiter_manager"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as accountant_manager",
+      "as": "accountant_manager",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by accountant_manager"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as sales",
+      "as": "sales",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by sales"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as recruiter_director",
+      "as": "recruiter_director",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by recruiter_director"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "as jobseeker",
+      "as": "jobseeker",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p1",
+        "title": "Changed by jobseeker"
+      },
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "the ticket afterwards, to the agent",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Changed by superadmin",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "open",
+          "requesterName": "Test Recruiter",
+          "requesterRoles": [
+            "recruiter"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000003",
+          "requesterEmail": "recruiter@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000003",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000003",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

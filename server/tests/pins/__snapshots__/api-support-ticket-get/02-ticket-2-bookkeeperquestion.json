@@ -1,0 +1,488 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001002",
+        "ticketNumber": 2,
+        "type": "question",
+        "title": "How do I print the envelope list?",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "resolved",
+        "requesterName": "Test Bookkeeper",
+        "requesterRoles": [
+          "bookkeeper"
+        ],
+        "locale": "fr",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T15:00:00+00:00",
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-11T13:00:00+00:00",
+        "updatedAt": "2026-11-12T15:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001021",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "How do I print the envelope list?",
+            "createdAt": "2026-11-11T13:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001022",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Open Reports, choose the envelope report and use the CSV button.",
+            "createdAt": "2026-11-12T15:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001021",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Test Bookkeeper",
+          "authorKind": "requester",
+          "body": "How do I print the envelope list?",
+          "createdAt": "2026-11-11T13:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001022",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Open Reports, choose the envelope report and use the CSV button.",
+          "createdAt": "2026-11-12T15:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001002",
+        "ticketNumber": 2,
+        "type": "question",
+        "title": "How do I print the envelope list?",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "resolved",
+        "requesterName": "Test Bookkeeper",
+        "requesterRoles": [
+          "bookkeeper"
+        ],
+        "locale": "fr",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T15:00:00+00:00",
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-11T13:00:00+00:00",
+        "updatedAt": "2026-11-12T15:00:00+00:00",
+        "isOwner": false,
+        "requesterId": "00000000-0000-4000-8000-000000000004",
+        "requesterEmail": "bookkeeper@example.test",
+        "assignedTo": null,
+        "context": {
+          "roles": [
+            "bookkeeper"
+          ],
+          "route": "/reports",
+          "userId": "00000000-0000-4000-8000-000000000004",
+          "language": "fr",
+          "deployment": "Test Portal"
+        },
+        "effortMinutes": 15,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001021",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "How do I print the envelope list?",
+            "createdAt": "2026-11-11T13:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000004"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001022",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Open Reports, choose the envelope report and use the CSV button.",
+            "createdAt": "2026-11-12T15:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "00000000-0000-4000-8000-000000001103",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000004",
+            "createdAt": "2026-11-11T13:00:00+00:00",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Bookkeeper"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001104",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "fromStatus": "open",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "2026-11-12T15:00:00+00:00",
+            "oldStatus": "open",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": 1560
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001021",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Test Bookkeeper",
+          "authorKind": "requester",
+          "body": "How do I print the envelope list?",
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000004"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001022",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Open Reports, choose the envelope report and use the CSV button.",
+          "createdAt": "2026-11-12T15:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      ],
+      "attachments": [],
+      "statusEvents": [
+        {
+          "id": "00000000-0000-4000-8000-000000001103",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "fromStatus": null,
+          "toStatus": "open",
+          "changedBy": "00000000-0000-4000-8000-000000000004",
+          "createdAt": "2026-11-11T13:00:00+00:00",
+          "oldStatus": null,
+          "newStatus": "open",
+          "actorKind": "requester",
+          "actorName": "Test Bookkeeper"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001104",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "fromStatus": "open",
+          "toStatus": "resolved",
+          "changedBy": "00000000-0000-4000-8000-000000000002",
+          "createdAt": "2026-11-12T15:00:00+00:00",
+          "oldStatus": "open",
+          "newStatus": "resolved",
+          "actorKind": "agent",
+          "actorName": "Test Super Admin"
+        }
+      ],
+      "elapsedMinutes": 1560
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001002",
+        "ticketNumber": 2,
+        "type": "question",
+        "title": "How do I print the envelope list?",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "resolved",
+        "requesterName": "Test Bookkeeper",
+        "requesterRoles": [
+          "bookkeeper"
+        ],
+        "locale": "fr",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T15:00:00+00:00",
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-11T13:00:00+00:00",
+        "updatedAt": "2026-11-12T15:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001021",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "How do I print the envelope list?",
+            "createdAt": "2026-11-11T13:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001022",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Open Reports, choose the envelope report and use the CSV button.",
+            "createdAt": "2026-11-12T15:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001021",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Test Bookkeeper",
+          "authorKind": "requester",
+          "body": "How do I print the envelope list?",
+          "createdAt": "2026-11-11T13:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001022",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Open Reports, choose the envelope report and use the CSV button.",
+          "createdAt": "2026-11-12T15:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "bookkeeper": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001002",
+        "ticketNumber": 2,
+        "type": "question",
+        "title": "How do I print the envelope list?",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "resolved",
+        "requesterName": "Test Bookkeeper",
+        "requesterRoles": [
+          "bookkeeper"
+        ],
+        "locale": "fr",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T15:00:00+00:00",
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-11T13:00:00+00:00",
+        "updatedAt": "2026-11-12T15:00:00+00:00",
+        "isOwner": true,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001021",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "How do I print the envelope list?",
+            "createdAt": "2026-11-11T13:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001022",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Open Reports, choose the envelope report and use the CSV button.",
+            "createdAt": "2026-11-12T15:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001021",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Test Bookkeeper",
+          "authorKind": "requester",
+          "body": "How do I print the envelope list?",
+          "createdAt": "2026-11-11T13:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001022",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Open Reports, choose the envelope report and use the CSV button.",
+          "createdAt": "2026-11-12T15:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001002",
+        "ticketNumber": 2,
+        "type": "question",
+        "title": "How do I print the envelope list?",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "resolved",
+        "requesterName": "Test Bookkeeper",
+        "requesterRoles": [
+          "bookkeeper"
+        ],
+        "locale": "fr",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T15:00:00+00:00",
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-11T13:00:00+00:00",
+        "updatedAt": "2026-11-12T15:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001021",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "How do I print the envelope list?",
+            "createdAt": "2026-11-11T13:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001022",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Open Reports, choose the envelope report and use the CSV button.",
+            "createdAt": "2026-11-12T15:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001021",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Test Bookkeeper",
+          "authorKind": "requester",
+          "body": "How do I print the envelope list?",
+          "createdAt": "2026-11-11T13:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001022",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Open Reports, choose the envelope report and use the CSV button.",
+          "createdAt": "2026-11-12T15:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "accountant_manager": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "sales": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001002",
+        "ticketNumber": 2,
+        "type": "question",
+        "title": "How do I print the envelope list?",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "resolved",
+        "requesterName": "Test Bookkeeper",
+        "requesterRoles": [
+          "bookkeeper"
+        ],
+        "locale": "fr",
+        "relatedTicketId": null,
+        "resolvedAt": "2026-11-12T15:00:00+00:00",
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-11T13:00:00+00:00",
+        "updatedAt": "2026-11-12T15:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001021",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Test Bookkeeper",
+            "authorKind": "requester",
+            "body": "How do I print the envelope list?",
+            "createdAt": "2026-11-11T13:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001022",
+            "ticketId": "00000000-0000-4000-8000-000000001002",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Open Reports, choose the envelope report and use the CSV button.",
+            "createdAt": "2026-11-12T15:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001021",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Test Bookkeeper",
+          "authorKind": "requester",
+          "body": "How do I print the envelope list?",
+          "createdAt": "2026-11-11T13:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001022",
+          "ticketId": "00000000-0000-4000-8000-000000001002",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Open Reports, choose the envelope report and use the CSV button.",
+          "createdAt": "2026-11-12T15:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

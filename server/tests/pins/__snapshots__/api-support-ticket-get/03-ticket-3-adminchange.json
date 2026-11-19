@@ -1,0 +1,430 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001003",
+        "ticketNumber": 3,
+        "type": "change",
+        "title": "Add a column for the client code to the invoice list",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "waiting_on_client",
+        "requesterName": "Test Admin",
+        "requesterRoles": [
+          "admin"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-13T15:00:00+00:00",
+        "updatedAt": "2026-11-14T10:00:00+00:00",
+        "isOwner": true,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001031",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Test Admin",
+            "authorKind": "requester",
+            "body": "Add a column for the client code to the invoice list",
+            "createdAt": "2026-11-13T15:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001032",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which client code do you mean, the short code or the list name?",
+            "createdAt": "2026-11-14T10:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001031",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Test Admin",
+          "authorKind": "requester",
+          "body": "Add a column for the client code to the invoice list",
+          "createdAt": "2026-11-13T15:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001032",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Which client code do you mean, the short code or the list name?",
+          "createdAt": "2026-11-14T10:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001003",
+        "ticketNumber": 3,
+        "type": "change",
+        "title": "Add a column for the client code to the invoice list",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "waiting_on_client",
+        "requesterName": "Test Admin",
+        "requesterRoles": [
+          "admin"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-13T15:00:00+00:00",
+        "updatedAt": "2026-11-14T10:00:00+00:00",
+        "isOwner": false,
+        "requesterId": "00000000-0000-4000-8000-000000000001",
+        "requesterEmail": "admin@example.test",
+        "assignedTo": null,
+        "context": {
+          "roles": [
+            "admin"
+          ],
+          "route": "/invoices",
+          "userId": "00000000-0000-4000-8000-000000000001",
+          "language": "en",
+          "deployment": "Test Portal"
+        },
+        "effortMinutes": null,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001031",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Test Admin",
+            "authorKind": "requester",
+            "body": "Add a column for the client code to the invoice list",
+            "createdAt": "2026-11-13T15:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000001"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001032",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which client code do you mean, the short code or the list name?",
+            "createdAt": "2026-11-14T10:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "00000000-0000-4000-8000-000000001105",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000001",
+            "createdAt": "2026-11-13T15:00:00+00:00",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Admin"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001106",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "fromStatus": "open",
+            "toStatus": "waiting_on_client",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "2026-11-14T10:00:00+00:00",
+            "oldStatus": "open",
+            "newStatus": "waiting_on_client",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": 1140
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001031",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Test Admin",
+          "authorKind": "requester",
+          "body": "Add a column for the client code to the invoice list",
+          "createdAt": "2026-11-13T15:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000001"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001032",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Which client code do you mean, the short code or the list name?",
+          "createdAt": "2026-11-14T10:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      ],
+      "attachments": [],
+      "statusEvents": [
+        {
+          "id": "00000000-0000-4000-8000-000000001105",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "fromStatus": null,
+          "toStatus": "open",
+          "changedBy": "00000000-0000-4000-8000-000000000001",
+          "createdAt": "2026-11-13T15:00:00+00:00",
+          "oldStatus": null,
+          "newStatus": "open",
+          "actorKind": "requester",
+          "actorName": "Test Admin"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001106",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "fromStatus": "open",
+          "toStatus": "waiting_on_client",
+          "changedBy": "00000000-0000-4000-8000-000000000002",
+          "createdAt": "2026-11-14T10:00:00+00:00",
+          "oldStatus": "open",
+          "newStatus": "waiting_on_client",
+          "actorKind": "agent",
+          "actorName": "Test Super Admin"
+        }
+      ],
+      "elapsedMinutes": 1140
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001003",
+        "ticketNumber": 3,
+        "type": "change",
+        "title": "Add a column for the client code to the invoice list",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "waiting_on_client",
+        "requesterName": "Test Admin",
+        "requesterRoles": [
+          "admin"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-13T15:00:00+00:00",
+        "updatedAt": "2026-11-14T10:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001031",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Test Admin",
+            "authorKind": "requester",
+            "body": "Add a column for the client code to the invoice list",
+            "createdAt": "2026-11-13T15:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001032",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which client code do you mean, the short code or the list name?",
+            "createdAt": "2026-11-14T10:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001031",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Test Admin",
+          "authorKind": "requester",
+          "body": "Add a column for the client code to the invoice list",
+          "createdAt": "2026-11-13T15:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001032",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Which client code do you mean, the short code or the list name?",
+          "createdAt": "2026-11-14T10:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "bookkeeper": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001003",
+        "ticketNumber": 3,
+        "type": "change",
+        "title": "Add a column for the client code to the invoice list",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "waiting_on_client",
+        "requesterName": "Test Admin",
+        "requesterRoles": [
+          "admin"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-13T15:00:00+00:00",
+        "updatedAt": "2026-11-14T10:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001031",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Test Admin",
+            "authorKind": "requester",
+            "body": "Add a column for the client code to the invoice list",
+            "createdAt": "2026-11-13T15:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001032",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which client code do you mean, the short code or the list name?",
+            "createdAt": "2026-11-14T10:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001031",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Test Admin",
+          "authorKind": "requester",
+          "body": "Add a column for the client code to the invoice list",
+          "createdAt": "2026-11-13T15:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001032",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Which client code do you mean, the short code or the list name?",
+          "createdAt": "2026-11-14T10:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "accountant_manager": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "sales": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001003",
+        "ticketNumber": 3,
+        "type": "change",
+        "title": "Add a column for the client code to the invoice list",
+        "urgency": "not_urgent",
+        "priority": "p3",
+        "status": "waiting_on_client",
+        "requesterName": "Test Admin",
+        "requesterRoles": [
+          "admin"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-13T15:00:00+00:00",
+        "updatedAt": "2026-11-14T10:00:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001031",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Test Admin",
+            "authorKind": "requester",
+            "body": "Add a column for the client code to the invoice list",
+            "createdAt": "2026-11-13T15:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001032",
+            "ticketId": "00000000-0000-4000-8000-000000001003",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Which client code do you mean, the short code or the list name?",
+            "createdAt": "2026-11-14T10:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001031",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Test Admin",
+          "authorKind": "requester",
+          "body": "Add a column for the client code to the invoice list",
+          "createdAt": "2026-11-13T15:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001032",
+          "ticketId": "00000000-0000-4000-8000-000000001003",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Which client code do you mean, the short code or the list name?",
+          "createdAt": "2026-11-14T10:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

@@ -286,3 +286,82 @@ SET LOCAL session_replication_role = origin;
 INSERT INTO public.feature_flags (key, enabled, updated_by_name)
 VALUES ('staff_two_factor_enforced', false, 'Test seed')
 ON CONFLICT (key) DO UPDATE SET enabled = false;
+
+-- Support tickets --------------------------------------------------------------------------------------
+-- Five tickets, one per situation the Support screens and the API pins read (ids in tests/seed/ids.mjs, SUPPORT).
+-- Ticket numbers come from the sequence, so they are 1 to 5 in this order; tickets made by a test get the next ones.
+-- Every date is fixed (all before the fixed clock of 17 November 2026), including updated_at and the status events,
+-- so a list or a ticket reads the same on every run. Users: 1 admin, 2 superadmin (the support agent), 3 recruiter,
+-- 4 bookkeeper, 6 accountant manager, 7 sales.
+INSERT INTO public.support_tickets (id, idempotency_key, type, title, urgency, priority, status, assigned_to,
+  requester_id, requester_name, requester_email, requester_roles, context, locale, effort_minutes,
+  resolved_at, closed_at, confirmed_by, created_at, updated_at)
+VALUES
+ ('00000000-0000-4000-8000-000000001001', '00000000-0000-4000-8000-000000002001', 'bug',
+  'Timesheet total shows zero after saving', 'annoying', 'p2', 'in_progress', '00000000-0000-4000-8000-000000000002',
+  '00000000-0000-4000-8000-000000000003', 'Test Recruiter', 'recruiter@example.test', ARRAY['recruiter'],
+  '{"route": "/timesheets", "language": "en", "browser": "Chrome 130", "os": "macOS", "userId": "00000000-0000-4000-8000-000000000003", "roles": ["recruiter"], "deployment": "Test Portal"}',
+  'en', 45, NULL, NULL, NULL, '2026-11-10T14:00:00Z', '2026-11-12T16:30:00Z'),
+ ('00000000-0000-4000-8000-000000001002', '00000000-0000-4000-8000-000000002002', 'question',
+  'How do I print the envelope list?', 'not_urgent', 'p3', 'resolved', NULL,
+  '00000000-0000-4000-8000-000000000004', 'Test Bookkeeper', 'bookkeeper@example.test', ARRAY['bookkeeper'],
+  '{"route": "/reports", "language": "fr", "userId": "00000000-0000-4000-8000-000000000004", "roles": ["bookkeeper"], "deployment": "Test Portal"}',
+  'fr', 15, '2026-11-12T15:00:00Z', NULL, NULL, '2026-11-11T13:00:00Z', '2026-11-12T15:00:00Z'),
+ ('00000000-0000-4000-8000-000000001003', '00000000-0000-4000-8000-000000002003', 'change',
+  'Add a column for the client code to the invoice list', 'not_urgent', 'p3', 'waiting_on_client', NULL,
+  '00000000-0000-4000-8000-000000000001', 'Test Admin', 'admin@example.test', ARRAY['admin'],
+  '{"route": "/invoices", "language": "en", "userId": "00000000-0000-4000-8000-000000000001", "roles": ["admin"], "deployment": "Test Portal"}',
+  'en', NULL, NULL, NULL, NULL, '2026-11-13T15:00:00Z', '2026-11-14T10:00:00Z'),
+ ('00000000-0000-4000-8000-000000001004', '00000000-0000-4000-8000-000000002004', 'feature',
+  'Export the client list to a spreadsheet', 'not_urgent', 'p3', 'closed', NULL,
+  '00000000-0000-4000-8000-000000000007', 'Test Sales', 'sales@example.test', ARRAY['sales'],
+  '{"route": "/clients", "language": "en", "userId": "00000000-0000-4000-8000-000000000007", "roles": ["sales"], "deployment": "Test Portal"}',
+  'en', 90, '2026-11-12T09:00:00Z', '2026-11-13T09:00:00Z', 'client', '2026-11-05T09:00:00Z', '2026-11-13T09:00:00Z'),
+ ('00000000-0000-4000-8000-000000001005', '00000000-0000-4000-8000-000000002005', 'bug',
+  'Cannot open the weekly timesheet report', 'blocked', 'p1', 'open', NULL,
+  '00000000-0000-4000-8000-000000000006', 'Test Accountant Manager', 'accountant.manager@example.test', ARRAY['accountant_manager'],
+  '{"route": "/reports/weekly-timesheet", "language": "en", "userId": "00000000-0000-4000-8000-000000000006", "roles": ["accountant_manager"], "deployment": "Test Portal"}',
+  'en', NULL, NULL, NULL, NULL, '2026-11-16T12:00:00Z', '2026-11-16T12:00:00Z');
+
+INSERT INTO public.support_ticket_messages (id, ticket_id, author_id, author_name, author_kind, body, is_internal, created_at)
+VALUES
+ ('00000000-0000-4000-8000-000000001011', '00000000-0000-4000-8000-000000001001', '00000000-0000-4000-8000-000000000003', 'Test Recruiter', 'requester',
+  E'Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.', false, '2026-11-10T14:00:00Z'),
+ ('00000000-0000-4000-8000-000000001012', '00000000-0000-4000-8000-000000001001', '00000000-0000-4000-8000-000000000002', 'Support Team', 'agent',
+  'Thanks, we can see it. Looking into it now.', false, '2026-11-11T10:00:00Z'),
+ ('00000000-0000-4000-8000-000000001013', '00000000-0000-4000-8000-000000001001', '00000000-0000-4000-8000-000000000002', 'Support Team', 'agent',
+  'Internal: the total is calculated in the browser; check the rounding helper.', true, '2026-11-12T16:30:00Z'),
+ ('00000000-0000-4000-8000-000000001021', '00000000-0000-4000-8000-000000001002', '00000000-0000-4000-8000-000000000004', 'Test Bookkeeper', 'requester',
+  'How do I print the envelope list?', false, '2026-11-11T13:00:00Z'),
+ ('00000000-0000-4000-8000-000000001022', '00000000-0000-4000-8000-000000001002', '00000000-0000-4000-8000-000000000002', 'Support Team', 'agent',
+  'Open Reports, choose the envelope report and use the CSV button.', false, '2026-11-12T15:00:00Z'),
+ ('00000000-0000-4000-8000-000000001031', '00000000-0000-4000-8000-000000001003', '00000000-0000-4000-8000-000000000001', 'Test Admin', 'requester',
+  'Add a column for the client code to the invoice list', false, '2026-11-13T15:00:00Z'),
+ ('00000000-0000-4000-8000-000000001032', '00000000-0000-4000-8000-000000001003', '00000000-0000-4000-8000-000000000002', 'Support Team', 'agent',
+  'Which client code do you mean, the short code or the list name?', false, '2026-11-14T10:00:00Z'),
+ ('00000000-0000-4000-8000-000000001041', '00000000-0000-4000-8000-000000001004', '00000000-0000-4000-8000-000000000007', 'Test Sales', 'requester',
+  'Export the client list to a spreadsheet', false, '2026-11-05T09:00:00Z'),
+ ('00000000-0000-4000-8000-000000001042', '00000000-0000-4000-8000-000000001004', '00000000-0000-4000-8000-000000000002', 'Support Team', 'agent',
+  'Done: the Clients report has a CSV button.', false, '2026-11-12T09:00:00Z'),
+ ('00000000-0000-4000-8000-000000001051', '00000000-0000-4000-8000-000000001005', '00000000-0000-4000-8000-000000000006', 'Test Accountant Manager', 'requester',
+  E'Cannot open the weekly timesheet report\nThe page stays blank when I open it.', false, '2026-11-16T12:00:00Z');
+
+INSERT INTO public.support_ticket_attachments (id, ticket_id, message_id, storage_path, file_name, mime_type, size_bytes, uploaded_by, created_at)
+VALUES
+ ('00000000-0000-4000-8000-000000001081', '00000000-0000-4000-8000-000000001001', '00000000-0000-4000-8000-000000001011',
+  '00000000-0000-4000-8000-000000001001/screenshot-error.pdf', 'screenshot-error.pdf', 'application/pdf', 69, '00000000-0000-4000-8000-000000000003', '2026-11-10T14:00:00Z'),
+ ('00000000-0000-4000-8000-000000001082', '00000000-0000-4000-8000-000000001001', '00000000-0000-4000-8000-000000001013',
+  '00000000-0000-4000-8000-000000001001/internal-log.pdf', 'internal-log.pdf', 'application/pdf', 69, '00000000-0000-4000-8000-000000000002', '2026-11-12T16:30:00Z');
+
+INSERT INTO public.support_ticket_status_events (id, ticket_id, from_status, to_status, changed_by, created_at)
+VALUES
+ ('00000000-0000-4000-8000-000000001101', '00000000-0000-4000-8000-000000001001', NULL, 'open', '00000000-0000-4000-8000-000000000003', '2026-11-10T14:00:00Z'),
+ ('00000000-0000-4000-8000-000000001102', '00000000-0000-4000-8000-000000001001', 'open', 'in_progress', '00000000-0000-4000-8000-000000000002', '2026-11-11T10:00:00Z'),
+ ('00000000-0000-4000-8000-000000001103', '00000000-0000-4000-8000-000000001002', NULL, 'open', '00000000-0000-4000-8000-000000000004', '2026-11-11T13:00:00Z'),
+ ('00000000-0000-4000-8000-000000001104', '00000000-0000-4000-8000-000000001002', 'open', 'resolved', '00000000-0000-4000-8000-000000000002', '2026-11-12T15:00:00Z'),
+ ('00000000-0000-4000-8000-000000001105', '00000000-0000-4000-8000-000000001003', NULL, 'open', '00000000-0000-4000-8000-000000000001', '2026-11-13T15:00:00Z'),
+ ('00000000-0000-4000-8000-000000001106', '00000000-0000-4000-8000-000000001003', 'open', 'waiting_on_client', '00000000-0000-4000-8000-000000000002', '2026-11-14T10:00:00Z'),
+ ('00000000-0000-4000-8000-000000001107', '00000000-0000-4000-8000-000000001004', NULL, 'open', '00000000-0000-4000-8000-000000000007', '2026-11-05T09:00:00Z'),
+ ('00000000-0000-4000-8000-000000001108', '00000000-0000-4000-8000-000000001004', 'open', 'resolved', '00000000-0000-4000-8000-000000000002', '2026-11-12T09:00:00Z'),
+ ('00000000-0000-4000-8000-000000001109', '00000000-0000-4000-8000-000000001004', 'resolved', 'closed', '00000000-0000-4000-8000-000000000007', '2026-11-13T09:00:00Z'),
+ ('00000000-0000-4000-8000-000000001110', '00000000-0000-4000-8000-000000001005', NULL, 'open', '00000000-0000-4000-8000-000000000006', '2026-11-16T12:00:00Z');

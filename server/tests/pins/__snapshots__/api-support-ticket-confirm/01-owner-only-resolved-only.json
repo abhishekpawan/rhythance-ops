@@ -1,0 +1,373 @@
+{
+  "steps": [
+    {
+      "step": "while open, as admin",
+      "as": "admin",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as superadmin",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as recruiter",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as bookkeeper",
+      "as": "bookkeeper",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as recruiter_manager",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Ticket must be in resolved status to confirm resolution"
+      }
+    },
+    {
+      "step": "while open, as accountant_manager",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as sales",
+      "as": "sales",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as recruiter_director",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "while open, as jobseeker",
+      "as": "jobseeker",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as admin",
+      "as": "admin",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as superadmin",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as recruiter",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as bookkeeper",
+      "as": "bookkeeper",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as accountant_manager",
+      "as": "accountant_manager",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as sales",
+      "as": "sales",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as recruiter_director",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as jobseeker",
+      "as": "jobseeker",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "when resolved, as the owner",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "closed",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": "<timestamp>",
+          "confirmedBy": "client",
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "again, now closed, as the owner",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/confirm",
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Ticket must be in resolved status to confirm resolution"
+      }
+    },
+    {
+      "step": "the ticket afterwards, to the agent",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "closed",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": "<timestamp>",
+          "confirmedBy": "client",
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000005",
+          "requesterEmail": "recruiter.manager@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter_manager"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000005",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter_manager",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000005"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000005",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter Manager"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "resolved",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "resolved",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "resolved",
+              "toStatus": "closed",
+              "changedBy": "00000000-0000-4000-8000-000000000005",
+              "createdAt": "<timestamp>",
+              "oldStatus": "resolved",
+              "newStatus": "closed",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter Manager"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter_manager",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000005",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter Manager"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "resolved",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "resolved",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "resolved",
+            "toStatus": "closed",
+            "changedBy": "00000000-0000-4000-8000-000000000005",
+            "createdAt": "<timestamp>",
+            "oldStatus": "resolved",
+            "newStatus": "closed",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter.manager@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

@@ -1,0 +1,469 @@
+{
+  "steps": [
+    {
+      "step": "the agent writes an internal note",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "Internal: check the logs",
+        "isInternal": true
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Internal: check the logs",
+          "createdAt": "<timestamp>",
+          "isInternal": true,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      }
+    },
+    {
+      "step": "the owner reads the ticket",
+      "as": "recruiter_manager",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter_manager",
+              "createdAt": "<timestamp>"
+            }
+          ],
+          "attachments": []
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter_manager",
+            "createdAt": "<timestamp>"
+          }
+        ],
+        "attachments": []
+      }
+    },
+    {
+      "step": "a shared viewer reads the ticket",
+      "as": "recruiter",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter_manager",
+              "createdAt": "<timestamp>"
+            }
+          ],
+          "attachments": []
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter_manager",
+            "createdAt": "<timestamp>"
+          }
+        ],
+        "attachments": []
+      }
+    },
+    {
+      "step": "the agent reads the ticket",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000005",
+          "requesterEmail": "recruiter.manager@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter_manager"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000005",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter_manager",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000005"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Support Team",
+              "authorKind": "agent",
+              "body": "Internal: check the logs",
+              "createdAt": "<timestamp>",
+              "isInternal": true,
+              "authorId": "00000000-0000-4000-8000-000000000002"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000005",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter Manager"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter_manager",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000005"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Internal: check the logs",
+            "createdAt": "<timestamp>",
+            "isInternal": true,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000005",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    },
+    {
+      "step": "the owner asks for an internal note",
+      "as": "recruiter_manager",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "Please look at this",
+        "isInternal": true
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Test Recruiter Manager",
+          "authorKind": "requester",
+          "body": "Please look at this",
+          "createdAt": "<timestamp>"
+        }
+      }
+    },
+    {
+      "step": "the agent writes a public reply",
+      "as": "superadmin",
+      "request": "POST /api/support/tickets/<uuid>/messages",
+      "requestBody": {
+        "body": "We are on it",
+        "isInternal": false
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": {
+          "id": "<uuid>",
+          "ticketId": "<uuid>",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "We are on it",
+          "createdAt": "<timestamp>",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      }
+    },
+    {
+      "step": "the agent reads the ticket again",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Recruiter Manager",
+          "requesterRoles": [
+            "recruiter_manager"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000005",
+          "requesterEmail": "recruiter.manager@example.test",
+          "assignedTo": null,
+          "context": {
+            "roles": [
+              "recruiter_manager"
+            ],
+            "userId": "00000000-0000-4000-8000-000000000005",
+            "deployment": "Test Portal"
+          },
+          "effortMinutes": null,
+          "messages": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "Scene for a pin\nMade by recruiter_manager",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000005"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Support Team",
+              "authorKind": "agent",
+              "body": "Internal: check the logs",
+              "createdAt": "<timestamp>",
+              "isInternal": true,
+              "authorId": "00000000-0000-4000-8000-000000000002"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Test Recruiter Manager",
+              "authorKind": "requester",
+              "body": "Please look at this",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000005"
+            },
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "authorName": "Support Team",
+              "authorKind": "agent",
+              "body": "We are on it",
+              "createdAt": "<timestamp>",
+              "isInternal": false,
+              "authorId": "00000000-0000-4000-8000-000000000002"
+            }
+          ],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": null,
+              "toStatus": "open",
+              "changedBy": "00000000-0000-4000-8000-000000000005",
+              "createdAt": "<timestamp>",
+              "oldStatus": null,
+              "newStatus": "open",
+              "actorKind": "requester",
+              "actorName": "Test Recruiter Manager"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "Scene for a pin\nMade by recruiter_manager",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000005"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Internal: check the logs",
+            "createdAt": "<timestamp>",
+            "isInternal": true,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Test Recruiter Manager",
+            "authorKind": "requester",
+            "body": "Please look at this",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000005"
+          },
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "We are on it",
+            "createdAt": "<timestamp>",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000005",
+            "createdAt": "<timestamp>",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter Manager"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "recruiter.manager@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

@@ -1,0 +1,518 @@
+{
+  "admin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001001",
+        "ticketNumber": 1,
+        "type": "bug",
+        "title": "Timesheet total shows zero after saving",
+        "urgency": "annoying",
+        "priority": "p2",
+        "status": "in_progress",
+        "requesterName": "Test Recruiter",
+        "requesterRoles": [
+          "recruiter"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-10T14:00:00+00:00",
+        "updatedAt": "2026-11-12T16:30:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001011",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+            "createdAt": "2026-11-10T14:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001012",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Thanks, we can see it. Looking into it now.",
+            "createdAt": "2026-11-11T10:00:00+00:00"
+          }
+        ],
+        "attachments": [
+          {
+            "id": "00000000-0000-4000-8000-000000001081",
+            "fileName": "screenshot-error.pdf",
+            "mimeType": "application/pdf",
+            "sizeBytes": 69,
+            "createdAt": "2026-11-10T14:00:00+00:00"
+          }
+        ]
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001011",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+          "createdAt": "2026-11-10T14:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001012",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Thanks, we can see it. Looking into it now.",
+          "createdAt": "2026-11-11T10:00:00+00:00"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "00000000-0000-4000-8000-000000001081",
+          "fileName": "screenshot-error.pdf",
+          "mimeType": "application/pdf",
+          "sizeBytes": 69,
+          "createdAt": "2026-11-10T14:00:00+00:00"
+        }
+      ]
+    }
+  },
+  "superadmin": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001001",
+        "ticketNumber": 1,
+        "type": "bug",
+        "title": "Timesheet total shows zero after saving",
+        "urgency": "annoying",
+        "priority": "p2",
+        "status": "in_progress",
+        "requesterName": "Test Recruiter",
+        "requesterRoles": [
+          "recruiter"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-10T14:00:00+00:00",
+        "updatedAt": "2026-11-12T16:30:00+00:00",
+        "isOwner": false,
+        "requesterId": "00000000-0000-4000-8000-000000000003",
+        "requesterEmail": "recruiter@example.test",
+        "assignedTo": "00000000-0000-4000-8000-000000000002",
+        "context": {
+          "os": "macOS",
+          "roles": [
+            "recruiter"
+          ],
+          "route": "/timesheets",
+          "userId": "00000000-0000-4000-8000-000000000003",
+          "browser": "Chrome 130",
+          "language": "en",
+          "deployment": "Test Portal"
+        },
+        "effortMinutes": 45,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001011",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+            "createdAt": "2026-11-10T14:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001012",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Thanks, we can see it. Looking into it now.",
+            "createdAt": "2026-11-11T10:00:00+00:00",
+            "isInternal": false,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001013",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Internal: the total is calculated in the browser; check the rounding helper.",
+            "createdAt": "2026-11-12T16:30:00+00:00",
+            "isInternal": true,
+            "authorId": "00000000-0000-4000-8000-000000000002"
+          }
+        ],
+        "attachments": [
+          {
+            "id": "00000000-0000-4000-8000-000000001081",
+            "fileName": "screenshot-error.pdf",
+            "mimeType": "application/pdf",
+            "sizeBytes": 69,
+            "createdAt": "2026-11-10T14:00:00+00:00",
+            "messageId": "00000000-0000-4000-8000-000000001011"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001082",
+            "fileName": "internal-log.pdf",
+            "mimeType": "application/pdf",
+            "sizeBytes": 69,
+            "createdAt": "2026-11-12T16:30:00+00:00",
+            "messageId": "00000000-0000-4000-8000-000000001013"
+          }
+        ],
+        "statusEvents": [
+          {
+            "id": "00000000-0000-4000-8000-000000001101",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "fromStatus": null,
+            "toStatus": "open",
+            "changedBy": "00000000-0000-4000-8000-000000000003",
+            "createdAt": "2026-11-10T14:00:00+00:00",
+            "oldStatus": null,
+            "newStatus": "open",
+            "actorKind": "requester",
+            "actorName": "Test Recruiter"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001102",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "fromStatus": "open",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "2026-11-11T10:00:00+00:00",
+            "oldStatus": "open",
+            "newStatus": "in_progress",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001011",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000003"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001012",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Thanks, we can see it. Looking into it now.",
+          "createdAt": "2026-11-11T10:00:00+00:00",
+          "isInternal": false,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001013",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Internal: the total is calculated in the browser; check the rounding helper.",
+          "createdAt": "2026-11-12T16:30:00+00:00",
+          "isInternal": true,
+          "authorId": "00000000-0000-4000-8000-000000000002"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "00000000-0000-4000-8000-000000001081",
+          "fileName": "screenshot-error.pdf",
+          "mimeType": "application/pdf",
+          "sizeBytes": 69,
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "messageId": "00000000-0000-4000-8000-000000001011"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001082",
+          "fileName": "internal-log.pdf",
+          "mimeType": "application/pdf",
+          "sizeBytes": 69,
+          "createdAt": "2026-11-12T16:30:00+00:00",
+          "messageId": "00000000-0000-4000-8000-000000001013"
+        }
+      ],
+      "statusEvents": [
+        {
+          "id": "00000000-0000-4000-8000-000000001101",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "fromStatus": null,
+          "toStatus": "open",
+          "changedBy": "00000000-0000-4000-8000-000000000003",
+          "createdAt": "2026-11-10T14:00:00+00:00",
+          "oldStatus": null,
+          "newStatus": "open",
+          "actorKind": "requester",
+          "actorName": "Test Recruiter"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001102",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "fromStatus": "open",
+          "toStatus": "in_progress",
+          "changedBy": "00000000-0000-4000-8000-000000000002",
+          "createdAt": "2026-11-11T10:00:00+00:00",
+          "oldStatus": "open",
+          "newStatus": "in_progress",
+          "actorKind": "agent",
+          "actorName": "Test Super Admin"
+        }
+      ],
+      "elapsedMinutes": "<minutes>"
+    }
+  },
+  "recruiter": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001001",
+        "ticketNumber": 1,
+        "type": "bug",
+        "title": "Timesheet total shows zero after saving",
+        "urgency": "annoying",
+        "priority": "p2",
+        "status": "in_progress",
+        "requesterName": "Test Recruiter",
+        "requesterRoles": [
+          "recruiter"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-10T14:00:00+00:00",
+        "updatedAt": "2026-11-12T16:30:00+00:00",
+        "isOwner": true,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001011",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+            "createdAt": "2026-11-10T14:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001012",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Thanks, we can see it. Looking into it now.",
+            "createdAt": "2026-11-11T10:00:00+00:00"
+          }
+        ],
+        "attachments": [
+          {
+            "id": "00000000-0000-4000-8000-000000001081",
+            "fileName": "screenshot-error.pdf",
+            "mimeType": "application/pdf",
+            "sizeBytes": 69,
+            "createdAt": "2026-11-10T14:00:00+00:00"
+          }
+        ]
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001011",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+          "createdAt": "2026-11-10T14:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001012",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Thanks, we can see it. Looking into it now.",
+          "createdAt": "2026-11-11T10:00:00+00:00"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "00000000-0000-4000-8000-000000001081",
+          "fileName": "screenshot-error.pdf",
+          "mimeType": "application/pdf",
+          "sizeBytes": 69,
+          "createdAt": "2026-11-10T14:00:00+00:00"
+        }
+      ]
+    }
+  },
+  "bookkeeper": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_manager": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001001",
+        "ticketNumber": 1,
+        "type": "bug",
+        "title": "Timesheet total shows zero after saving",
+        "urgency": "annoying",
+        "priority": "p2",
+        "status": "in_progress",
+        "requesterName": "Test Recruiter",
+        "requesterRoles": [
+          "recruiter"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-10T14:00:00+00:00",
+        "updatedAt": "2026-11-12T16:30:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001011",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+            "createdAt": "2026-11-10T14:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001012",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Thanks, we can see it. Looking into it now.",
+            "createdAt": "2026-11-11T10:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001011",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+          "createdAt": "2026-11-10T14:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001012",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Thanks, we can see it. Looking into it now.",
+          "createdAt": "2026-11-11T10:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "accountant_manager": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "sales": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  },
+  "recruiter_director": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "ticket": {
+        "id": "00000000-0000-4000-8000-000000001001",
+        "ticketNumber": 1,
+        "type": "bug",
+        "title": "Timesheet total shows zero after saving",
+        "urgency": "annoying",
+        "priority": "p2",
+        "status": "in_progress",
+        "requesterName": "Test Recruiter",
+        "requesterRoles": [
+          "recruiter"
+        ],
+        "locale": "en",
+        "relatedTicketId": null,
+        "resolvedAt": null,
+        "closedAt": null,
+        "confirmedBy": null,
+        "createdAt": "2026-11-10T14:00:00+00:00",
+        "updatedAt": "2026-11-12T16:30:00+00:00",
+        "isOwner": false,
+        "messages": [
+          {
+            "id": "00000000-0000-4000-8000-000000001011",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Test Recruiter",
+            "authorKind": "requester",
+            "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+            "createdAt": "2026-11-10T14:00:00+00:00"
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000001012",
+            "ticketId": "00000000-0000-4000-8000-000000001001",
+            "authorName": "Support Team",
+            "authorKind": "agent",
+            "body": "Thanks, we can see it. Looking into it now.",
+            "createdAt": "2026-11-11T10:00:00+00:00"
+          }
+        ],
+        "attachments": []
+      },
+      "messages": [
+        {
+          "id": "00000000-0000-4000-8000-000000001011",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Test Recruiter",
+          "authorKind": "requester",
+          "body": "Timesheet total shows zero after saving\nI save a weekly timesheet and the total on the screen is 0.00 until I reload.",
+          "createdAt": "2026-11-10T14:00:00+00:00"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000001012",
+          "ticketId": "00000000-0000-4000-8000-000000001001",
+          "authorName": "Support Team",
+          "authorKind": "agent",
+          "body": "Thanks, we can see it. Looking into it now.",
+          "createdAt": "2026-11-11T10:00:00+00:00"
+        }
+      ],
+      "attachments": []
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

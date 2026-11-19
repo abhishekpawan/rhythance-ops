@@ -1,0 +1,65 @@
+{
+  "admin": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "superadmin": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "recruiter": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "bookkeeper": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "recruiter_manager": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "accountant_manager": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "sales": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "recruiter_director": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "error": "Failed to fetch tickets"
+    }
+  },
+  "jobseeker": {
+    "status": 404,
+    "answer": {
+      "success": false,
+      "error": "Not found"
+    }
+  }
+}

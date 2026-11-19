@@ -1,0 +1,25 @@
+{
+  "steps": [
+    {
+      "step": "not a uuid",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/abc/reopen",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    },
+    {
+      "step": "a uuid nobody has",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets/<uuid>/reopen",
+      "status": 404,
+      "answer": {
+        "success": false,
+        "error": "Not found"
+      }
+    }
+  ],
+  "messagesSent": []
+}

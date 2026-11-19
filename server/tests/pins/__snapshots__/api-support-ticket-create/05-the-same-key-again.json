@@ -1,0 +1,104 @@
+{
+  "steps": [
+    {
+      "step": "first time",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "same user, same key",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "a different text is ignored",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "another user, same key",
+      "as": "recruiter",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "IDEMPOTENCY_CONFLICT: Ticket already exists with a different requester",
+        "code": "IDEMPOTENCY_CONFLICT"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    }
+  ]
+}

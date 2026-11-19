@@ -1,0 +1,259 @@
+{
+  "steps": [
+    {
+      "step": "a file that was uploaded",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "The invoice list is empty",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Admin",
+          "requesterRoles": [
+            "admin"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": true
+        }
+      }
+    },
+    {
+      "step": "six files",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          },
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          },
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          },
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          },
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          },
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Maximum 5 attachments allowed"
+      }
+    },
+    {
+      "step": "a path under another user",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/someone-else/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Invalid attachment path prefix: pending/someone-else/<uuid>-error.txt"
+      }
+    },
+    {
+      "step": "a file that is not in storage",
+      "as": "admin",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000001/<uuid>-gone.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Attachment not found in storage: pending/00000000-0000-4000-8000-000000000001/<uuid>-gone.txt"
+      }
+    },
+    {
+      "step": "a size that is not the stored size",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000008/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 10
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Attachment size mismatch for error.txt"
+      }
+    },
+    {
+      "step": "a name and type that do not match",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000008/<uuid>-error.txt",
+            "fileName": "error.exe",
+            "mimeType": "text/plain",
+            "sizeBytes": 9
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Invalid attachment MIME type or extension mismatch for error.exe"
+      }
+    },
+    {
+      "step": "a file that is too big",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000008/<uuid>-error.txt",
+            "fileName": "error.txt",
+            "mimeType": "text/plain",
+            "sizeBytes": 10485761
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Attachment size exceeds 10MB limit: error.txt"
+      }
+    },
+    {
+      "step": "a file without its details",
+      "as": "recruiter_director",
+      "request": "POST /api/support/tickets",
+      "requestBody": {
+        "type": "bug",
+        "urgency": "annoying",
+        "description": "The invoice list is empty\nI opened it and nothing is shown.",
+        "idempotencyKey": "<uuid>",
+        "locale": "en",
+        "attachments": [
+          {
+            "path": "pending/00000000-0000-4000-8000-000000000008/<uuid>-error.txt"
+          }
+        ]
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "Attachment missing required metadata"
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "support@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: The invoice list is empty"
+    }
+  ]
+}
