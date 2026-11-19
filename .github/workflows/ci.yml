@@ -1,7 +1,7 @@
 # CI for the Godspeed Ops Portal (refactor plan D7, D8).
 #   multiple-login-demo (push and pull request): type checks, lint, file-size ratchet, unit tests, then a local
 #     Supabase built from migration_v2 and the full test suite (job "suite").
-#   the four production branches (push): type checks and lint only (job "static"); the drift check already proves
+#   the four production branches (push): type checks and server lint only (job "static"); the drift check already proves
 #     their code equals multiple-login-demo, this catches a cherry-pick that applies but does not compile.
 # It does not run on the public mirror: that repository's branch is `main`, which is not listed here.
 # No secrets: the tests run against a local database with fake vendor keys and every outbound message recorded.
@@ -69,8 +69,10 @@ jobs:
         run: npx tsc --noEmit
 
       # `pnpm lint` in client/ already fails today (81 errors, 55 warnings, none from the safety net), so this compares
-      # the counts with scripts/client-lint-baseline.txt: nothing new, and the numbers only go down
+      # the counts with scripts/client-lint-baseline.txt: nothing new, and the numbers only go down.
+      # Only on multiple-login-demo: the production branches lack demo-only files, so their counts differ.
       - name: Lint (client, ratchet)
+        if: github.ref_name == 'multiple-login-demo' || github.event_name != 'push'
         run: scripts/check-client-lint.sh
 
       # warnings only for now: the step fails on an error, not on a warning
