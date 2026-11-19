@@ -8,7 +8,7 @@ Needs, once per machine: Docker (on a Mac: Colima, `colima start`), the Supabase
 
 | Command (in `server/`) | What it does |
 | --- | --- |
-| `pnpm test` | Everything: starts the local Supabase if it is not running, rebuilds the database, seeds it, starts two test servers (real clock and fixed clock), runs all tests. About 45 seconds once the images are pulled; the first start pulls images (about 15 minutes). |
+| `pnpm test` | Everything: starts the local Supabase if it is not running, rebuilds the database, seeds it, starts four test servers (real clock, fixed clock, staff two-step login forced on, low phone-code rate limits), runs all tests. About 45 seconds once the images are pulled; the first start pulls images (about 15 minutes). |
 | `pnpm test:unit` | Only the tests that need nothing running (money and date functions, the guard's own tests). Under a second. |
 | `pnpm test:db:up` / `test:db:build` / `test:db:seed` | The steps of the test run, by hand. `build` resets the database and applies `src/db/migration_v2/*.sql` in order; `seed` loads the synthetic data. |
 | `pnpm test:schema` | Compares the schema of the test database with production's stored listing. |
@@ -52,6 +52,10 @@ The test server is started with three preloads (`node --import`), so **the serve
 - `fixed-clock.mjs`: with `TEST_FIXED_NOW` set, "now" stands still (10:00 on 17 November 2026 in Toronto). The second test server has it, for date-based answers. The default server uses the real clock, because code that compares "now" with a timestamp the database wrote (for example a ticket created less than 30 seconds ago) needs the two to agree.
 
 `tests/guard/outbound.test.ts` runs a probe that tries every route out (SendGrid, Twilio, OpenAI by `fetch`, `https.request`, `http.request`, raw `net`) and checks each is blocked or recorded.
+
+## The phone-code and sign-in tests
+
+`tests/access/phone-code-endpoints.test.ts` (session needed for `verify-otp` with a `userId`; the rate limits), `tests/access/sign-in-error-codes.test.ts` (the `code` of each sign-in answer), `tests/access/feature-flags-client.test.ts` (the browser gets only the flags marked `clientVisible`) and `tests/unit/authErrorCodes.test.ts` (every server code has an English and a French text). The rate-limit tests call the fourth test server, started with `OTP_*_LIMIT_*` values of 3 per number and 6 per address (`server(path, { limited: true })`); the browser journeys start theirs with very high limits because every seeded staff account shares one phone number. The test seed stores `staff_two_factor_enforced` as `enabled=false` (like the stage database) because the registry default is now on.
 
 ## The two-step login tests
 

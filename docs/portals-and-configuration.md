@@ -43,7 +43,7 @@ An on/off switch for behaviour that only some portals want.
 - **Storage:** table `feature_flags` (key, enabled, config, updated_by, updated_at) in each portal's database. Migrations `029_feature_flags.sql` and `030_feature_flags_config.sql`. Row-level security is on with no policies, so only the server (service role) can read or write it.
 - **Server:** `isFeatureEnabled(key)` in `server/src/services/featureFlags.ts` (30-second cache). Use it to **refuse** sensitive data when a flag is off; hiding in the UI is not security.
 - **Client:** `useFeatureFlag("key")` and the `<FeatureGate flag="..." />` route guard (`FeatureFlagsContext`). A gated page that is off redirects to `/login`, like any unknown address.
-- **API:** `GET /api/feature-flags` (any logged-in user), admin routes under the same path for **super admins only** (`requireSuperAdmin`).
+- **API:** `GET /api/feature-flags` (any logged-in user; sends only the flags the browser reads, those marked `clientVisible` in the registry: `jobseeker_payroll_summary`, `subcategory_positions`, `hide_jobseeker_pay_rate`, `jobseeker_profile_godspeed_rules`, `ai_chat`; a flag the server alone reads is never sent), admin routes under the same path for **super admins only** (`requireSuperAdmin`).
 - **Page:** `/feature-flags`, visible to super admins only: each flag with its state, where the value comes from (default or this portal's override), who changed it and when, a toggle, a reset button, and the flag's text settings.
 - Flag and settings changes are deliberately **not written to the activity log** (decision: these are hidden switches).
 
@@ -58,14 +58,14 @@ An on/off switch for behaviour that only some portals want.
 | `jobseeker_profile_godspeed_rules` | Lighter jobseeker profile rules (licence number required, SIN and most address/qualification/compensation fields optional, document rule driver's licence or passport), in the forms and on the server | off | Godspeed |
 
 | `ai_chat` | Shows the AI Chat entry in the side menu (the chat service is switched off on every portal, so the entry is hidden) | off | none |
-| `staff_two_factor_enforced` | The server refuses staff sessions that have not passed the phone code ([role-access-control.md](role-access-control.md#two-step-login-staff)); needs migration 035 first | off | none yet |
+| `staff_two_factor_enforced` | The server refuses staff sessions that have not passed the phone code ([role-access-control.md](role-access-control.md#two-step-login-staff)); needs migration 035 first | **on**, so a new portal is protected from day one | AllStaff, CanHire, Godspeed, GD Workforce (since 2026-11-19); the demo database stores `enabled=false` because the demo login bypasses the code |
 
 The Feature Flags page shows the intended state per portal next to the real one.
 
 ### Adding a flag
 
 1. Add an entry to `FEATURE_FLAGS` in `server/src/config/featureFlags.ts`.
-2. Read it with `isFeatureEnabled` (server) or `useFeatureFlag` (client); add the title and description texts in `locales/{en,fr}/featureFlags.json`.
+2. Read it with `isFeatureEnabled` (server) or `useFeatureFlag` (client); add the title and description texts in `locales/{en,fr}/featureFlags.json`. **If the browser reads it, set `clientVisible: true` in the registry**: unmarked flags are not sent to the browser (a test fails when the client reads an unmarked flag).
 3. Set `wired: true` once code reads it.
 4. Before shipping a flag whose default differs from today's behaviour on a portal, **seed that portal's database first** so nothing changes when the code arrives.
 5. When every portal has the feature permanently, delete the flag from the registry.

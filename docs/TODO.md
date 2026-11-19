@@ -84,7 +84,7 @@ The browser test run (read-only on production, writes only on the demo database)
 
 ## 5. Security and permissions
 
-- [ ] **Rate limiting is switched off.** The global limiter is commented out in `server/src/index.ts` and most route-level limiters are commented out, including public consent and auth-adjacent endpoints. Decide limits, switch them on, and wire (or delete) the unused `RATE_LIMIT_*` variables.
+- [ ] **Rate limiting is switched off.** The global limiter is commented out in `server/src/index.ts` and most route-level limiters are commented out, including public consent. (The two public phone-code endpoints, `send-verification` and `verify-otp`, have their own limits since DEV-2; see [role-access-control.md](role-access-control.md#two-step-login-staff).) Decide limits, switch them on, and wire (or delete) the unused `RATE_LIMIT_*` variables.
 - [ ] **Make the server roles match the pages**, or the reverse (see the table in [role-access-control.md](role-access-control.md#where-the-server-is-looser-or-stricter-than-the-ui)):
   - Creating a consent request: the UI offers it to admin, recruiter, recruiter manager and recruiter director, the API accepts only a super admin, so they get a 403 on submit.
   - Dropdown options: the UI offers add/change/delete to managers and directors, the API accepts only `admin` for those.

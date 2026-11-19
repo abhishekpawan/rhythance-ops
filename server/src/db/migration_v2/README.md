@@ -55,7 +55,7 @@ Run **every file once, in order, on each portal's database**, then that portal's
 
 **032 is different:** it is for a NEW database only and refuses to run unless the session sets `rhythence.catch_up = 'new-database'`. Live databases already have what it holds; do not run it on them.
 
-**035** and **036** are applied on stage and all four production databases (2026-11-19; 035 changes nothing until the flag `staff_two_factor_enforced` is switched on, and it is off). **028 is applied nowhere** (inbox 4).
+**028**, **035** and **036** are applied on stage and all four production databases (2026-11-19). 028 went in as `CREATE OR REPLACE TRIGGER` (no such trigger existed anywhere, so the file's `DROP TRIGGER IF EXISTS` had nothing to drop). 035 changes nothing until the flag `staff_two_factor_enforced` is on; it is on in the four production portals since 2026-11-19 and off on stage (the demos).
 
 **Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet. **032 is applied nowhere** (it was written for a database built from these files; see below).
 
@@ -71,7 +71,7 @@ Before 032 the files could not build a database the server runs on (proven on a 
 1. `execute_sql`, the AI chat's SQL function (ROADMAP P12): a new database gets no chat SQL function until the AI service replaces it with a safe one.
 2. The embedding queue: `embedding_input_jobseeker_bio` and `_position_description`, the `embed_*` triggers on `jobseeker_profiles` and `positions`, schema `util`, extensions `pgmq` and `pg_net`, and the `process-embeddings` cron job. They call an edge function that is not in this repo, and from inside Postgres no test guard can stop them. 011 creates the embedding columns and the triggers only if `util.queue_embeddings()` exists, so a database built from these files never calls out.
 
-**In the files, not in production** (kept as the files have them; listed in `server/tests/schema/files-ahead-of-production.txt`, which fails when an entry goes stale): 028's trigger and function on `positions`, the three has_profile triggers on `jobseeker_profiles`, the `activity_change_trigger` on `recent_activities`, the `timesheets` updated-at trigger and function, and 023's weekly log-trim job.
+**In the files, not in production** (kept as the files have them; listed in `server/tests/schema/files-ahead-of-production.txt`, which fails when an entry goes stale): the three has_profile triggers on `jobseeker_profiles`, the `activity_change_trigger` on `recent_activities`, the `timesheets` updated-at trigger and function, and 023's weekly log-trim job.
 
 **Differences between the four production databases** (listed with the same query on 2026-11-17; everything else is identical): one (GD Workforce) has the four invoice-attachment storage policies under other names (same rules) and its log-trim job named `prune_cron_job_run_details` (daily 02:00). Godspeed's `find_matching_candidates` differed until 2026-11-18, when it was aligned with the other portals; a read-only listing of Godspeed the same day was identical to the stored CanHire listing (1037 lines).
 
