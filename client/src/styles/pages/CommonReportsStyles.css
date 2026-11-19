@@ -32,33 +32,43 @@
   gap: 0.5rem;
 }
 
-.common-report-container .selection-section.date-input-wrapper .start-end-date-section {
+.common-report-container
+  .selection-section.date-input-wrapper
+  .start-end-date-section {
   display: flex;
   width: 100%;
   gap: 0.5rem;
 }
 
-.common-report-container .selection-section.date-input-wrapper .start-end-date-section .start-date-section,
-.common-report-container .selection-section.date-input-wrapper .start-end-date-section .end-date-section {
+.common-report-container
+  .selection-section.date-input-wrapper
+  .start-end-date-section
+  .start-date-section,
+.common-report-container
+  .selection-section.date-input-wrapper
+  .start-end-date-section
+  .end-date-section {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 50%;
 }
 
-.common-report-container .selection-section.date-input-wrapper .start-end-date-section input {
+.common-report-container
+  .selection-section.date-input-wrapper
+  .start-end-date-section
+  input {
   border: 2px solid var(--border);
   border-radius: 8px;
   min-height: 43px;
   padding: 0.5rem;
 }
 
-
 .csv-download-section {
   display: flex;
   justify-content: flex-start;
   margin: 24px 0;
-} 
+}
 
 .csv-download-section button {
   width: fit-content;

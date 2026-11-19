@@ -1,87 +1,98 @@
-import { useNavigate } from 'react-router-dom';
-import { AppHeader } from '../../components/AppHeader';
-import { useLanguage } from '../../contexts/language/language-provider';
-import { FileText, BarChart3, Clock, Receipt, Users, FileMinus } from 'lucide-react';
-import '../../styles/pages/ClientManagement.css';
-import '../../styles/components/header.css';
-import '../../styles/pages/Reports.css';
+import { useNavigate } from "react-router-dom";
+import { AppHeader } from "../../components/AppHeader";
+import { useLanguage } from "../../contexts/language/language-provider";
+import {
+  FileText,
+  BarChart3,
+  Clock,
+  Receipt,
+  Users,
+  FileMinus,
+} from "lucide-react";
+import "../../styles/pages/ClientManagement.css";
+import "../../styles/components/header.css";
+import "../../styles/pages/Reports.css";
 
 const getReportCategories = (t: (key: string) => string) => [
   {
-    title: t('reports.categories.timesheetsPayroll'),
+    title: t("reports.categories.timesheetsPayroll"),
     reports: [
       {
-        id: 'weekly-timesheet',
+        id: "weekly-timesheet",
         icon: <Clock size={20} color="#FF9800" />,
-        title: t('reports.types.weeklyTimesheet.title'),
-        description: t('reports.types.weeklyTimesheet.description'),
-        to: '/reports/weekly-timesheet',
+        title: t("reports.types.weeklyTimesheet.title"),
+        description: t("reports.types.weeklyTimesheet.description"),
+        to: "/reports/weekly-timesheet",
       },
       {
-        id: 'deduction-report',
+        id: "deduction-report",
         icon: <FileMinus size={20} color="#E91E63" />,
-        title: t('reports.types.deductionReport.title'),
-        description: t('reports.types.deductionReport.description'),
-        to: '/reports/deduction',
+        title: t("reports.types.deductionReport.title"),
+        description: t("reports.types.deductionReport.description"),
+        to: "/reports/deduction",
       },
     ],
   },
   {
-    title: t('reports.categories.salesInvoices'),
+    title: t("reports.categories.salesInvoices"),
     reports: [
       {
-        id: 'invoice-report',
+        id: "invoice-report",
         icon: <Receipt size={20} color="#3F51B5" />,
-        title: t('reports.types.invoiceReport.title'),
-        description: t('reports.types.invoiceReport.description'),
-        to: '/reports/invoice',
+        title: t("reports.types.invoiceReport.title"),
+        description: t("reports.types.invoiceReport.description"),
+        to: "/reports/invoice",
       },
       {
-        id: 'sales-report',
+        id: "sales-report",
         icon: <BarChart3 size={20} color="#009688" />,
-        title: t('reports.types.salesReport.title'),
-        description: t('reports.types.salesReport.description'),
-        to: '/reports/sales',
+        title: t("reports.types.salesReport.title"),
+        description: t("reports.types.salesReport.description"),
+        to: "/reports/sales",
       },
       {
-        id: 'rate-list',
+        id: "rate-list",
         icon: <FileText size={20} color="#4CAF50" />,
-        title: t('reports.types.rateList.title'),
-        description: t('reports.types.rateList.description'),
-        to: '/reports/rate-list',
+        title: t("reports.types.rateList.title"),
+        description: t("reports.types.rateList.description"),
+        to: "/reports/rate-list",
       },
       {
-        id: 'margin-report',
+        id: "margin-report",
         icon: <BarChart3 size={20} color="#FF5722" />,
-        title: t('reports.types.marginReport.title'),
-        description: t('reports.types.marginReport.description'),
-        to: '/reports/margin',
+        title: t("reports.types.marginReport.title"),
+        description: t("reports.types.marginReport.description"),
+        to: "/reports/margin",
       },
     ],
   },
   {
-    title: t('reports.categories.printingClients'),
+    title: t("reports.categories.printingClients"),
     reports: [
       {
-        id: 'envelope-printing-position',
+        id: "envelope-printing-position",
         icon: <FileText size={20} color="#9C27B0" />,
-        title: t('reports.types.envelopePrinting.title'),
-        description: t('reports.types.envelopePrinting.description'),
-        to: '/reports/envelope-printing-position',
+        title: t("reports.types.envelopePrinting.title"),
+        description: t("reports.types.envelopePrinting.description"),
+        to: "/reports/envelope-printing-position",
       },
       {
-        id: 'envelope-printing-by-due-date',
+        id: "envelope-printing-by-due-date",
         icon: <FileText size={20} color="#E040FB" />,
-        title: t('reports.types.envelopePrintingByDueDate.title') || 'Envelope Printing Report (By Due Date)',
-        description: t('reports.types.envelopePrintingByDueDate.description') || 'View envelope printing report filtered by payment due date.',
-        to: '/reports/envelope-printing-by-due-date',
+        title:
+          t("reports.types.envelopePrintingByDueDate.title") ||
+          "Envelope Printing Report (By Due Date)",
+        description:
+          t("reports.types.envelopePrintingByDueDate.description") ||
+          "View envelope printing report filtered by payment due date.",
+        to: "/reports/envelope-printing-by-due-date",
       },
       {
-        id: 'clients',
+        id: "clients",
         icon: <Users size={20} color="#607D8B" />,
-        title: t('reports.types.clients.title'),
-        description: t('reports.types.clients.description'),
-        to: '/reports/clients',
+        title: t("reports.types.clients.title"),
+        description: t("reports.types.clients.description"),
+        to: "/reports/clients",
       },
     ],
   },
@@ -94,18 +105,18 @@ export function Reports() {
 
   return (
     <div className="page-container">
-      <AppHeader title={t('reports.title')} />
+      <AppHeader title={t("reports.title")} />
       <div className="reports-container">
         <div className="dashboard-heading">
-          <h1 className="dashboard-title">{t('navigation.reportsAnalytics')}</h1>
+          <h1 className="dashboard-title">
+            {t("navigation.reportsAnalytics")}
+          </h1>
           <div className="user-role-badge">
             <FileText className="role-icon" />
-            <span>{t('reports.portal')}</span>
+            <span>{t("reports.portal")}</span>
           </div>
         </div>
-        <p className="dashboard-subtitle">
-          {t('reports.subtitle')}
-        </p>
+        <p className="dashboard-subtitle">{t("reports.subtitle")}</p>
         {reportCategories.map((category) => (
           <div key={category.title} className="report-category-section">
             <h3 className="report-category-title">{category.title}</h3>
@@ -117,12 +128,14 @@ export function Reports() {
                   onClick={() => navigate(report.to)}
                   tabIndex={0}
                   role="button"
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                 >
                   <div className="report-icon">{report.icon}</div>
                   <div className="report-card-content">
                     <div className="report-title">{report.title}</div>
-                    <div className="report-description">{report.description}</div>
+                    <div className="report-description">
+                      {report.description}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -132,4 +145,4 @@ export function Reports() {
       </div>
     </div>
   );
-} 
+}
