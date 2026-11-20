@@ -126,7 +126,7 @@ Client (`client/.env`; only `VITE_` variables reach the browser, so never put a 
 | --- | --- |
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | The portal's database (public anon key) |
 | `VITE_API_URL` | The portal's backend (defaults to `http://localhost:5001`) |
-| `VITE_AI_CHAT_URL` | The AI chat page embedded in `/ai-chat`; defaults to one hosted address, so **set it on every portal that has its own AI service** (not listed in `.env.example`) |
+| `VITE_AI_CHAT_URL` | The AI chat page embedded in `/ai-chat`. **No default:** set it on every portal's web app (not listed in `.env.example`); without a valid address the page shows a notice, loads no frame and sends no token |
 
 ## Seed files
 

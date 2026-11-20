@@ -2,6 +2,7 @@
 import { describe, expect, it } from "vitest";
 import {
   chatOrigin,
+  resolveChatService,
   startTokenBridge,
   type MessageTarget,
 } from "../../../client/src/lib/aiChatBridge";
@@ -95,5 +96,19 @@ describe("the token bridge", () => {
   it("reads the origin from the chat address, and refuses a bad one", () => {
     expect(chatOrigin("https://chat.example.com/some/path?x=1")).toBe(AI);
     expect(chatOrigin("not a url")).toBeNull();
+  });
+});
+
+describe("the chat service address (AI-4: no fallback)", () => {
+  it("is the configured address and its origin", () => {
+    expect(resolveChatService(" https://chat.example.com/path ")).toEqual({
+      baseUrl: "https://chat.example.com/path",
+      origin: AI,
+    });
+  });
+
+  it("is nothing when the address is missing or not an address, so the page shows a notice and sends no token", () => {
+    for (const value of [undefined, "", "   ", "not a url", "godspeed-ops-ai"])
+      expect(resolveChatService(value), String(value)).toBeNull();
   });
 });

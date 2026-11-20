@@ -4,19 +4,20 @@ import { IframeViewer } from "../components/IframeViewer";
 import { useTheme } from "../components/theme-provider";
 import { usePortalSetting } from "../contexts/PortalSettingsContext";
 import { useLanguage } from "../contexts/language/language-provider";
-import { chatOrigin, startTokenBridge } from "../lib/aiChatBridge";
+import { resolveChatService, startTokenBridge } from "../lib/aiChatBridge";
 import { supabase } from "../lib/supabaseClient";
 import "../styles/pages/GodspeedAIChat.css";
 
-const DEFAULT_AI_CHAT_URL = "https://godspeed-ops-ai-mhbl.onrender.com/";
-
 export function GodspeedAIChat() {
   const title = usePortalSetting("branding.aiChatTitle") ?? "AI Chat";
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
-  const baseUrl = import.meta.env.VITE_AI_CHAT_URL || DEFAULT_AI_CHAT_URL;
-  const aiOrigin = chatOrigin(baseUrl);
+  // Each portal's web app names its own AI service. There is no fallback address: without a valid one
+  // the page shows a notice, loads no frame and sends no token anywhere.
+  const service = resolveChatService(import.meta.env.VITE_AI_CHAT_URL);
+  const baseUrl = service?.baseUrl ?? "";
+  const aiOrigin = service?.origin ?? null;
   const resolvedTheme =
     theme === "system"
       ? window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -28,11 +29,12 @@ export function GodspeedAIChat() {
   // The address changes with the language only (the chat page reads it once when it loads); the theme is
   // sent as a message so switching it does not reload the page and lose the conversation.
   const url = useMemo(() => {
+    if (!aiOrigin) return null;
     const address = new URL(baseUrl);
     address.searchParams.set("lang", language);
     address.searchParams.set("theme", initialTheme.current);
     return address.toString();
-  }, [baseUrl, language]);
+  }, [aiOrigin, baseUrl, language]);
 
   const frame = () =>
     containerRef.current?.querySelector<HTMLIFrameElement>("iframe") ?? null;
@@ -69,7 +71,13 @@ export function GodspeedAIChat() {
 
       <main className="ai-chat-main">
         <div className="ai-chat-content" ref={containerRef}>
-          <IframeViewer url={url} title={title} />
+          {url ? (
+            <IframeViewer url={url} title={title} />
+          ) : (
+            <p className="ai-chat-notice" role="status">
+              {t("aiChat.notConfigured")}
+            </p>
+          )}
         </div>
       </main>
     </div>

@@ -234,6 +234,9 @@
     "jobseeker": "Job Seeker",
     "client": "Client"
   },
+  "aiChat": {
+    "notConfigured": "The AI chat is not available on this portal right now. Please contact support."
+  },
   "common": {
     "previous": "Previous",
     "next": "Next",

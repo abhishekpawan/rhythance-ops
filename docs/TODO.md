@@ -109,6 +109,6 @@ The browser test run (read-only on production, writes only on the demo database)
 - [ ] Remove the debug `console.log` calls in `client/src/components/AppHeader.tsx`.
 - [ ] `server/src/utils/encryption.ts` is not imported anywhere, yet refuses to load without `ENCRYPTION_KEY`/`ENCRYPTION_IV`. Delete it or use it.
 - [ ] `server/src/routes/jobseekers.ts` registers a dead duplicate `/api/profile/check-email` route (the working one is in `profile.ts`).
-- [ ] Add `VITE_AI_CHAT_URL` to `client/.env.example`; replace the built-in default address in `GodspeedAIChat.tsx` with an environment value only.
+- [ ] Add `VITE_AI_CHAT_URL` to `client/.env.example` (the built-in default address is gone since AI-4: the page fails closed without it).
 - [ ] Legacy role names `manager` and `accountant` are still normalised in several code paths; migrate the stored data and drop the aliases.
 - [ ] The `bulk_timesheets` table is unused by the app.

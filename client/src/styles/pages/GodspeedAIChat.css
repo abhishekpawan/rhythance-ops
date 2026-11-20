@@ -18,3 +18,11 @@
   height: calc(100vh - 60px); /* Full height minus header and padding */
   overflow: hidden;
 }
+
+.ai-chat-notice {
+  margin: 48px auto;
+  max-width: 480px;
+  padding: 0 16px;
+  text-align: center;
+  color: var(--text-muted);
+}

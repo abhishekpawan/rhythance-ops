@@ -9,7 +9,7 @@ The page `/ai-chat` shows the AI service's own chat page in a frame. The service
 **Status (2026-11-20): on in all four portals** (AllStaff, CanHire, Godspeed, GD Workforce): migration 037 applied, `CHAT_ENABLED=true` on each AI service, flag `ai_chat` on in each database. It stays off on the demo and public demo (no flag, stage database has the migration only). A new portal gets it in three steps, in this order:
 
 1. Migration `037_ai_chat_read_layer.sql` applied to that portal's database ([migration_v2/README.md](../../server/src/db/migration_v2/README.md)).
-2. On that portal's AI service (Render): `CHAT_ENABLED=true`, `CHAT_MODEL_NAME` (default `gpt-6.1-terra`), `ALLOWED_ORIGINS` (the portal's web address) and its OpenAI key. With `CHAT_ENABLED` off (the default) the page shows a notice and no question is answered. The portal's web app must point `VITE_AI_CHAT_URL` at that service (the built-in default is Godspeed's).
+2. On that portal's AI service (Render): `CHAT_ENABLED=true`, `CHAT_MODEL_NAME` (default `gpt-6.1-terra`), `ALLOWED_ORIGINS` (the portal's web address) and its OpenAI key. With `CHAT_ENABLED` off (the default) the page shows a notice and no question is answered. The portal's web app must point `VITE_AI_CHAT_URL` at that service; there is no default, and without it the chat page shows a notice and loads nothing.
 3. The feature flag `ai_chat` on in Feature Flags (shows the menu entry).
 
 To switch it off again, turn the flag off and set `CHAT_ENABLED=false`.
@@ -50,4 +50,4 @@ The page (in the AI repo, `static/chat/`) is built to match the portal: black an
 
 ## Tests
 
-`server/tests/access/ai-chat-read-layer.test.ts` (roles, forbidden tables and fields, writes, phone code, limits; each protection was broken on purpose and caught), `server/tests/unit/aiChatBridge.test.ts` (the token goes only to the chat frame), `e2e/tests/ai-chat.spec.ts` (the token arrives with no extra step and a renewed one keeps the chat working, EN and FR; the chat page there is a stand-in, `e2e/support/ai-chat-stand-in.mjs`), and in the AI repo `tests/offline`, `tests/local` (real local database) and `tools/chat_eval.py` (model and cost). `e2e/tests/ai-chat-real.spec.ts` runs the portal against the real service by hand.
+`server/tests/access/ai-chat-read-layer.test.ts` (roles, forbidden tables and fields, writes, phone code, limits; each protection was broken on purpose and caught), `server/tests/unit/aiChatBridge.test.ts` (the token goes only to the chat frame; a missing or invalid address gives no frame), `e2e/tests/ai-chat.spec.ts` (the token arrives with no extra step and a renewed one keeps the chat working, EN and FR; the chat page there is a stand-in, `e2e/support/ai-chat-stand-in.mjs`), and in the AI repo `tests/offline`, `tests/local` (real local database) and `tools/chat_eval.py` (model and cost). `e2e/tests/ai-chat-real.spec.ts` runs the portal against the real service by hand.

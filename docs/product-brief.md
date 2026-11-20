@@ -358,7 +358,7 @@ There is **no subscription, usage-based pricing, or freemium model** visible in 
 
 - **AI Insights time-range tracking:** The AI dashboard shows "documents scanned" statistics, but the code includes a clear `TODO` comment noting that the `ai_validation` table is missing a `created_at` field — meaning historical document scan data cannot be broken down by month yet. The monthly breakdown charts for AI documents are currently placeholder zeros.
 
-- **AI Chat:** The AI chat page is a thin wrapper that embeds an external chat service via iframe, with no deeper integration with portal data. Its address defaults to one hosted service unless `VITE_AI_CHAT_URL` is set per portal. It could benefit from context-aware AI that knows about the portal's clients, positions, and jobseekers.
+- **AI Chat:** The AI chat page is a thin wrapper that embeds an external chat service via iframe, with no deeper integration with portal data. Its address is `VITE_AI_CHAT_URL`, set per portal (no default: without it the page shows a notice). It could benefit from context-aware AI that knows about the portal's clients, positions, and jobseekers.
 - **AI service failures are silent:** if the AI provider runs out of credit or rejects a request, the portal's document verification just logs the error. See [TODO.md](TODO.md).
 
 - **Training Modules:** Four training videos are present and four more cards show "Coming Soon". There is no completion tracking.

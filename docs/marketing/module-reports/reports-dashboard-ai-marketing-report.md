@@ -390,7 +390,7 @@ sequenceDiagram
 | Page | [`client/src/pages/GodspeedAIChat.tsx`](../../../client/src/pages/GodspeedAIChat.tsx) |
 | Component | [`client/src/components/IframeViewer.tsx`](../../../client/src/components/IframeViewer.tsx) |
 | Route | `/ai-chat` — [`client/src/App.tsx`](../../../client/src/App.tsx) |
-| URL | `VITE_AI_CHAT_URL` or default `https://godspeed-ops-ai-mhbl.onrender.com/` |
+| URL | `VITE_AI_CHAT_URL` (no default since AI-4) |
 | Menu title | "{brand} AI Chat" (per portal; the page title is the Portal Setting `branding.aiChatTitle`) |
 
 **Frontend access:** `AI_CHAT_ROLES` = all `INTERNAL_STAFF_ROLES` (admin, recruiter, bookkeeper, recruiter_manager, accountant_manager, sales, recruiter_director).

@@ -39,6 +39,18 @@ export function chatOrigin(url: string): string | null {
   }
 }
 
+/**
+ * The chat service a portal's web app may use: the address in `VITE_AI_CHAT_URL` and its origin, or null.
+ * There is no fallback address: a portal without its own configured chat gets no frame and sends no token.
+ */
+export function resolveChatService(
+  configured: string | undefined
+): { baseUrl: string; origin: string } | null {
+  const baseUrl = (configured ?? "").trim();
+  const origin = baseUrl ? chatOrigin(baseUrl) : null;
+  return origin ? { baseUrl, origin } : null;
+}
+
 export function startTokenBridge(options: TokenBridgeOptions): () => void {
   const { aiOrigin, getFrame, getToken, onTokenChange } = options;
   const target: MessageTarget =

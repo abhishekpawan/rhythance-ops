@@ -234,6 +234,9 @@
     "jobseeker": "Chercheur d'emploi",
     "client": "Client"
   },
+  "aiChat": {
+    "notConfigured": "Le chat IA n'est pas disponible sur ce portail pour le moment. Veuillez communiquer avec le soutien technique."
+  },
   "common": {
     "previous": "Précédent",
     "next": "Suivant",
