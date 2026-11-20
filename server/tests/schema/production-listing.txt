@@ -638,7 +638,6 @@ fngrant|public.document_on_own_profile(object_name text)|anon=false authenticate
 fngrant|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profiles)|anon=true authenticated=true service_role=true
 fngrant|public.embedding_input_position_description(pre_embedding_text positions)|anon=true authenticated=true service_role=true
 fngrant|public.ensure_invoice_number()|anon=true authenticated=true service_role=true
-fngrant|public.execute_sql(query text)|anon=false authenticated=false service_role=true
 fngrant|public.find_matching_candidates(p_position_id uuid, p_limit integer, p_filters jsonb)|anon=true authenticated=true service_role=true
 fngrant|public.generate_invoice_number()|anon=true authenticated=true service_role=true
 fngrant|public.generate_next_position_code(client_short_code text)|anon=true authenticated=true service_role=true
@@ -658,7 +657,6 @@ fngrant|public.is_jobseeker()|anon=true authenticated=true service_role=true
 fngrant|public.is_recruiter()|anon=true authenticated=true service_role=true
 fngrant|public.list_auth_users(search text, name_filter text, email_filter text, mobile_filter text, user_type_filter text, email_verified_filter text, limit_count integer, offset_count integer)|anon=false authenticated=false service_role=true
 fngrant|public.notify_activity_change()|anon=true authenticated=true service_role=true
-fngrant|public.set_user_roles(target_user_id uuid, new_roles text[], changed_by uuid, reason text)|anon=false authenticated=false service_role=true
 fngrant|public.simple_matching_candidates(p_position_id uuid, p_limit integer)|anon=true authenticated=true service_role=true
 fngrant|public.support_add_message(p_ticket_id uuid, p_author_id uuid, p_author_name text, p_author_kind text, p_body text, p_is_internal boolean)|anon=false authenticated=false service_role=true
 fngrant|public.support_auto_close_resolved()|anon=false authenticated=false service_role=true
@@ -680,7 +678,6 @@ function|public.document_on_own_profile(object_name text)|returns boolean secdef
 function|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profiles)|returns text secdef=false volatility=i config= body=f48dd41255bd9a15c6216864c0c7867b
 function|public.embedding_input_position_description(pre_embedding_text positions)|returns text secdef=false volatility=i config= body=411f577d52fcbe7bfdfd017fa9d2fa46
 function|public.ensure_invoice_number()|returns trigger secdef=false volatility=v config= body=16086eadd050debfc8771a3edeea4855
-function|public.execute_sql(query text)|returns json secdef=true volatility=v config= body=1553b451ecada1038586c35e67c40d6f
 function|public.find_matching_candidates(p_position_id uuid, p_limit integer, p_filters jsonb)|returns TABLE(candidate_id uuid, first_name text, last_name text, email text, mobile text, bio text, experience text, weekend_availability boolean, availability text, similarity_score double precision, is_available boolean) secdef=false volatility=v config= body=06e157acfe95772bfca41d7c2836b3db
 function|public.generate_invoice_number()|returns character varying secdef=false volatility=v config= body=90ee15c2b26d3b7bd78b9f6168799658
 function|public.generate_next_position_code(client_short_code text)|returns text secdef=false volatility=v config= body=c774eabdf5df1dfe348fe054a7015cab
@@ -700,7 +697,6 @@ function|public.is_jobseeker()|returns boolean secdef=true volatility=s config=s
 function|public.is_recruiter()|returns boolean secdef=true volatility=s config=search_path="" body=6d7f26bd1ea8630a02063c56aa927d90
 function|public.list_auth_users(search text, name_filter text, email_filter text, mobile_filter text, user_type_filter text, email_verified_filter text, limit_count integer, offset_count integer)|returns TABLE(id uuid, email text, user_metadata jsonb, created_at timestamp with time zone, last_sign_in_at timestamp with time zone, email_confirmed_at timestamp with time zone) secdef=true volatility=s config=search_path="" body=9638206166829411e6fa5eba1ea48c24
 function|public.notify_activity_change()|returns trigger secdef=false volatility=v config= body=16e85717618a919f4ad9c3c1840b93d2
-function|public.set_user_roles(target_user_id uuid, new_roles text[], changed_by uuid, reason text)|returns void secdef=true volatility=v config= body=9a0ff7c3d0bc420ad387e585fa8035ed
 function|public.simple_matching_candidates(p_position_id uuid, p_limit integer)|returns TABLE(candidate_id uuid, similarity_score double precision) secdef=false volatility=v config= body=bae55a208eeeec3e80002254b192eaf1
 function|public.support_add_message(p_ticket_id uuid, p_author_id uuid, p_author_name text, p_author_kind text, p_body text, p_is_internal boolean)|returns support_ticket_messages secdef=false volatility=v config=search_path=public body=c292201021f75b237a09fe7f1e0236dd
 function|public.support_auto_close_resolved()|returns integer secdef=false volatility=v config=search_path=public body=808e3211803b0cb92c4d75ad0e0b6553

@@ -1,7 +1,7 @@
 // Compares the schema of the test database (built from migration_v2) with production-listing.txt.
 //
-// Ignored, exactly: the two "NOT COVERED" groups named in migration 032 (execute_sql, and the embedding
-// queue). Accepted as extra in the test database, exactly: the lines of files-ahead-of-production.txt.
+// Ignored, exactly: the "NOT COVERED" group named in migration 032 (the embedding queue; execute_sql was the
+// other until migration 038 dropped it). Accepted as extra in the test database, exactly: the lines of files-ahead-of-production.txt.
 // Everything else must match. A stale allowance (the object is in production, or no longer in the files)
 // also fails, so both lists can only shrink.
 //
@@ -14,8 +14,7 @@ import { fileURLToPath } from "node:url";
 
 /** 032 "NOT COVERED": present in production, deliberately absent from a database built from the files. */
 export const NOT_COVERED = [
-  /^(function|fngrant)\|public\.execute_sql\(/, // 1. the AI chat's SQL function (ROADMAP P12)
-  /^(function|fngrant)\|public\.embedding_input_/, // 2. the embedding queue ...
+  /^(function|fngrant)\|public\.embedding_input_/, // the embedding queue ...
   /^trigger\|public\.(jobseeker_profiles|positions)\.embed_/,
   /^cron\|process-embeddings\|/,
 ];

@@ -23,9 +23,7 @@
 -- file and stay as they are.
 --
 -- NOT COVERED, on purpose (each is also listed in README.md and ignored by the schema comparison):
---   1. public.execute_sql(text): the AI chat's SQL function (ROADMAP P12). A new database gets no chat
---      SQL function until the AI service replaces it with a safe one.
---   2. The embedding queue: public.embedding_input_jobseeker_bio / _position_description, the embed_*
+--   1. The embedding queue: public.embedding_input_jobseeker_bio / _position_description, the embed_*
 --      triggers on jobseeker_profiles and positions, schema util, the pgmq and pg_net extensions and
 --      the `process-embeddings` cron job. They call an edge function that is not in this repo, and
 --      from inside Postgres no test guard can stop them. 011 creates the embedding columns and
@@ -605,61 +603,8 @@ BEGIN
 END;
 $function$;
 
-CREATE OR REPLACE FUNCTION public.set_user_roles(target_user_id uuid, new_roles text[], changed_by uuid, reason text DEFAULT NULL::text)
- RETURNS void
- LANGUAGE plpgsql
- SECURITY DEFINER
-AS $function$
-DECLARE
-    caller_is_admin boolean;
-    old_roles text[] := ARRAY[]::text[];
-    current_meta jsonb;
-    new_log_entry jsonb;
-    updated_log jsonb;
-BEGIN
-    SELECT (raw_user_meta_data->>'user_type' = 'admin') INTO caller_is_admin
-    FROM auth.users
-    WHERE id = auth.uid();
-
-    IF NOT caller_is_admin THEN
-        RAISE EXCEPTION 'Not authorized to set roles';
-    END IF;
-
-    SELECT raw_user_meta_data INTO current_meta
-    FROM auth.users
-    WHERE id = target_user_id
-    FOR UPDATE;
-
-    SELECT COALESCE(
-        ARRAY(SELECT jsonb_array_elements_text(current_meta -> 'user_role')),
-        ARRAY[]::text[]
-    ) INTO old_roles;
-
-    new_log_entry := jsonb_build_object(
-        'changed_at', now(),
-        'changed_by', changed_by,
-        'previous_roles', to_jsonb(old_roles),
-        'new_roles', to_jsonb(new_roles),
-        'reason', to_jsonb(reason)
-    );
-
-    updated_log := COALESCE(current_meta -> 'role_change_log', '[]'::jsonb) || new_log_entry;
-
-    UPDATE auth.users
-    SET raw_user_meta_data = jsonb_set(
-        jsonb_set(
-            COALESCE(current_meta, '{}'::jsonb),
-            '{user_role}',
-            to_jsonb(new_roles),
-            true
-        ),
-        '{role_change_log}',
-        updated_log,
-        true
-    )
-    WHERE id = target_user_id;
-END;
-$function$;
+-- public.set_user_roles is not defined here any more: nothing calls it and 038 drops it (001 still creates it
+-- for a new database; 038 removes it again).
 
 CREATE OR REPLACE FUNCTION public.simple_matching_candidates(p_position_id uuid, p_limit integer DEFAULT 20)
  RETURNS TABLE(candidate_id uuid, similarity_score double precision)

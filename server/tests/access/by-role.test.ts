@@ -211,6 +211,21 @@ describe("the data API, called directly with a user's own token", () => {
       ["get_user_role", { user_id: STAFF.admin.id }],
       ["get_table_info", {}],
       ["test_connection", {}],
+    ] as const) {
+      const r = await supabase(`/rest/v1/rpc/${fn}`, {
+        token,
+        method: "POST",
+        body,
+      });
+      expect([401, 403, 404], `${fn} answered ${r.status}`).toContain(r.status);
+      expect(r.json.code ?? "42501", fn).toMatch(/42501|PGRST202/);
+    }
+  });
+
+  it("the functions 038 dropped do not exist for anyone", async () => {
+    const token = await tokenFor(staffEmails.admin);
+    for (const [fn, body] of [
+      ["execute_sql", { query: "select 1" }],
       [
         "set_user_roles",
         {
@@ -220,13 +235,15 @@ describe("the data API, called directly with a user's own token", () => {
         },
       ],
     ] as const) {
-      const r = await supabase(`/rest/v1/rpc/${fn}`, {
-        token,
-        method: "POST",
-        body,
-      });
-      expect([401, 403, 404], `${fn} answered ${r.status}`).toContain(r.status);
-      expect(r.json.code ?? "42501", fn).toMatch(/42501|PGRST202/);
+      for (const as of [token, undefined]) {
+        const r = await supabase(`/rest/v1/rpc/${fn}`, {
+          token: as,
+          method: "POST",
+          body,
+        });
+        expect(r.status, `${fn} answered ${r.status}`).toBe(404);
+        expect(r.json.code, fn).toBe("PGRST202");
+      }
     }
   });
 });

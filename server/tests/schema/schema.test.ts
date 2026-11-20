@@ -90,9 +90,8 @@ describe("schema comparison", () => {
       path.join(MIGRATIONS_DIR, "032_catch_up_to_production.sql"),
       "utf8"
     );
-    expect(text).toContain("execute_sql");
     expect(text).toContain("process-embeddings");
-    expect(NOT_COVERED).toHaveLength(4);
+    expect(NOT_COVERED).toHaveLength(3);
     const ignoredInProduction = production.filter((l) =>
       NOT_COVERED.some((re) => re.test(l))
     );
@@ -103,10 +102,8 @@ describe("schema comparison", () => {
         "cron|process-embeddings",
         "fngrant|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profiles)",
         "fngrant|public.embedding_input_position_description(pre_embedding_text positions)",
-        "fngrant|public.execute_sql(query text)",
         "function|public.embedding_input_jobseeker_bio(pre_embedding_text jobseeker_profiles)",
         "function|public.embedding_input_position_description(pre_embedding_text positions)",
-        "function|public.execute_sql(query text)",
         "trigger|public.jobseeker_profiles.embed_bio_on_insert",
         "trigger|public.jobseeker_profiles.embed_bio_on_update",
         "trigger|public.positions.embed_job_description_on_insert",
@@ -116,7 +113,7 @@ describe("schema comparison", () => {
   });
 });
 
-describe("migrations 032 to 035 and 037 run twice", () => {
+describe("migrations 032 to 035, 037 and 038 run twice", () => {
   it("change nothing the second time, and nothing fails", async () => {
     const before = (await listLocal()).sort();
     for (const file of [
@@ -125,6 +122,7 @@ describe("migrations 032 to 035 and 037 run twice", () => {
       "034_roles_from_app_metadata.sql",
       "035_staff_two_factor.sql",
       "037_ai_chat_read_layer.sql",
+      "038_drop_unused_ai_functions.sql",
       "032_catch_up_to_production.sql",
     ]) {
       const r = psql(stack().dbUrl, { file: path.join(MIGRATIONS_DIR, file) });
