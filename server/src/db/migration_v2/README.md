@@ -56,7 +56,7 @@ Run **every file once, in order, on each portal's database**, then that portal's
 
 **032 is different:** it is for a NEW database only and refuses to run unless the session sets `rhythence.catch_up = 'new-database'`. Live databases already have what it holds; do not run it on them.
 
-**037** is applied on no database yet (built and tested on the local test database in session AI-5a). **028**, **035** and **036** are applied on stage and all four production databases (2026-11-19). 028 went in as `CREATE OR REPLACE TRIGGER` (no such trigger existed anywhere, so the file's `DROP TRIGGER IF EXISTS` had nothing to drop). 035 changes nothing until the flag `staff_two_factor_enforced` is on; it is on in the four production portals since 2026-11-19 and off on stage (the demos).
+**037** is applied on stage and all four production databases (2026-11-20, session AI-5a; checked on each with structure queries and a simulated call, which a password-only session fails with the phone-code refusal). It changes nothing visible: the chat stays off until a portal's AI service has `CHAT_ENABLED` and its flag `ai_chat` is on. **028**, **035** and **036** are applied on stage and all four production databases (2026-11-19). 028 went in as `CREATE OR REPLACE TRIGGER` (no such trigger existed anywhere, so the file's `DROP TRIGGER IF EXISTS` had nothing to drop). 035 changes nothing until the flag `staff_two_factor_enforced` is on; it is on in the four production portals since 2026-11-19 and off on stage (the demos).
 
 **Where 033 and 034 are applied:** stage and the four production databases (2026-11-16); the demo database not yet. **032 is applied nowhere** (it was written for a database built from these files; see below).
 
