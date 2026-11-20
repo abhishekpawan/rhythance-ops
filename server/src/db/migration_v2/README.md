@@ -51,10 +51,13 @@ or, on macOS/Linux: `ls server/src/db/migration_v2/*.sql | sort`
 | `035_staff_two_factor.sql` | Staff two-step login on the server: table `staff_2fa_sessions` (server only) and each staff phone number copied to `app_metadata.twofa_phone`. Changes nothing visible until the flag `staff_two_factor_enforced` is switched on |
 | `036_matching_one_row_per_candidate.sql` | `find_matching_candidates` lists each candidate once (it listed a candidate once per overlapping assignment); same body as in 032 |
 | `037_ai_chat_read_layer.sql` | The AI chat's read layer: private schema `ai_chat` with six views of approved fields, one read-only database role and runner function per portal role, four functions the signed-in staff member's token may call (`ai_chat_schema`, `ai_chat_run`, `ai_chat_claim`, `ai_chat_record_usage`), table `ai_chat_usage`. Changes nothing visible until the AI service has `CHAT_ENABLED` on and the flag `ai_chat` is on. See [../../../docs/features/ai-chat.md](../../../docs/features/ai-chat.md) |
+| `039_staff_session_in_database_rules.sql` | The database's staff checks follow the two-step login: `has_role`, `has_user_role` and `has_scope` (so `is_admin`, `is_recruiter` and all policies built on them) are true for admin and recruiter accounts only when the sign-in session is recorded in `staff_2fa_sessions` (while the flag `staff_two_factor_enforced` is on; no row = on). New function `staff_session_ok()`. Run after 034. See [../../../docs/role-access-control.md](../../../docs/role-access-control.md#two-step-login-staff) |
 
 Run **every file once, in order, on each portal's database**, then that portal's seed from `../seeds/` (see `../seeds/README.md`).
 
 **032 is different:** it is for a NEW database only and refuses to run unless the session sets `rhythence.catch_up = 'new-database'`. Live databases already have what it holds; do not run it on them.
+
+**039** is applied on stage and all four production databases (2026-11-20, session DEV-4; function body hashes checked equal on each, a real verified session still passes and a fresh password-only session of the same user is refused, read-only). It changes nothing for staff who signed in with the phone code. It must run after 034 and 032, which define the older helpers (the re-run test runs it last). The undo is `ops/undo/039_undo.sql`.
 
 **038** drops `execute_sql` (the old chat's SQL function, in no migration, only on the live databases) and `set_user_roles` (nothing calls it); no `CASCADE`, so it fails rather than drop something that still depends on them. Applied on stage and the four production databases 2026-11-20 (session AI-4). 032 no longer defines `set_user_roles` (001 still creates it for a new database and 038 drops it).
 

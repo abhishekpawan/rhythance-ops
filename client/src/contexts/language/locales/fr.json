@@ -196,6 +196,7 @@
       "EMAIL_AND_PASSWORD_REQUIRED": "Veuillez saisir votre email et votre mot de passe",
       "TWO_FACTOR_REQUIRED": "Ce compte doit se connecter avec la connexion en deux étapes",
       "TWO_FACTOR_CODE_REQUIRED": "Veuillez saisir le code de vérification",
+      "TWO_FACTOR_NOT_REQUIRED": "Ce compte n'utilise pas de code de connexion",
       "NO_2FA_PHONE": "Aucun numéro de téléphone n'est enregistré pour la connexion en deux étapes. Veuillez contacter le support.",
       "INVALID_2FA_CODE": "Code de vérification invalide",
       "TWO_FACTOR_FAILED": "Nous n'avons pas pu terminer la connexion. Veuillez réessayer.",

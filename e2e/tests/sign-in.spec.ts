@@ -124,7 +124,7 @@ for (const language of ["en", "fr"] as const) {
     }) => {
       let sends = 0;
       page.on("request", (request) => {
-        if (request.url().endsWith("/api/auth/send-verification")) sends++;
+        if (request.url().endsWith("/api/auth/send-sign-in-code")) sends++;
       });
       await signIn(page, staff.recruiter, true);
       await expect(page).toHaveURL(/\/dashboard$/);

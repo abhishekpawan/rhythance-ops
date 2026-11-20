@@ -7,6 +7,8 @@
 # log-trim cron job is named prune_cron_job_run_details (daily 02:00).
 # 2026-11-19: the lines of migrations 028, 035 and 036 (applied that day) were added from a read-only run of the same
 # query on the CanHire production database (only those objects); the rest is as of 2026-11-17.
+# 2026-11-20: migration 039 (applied that day to stage and all four production databases): has_role, has_user_role and has_scope
+# replaced and staff_session_ok added; body hashes compared on CanHire production (read-only).
 # The comparison (compare.mjs) ignores the "not covered" items named in migration 032 and the entries in
 # files-ahead-of-production.txt, and nothing else. Refresh this file when production changes.
 bucket|consent-documents|public=false limit=52428800 mime=application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/jpeg,image/png
@@ -658,6 +660,7 @@ fngrant|public.is_recruiter()|anon=true authenticated=true service_role=true
 fngrant|public.list_auth_users(search text, name_filter text, email_filter text, mobile_filter text, user_type_filter text, email_verified_filter text, limit_count integer, offset_count integer)|anon=false authenticated=false service_role=true
 fngrant|public.notify_activity_change()|anon=true authenticated=true service_role=true
 fngrant|public.simple_matching_candidates(p_position_id uuid, p_limit integer)|anon=true authenticated=true service_role=true
+fngrant|public.staff_session_ok()|anon=false authenticated=false service_role=true
 fngrant|public.support_add_message(p_ticket_id uuid, p_author_id uuid, p_author_name text, p_author_kind text, p_body text, p_is_internal boolean)|anon=false authenticated=false service_role=true
 fngrant|public.support_auto_close_resolved()|anon=false authenticated=false service_role=true
 fngrant|public.support_change_status(p_ticket_id uuid, p_to_status text, p_actor_id uuid, p_actor_kind text, p_effort_minutes integer)|anon=false authenticated=false service_role=true
@@ -689,15 +692,16 @@ function|public.get_user_id_by_email(user_email text)|returns text secdef=true v
 function|public.get_user_id_by_phone(user_phone text)|returns text secdef=true volatility=v config=search_path=public body=a2a647d7f811f6d22450347bc77d0b5c
 function|public.get_user_role(user_id uuid)|returns user_role secdef=true volatility=s config=search_path="" body=18df54ee9c6fe2791ed2e4801248fe43
 function|public.get_user_roles(user_id uuid)|returns text[] secdef=true volatility=s config=search_path="" body=4567906a12f316793d6129f93f4df385
-function|public.has_role(role user_role)|returns boolean secdef=true volatility=s config=search_path="" body=75e33868db386a5a11099ab1feaf26e7
-function|public.has_scope(scope text)|returns boolean secdef=true volatility=s config=search_path="" body=58b96989d6b0b7d7720479835caa5916
-function|public.has_user_role(role text)|returns boolean secdef=true volatility=s config=search_path="" body=117603532f076add6d3040f423823e69
+function|public.has_role(role user_role)|returns boolean secdef=true volatility=s config=search_path="" body=3afb6bddd2184920eb091cbc3b7e4bfd
+function|public.has_scope(scope text)|returns boolean secdef=true volatility=s config=search_path="" body=520f0cef174778a1ff638607fc2d761a
+function|public.has_user_role(role text)|returns boolean secdef=true volatility=s config=search_path="" body=cefeb8354bc51f948edb2b141c64deb9
 function|public.is_admin()|returns boolean secdef=true volatility=s config=search_path="" body=9626dec7394fd71b7b1b4d80f652a800
 function|public.is_jobseeker()|returns boolean secdef=true volatility=s config=search_path="" body=2ae9d87f0d20f1fc8db67fb829331100
 function|public.is_recruiter()|returns boolean secdef=true volatility=s config=search_path="" body=6d7f26bd1ea8630a02063c56aa927d90
 function|public.list_auth_users(search text, name_filter text, email_filter text, mobile_filter text, user_type_filter text, email_verified_filter text, limit_count integer, offset_count integer)|returns TABLE(id uuid, email text, user_metadata jsonb, created_at timestamp with time zone, last_sign_in_at timestamp with time zone, email_confirmed_at timestamp with time zone) secdef=true volatility=s config=search_path="" body=9638206166829411e6fa5eba1ea48c24
 function|public.notify_activity_change()|returns trigger secdef=false volatility=v config= body=16e85717618a919f4ad9c3c1840b93d2
 function|public.simple_matching_candidates(p_position_id uuid, p_limit integer)|returns TABLE(candidate_id uuid, similarity_score double precision) secdef=false volatility=v config= body=bae55a208eeeec3e80002254b192eaf1
+function|public.staff_session_ok()|returns boolean secdef=true volatility=s config=search_path="" body=5db4cbfd2afd5a12915231286cd0fc8b
 function|public.support_add_message(p_ticket_id uuid, p_author_id uuid, p_author_name text, p_author_kind text, p_body text, p_is_internal boolean)|returns support_ticket_messages secdef=false volatility=v config=search_path=public body=c292201021f75b237a09fe7f1e0236dd
 function|public.support_auto_close_resolved()|returns integer secdef=false volatility=v config=search_path=public body=808e3211803b0cb92c4d75ad0e0b6553
 function|public.support_change_status(p_ticket_id uuid, p_to_status text, p_actor_id uuid, p_actor_kind text, p_effort_minutes integer)|returns support_tickets secdef=false volatility=v config=search_path=public body=1e7a97fea6373f027e21e9a7160fefd7

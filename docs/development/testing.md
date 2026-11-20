@@ -66,6 +66,8 @@ The test server is started with three preloads (`node --import`), so **the serve
 
 `tests/access/staff-two-factor.test.ts` runs against two servers: the normal one (feature flag `staff_two_factor_enforced` off, today's behaviour) and a third one started with `TEST_FORCE_FLAGS=staff_two_factor_enforced`, where the preload `tests/support/force-flags.mjs` adds the override to the server's read of the flag table for that process only (the database is not touched, so the other test servers keep the default). Use `server(path, { twoFactor: true })` to call it; its recorded SMS checks are in `inject("twoFactorOutboundLog")`.
 
+`tests/access/sign-in-code.test.ts` (the sign-in code is sent only after the password checks out, only to the number on file, limits count the account) uses the same third server. `tests/access/staff-data-api-session.test.ts` calls Supabase's data API and storage directly with a user's own token: the enforcement flag is a database row there, so the file switches it on and puts it back off when it ends (files run one at a time); sessions are recorded in `staff_2fa_sessions` with the service key the way the server records them, and the role helpers are also checked inside rolled-back transactions (`tests/support/rolled-back.ts`).
+
 ## Writing a test
 
 Use the helpers in `tests/support/api.ts`: `tokenFor(email)` signs a seeded account in, `server(path, { token })` calls the real server, `supabase(path, { token })` and `storage.*` call the local Supabase with that token. Add expected values by working them out, never by copying what the code printed. If a test shows something wrong in the portal, report it instead of pinning it silently. After writing a test, break the thing it guards on purpose and watch it fail.

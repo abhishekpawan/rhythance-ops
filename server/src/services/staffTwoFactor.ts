@@ -76,6 +76,37 @@ export function sessionIdFromToken(token: string): string | null {
   }
 }
 
+export type SendCodeResult = "sent" | "unavailable" | "failed";
+
+/** Twilio Verify: text a code to `phone`. "unavailable" = Twilio is not configured on this server. */
+export async function sendPhoneCode(phone: string): Promise<SendCodeResult> {
+  const serviceSid = process.env.TWILIO_VERIFY_SERVICE_SID || "";
+  if (
+    !process.env.TWILIO_ACCOUNT_SID ||
+    !process.env.TWILIO_AUTH_TOKEN ||
+    !serviceSid
+  ) {
+    console.error("Twilio is not configured");
+    return "unavailable";
+  }
+  try {
+    const client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    );
+    await client.verify.v2
+      .services(serviceSid)
+      .verifications.create({ to: phone, channel: "sms" });
+    return "sent";
+  } catch (error) {
+    console.error(
+      "Two-step login code send failed:",
+      error instanceof Error ? error.name : "error"
+    );
+    return "failed";
+  }
+}
+
 /** Twilio Verify check of a code sent to `phone`. False for a wrong, expired or already used code. */
 export async function checkPhoneCode(
   phone: string,

@@ -66,3 +66,27 @@ export const checkCodeLimiters = [
   byAddress(OTP_LIMITS.checkPerAddress),
   byNumber(OTP_LIMITS.checkPerNumber),
 ];
+
+/**
+ * The sign-in code (`POST /api/auth/send-sign-in-code`) is sent only after the email and password check out, so
+ * its per-person limit counts the account, not a number anyone can name: someone who only knows a staff member's
+ * number or email cannot use up that person's sends. The address limit still applies before the password is
+ * checked (it stops one source guessing passwords or texting many accounts).
+ */
+export const signInCodeAddressLimiter = byAddress(OTP_LIMITS.sendPerAddress);
+
+const accountSends = new Map<string, number[]>();
+
+/** Counts one sign-in code for this account; false when the account is over its hourly limit. */
+export function takeAccountSend(userId: string, now = Date.now()): boolean {
+  const recent = (accountSends.get(userId) ?? []).filter(
+    (at) => now - at < OTP_LIMITS.windowMs
+  );
+  if (recent.length >= OTP_LIMITS.sendPerNumber) {
+    accountSends.set(userId, recent);
+    return false;
+  }
+  recent.push(now);
+  accountSends.set(userId, recent);
+  return true;
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { Shield, CheckCircle } from "lucide-react";
-import { sendOtpAPI } from "../../services/api/auth";
+import { sendSignInCodeAPI } from "../../services/api/signInCode";
 import { authErrorMessage } from "../../services/api/authErrors";
 import { complete2FA } from "../../lib/auth";
 import "../../styles/variables.css";
@@ -48,7 +48,7 @@ export function TwoFactorAuth() {
     setResendSuccess(false);
 
     try {
-      await sendOtpAPI(phoneNumber);
+      await sendSignInCodeAPI(email, password);
       setOtpCode("");
       setResendTimer(30);
       setResendSuccess(true);
@@ -57,7 +57,7 @@ export function TwoFactorAuth() {
     } finally {
       setIsResending(false);
     }
-  }, [phoneNumber, hasRequiredState, t]);
+  }, [phoneNumber, hasRequiredState, email, password, t]);
 
   const verifyOtp = useCallback(async () => {
     if (!phoneNumber || !otpCode || otpCode.length < 4 || !email || !password) {

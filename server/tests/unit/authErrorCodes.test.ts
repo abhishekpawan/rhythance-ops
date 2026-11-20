@@ -17,6 +17,7 @@ const locale = (lang: "en" | "fr") =>
 
 const SERVER_FILES = [
   "server/src/routes/authSignIn.ts",
+  "server/src/routes/authSignInCode.ts",
   "server/src/routes/authPhone.ts",
   "server/src/middleware/otpRateLimits.ts",
 ];

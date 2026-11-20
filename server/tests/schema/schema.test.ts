@@ -1,5 +1,5 @@
 // The schema built from migration_v2 is production's schema (apart from what 032 lists as not covered and
-// files-ahead-of-production.txt), and 032 to 035 can run again without changing anything.
+// files-ahead-of-production.txt), and 032 to 035 and 037 to 039 can run again without changing anything.
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -113,7 +113,7 @@ describe("schema comparison", () => {
   });
 });
 
-describe("migrations 032 to 035, 037 and 038 run twice", () => {
+describe("migrations 032 to 035 and 037 to 039 run twice", () => {
   it("change nothing the second time, and nothing fails", async () => {
     const before = (await listLocal()).sort();
     for (const file of [
@@ -124,6 +124,8 @@ describe("migrations 032 to 035, 037 and 038 run twice", () => {
       "037_ai_chat_read_layer.sql",
       "038_drop_unused_ai_functions.sql",
       "032_catch_up_to_production.sql",
+      // last: 034 and 032 put back the old role helpers and the invoice policies that 039 replaces or removes
+      "039_staff_session_in_database_rules.sql",
     ]) {
       const r = psql(stack().dbUrl, { file: path.join(MIGRATIONS_DIR, file) });
       expect(

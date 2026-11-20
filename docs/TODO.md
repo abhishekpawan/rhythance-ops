@@ -90,7 +90,7 @@ The browser test run (read-only on production, writes only on the demo database)
   - Dropdown options: the UI offers add/change/delete to managers and directors, the API accepts only `admin` for those.
   - Invite and resend invitation: the UI offers it to managers and directors, the API accepts only `admin`.
   - `authorizeRoles(["recruiter"])` accepts every internal role, so reports, invoices, users, clients and positions can be called by roles that the UI does not show.
-- [ ] 2FA: the login screen still carries the password in client route state between the password step and the code step (the server now checks the code, see [role-access-control.md](role-access-control.md#two-step-login-staff)). Replace with a short-lived server-side step, and make the database helpers (`has_role`, `is_admin`) require a verified session too.
+- [ ] 2FA: the login screen still carries the password in client route state between the password step and the code step (the server now checks the code, see [role-access-control.md](role-access-control.md#two-step-login-staff)). Replace with a short-lived server-side step. (The database helpers `has_role`, `is_admin` now require a verified session too: migration 039.)
 - [ ] If the floating AI chat is ever re-enabled it renders markdown through `dangerouslySetInnerHTML` with sanitisation disabled; sanitise first.
 - [ ] Consent links do not expire (the `expired` status is never set) although the email text mentions expiry. Either enforce an expiry or reword the email.
 

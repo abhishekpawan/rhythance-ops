@@ -2,7 +2,7 @@ import axios from "axios";
 
 /**
  * Sign-in and phone-code errors. The server sends an English `error` text and a stable `code`
- * (server/src/routes/authSignIn.ts, authPhone.ts, middleware/otpRateLimits.ts). Screens show the translation
+ * (server/src/routes/authSignIn.ts, authSignInCode.ts, authPhone.ts, middleware/otpRateLimits.ts). Screens show the translation
  * of the code (`auth.errors.<CODE>`, in English and French) and fall back to the server text for a code
  * they do not know.
  */
@@ -14,6 +14,7 @@ export const AUTH_ERROR_CODES = [
   "EMAIL_AND_PASSWORD_REQUIRED",
   "TWO_FACTOR_REQUIRED",
   "TWO_FACTOR_CODE_REQUIRED",
+  "TWO_FACTOR_NOT_REQUIRED",
   "NO_2FA_PHONE",
   "INVALID_2FA_CODE",
   "TWO_FACTOR_FAILED",

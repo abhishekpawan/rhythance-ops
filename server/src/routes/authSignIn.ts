@@ -26,13 +26,13 @@ const TWO_FACTOR_REQUIRED = {
   code: "TWO_FACTOR_REQUIRED",
 };
 
-const EMAIL_AND_PASSWORD_REQUIRED = {
+export const EMAIL_AND_PASSWORD_REQUIRED = {
   error: "Email and password are required",
   code: "EMAIL_AND_PASSWORD_REQUIRED",
 };
 
 // Supabase's own sign-in errors, as a stable `code` the screen translates (the English `error` text stays).
-function signInFailure(error: { code?: string; message?: string }) {
+export function signInFailure(error: { code?: string; message?: string }) {
   switch (error.code) {
     case "invalid_credentials":
       return { error: error.message, code: "INVALID_CREDENTIALS" };

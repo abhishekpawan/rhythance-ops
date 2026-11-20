@@ -193,6 +193,7 @@ const PUBLIC_SIGN_IN_PATHS = [
   "/api/auth/validate-credentials",
   "/api/auth/complete-2fa",
   "/api/auth/send-verification",
+  "/api/auth/send-sign-in-code",
   "/api/auth/verify-otp",
 ];
 const isPublicSignInCall = (url?: string) =>

@@ -196,6 +196,7 @@
       "EMAIL_AND_PASSWORD_REQUIRED": "Please enter your email and password",
       "TWO_FACTOR_REQUIRED": "This account must sign in with the two-step login",
       "TWO_FACTOR_CODE_REQUIRED": "Please enter the verification code",
+      "TWO_FACTOR_NOT_REQUIRED": "This account does not use a sign-in code",
       "NO_2FA_PHONE": "No phone number is on file for the two-step login. Please contact support.",
       "INVALID_2FA_CODE": "Invalid verification code",
       "TWO_FACTOR_FAILED": "We could not complete the sign-in. Please try again.",
