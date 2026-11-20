@@ -181,10 +181,10 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
     defaultEnabled: false,
     wired: true,
     intended: {
-      godspeed: false,
-      gdworkforce: false,
-      canhire: false,
-      allstaff: false,
+      godspeed: true,
+      gdworkforce: true,
+      canhire: true,
+      allstaff: true,
     },
     notes:
       "Hides the menu entry only; the /ai-chat page itself still opens and shows the service's notice until the chat is switched on. Rollout is one portal at a time, stage first (docs/features/ai-chat.md).",

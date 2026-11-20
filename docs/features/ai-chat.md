@@ -6,10 +6,10 @@ The page `/ai-chat` shows the AI service's own chat page in a frame. The service
 
 ## Switching it on for a portal
 
-The chat is **off everywhere until each portal is switched on, one at a time**: three things, in this order.
+**Status (2026-11-20): on in all four portals** (AllStaff, CanHire, Godspeed, GD Workforce): migration 037 applied, `CHAT_ENABLED=true` on each AI service, flag `ai_chat` on in each database. It stays off on the demo and public demo (no flag, stage database has the migration only). A new portal gets it in three steps, in this order:
 
 1. Migration `037_ai_chat_read_layer.sql` applied to that portal's database ([migration_v2/README.md](../../server/src/db/migration_v2/README.md)).
-2. On that portal's AI service (Render): `CHAT_ENABLED=true`, `CHAT_MODEL_NAME` (default `gpt-6.1-terra`), `ALLOWED_ORIGINS` (the portal's web address) and its OpenAI key. With `CHAT_ENABLED` off (the default) the page shows a notice and no question is answered.
+2. On that portal's AI service (Render): `CHAT_ENABLED=true`, `CHAT_MODEL_NAME` (default `gpt-6.1-terra`), `ALLOWED_ORIGINS` (the portal's web address) and its OpenAI key. With `CHAT_ENABLED` off (the default) the page shows a notice and no question is answered. The portal's web app must point `VITE_AI_CHAT_URL` at that service (the built-in default is Godspeed's).
 3. The feature flag `ai_chat` on in Feature Flags (shows the menu entry).
 
 To switch it off again, turn the flag off and set `CHAT_ENABLED=false`.
