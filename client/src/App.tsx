@@ -58,7 +58,6 @@ import { InvoiceManagement } from "./pages/InvoiceManagement/InvoiceManagement";
 import { InvoiceList } from "./pages/InvoiceManagement/InvoiceList";
 import { InvoiceView } from "./pages/InvoiceManagement/InvoiceView";
 import { AllUsersManagement } from "./pages/AllUsersManagement";
-// import FloatingChat from './components/FloatingChat';
 import { Reports } from "./pages/Reports/Reports";
 import { WeeklyTimesheet } from "./pages/Reports/WeeklyTimesheet";
 import { MarginReport } from "./pages/Reports/MarginReport";
@@ -131,7 +130,6 @@ function App() {
             <PortalSettingsProvider>
           <Router>
             <GeometricShapes />
-            {/* <FloatingChat /> */}
             <Routes>
               {/* Public routes */}
               <Route element={<PublicRoute />}>

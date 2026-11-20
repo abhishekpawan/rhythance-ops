@@ -39,6 +39,15 @@ Every internal staff role may open the chat; what a question can read depends on
 - **What goes to OpenAI:** the question, the last few turns of the conversation, the description of the views the person may read, and the rows a query returned (names, contact details and rates included, as approved). Nothing is logged by the service: no token, question, query, row or answer.
 - The page is framed only by the portal's address, loads nothing from other sites, and shows every answer as escaped text.
 
+## What the page shows
+
+The page (in the AI repo, `static/chat/`) is built to match the portal: black and white, the portal's borders and rounded cards, light and dark following the portal's theme (sent as a message, so switching never reloads the chat), English and French, a layout that works down to phone width, and reduced motion respected.
+
+- **Suggested questions** on the empty screen are chosen from the views the signed-in person's role can read (the page asks `GET /chat/config`, which counts nothing against the daily limit and calls no model), so a role never gets a suggestion it cannot answer. Each suggested question was run against the real model on synthetic data before it was listed.
+- **A thinking trace** above each answer shows the steps as they happen (reading the question, one line on how the question was understood, which kinds of data were looked up, writing the answer) with animation while it works, then folds to "Thought for N s" (click to open again). It costs no extra model call: the line on how the question was understood is part of the same plan the chat already makes. It never shows the query or any rows.
+- When the data does not hold what a question needs (for example availability by date, which is not stored: only Full-Time/Part-Time and a weekend flag), the chat says what is missing and offers one or two related questions it can answer.
+- The answer streams in; tables are shown as tables.
+
 ## Tests
 
 `server/tests/access/ai-chat-read-layer.test.ts` (roles, forbidden tables and fields, writes, phone code, limits; each protection was broken on purpose and caught), `server/tests/unit/aiChatBridge.test.ts` (the token goes only to the chat frame), `e2e/tests/ai-chat.spec.ts` (the token arrives with no extra step and a renewed one keeps the chat working, EN and FR; the chat page there is a stand-in, `e2e/support/ai-chat-stand-in.mjs`), and in the AI repo `tests/offline`, `tests/local` (real local database) and `tools/chat_eval.py` (model and cost). `e2e/tests/ai-chat-real.spec.ts` runs the portal against the real service by hand.

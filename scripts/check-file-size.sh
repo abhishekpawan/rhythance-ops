@@ -1,5 +1,5 @@
 #!/bin/sh
-# File-size ratchet: no source file (ts, tsx, css in client/src and server/src) over 300 lines, but 129 are over
+# File-size ratchet: no source file (ts, tsx, css in client/src and server/src) over 300 lines, but 112 are over
 # today, so the check is a ratchet against scripts/file-size-baseline.txt ("<lines> <path>" for each oversized file):
 #   * a file that is not in the baseline must be at most 300 lines,
 #   * a file in the baseline must not grow,

@@ -403,23 +403,11 @@ sequenceDiagram
 
 ---
 
-### 3.4 Floating AI chat widget (inactive)
+### 3.4 Floating AI chat widget (removed)
 
-| Item | Detail |
-|------|--------|
-| Component | [`client/src/components/FloatingChat.tsx`](../../../client/src/components/FloatingChat.tsx) |
-| Styles | [`client/src/styles/components/floating-chat.css`](../../../client/src/styles/components/floating-chat.css) |
-| Mount | **Commented out** in [`client/src/App.tsx`](../../../client/src/App.tsx) (`{/* <FloatingChat /> */}`) |
-| API | `POST https://godspeed-ops-ai-1ba0.onrender.com/chat/stream` (SSE-style) |
-| Auth | Supabase Bearer per message |
-| Payload | `session_id`, `user_type`, `user_question`, `message_history` (last 10) |
-| If enabled, visible to | `userType === 'admin' \|\| userType === 'recruiter'` only (**stricter** than iframe page; excludes bookkeeper by base user type) |
+The floating chat widget was never switched on and its code was deleted (it spoke the old chat protocol, loaded scripts from a CDN and had no sign-in check). The chat page (`pages/GodspeedAIChat.tsx`, shown in a frame) is the only AI chat entry point.
 
-**Built capabilities (from component):** NL → SQL against operational data; stages (analyzing, generating, etc.); may surface `sql_query`, token usage in metadata; markdown rendering with `sanitize: false`.
-
-**Status:** **Built but disabled** — different host than iframe chat (`godspeed-ops-ai-1ba0` vs `godspeed-ops-ai-mhbl`).
-
-**Marketing:** Do **not** claim floating widget is live; iframe chat is the production entry point.
+**Marketing:** Do **not** claim a floating widget exists.
 
 ---
 

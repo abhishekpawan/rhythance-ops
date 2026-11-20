@@ -30,7 +30,7 @@ Requested by Sid (November 2026) after the system stopped when the OpenAI credit
 **Request.** An AI balance indicator in the Admin panel that alerts below **5 USD** (editable by the admin), and the same idea for other third-party vendors, with subscription/renewal dates where they apply.
 
 **What the code shows today.**
-- The AI lives in the separate repo `godspeed-ops-ai` (FastAPI, hosted on Render). Each portal's client points to its own hosted AI service (addresses in `client/src/components/FloatingChat.tsx` and via `VITE_AI_CHAT_URL` for `GodspeedAIChat.tsx`; the portal server reads `AI_VERIFICATION_URL`).
+- The AI lives in the separate repo `godspeed-ops-ai` (FastAPI, hosted on Render). Each portal's client points to its own hosted AI service (the chat page's address is `VITE_AI_CHAT_URL` for `pages/GodspeedAIChat.tsx`; the portal server reads `AI_VERIFICATION_URL`).
 - It uses **OpenAI** (`gpt-4o` document verification, `gpt-4.1-mini` chat, `gpt-4.1-nano` query understanding) and **Groq** (database and visualisation agents).
 - `services/openai_service.py` catches errors broadly and only logs: a quota error is **not detected or reported**, so the outage was silent. There is no `/health` endpoint.
 - Other vendors: **Supabase**, **Twilio** (SMS verify), **SendGrid** (email), **Render** (AI hosting). Domain/DNS and web hosting are not visible in the repo.
@@ -109,6 +109,6 @@ The browser test run (read-only on production, writes only on the demo database)
 - [ ] Remove the debug `console.log` calls in `client/src/components/AppHeader.tsx`.
 - [ ] `server/src/utils/encryption.ts` is not imported anywhere, yet refuses to load without `ENCRYPTION_KEY`/`ENCRYPTION_IV`. Delete it or use it.
 - [ ] `server/src/routes/jobseekers.ts` registers a dead duplicate `/api/profile/check-email` route (the working one is in `profile.ts`).
-- [ ] Add `VITE_AI_CHAT_URL` to `client/.env.example`; replace the hard-coded chat addresses in `FloatingChat.tsx` (and the default in `GodspeedAIChat.tsx`) with environment values.
+- [ ] Add `VITE_AI_CHAT_URL` to `client/.env.example`; replace the built-in default address in `GodspeedAIChat.tsx` with an environment value only.
 - [ ] Legacy role names `manager` and `accountant` are still normalised in several code paths; migrate the stored data and drop the aliases.
 - [ ] The `bulk_timesheets` table is unused by the app.

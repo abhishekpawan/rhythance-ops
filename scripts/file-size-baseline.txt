@@ -1,8 +1,7 @@
-551 client/src/App.tsx
+549 client/src/App.tsx
 487 client/src/components/DateRangePicker.tsx
 499 client/src/components/DemoAutoFillWidget/DemoAutoFillWidget.css
 628 client/src/components/DemoAutoFillWidget/demoPresets.ts
-540 client/src/components/FloatingChat.tsx
 1097 client/src/components/HamburgerMenu.tsx
 469 client/src/components/InvoiceAttachments.tsx
 315 client/src/components/calendar/CalendarFilters.css
@@ -73,7 +72,6 @@
 663 client/src/styles/components/CommonTable.css
 329 client/src/styles/components/CustomDropdown.css
 423 client/src/styles/components/InvoiceAttachments.css
-1226 client/src/styles/components/floating-chat.css
 519 client/src/styles/components/form.css
 797 client/src/styles/components/hamburgerMenu.css
 391 client/src/styles/components/header.css
