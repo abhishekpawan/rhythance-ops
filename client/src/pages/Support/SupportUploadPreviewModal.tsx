@@ -1,5 +1,5 @@
 import React from "react";
-import { X } from "lucide-react";
+import { Modal } from "../../components/Modal";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { formatFileSize } from "./supportFormat";
 import { UploadItem } from "./supportUploadItem";
@@ -15,44 +15,27 @@ export const SupportUploadPreviewModal: React.FC<
   const { t } = useLanguage();
 
   return (
-    <div
-      className="support-preview-modal-backdrop"
-      onClick={() => onClose()}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t("support.attachments.preview")}
+    <Modal
+      classPrefix="support-preview-modal"
+      ariaLabel={t("support.attachments.preview")}
+      closeLabel={t("support.attachments.closePreview")}
+      onClose={onClose}
+      title={
+        <>
+          <span className="support-preview-filename" title={item.file.name}>
+            {item.file.name}
+          </span>
+          <span className="support-preview-filesize">
+            ({formatFileSize(item.file.size)})
+          </span>
+        </>
+      }
     >
-      <div
-        className="support-preview-modal-content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="support-preview-modal-header">
-          <div className="support-preview-modal-title">
-            <span className="support-preview-filename" title={item.file.name}>
-              {item.file.name}
-            </span>
-            <span className="support-preview-filesize">
-              ({formatFileSize(item.file.size)})
-            </span>
-          </div>
-          <button
-            type="button"
-            className="support-preview-modal-close"
-            onClick={() => onClose()}
-            title={t("support.attachments.closePreview")}
-            aria-label={t("support.attachments.closePreview")}
-          >
-            <X size={18} />
-          </button>
-        </div>
-        <div className="support-preview-modal-body">
-          <img
-            src={item.previewUrl}
-            alt={item.file.name}
-            className="support-preview-full-img"
-          />
-        </div>
-      </div>
-    </div>
+      <img
+        src={item.previewUrl}
+        alt={item.file.name}
+        className="support-preview-full-img"
+      />
+    </Modal>
   );
 };

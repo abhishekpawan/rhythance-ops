@@ -32,18 +32,6 @@ export const SupportThread: React.FC<SupportThreadProps> = ({
   const [previewModalItem, setPreviewModalItem] =
     useState<PreviewModalData | null>(null);
 
-  // Close preview modal on ESC key
-  useEffect(() => {
-    if (!previewModalItem) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setPreviewModalItem(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [previewModalItem]);
-
   // Preload signed preview URLs for image attachments
   useEffect(() => {
     const imageAttachments = attachments.filter(

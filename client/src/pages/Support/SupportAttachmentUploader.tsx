@@ -48,18 +48,6 @@ export const SupportAttachmentUploader: React.FC<
     };
   }, []);
 
-  // Close preview modal on ESC key
-  useEffect(() => {
-    if (!previewModalItem) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setPreviewModalItem(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [previewModalItem]);
-
   // Sync state to parent whenever items change
   useEffect(() => {
     const isUploading = items.some((item) => item.status === "uploading");
