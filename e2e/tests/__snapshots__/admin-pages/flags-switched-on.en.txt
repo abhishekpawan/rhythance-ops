@@ -1,0 +1,146 @@
+Feature Flags
+Per-portal switches. This list also tracks how the portals differ from each other.
+7
+Total flags
+2
+Currently on
+2
+Changed from default
+0
+Tracking only
+All
+Controls behaviour
+Tracking only
+DASHBOARD
+Jobseeker payroll summary cards
+jobseeker_payroll_summary
+Shows "Total No. Hours" and "Gross Amount" cards on the Jobseeker dashboard.
+Requested for CanHire and GD Workforce only. Turn it on from this page for those portals. Hours = regular + overtime; Gross Amount = pay before deductions.
+CONTROLS BEHAVIOUR
+CHANGED
+Planned (not the current setting)
+Godspeed
+Off
+GD Workforce
+On
+CanHire
+On
+All Staff
+Off
+This portal: On
+Reset to default
+Changed by Test Super Admin on <date>
+POSITIONS
+Subcategory positions
+subcategory_positions
+Subcategory position pages, menu entry and the subcategory option in dropdown management.
+Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.
+CONTROLS BEHAVIOUR
+DEFAULT
+Planned (not the current setting)
+Godspeed
+Off
+GD Workforce
+Off
+CanHire
+On
+All Staff
+On
+This portal: On
+Employee handbook on assignment email
+attach_handbook_to_assignment_email
+Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.
+Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.
+CONTROLS BEHAVIOUR
+DEFAULT
+SETTINGS
+Storage bucket
+DEFAULT
+Supabase storage bucket that holds the handbook.
+File path in the bucket
+DEFAULT
+Path of the handbook PDF inside the bucket.
+Attachment name in the email
+DEFAULT
+File name the jobseeker sees on the attachment.
+Save settings
+Use defaults
+Leave a field empty to use its default.
+Planned (not the current setting)
+Godspeed
+On
+GD Workforce
+Off
+CanHire
+Off
+All Staff
+Off
+This portal: Off
+JOBSEEKER PROFILE
+Hide pay rate in jobseeker compensation
+hide_jobseeker_pay_rate
+Hides the pay rate and bill rate inputs on the jobseeker profile Compensation step (values default to 0).
+Previously hard-coded in the GD Workforce branch only. Now controlled here; on for GD Workforce.
+CONTROLS BEHAVIOUR
+DEFAULT
+Planned (not the current setting)
+Godspeed
+Off
+GD Workforce
+On
+CanHire
+Off
+All Staff
+Off
+This portal: Off
+Godspeed jobseeker profile rules
+jobseeker_profile_godspeed_rules
+Lighter jobseeker profile rules: the driver's licence number is required; SIN, most address/qualification fields and the compensation fields are optional; the mandatory document is a driver's licence or passport (instead of SIN + government ID). Applies to the profile forms and to the server checks.
+Previously a code fork in the Godspeed branch. Turn on only for portals that want the lighter rules; Godspeed has it on.
+CONTROLS BEHAVIOUR
+DEFAULT
+Planned (not the current setting)
+Godspeed
+On
+GD Workforce
+Off
+CanHire
+Off
+All Staff
+Off
+This portal: Off
+ADMIN
+AI chat in the menu
+ai_chat
+Shows the AI Chat entry in the side menu for staff. Turn it on for a portal only after its database has migration 037 and its AI service has the chat switched on (CHAT_ENABLED); until then the chat page shows a notice.
+Hides the menu entry only; the /ai-chat page itself still opens and shows the service's notice until the chat is switched on. Rollout is one portal at a time, stage first (docs/features/ai-chat.md).
+CONTROLS BEHAVIOUR
+DEFAULT
+Planned (not the current setting)
+Godspeed
+On
+GD Workforce
+On
+CanHire
+On
+All Staff
+On
+This portal: Off
+Enforce two-step login for staff on the server
+staff_two_factor_enforced
+Admin and recruiter accounts must enter the phone code before the server accepts their session. Without it the code is only checked by the login screen, so anyone with the password can skip it. Jobseekers are never affected.
+On by default, so a new portal is protected from day one; the four live portals have it on (2026-11-19). Staff who are signed in when it is turned on are sent back to the login screen once and enter a phone code. The demo portals (stage database) store enabled=false: the demo login bypasses the code. Apply migration 035 to a new portal's database first.
+CONTROLS BEHAVIOUR
+CHANGED
+Planned (not the current setting)
+Godspeed
+On
+GD Workforce
+On
+CanHire
+On
+All Staff
+On
+This portal: Off
+Reset to default
+Changed by Test seed on <date>

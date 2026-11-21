@@ -1,0 +1,93 @@
+Portal Settings
+Values that differ between portals, such as the company details printed on invoices. Each portal keeps its own.
+Leave a field empty to use its default value.
+Discard
+Save changes
+PORTAL
+Portal name
+SET FOR THIS PORTAL
+Name used in email sender names, welcome emails, signup metadata and support tickets.
+Changed by Test seed on <date>
+EMAILS (SENDER NAMES, ADDRESSES AND COPIES)
+No-reply sender address
+SET FOR THIS PORTAL
+From address of automated emails (confirmations, invoices, ...).
+Changed by Test seed on <date>
+Assignment email sender address
+SET FOR THIS PORTAL
+From address of the jobseeker assignment and removal emails. Falls back to the no-reply address.
+Changed by Test seed on <date>
+Default sender address
+SET FOR THIS PORTAL
+Used when no other sender address is set.
+Changed by Test seed on <date>
+Invoice email CC addresses
+DEFAULT
+Comma-separated addresses copied on every invoice email.
+Support ticket notification addresses
+SET FOR THIS PORTAL
+Comma-separated addresses notified about support tickets. Empty means no notification.
+Changed by Test seed on <date>
+Support ticket notification CC
+DEFAULT
+Comma-separated addresses copied on support ticket notifications.
+COMPANY DETAILS (INVOICES)
+Company name
+SET FOR THIS PORTAL
+Legal company name printed at the top of invoices.
+Changed by Test seed on <date>
+Address line 1
+DEFAULT
+Street address printed on invoices.
+Address line 2
+DEFAULT
+City, province and postal code printed on invoices.
+Tax number
+DEFAULT
+GST/HST number printed on invoices, with its label.
+BRANDING
+AI chat page title
+DEFAULT
+Title shown on the AI chat page.
+Brand name
+DEFAULT
+Short brand name used in headings, the browser tab title, dashboard subtitles, the AI chat and logo descriptions.
+PORTAL SWITCHER (LINKS TO THE OTHER PORTALS)
+Portal switcher: this portal's icon
+DEFAULT
+Icon shown for this portal in the portal switcher: godspeed, canhire, allstaff or hdgroup. Leave empty (with no other portals below) to hide the switcher.
+Portal switcher: other portals
+DEFAULT
+One portal per line as: Name | https://address | icon (godspeed, canhire, allstaff or hdgroup). Leave empty to hide the switcher.
+STAFF EMAIL RECOGNITION (WHO COUNTS AS STAFF)
+Staff email: contains
+DEFAULT
+Comma-separated text. A sign-up or login whose email contains any of these (for example @company.com; end an entry with $ to match only the end of the email) is treated as staff (recruiter/admin side). Empty means nobody is recognised by email.
+Staff email: never staff
+DEFAULT
+Comma-separated exact emails that are never treated as staff.
+LEGAL PAGES (PRIVACY POLICY AND TERMS OF SERVICE)
+Legal company name
+SET FOR THIS PORTAL
+Full company name at the top and in the contact block of the Privacy Policy and Terms of Service.
+Changed by Test seed on <date>
+Short company name
+DEFAULT
+Name used inside the sentences of the Privacy Policy and Terms of Service.
+Contact address
+DEFAULT
+Address in the Contact section of the legal pages. Leave all three contact fields empty to hide the section.
+Contact email
+SET FOR THIS PORTAL
+Email address in the Contact section of the legal pages.
+Changed by Test seed on <date>
+Contact phone
+DEFAULT
+Phone number in the Contact section of the legal pages.
+TRAINING
+Training video 1 (YouTube ID)
+DEFAULT
+YouTube video ID of the first mandatory training module.
+Training video 2 (YouTube ID)
+DEFAULT
+YouTube video ID of the second mandatory training module.

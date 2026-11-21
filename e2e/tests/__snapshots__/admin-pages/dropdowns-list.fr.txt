@@ -1,0 +1,35 @@
+Gestion des options de listes déroulantes
+Gestion des options de listes déroulantes
+Gestion des options de listes déroulantes
+Gérer les valeurs des listes déroulantes utilisées dans les formulaires — options du personnel client (Gestionnaire, Représentant, Vendeur, Comptable) et options de postes (Titre).
+OPTIONS CLIENT
+Client Manager
+Client Representative
+Sales Person
+Accounting Person
+Accounting Manager
+List Name
+OPTIONS DE POSTE
+Position Title
+Subcategory position
+Ajouter un nouveau Client Manager
+Ajouter
+Liste actuelle Client Manager
+Mansha Malik
+Amandeep Kaur
+Sumandeep Kaur
+Mandeep Kaur
+Rishi Dhaliwal
+Yashpal Kaur
+Morgan Drouin
+Ajay
+Rahul Singh Rawat
+Vinayak
+Kirandeep Kaur
+Komal
+Vani Sreeram
+Hiral
+Rahul Sharma
+Samuel Jacob
+Sharmili
+Rajneet Kaur

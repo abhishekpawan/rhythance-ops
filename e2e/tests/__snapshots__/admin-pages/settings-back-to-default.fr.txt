@@ -1,0 +1,93 @@
+Paramètres du portail
+Valeurs qui diffèrent d'un portail à l'autre, comme les coordonnées de l'entreprise imprimées sur les factures. Chaque portail conserve les siennes.
+Laissez un champ vide pour utiliser sa valeur par défaut.
+Annuler
+Enregistrer les modifications
+PORTAIL
+Portal name
+DÉFINI POUR CE PORTAIL
+Name used in email sender names, welcome emails, signup metadata and support tickets.
+Modifié par Test seed le <date>
+COURRIELS (NOMS D'EXPÉDITEUR, ADRESSES ET COPIES)
+No-reply sender address
+DÉFINI POUR CE PORTAIL
+From address of automated emails (confirmations, invoices, ...).
+Modifié par Test seed le <date>
+Assignment email sender address
+DÉFINI POUR CE PORTAIL
+From address of the jobseeker assignment and removal emails. Falls back to the no-reply address.
+Modifié par Test seed le <date>
+Default sender address
+DÉFINI POUR CE PORTAIL
+Used when no other sender address is set.
+Modifié par Test seed le <date>
+Invoice email CC addresses
+PAR DÉFAUT
+Comma-separated addresses copied on every invoice email.
+Support ticket notification addresses
+DÉFINI POUR CE PORTAIL
+Comma-separated addresses notified about support tickets. Empty means no notification.
+Modifié par Test seed le <date>
+Support ticket notification CC
+PAR DÉFAUT
+Comma-separated addresses copied on support ticket notifications.
+COORDONNÉES DE L'ENTREPRISE (FACTURES)
+Company name
+DÉFINI POUR CE PORTAIL
+Legal company name printed at the top of invoices.
+Modifié par Test seed le <date>
+Address line 1
+PAR DÉFAUT
+Street address printed on invoices.
+Address line 2
+PAR DÉFAUT
+City, province and postal code printed on invoices.
+Tax number
+PAR DÉFAUT
+GST/HST number printed on invoices, with its label.
+IMAGE DE MARQUE
+AI chat page title
+PAR DÉFAUT
+Title shown on the AI chat page.
+Brand name
+PAR DÉFAUT
+Short brand name used in headings, the browser tab title, dashboard subtitles, the AI chat and logo descriptions.
+SÉLECTEUR DE PORTAIL (LIENS VERS LES AUTRES PORTAILS)
+Portal switcher: this portal's icon
+PAR DÉFAUT
+Icon shown for this portal in the portal switcher: godspeed, canhire, allstaff or hdgroup. Leave empty (with no other portals below) to hide the switcher.
+Portal switcher: other portals
+PAR DÉFAUT
+One portal per line as: Name | https://address | icon (godspeed, canhire, allstaff or hdgroup). Leave empty to hide the switcher.
+RECONNAISSANCE DES COURRIELS DU PERSONNEL (QUI EST DU PERSONNEL)
+Staff email: contains
+PAR DÉFAUT
+Comma-separated text. A sign-up or login whose email contains any of these (for example @company.com; end an entry with $ to match only the end of the email) is treated as staff (recruiter/admin side). Empty means nobody is recognised by email.
+Staff email: never staff
+PAR DÉFAUT
+Comma-separated exact emails that are never treated as staff.
+PAGES JURIDIQUES (POLITIQUE DE CONFIDENTIALITÉ ET CONDITIONS D'UTILISATION)
+Legal company name
+DÉFINI POUR CE PORTAIL
+Full company name at the top and in the contact block of the Privacy Policy and Terms of Service.
+Modifié par Test seed le <date>
+Short company name
+PAR DÉFAUT
+Name used inside the sentences of the Privacy Policy and Terms of Service.
+Contact address
+PAR DÉFAUT
+Address in the Contact section of the legal pages. Leave all three contact fields empty to hide the section.
+Contact email
+DÉFINI POUR CE PORTAIL
+Email address in the Contact section of the legal pages.
+Modifié par Test seed le <date>
+Contact phone
+PAR DÉFAUT
+Phone number in the Contact section of the legal pages.
+FORMATION
+Training video 1 (YouTube ID)
+PAR DÉFAUT
+YouTube video ID of the first mandatory training module.
+Training video 2 (YouTube ID)
+PAR DÉFAUT
+YouTube video ID of the second mandatory training module.

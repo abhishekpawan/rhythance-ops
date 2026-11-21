@@ -1,0 +1,58 @@
+Email Template Preview
+Email Templates
+Recruiter Invitation
+SUPABASE
+Sent by Supabase Auth when a recruiter is invited via inviteUserByEmail. Managed in the Supabase dashboard email templates.
+#1
+Onboarding Reminder
+SENDGRID
+Sent in two scenarios: (#2b) when a recruiter has verified their email but not completed onboarding; (#15) on a jobseeker's first login if they have not yet completed their profile.
+#2b, #15
+Confirm Signup (Email Verification)
+SUPABASE
+Sent automatically by Supabase Auth when a new jobseeker account is created, or when a verification resend is requested. Managed in the Supabase dashboard email templates.
+#3
+Jobseeker Welcome
+SENDGRID
+Sent when a new jobseeker profile is created by a recruiter.
+#4
+Jobseeker Position Assignment
+SENDGRID
+Sent when a jobseeker is assigned to a new position.
+#5
+Jobseeker Position Removal
+SENDGRID
+Sent when a jobseeker is removed from a position assignment.
+#6
+Timesheet Summary
+SENDGRID
+Sent when a timesheet is submitted, re-sent, or updated. Contains the full hours and pay breakdown.
+#7, #8, #9
+Invoice
+SENDGRID
+Sent when an invoice is generated and emailed to a client.
+#10
+Digital Consent Request
+SENDGRID
+Sent when a digital consent request is created or resent for a user to review and sign.
+#11, #12
+Employment Agreement
+SENDGRID
+Sent when a jobseeker's email is confirmed (#14, alongside the welcome email) or when a recruiter creates a profile (#13), prompting the jobseeker to sign the employment agreement.
+#13, #14
+10 templates
+Recruiter Invitation
+SUPABASE AUTH
+Sent by Supabase Auth when a recruiter is invited via inviteUserByEmail. Managed in the Supabase dashboard email templates.
+Managed by Supabase Auth
+This email is triggered and sent directly by Supabase. To customise its content, go to
+Supabase Dashboard → Authentication → Email Templates
+. The preview below is a placeholder.
+Subject
+You've Been Invited to Join as a Recruiter
+From
+Test Portal Ops Portal <no-reply@example.test>
+Trigger
+#1
+HTML Preview
+IFRAME: TEST PORTAL You've Been Invited to Join as a Recruiter Hi Chris Johnson, You've been invited to join the Test Portal network as a Recruiter. We're excited to have you on board. Click the button below to accept your invitation and get started: Accept Invitation Once you accept your invite, you'll be asked to: Verify your phone number with a One-Time Password (OTP) Set your account password to secure your profile After completing these steps, you'll have full access to the Recruiter Dashboard. This invitation is unique to your email and cannot be shared. If you did not expect this invitation, you can safely ignore this email. Best regards, The Team at Test Portal This is an automated message from Test Portal. If you believe this was sent in error, please contact our support team. © 2026 Test Portal

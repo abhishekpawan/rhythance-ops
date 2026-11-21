@@ -1,0 +1,56 @@
+Email Template Preview
+Email Templates
+Recruiter Invitation
+SUPABASE
+Sent by Supabase Auth when a recruiter is invited via inviteUserByEmail. Managed in the Supabase dashboard email templates.
+#1
+Onboarding Reminder
+SENDGRID
+Sent in two scenarios: (#2b) when a recruiter has verified their email but not completed onboarding; (#15) on a jobseeker's first login if they have not yet completed their profile.
+#2b, #15
+Confirm Signup (Email Verification)
+SUPABASE
+Sent automatically by Supabase Auth when a new jobseeker account is created, or when a verification resend is requested. Managed in the Supabase dashboard email templates.
+#3
+Jobseeker Welcome
+SENDGRID
+Sent when a new jobseeker profile is created by a recruiter.
+#4
+Jobseeker Position Assignment
+SENDGRID
+Sent when a jobseeker is assigned to a new position.
+#5
+Jobseeker Position Removal
+SENDGRID
+Sent when a jobseeker is removed from a position assignment.
+#6
+Timesheet Summary
+SENDGRID
+Sent when a timesheet is submitted, re-sent, or updated. Contains the full hours and pay breakdown.
+#7, #8, #9
+Invoice
+SENDGRID
+Sent when an invoice is generated and emailed to a client.
+#10
+Digital Consent Request
+SENDGRID
+Sent when a digital consent request is created or resent for a user to review and sign.
+#11, #12
+Employment Agreement
+SENDGRID
+Sent when a jobseeker's email is confirmed (#14, alongside the welcome email) or when a recruiter creates a profile (#13), prompting the jobseeker to sign the employment agreement.
+#13, #14
+10 templates
+Timesheet Summary
+SENDGRID
+Sent when a timesheet is submitted, re-sent, or updated. Contains the full hours and pay breakdown.
+Subject
+Timesheet Summary - Timesheet #TS-2026-0107
+From
+Test Portal Ops Portal <no-reply@example.test>
+Trigger
+#7, #8, #9
+HTML Preview
+Plain Text
+Sample Data Used
+IFRAME: TEST PORTAL Timesheet #TS-2026-0107 Jobseeker Michael Chen michael.chen@example.com Period March 31, 2026 — April 6, 2026 Generated April 7, 2026 Position Warehouse Associate Daily Hours DATE HOURS Mar 31, 2026 8 Apr 1, 2026 8 Apr 2, 2026 7.5 Apr 3, 2026 8 Apr 4, 2026 8 Apr 5, 2026 0 Apr 6, 2026 0 Payment Summary Regular Hours 39.5 hrs Regular Rate $18.50/hr Regular Pay $730.75 Total Pay $730.75 If you have any questions about this timesheet, please contact your recruitment team. This is an automated message from Test Portal. If you believe this was sent in error, please contact our support team. © 2026 Test Portal

@@ -1,0 +1,162 @@
+Workforce Schedule Dashboard
+Overview
+Today
+This Week
+This Month
+-
+Apply
+TOTAL POSITIONS
+5
+TOTAL FILLED POSITIONS
+4
+TOTAL AVAILABLE POSITIONS
+1
+COMPLETION RATE
+80%
+Open Positions:
+1
+Fill Rate:
+80%
+Period:
+Oct 31 - Nov 29, 2026
+Workforce Command Center
+Assigned Positions
+Open Positions
+Today
+Previous
+Next
+November 2026
+Month
+Week
+Day
+Agenda
+Sun
+Mon
+Tue
+Wed
+Thu
+Fri
+Sat
+01
+02
+03
+04
+05
+06
+07
+Sam Sinclair - Warehouse Associate
+Casey Cashman - Warehouse Associate
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+08
+09
+10
+11
+12
+13
+14
+Sam Sinclair - Warehouse Associate
+Casey Cashman - Warehouse Associate
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+15
+16
+17
+18
+19
+20
+21
+Sam Sinclair - Warehouse Associate
+Casey Cashman - Warehouse Associate
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+22
+23
+24
+25
+26
+27
+28
+Sam Sinclair - Warehouse Associate
+Casey Cashman - Warehouse Associate
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+29
+30
+01
+02
+03
+04
+05
+Sam Sinclair - Warehouse Associate
+Casey Cashman - Warehouse Associate
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Show 3 more
+Day View
+Tuesday, November 17, 2026
+5 event
+ASSIGNED POSITION
+All Day
+Warehouse Associate
+Sam Sinclair
+Northwind Test Staffing Client
+View Details
+ASSIGNED POSITION
+All Day
+Warehouse Associate
+Casey Cashman
+Northwind Test Staffing Client
+View Details
+ASSIGNED POSITION
+All Day
+Warehouse Associate
+Hana Hybrid
+Northwind Test Staffing Client
+View Details
+ASSIGNED POSITION
+All Day
+Driver Helper
+Corey Corporate
+Quebec Test Logistics Client
+View Details
+OPEN POSITION
+All Day
+Driver Helper
+Quebec Test Logistics Client
+View Details
+Day Summary
+Total Events:
+5
+Unique Positions:
+2
+Total Position Capacity:
+5
+Assigned Jobseekers:
+4
+Available Positions:
+1
