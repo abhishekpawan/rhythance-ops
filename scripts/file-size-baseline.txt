@@ -31,7 +31,7 @@
 558 client/src/pages/Consent/OnboardingConsent.tsx
 364 client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx
 942 client/src/pages/InvoiceManagement/InvoiceList.tsx
-3721 client/src/pages/InvoiceManagement/InvoiceManagement.tsx
+3720 client/src/pages/InvoiceManagement/InvoiceManagement.tsx
 749 client/src/pages/InvoiceManagement/InvoiceView.tsx
 952 client/src/pages/JobseekerManagement/JobSeekerManagement.tsx
 694 client/src/pages/JobseekerManagement/JobSeekerPositions.tsx

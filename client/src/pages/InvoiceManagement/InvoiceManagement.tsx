@@ -52,10 +52,7 @@ import {
   getTodayInCanada,
   addDaysToDateStr,
 } from "../../utils/dateUtils";
-import {
-  generateInvoicePDF as generatePDF,
-  InvoiceData as PDFInvoiceData,
-} from "../../utils/pdfGenerator.tsx";
+import type { InvoiceData as PDFInvoiceData } from "../../utils/pdfGenerator.tsx";
 import { Document, Page } from "react-pdf";
 import { pdfDocumentOptions } from "../../utils/pdfViewer";
 
@@ -1758,6 +1755,8 @@ export function InvoiceManagement() {
         messageOnInvoice: messageOnInvoice,
         termsOnInvoice: termsOnInvoice,
       };
+      // the PDF maker is large: loaded when an invoice PDF is made, not with the page
+      const { generateInvoicePDF: generatePDF } = await import("../../utils/pdfGenerator.tsx");
       const pdfBlob = await generatePDF(pdfData);
       const pdfObjectUrl = URL.createObjectURL(pdfBlob);
       setPdfBlobUrl(pdfObjectUrl);
