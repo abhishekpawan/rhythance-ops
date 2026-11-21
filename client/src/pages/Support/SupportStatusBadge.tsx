@@ -1,5 +1,6 @@
 import React from "react";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { StatusBadge } from "../../components/StatusBadge";
 import { SupportTicketStatus } from "../../types/support";
 
 interface SupportStatusBadgeProps {
@@ -31,12 +32,11 @@ export const SupportStatusBadge: React.FC<SupportStatusBadgeProps> = ({
   };
 
   return (
-    <span
-      className={`support-badge support-badge-${status} ${className}`}
-      role="status"
-    >
-      <span className="support-badge-dot" aria-hidden="true" />
-      <span className="support-badge-label">{getStatusLabel(status)}</span>
-    </span>
+    <StatusBadge
+      baseClass="support-badge"
+      tone={`support-badge-${status}`}
+      label={getStatusLabel(status)}
+      className={className}
+    />
   );
 };

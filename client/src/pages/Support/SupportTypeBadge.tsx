@@ -1,6 +1,7 @@
 import React from "react";
 import { Bug, FileEdit, Sparkles, HelpCircle } from "lucide-react";
 import { useLanguage } from "../../contexts/language/language-provider";
+import { StatusBadge } from "../../components/StatusBadge";
 import { SupportTicketType } from "../../types/support";
 
 interface SupportTypeBadgeProps {
@@ -53,9 +54,13 @@ export const SupportTypeBadge: React.FC<SupportTypeBadgeProps> = ({
   };
 
   return (
-    <span className={`support-type-tag support-type-${type} ${className}`}>
-      {renderIcon()}
-      <span>{t(`support.types.${type}`)}</span>
-    </span>
+    <StatusBadge
+      baseClass="support-type-tag"
+      tone={`support-type-${type}`}
+      label={t(`support.types.${type}`)}
+      className={className}
+      variant="tag"
+      icon={renderIcon()}
+    />
   );
 };
