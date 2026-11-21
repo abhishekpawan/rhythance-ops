@@ -2,7 +2,11 @@ import { Router, Request, Response } from "express";
 import { validate as validateUuid } from "uuid";
 import { authenticateToken } from "../../middleware/auth.js";
 import { supabase } from "../../services/support.db.js";
-import { isSupportAgent } from "../../services/support.permissions.js";
+import { patchableTicketFields } from "../../services/support.permissions.js";
+import {
+  parseTicketPatch,
+  STATUS_TELLS_REQUESTER,
+} from "../../services/support.patchFields.js";
 import { serializeTicket } from "../../services/support.serializers.js";
 import {
   handleDbError,
@@ -15,7 +19,8 @@ const router = Router();
 /**
  * PATCH /api/support/tickets/:id (agent only)
  * optional { status, priority, title, assignedTo, effortHours }.
- * Validates ALL fields before any RPC or update.
+ * Who may change which field is the table in support.permissions.ts, and what each field accepts is the table in
+ * support.patchFields.ts. Validates ALL fields before any RPC or update.
  * effort_minutes = round(hours * 60). Status goes through support_change_status.
  * If effortHours is provided and status is undefined or unchanged, saves effort_minutes as plain update.
  */
@@ -24,7 +29,8 @@ router.patch(
   authenticateToken,
   async (req: Request, res: Response) => {
     try {
-      if (!isSupportAgent(req.user)) {
+      const allowedFields = patchableTicketFields(req.user);
+      if (allowedFields.length === 0) {
         return notFoundResponse(res);
       }
 
@@ -43,88 +49,17 @@ router.patch(
         return notFoundResponse(res);
       }
 
-      const { status, priority, title, assignedTo, effortHours } =
-        req.body || {};
-
-      // 1. Validate status (must be one of the five statuses)
-      const allowedStatuses = [
-        "open",
-        "in_progress",
-        "waiting_on_client",
-        "resolved",
-        "closed",
-      ];
-      if (
-        status !== undefined &&
-        status !== null &&
-        !allowedStatuses.includes(status)
-      ) {
-        return res.status(400).json({
-          success: false,
-          error:
-            "status must be one of: open, in_progress, waiting_on_client, resolved, closed",
-        });
+      const patch = parseTicketPatch(req.body || {}, allowedFields);
+      if (!patch.ok) {
+        return res.status(400).json({ success: false, error: patch.error });
       }
-
-      // 2. Validate priority (p1, p2, p3)
-      const allowedPriorities = ["p1", "p2", "p3"];
-      if (
-        priority !== undefined &&
-        priority !== null &&
-        !allowedPriorities.includes(priority)
-      ) {
-        return res.status(400).json({
-          success: false,
-          error: "priority must be p1, p2, or p3",
-        });
-      }
-
-      // 3. Validate title (1-200 chars)
-      if (title !== undefined && title !== null) {
-        if (
-          typeof title !== "string" ||
-          title.trim().length === 0 ||
-          title.length > 200
-        ) {
-          return res.status(400).json({
-            success: false,
-            error: "title must be between 1 and 200 characters",
-          });
-        }
-      }
-
-      // 4. Validate assignedTo (valid UUID or null)
-      if (assignedTo !== undefined) {
-        if (assignedTo !== null && !validateUuid(assignedTo)) {
-          return res.status(400).json({
-            success: false,
-            error: "assignedTo must be a valid UUID or null",
-          });
-        }
-      }
-
-      // 5. Validate effortHours (number between 0 and 1000)
-      let effortMinutes: number | undefined;
-      if (effortHours !== undefined && effortHours !== null) {
-        const hours = Number(effortHours);
-        if (isNaN(hours) || hours < 0 || hours > 1000) {
-          return res.status(400).json({
-            success: false,
-            error: "effortHours must be a number between 0 and 1000",
-          });
-        }
-        effortMinutes = Math.round(hours * 60);
-      }
+      const { status, columns, effortMinutes } = patch;
 
       // ALL validations passed. Apply mutations.
       let currentTicket = dbTicket;
 
       // Handle status change through support_change_status
-      if (
-        status !== undefined &&
-        status !== null &&
-        status !== dbTicket.status
-      ) {
+      if (status !== undefined && status !== dbTicket.status) {
         const { data: statusTicket, error: statusError } = await supabase.rpc(
           "support_change_status",
           {
@@ -148,7 +83,7 @@ router.patch(
         currentTicket = statusTicket;
 
         // Email requester when status becomes waiting_on_client or resolved
-        if (status === "waiting_on_client" || status === "resolved") {
+        if (STATUS_TELLS_REQUESTER.has(status)) {
           sendStatusChangedEmail(currentTicket, status).catch((err) => {
             console.error(
               "Fire-and-forget sendStatusChangedEmail error:",
@@ -158,26 +93,12 @@ router.patch(
         }
       }
 
-      // Handle plain field updates
-      const plainUpdates: Record<string, any> = {};
-
-      if (priority !== undefined && priority !== null) {
-        plainUpdates.priority = priority;
-      }
-
-      if (title !== undefined && title !== null) {
-        plainUpdates.title = title.trim();
-      }
-
-      if (assignedTo !== undefined) {
-        plainUpdates.assigned_to = assignedTo;
-      }
-
-      // If effortHours is provided and status is undefined OR equal to ticket's current status,
-      // save effort_minutes as a plain update
+      // Handle plain field updates. If effortHours is provided and status is undefined OR equal to the ticket's
+      // current status, effort_minutes is saved as a plain update.
+      const plainUpdates: Record<string, unknown> = { ...columns };
       if (
         effortMinutes !== undefined &&
-        (status === undefined || status === null || status === dbTicket.status)
+        (status === undefined || status === dbTicket.status)
       ) {
         plainUpdates.effort_minutes = effortMinutes;
       }

@@ -133,3 +133,26 @@ export function isSupportAdmin(user: Express.Request["user"] | undefined): boole
   const roles = resolveSupportUserRoles(user);
   return roles.includes("admin") || user.user_metadata?.user_type === "admin";
 }
+
+/** The fields of a ticket that PATCH /tickets/:id can change. */
+export type SupportPatchField =
+  | "status"
+  | "priority"
+  | "title"
+  | "assignedTo"
+  | "effortHours";
+
+/**
+ * What each kind of person may change on a ticket with PATCH /tickets/:id. A kind that is not listed may change
+ * nothing, and the route then answers as if the ticket did not exist. The owner of a ticket changes its status
+ * through other routes (confirm, reopen, a reply), not this one.
+ */
+const PATCHABLE_FIELDS: Record<"agent", readonly SupportPatchField[]> = {
+  agent: ["status", "priority", "title", "assignedTo", "effortHours"],
+};
+
+export function patchableTicketFields(
+  user: Express.Request["user"] | undefined
+): readonly SupportPatchField[] {
+  return isSupportAgent(user) ? PATCHABLE_FIELDS.agent : [];
+}
