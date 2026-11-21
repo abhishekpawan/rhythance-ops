@@ -1,5 +1,5 @@
 // The schema built from migration_v2 is production's schema (apart from what 032 lists as not covered and
-// files-ahead-of-production.txt), and 032 to 035 and 037 to 039 can run again without changing anything.
+// files-ahead-of-production.txt), and 032 to 035 and 037 to 040 can run again without changing anything.
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -113,7 +113,7 @@ describe("schema comparison", () => {
   });
 });
 
-describe("migrations 032 to 035 and 037 to 039 run twice", () => {
+describe("migrations 032 to 035 and 037 to 040 run twice", () => {
   it("change nothing the second time, and nothing fails", async () => {
     const before = (await listLocal()).sort();
     for (const file of [
@@ -126,6 +126,8 @@ describe("migrations 032 to 035 and 037 to 039 run twice", () => {
       "032_catch_up_to_production.sql",
       // last: 034 and 032 put back the old role helpers and the invoice policies that 039 replaces or removes
       "039_staff_session_in_database_rules.sql",
+      // 032 also puts back three invoice policies that read auth.users; 040 removes them again
+      "040_drop_dead_staff_policies.sql",
     ]) {
       const r = psql(stack().dbUrl, { file: path.join(MIGRATIONS_DIR, file) });
       expect(
@@ -222,5 +224,61 @@ describe("migration 032 refuses to run without an explicit opt-in", () => {
 
   it("runs with the opt-in", () => {
     expect(run("-c rhythence.catch_up=new-database").status).toBe(0);
+    // 032 put back the three invoice policies 040 drops; leave the database as the build leaves it
+    const r = psql(stack().dbUrl, {
+      file: path.join(MIGRATIONS_DIR, "040_drop_dead_staff_policies.sql"),
+    });
+    expect(r.status, r.stderr).toBe(0);
+  });
+});
+
+describe("no policy in public reads auth.users or raw_user_meta_data (migration 040)", () => {
+  const q = (sql: string) => {
+    const r = psql(stack().dbUrl, {
+      sql,
+      tuplesOnly: true,
+      singleTransaction: false,
+    });
+    expect(r.status, r.stderr).toBe(0);
+    return r.stdout.trim();
+  };
+  const READS_USERS =
+    "(coalesce(qual, '') || ' ' || coalesce(with_check, '')) ~* 'auth\\.users|raw_user_meta_data'";
+
+  it("none does: a signed-in user could edit raw_user_meta_data, and the policies built on it never grant anything", () => {
+    expect(
+      q(
+        `select coalesce(string_agg(tablename || ': ' || policyname, E'\\n'), '') from pg_policies where schemaname = 'public' and ${READS_USERS}`
+      )
+    ).toBe("");
+  });
+
+  it("the stored production listing has none either (so a policy of that kind cannot come back through a refresh)", () => {
+    expect(
+      production.filter(
+        (l) =>
+          l.startsWith("policy|public.") &&
+          /auth\.users|raw_user_meta_data/.test(l)
+      )
+    ).toEqual([]);
+  });
+
+  it("the migration fails, and drops nothing, when a policy of that kind exists (the guard)", () => {
+    const file = path.join(MIGRATIONS_DIR, "040_drop_dead_staff_policies.sql");
+    const count = () =>
+      q("select count(*) from pg_policies where schemaname = 'public'");
+    q(
+      `create table public.zz_040_probe (id int); alter table public.zz_040_probe enable row level security; create policy "zz probe" on public.zz_040_probe for select using (auth.uid() in (select id from auth.users where raw_user_meta_data->>'user_type' = 'admin'))`
+    );
+    try {
+      const before = count();
+      const r = psql(stack().dbUrl, { file });
+      expect(r.status).not.toBe(0);
+      expect(r.stderr).toContain("040: policies still reading auth.users");
+      expect(r.stderr).toContain("zz_040_probe");
+      expect(count()).toBe(before);
+    } finally {
+      q("drop table public.zz_040_probe");
+    }
   });
 });

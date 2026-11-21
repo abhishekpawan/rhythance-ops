@@ -199,28 +199,32 @@ describe("the data API, called directly with a user's own token", () => {
   });
 
   it("business tables are not readable directly by anyone: only the server reads them with the service key", async () => {
-    const tables = [
+    // timesheets and invoices have no grant for the data API roles (040): refused. The others have no policy left
+    // for them (040 dropped the ones that read auth.users): an empty list (they used to fail with 42501).
+    const refused = ["timesheets", "invoices"];
+    const empty = [
       "clients",
       "positions",
-      "timesheets",
-      "invoices",
       "consent_records",
       "consent_documents",
     ];
-    for (const table of tables) {
-      const asAnon = await supabase(`/rest/v1/${table}?select=id`);
-      expect(asAnon.status, `${table} as anon`).toBe(401);
-      expect(asAnon.json.code).toBe("42501");
-      for (const email of [
-        staffEmails.admin,
-        staffEmails.recruiter,
-        jobseekerEmails.sin,
-      ]) {
-        const r = await supabase(`/rest/v1/${table}?select=id`, {
-          token: await tokenFor(email),
-        });
-        expect(r.status, `${table} as ${email}`).toBe(403);
+    const callers: [string, string | undefined][] = [
+      ["anon", undefined],
+      ...[staffEmails.admin, staffEmails.recruiter, jobseekerEmails.sin].map(
+        (e): [string, string] => [e, e]
+      ),
+    ];
+    for (const [who, email] of callers) {
+      const token = email ? await tokenFor(email) : undefined;
+      for (const table of refused) {
+        const r = await supabase(`/rest/v1/${table}?select=id`, { token });
+        expect(r.status, `${table} as ${who}`).toBe(email ? 403 : 401);
         expect(r.json.code).toBe("42501");
+      }
+      for (const table of empty) {
+        const r = await supabase(`/rest/v1/${table}?select=id`, { token });
+        expect(r.status, `${table} as ${who}`).toBe(200);
+        expect(r.json, `${table} as ${who}`).toEqual([]);
       }
     }
   });

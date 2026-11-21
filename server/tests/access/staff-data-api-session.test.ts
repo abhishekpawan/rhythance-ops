@@ -2,8 +2,8 @@
 //   - With the two-step login enforced, a staff password alone must not open the data API (PostgREST and storage)
 //     as that staff user; a session whose phone code the server verified must.
 //   - Nobody becomes staff by editing their own user_metadata (the helpers read app_metadata).
-//   - 33 older policies (clients, positions, timesheets, consent ...) read user_metadata through auth.users, which
-//     a signed-in user cannot read: they fail for everybody. Pinned below so nobody makes them live by accident.
+//   - The tables whose old policies read user_metadata through auth.users (migration 040, inbox 49) answer nobody
+//     through the data API: see data-api-closed-tables.test.ts.
 // The checks call Supabase's data API with a user's own token, the way a browser (or an attacker) does. The
 // enforcement flag is a row in the test database; this file switches it on and puts it back off (the test seed
 // stores it off, like stage) when it ends. Files run one at a time, so no other file sees it on.
@@ -19,6 +19,7 @@ import {
   supabase,
 } from "../support/api";
 import { PROFILES } from "../seed/ids.mjs";
+import { expectReadRefused } from "../support/data-api";
 import { rolledBack } from "../support/rolled-back";
 
 const service = () => ({ key: inject("stack").serviceKey });
@@ -236,9 +237,10 @@ describe("jobseekers are untouched by the two-step rule", () => {
     expect(await profiles(token)).toBe(1);
     expect(await files(token)).toBe(0);
     expect(await documents(token)).toBeGreaterThan(0); // their own folder
-    for (const table of ["clients", "positions", "timesheets"]) {
+    for (const table of ["clients", "positions"]) {
       expect(await visible(table, token), table).toBe(0);
     }
+    await expectReadRefused("timesheets", token, "jobseeker");
   });
 });
 
@@ -266,9 +268,10 @@ describe("nobody becomes staff by editing their own profile fields", () => {
       try {
         expect(await profiles(token)).toBe(1); // only their own
         expect(await files(token)).toBe(0);
-        for (const table of ["clients", "positions", "timesheets"]) {
+        for (const table of ["clients", "positions"]) {
           expect(await visible(table, token), table).toBe(0);
         }
+        await expectReadRefused("timesheets", token, "jobseeker");
       } finally {
         await edit(email, {
           user_type: "jobseeker",
@@ -279,30 +282,4 @@ describe("nobody becomes staff by editing their own profile fields", () => {
       }
     });
   }
-
-  it("the tables whose old rules read user_metadata through auth.users answer nobody (staff included) until someone decides to open them", async () => {
-    expect((await flag(false)).status).toBeLessThan(300);
-    const staff = await freshToken(staffEmails.admin);
-    await record(sessionOf(staff), adminId);
-    try {
-      for (const table of [
-        "clients",
-        "positions",
-        "position_candidate_assignments",
-        "timesheets",
-        "consent_records",
-        "consent_documents",
-        "consent_document_templates",
-        "email_checkpoint",
-      ]) {
-        const r = await supabase(`/rest/v1/${table}?select=*&limit=1`, {
-          token: staff,
-        });
-        const rowsSeen = r.status === 200 ? (r.json as unknown[]).length : 0;
-        expect(rowsSeen, `${table} (${r.status})`).toBe(0);
-      }
-    } finally {
-      await unrecord(sessionOf(staff));
-    }
-  });
 });

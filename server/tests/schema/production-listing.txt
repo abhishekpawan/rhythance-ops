@@ -753,8 +753,8 @@ grant|public.email_checkpoint|service_role=adDrtwx
 grant|public.feature_flags|anon=adDrtwx
 grant|public.feature_flags|authenticated=adDrtwx
 grant|public.feature_flags|service_role=adDrtwx
-grant|public.invoices|anon=adDrtwx
-grant|public.invoices|authenticated=adDrtwx
+grant|public.invoices|anon=
+grant|public.invoices|authenticated=
 grant|public.invoices|service_role=adDrtwx
 grant|public.jobseeker_profile_drafts|anon=adDrtwx
 grant|public.jobseeker_profile_drafts|authenticated=adDrtwx
@@ -792,8 +792,8 @@ grant|public.support_ticket_status_events|service_role=adDrtwx
 grant|public.support_tickets|anon=
 grant|public.support_tickets|authenticated=
 grant|public.support_tickets|service_role=adDrtwx
-grant|public.timesheets|anon=adDrtwx
-grant|public.timesheets|authenticated=adDrtwx
+grant|public.timesheets|anon=
+grant|public.timesheets|authenticated=
 grant|public.timesheets|service_role=adDrtwx
 index|public.activity_action_types.activity_action_types_code_key|USING btree (code)
 index|public.activity_action_types.activity_action_types_pkey|USING btree (id)
@@ -936,28 +936,6 @@ policy|public.client_drafts|"Users can delete their own drafts" DELETE PERMISSIV
 policy|public.client_drafts|"Users can insert their own drafts" INSERT PERMISSIVE roles=public using= check=(auth.uid() = created_by_user_id)
 policy|public.client_drafts|"Users can update their own drafts" UPDATE PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
 policy|public.client_drafts|"Users can view their own drafts" SELECT PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
-policy|public.client_dropdown_options|"Admins and recruiters can view dropdown options" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.client_dropdown_options|"Only admins can delete dropdown options" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
-policy|public.client_dropdown_options|"Only admins can insert dropdown options" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text)))
-policy|public.client_dropdown_options|"Only admins can update dropdown options" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
-policy|public.clients|"Admins and recruiters can insert clients" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
-policy|public.clients|"Admins and recruiters can update clients" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.clients|"Admins and recruiters can view all clients" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.clients|"Only admins can delete clients" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
-policy|public.consent_document_templates|"Admins and recruiters can view consent templates" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.consent_document_templates|"Only admins can delete consent templates" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
-policy|public.consent_document_templates|"Only admins can insert consent templates" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text)))
-policy|public.consent_document_templates|"Only admins can update consent templates" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
-policy|public.consent_documents|"Admins and recruiters can insert consent documents" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
-policy|public.consent_documents|"Admins and recruiters can update consent documents" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.consent_documents|"Admins and recruiters can view all consent documents" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.consent_documents|"Only admins can delete consent documents" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
-policy|public.consent_records|"Admins and recruiters can insert consent records" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
-policy|public.consent_records|"Admins and recruiters can update consent records" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.consent_records|"Admins and recruiters can view all consent records" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.invoices|"Admin and recruiters can update any invoice" UPDATE PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND ((users.raw_user_meta_data ->> 'role'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))) check=
-policy|public.invoices|"Admin and recruiters can view all invoices" SELECT PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND ((users.raw_user_meta_data ->> 'role'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))) check=
-policy|public.invoices|"Admin can delete invoices" DELETE PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND ((users.raw_user_meta_data ->> 'role'::text) = 'admin'::text)))) check=
 policy|public.invoices|"Users can create invoices" INSERT PERMISSIVE roles=public using= check=(created_by_user_id = auth.uid())
 policy|public.invoices|"Users can update own draft invoices" UPDATE PERMISSIVE roles=public using=((created_by_user_id = auth.uid()) AND ((status)::text = 'draft'::text)) check=(created_by_user_id = auth.uid())
 policy|public.invoices|"Users can view own invoices" SELECT PERMISSIVE roles=public using=(created_by_user_id = auth.uid()) check=
@@ -976,10 +954,6 @@ policy|public.position_drafts|"Users can delete their own position drafts" DELET
 policy|public.position_drafts|"Users can insert their own position drafts" INSERT PERMISSIVE roles=public using= check=(auth.uid() = created_by_user_id)
 policy|public.position_drafts|"Users can update their own position drafts" UPDATE PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
 policy|public.position_drafts|"Users can view their own position drafts" SELECT PERMISSIVE roles=public using=(auth.uid() = created_by_user_id) check=
-policy|public.positions|"Admins and recruiters can insert positions" INSERT PERMISSIVE roles=public using= check=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text]))))
-policy|public.positions|"Admins and recruiters can update positions" UPDATE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.positions|"Admins and recruiters can view all positions" SELECT PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = ANY (ARRAY['admin'::text, 'recruiter'::text])))) check=
-policy|public.positions|"Only admins can delete positions" DELETE PERMISSIVE roles=public using=(auth.uid() IN ( SELECT users.id FROM auth.users WHERE ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))) check=
 policy|public.recent_activities|"Authenticated users can insert activities" INSERT PERMISSIVE roles=public using= check=((auth.role() = 'authenticated'::text) AND ((auth.uid())::text = (actor_id)::text))
 policy|public.recent_activities|"Service role has full access" ALL PERMISSIVE roles=public using=((auth.jwt() ->> 'role'::text) = 'service_role'::text) check=
 policy|public.recent_activities|"Staff can view activities" SELECT PERMISSIVE roles=authenticated using=(is_admin() OR is_recruiter()) check=
@@ -987,8 +961,6 @@ policy|public.recent_activities|"Users can update their own activities" UPDATE P
 policy|public.timesheets|"Jobseekers can insert own timesheets" INSERT PERMISSIVE roles=public using= check=((auth.uid() = jobseeker_user_id) OR (auth.uid() IN ( SELECT jobseeker_profiles.user_id FROM jobseeker_profiles WHERE (jobseeker_profiles.id = timesheets.jobseeker_profile_id))))
 policy|public.timesheets|"Jobseekers can update own timesheets" UPDATE PERMISSIVE roles=public using=((auth.uid() = jobseeker_user_id) OR (auth.uid() IN ( SELECT jobseeker_profiles.user_id FROM jobseeker_profiles WHERE (jobseeker_profiles.id = timesheets.jobseeker_profile_id)))) check=
 policy|public.timesheets|"Jobseekers can view own timesheets" SELECT PERMISSIVE roles=public using=((auth.uid() = jobseeker_user_id) OR (auth.uid() IN ( SELECT jobseeker_profiles.user_id FROM jobseeker_profiles WHERE (jobseeker_profiles.id = timesheets.jobseeker_profile_id)))) check=
-policy|public.timesheets|"Recruiters and admins can update all timesheets" UPDATE PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND (((users.raw_user_meta_data ->> 'user_type'::text) = 'recruiter'::text) OR ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))))) check=
-policy|public.timesheets|"Recruiters and admins can view all timesheets" SELECT PERMISSIVE roles=public using=(EXISTS ( SELECT 1 FROM auth.users WHERE ((users.id = auth.uid()) AND (((users.raw_user_meta_data ->> 'user_type'::text) = 'recruiter'::text) OR ((users.raw_user_meta_data ->> 'user_type'::text) = 'admin'::text))))) check=
 policy|storage.objects|"Allow authenticated users to delete invoice attachments" DELETE PERMISSIVE roles=authenticated using=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
 policy|storage.objects|"Allow authenticated users to delete own documents" DELETE PERMISSIVE roles=authenticated using=((bucket_id = 'jobseeker-documents'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
 policy|storage.objects|"Allow authenticated users to select invoice attachments" SELECT PERMISSIVE roles=authenticated using=((bucket_id = 'invoices'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) check=
