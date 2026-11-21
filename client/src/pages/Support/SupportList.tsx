@@ -6,7 +6,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { getTickets } from "../../services/api/support";
 import { SupportTicket, SupportTicketStatus } from "../../types/support";
-import { PaginationInfo, SupportPagination } from "./SupportPagination";
+import { Pagination } from "../../components/Pagination";
+import type { PaginationInfo } from "../../hooks/usePagination";
 import { SupportListTable } from "./SupportListTable";
 import { isSuperAdmin, hasAnyExactAccessRole } from "../../lib/auth";
 import { SUPPORT_SHARED_VIEW_ROLES } from "../../constants/accessControl";
@@ -93,18 +94,6 @@ export const SupportList: React.FC = () => {
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatusFilter(e.target.value);
     setPagination((prev) => ({ ...prev, page: 1 }));
-  };
-
-  const handlePreviousPage = () => {
-    if (pagination.hasPrevPage) {
-      setPagination((prev) => ({ ...prev, page: prev.page - 1 }));
-    }
-  };
-
-  const handleNextPage = () => {
-    if (pagination.hasNextPage) {
-      setPagination((prev) => ({ ...prev, page: prev.page + 1 }));
-    }
   };
 
   const handlePageChange = (newPage: number) => {
@@ -245,11 +234,20 @@ export const SupportList: React.FC = () => {
               />
 
               {/* Pagination Controls */}
-              <SupportPagination
+              <Pagination
+                position="bottom"
                 pagination={pagination}
-                onPrevious={handlePreviousPage}
-                onNext={handleNextPage}
-                onPage={handlePageChange}
+                onPageChange={handlePageChange}
+                labels={{
+                  pageInfo: t("support.paginationPage")
+                    .replace("{page}", String(pagination.page))
+                    .replace("{totalPages}", String(pagination.totalPages)),
+                  previous: t("support.paginationPrevious"),
+                  previousTitle: t("support.paginationPrevious"),
+                  next: t("support.paginationNext"),
+                  nextTitle: t("support.paginationNext"),
+                  goToPage: t("support.paginationGoToPage"),
+                }}
               />
             </>
           )}

@@ -24,6 +24,7 @@
     "lastUpdated": "Last updated",
     "paginationPage": "Page {page} of {totalPages}",
     "paginationPrevious": "Previous",
+    "paginationGoToPage": "Go to page",
     "paginationNext": "Next",
     "commonCancel": "Cancel",
     "status": {

@@ -24,6 +24,7 @@
     "lastUpdated": "Dernière mise à jour",
     "paginationPage": "Page {page} sur {totalPages}",
     "paginationPrevious": "Précédent",
+    "paginationGoToPage": "Go to page",
     "paginationNext": "Suivant",
     "commonCancel": "Annuler",
     "status": {
