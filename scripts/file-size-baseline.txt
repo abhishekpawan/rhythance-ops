@@ -88,10 +88,8 @@
 782 client/src/utils/pdfGenerator.tsx
 448 server/src/middleware/activityLogger.ts
 850 server/src/routes/auth.ts
-470 server/src/routes/calendar.ts
 1428 server/src/routes/clients.ts
 2108 server/src/routes/consent.ts
-365 server/src/routes/emailTemplates.ts
 1623 server/src/routes/invoices.ts
 2766 server/src/routes/jobseekers.ts
 998 server/src/routes/positionDrafts.ts
@@ -99,6 +97,5 @@
 986 server/src/routes/profile.ts
 330 server/src/routes/timesheet.routes.ts
 765 server/src/routes/user.ts
-325 server/src/services/featureFlags.ts
 1007 server/src/services/timesheet.service.ts
 599 server/src/types.ts
