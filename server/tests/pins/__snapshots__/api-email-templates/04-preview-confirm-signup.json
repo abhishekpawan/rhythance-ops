@@ -1,0 +1,22 @@
+{
+  "status": 200,
+  "answer": {
+    "id": "confirm-signup",
+    "name": "Confirm Signup (Email Verification)",
+    "subject": "Confirm Your Email & Complete Your Setup",
+    "description": "Sent automatically by Supabase Auth when a new jobseeker account is created, or when a verification resend is requested. Managed in the Supabase dashboard email templates.",
+    "service": "supabase",
+    "tone": "neutral",
+    "triggerRef": "#3",
+    "attachments": [],
+    "from": "Test Portal Ops Portal <no-reply@example.test>",
+    "cc": [],
+    "dynamicCc": false,
+    "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Confirm Your Email</title>\n</head>\n<body style=\"margin:0;padding:0;background-color:#f7f7f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#1a1a1a;line-height:1.6;-webkit-font-smoothing:antialiased;\">\n\n<div style=\"max-width:700px;margin:0 auto;padding:40px 20px;\">\n<div style=\"background:#ffffff;border-radius:8px;border:1px solid #e5e5e5;overflow:hidden;border-top:4px solid #2563eb;\">\n\n<!-- Header -->\n<div style=\"padding:28px 32px 0;\">\n  <p style=\"margin:0 0 20px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#999999;\">Test Portal</p>\n  <h1 style=\"margin:0;font-size:22px;font-weight:600;color:#000000;letter-spacing:-0.3px;\">Confirm Your Email</h1>\n</div>\n<div style=\"padding:0 32px;\"><hr style=\"border:none;border-top:2px solid #2563eb;margin:20px 0 0;\"></div>\n\n<!-- Body -->\n<div style=\"padding:24px 32px 32px;\">\n\n<p style=\"margin:0 0 16px;font-size:15px;color:#333333;line-height:1.6;\">Hi <strong style=\"font-weight:600;color:#1a1a1a;\">Alex Johnson</strong>,</p>\n\n<p style=\"margin:0 0 16px;font-size:15px;color:#333333;line-height:1.6;\">Thanks for signing up. Please confirm your email address to complete your setup.</p>\n\n<div style=\"text-align:center;margin:28px 0;\">\n  <a href=\"https://portal.example.com/confirm?token=sample\" style=\"display:inline-block;background:#2563eb;color:#ffffff !important;text-decoration:none !important;padding:12px 28px;border-radius:6px;font-size:14px;font-weight:600;letter-spacing:0.2px;\">Confirm Your Email</a>\n</div>\n\n<p style=\"margin:0 0 16px;font-size:15px;color:#333333;line-height:1.6;\">Once confirmed and logged in, you'll need to complete your <strong style=\"font-weight:600;color:#1a1a1a;\">Jobseeker Profile</strong>. This is required to start matching with job opportunities.</p>\n\n<table style=\"width:100%;border-collapse:collapse;margin:16px 0;\">\n  <tr><td style=\"padding:10px 12px;font-size:14px;color:#1a1a1a;border-bottom:1px solid #f0f0f0;\">Browse and apply for job opportunities</td></tr>\n  <tr><td style=\"padding:10px 12px;font-size:14px;color:#1a1a1a;border-bottom:1px solid #f0f0f0;\">Get matched with positions that fit your skills</td></tr>\n  <tr><td style=\"padding:10px 12px;font-size:14px;color:#1a1a1a;border-bottom:1px solid #f0f0f0;\">Track your application status</td></tr>\n  <tr><td style=\"padding:10px 12px;font-size:14px;color:#1a1a1a;\">Communicate directly with recruiters</td></tr>\n</table>\n\n<div style=\"background:#fafafa;border-left:3px solid #d4d4d4;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:14px;color:#333333;line-height:1.5;\">\n  Didn't sign up? You can safely ignore this email.\n</div>\n\n<p style=\"margin:0;font-size:15px;color:#333333;line-height:1.6;\">Best regards,<br><strong style=\"font-weight:600;color:#1a1a1a;\">The Team at Test Portal</strong></p>\n\n</div>\n\n<!-- Footer -->\n<div style=\"padding:20px 32px;border-top:1px solid #f0f0f0;\">\n  <p style=\"margin:0;font-size:12px;color:#999999;line-height:1.5;\">This is an automated message from Test Portal. If you believe this was sent in error, please contact our support team.</p>\n  <p style=\"margin:8px 0 0;font-size:12px;color:#cccccc;\">&copy; 2026 Test Portal</p>\n</div>\n\n</div>\n</div>\n\n</body>\n</html>",
+    "text": null,
+    "sampleData": {
+      "name": "Alex Johnson",
+      "confirmation_url": "https://portal.example.com/confirm?token=sample"
+    }
+  }
+}

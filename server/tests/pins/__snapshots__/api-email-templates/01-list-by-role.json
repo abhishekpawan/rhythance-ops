@@ -1,0 +1,205 @@
+{
+  "allowed": [
+    "superadmin"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "recruiter-invitation",
+        "name": "Recruiter Invitation",
+        "subject": "You've Been Invited to Join as a Recruiter",
+        "description": "Sent by Supabase Auth when a recruiter is invited via inviteUserByEmail. Managed in the Supabase dashboard email templates.",
+        "service": "supabase",
+        "tone": "neutral",
+        "triggerRef": "#1",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": false
+      },
+      {
+        "id": "confirm-signup",
+        "name": "Confirm Signup (Email Verification)",
+        "subject": "Confirm Your Email & Complete Your Setup",
+        "description": "Sent automatically by Supabase Auth when a new jobseeker account is created, or when a verification resend is requested. Managed in the Supabase dashboard email templates.",
+        "service": "supabase",
+        "tone": "neutral",
+        "triggerRef": "#3",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": false
+      },
+      {
+        "id": "onboarding-reminder",
+        "name": "Onboarding Reminder",
+        "subject": "Complete Your Account Setup - Action Required",
+        "description": "Sent in two scenarios: (#2b) when a recruiter has verified their email but not completed onboarding; (#15) on a jobseeker's first login if they have not yet completed their profile.",
+        "service": "sendgrid",
+        "tone": "neutral",
+        "triggerRef": "#2b, #15",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      },
+      {
+        "id": "jobseeker-welcome",
+        "name": "Jobseeker Welcome",
+        "subject": "Welcome to Ops Portal",
+        "description": "Sent when a new jobseeker profile is created by a recruiter.",
+        "service": "sendgrid",
+        "tone": "success",
+        "triggerRef": "#4",
+        "attachments": [
+          "Welcome Documents (from storage)"
+        ],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      },
+      {
+        "id": "jobseeker-assignment",
+        "name": "Jobseeker Position Assignment",
+        "subject": "Assignment Confirmation: Warehouse Associate at Acme Logistics Inc. (Toronto)",
+        "description": "Sent when a jobseeker is assigned to a new position.",
+        "service": "sendgrid",
+        "tone": "success",
+        "triggerRef": "#5",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <assignments@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      },
+      {
+        "id": "jobseeker-removal",
+        "name": "Jobseeker Position Removal",
+        "subject": "Update Regarding Your Position Assignment",
+        "description": "Sent when a jobseeker is removed from a position assignment.",
+        "service": "sendgrid",
+        "tone": "negative",
+        "triggerRef": "#6",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <assignments@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      },
+      {
+        "id": "timesheet",
+        "name": "Timesheet Summary",
+        "subject": "Timesheet Summary - Timesheet #TS-2026-0107",
+        "description": "Sent when a timesheet is submitted, re-sent, or updated. Contains the full hours and pay breakdown.",
+        "service": "sendgrid",
+        "tone": "neutral",
+        "triggerRef": "#7, #8, #9",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      },
+      {
+        "id": "invoice",
+        "name": "Invoice",
+        "subject": "Invoice #INV-2026-0042 for Acme Corporation",
+        "description": "Sent when an invoice is generated and emailed to a client.",
+        "service": "sendgrid",
+        "tone": "neutral",
+        "triggerRef": "#10",
+        "attachments": [
+          "Invoice PDF",
+          "Supporting Documents (if any)"
+        ],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": true,
+        "hasTextVersion": true
+      },
+      {
+        "id": "consent",
+        "name": "Digital Consent Request",
+        "subject": "Digital Consent Request: Employment Agreement 2026",
+        "description": "Sent when a digital consent request is created or resent for a user to review and sign.",
+        "service": "sendgrid",
+        "tone": "neutral",
+        "triggerRef": "#11, #12",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      },
+      {
+        "id": "employment-agreement",
+        "name": "Employment Agreement",
+        "subject": "Action Required: Sign Your Employment Agreement",
+        "description": "Sent when a jobseeker's email is confirmed (#14, alongside the welcome email) or when a recruiter creates a profile (#13), prompting the jobseeker to sign the employment agreement.",
+        "service": "sendgrid",
+        "tone": "success",
+        "triggerRef": "#13, #14",
+        "attachments": [],
+        "from": "Test Portal Ops Portal <no-reply@example.test>",
+        "cc": [],
+        "dynamicCc": false,
+        "hasTextVersion": true
+      }
+    ]
+  },
+  "refused": {
+    "admin": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "recruiter": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "bookkeeper": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "recruiter_manager": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "accountant_manager": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "sales": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "recruiter_director": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "jobseeker": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    }
+  }
+}

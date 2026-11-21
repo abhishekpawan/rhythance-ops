@@ -1,0 +1,32 @@
+{
+  "unknown key": {
+    "status": 404,
+    "answer": {
+      "error": "Unknown feature flag \"not_a_flag\""
+    }
+  },
+  "no body": {
+    "status": 400,
+    "answer": {
+      "error": "`enabled` must be true or false"
+    }
+  },
+  "enabled is text": {
+    "status": 400,
+    "answer": {
+      "error": "`enabled` must be true or false"
+    }
+  },
+  "enabled is a number": {
+    "status": 400,
+    "answer": {
+      "error": "`enabled` must be true or false"
+    }
+  },
+  "unknown key and bad body": {
+    "status": 404,
+    "answer": {
+      "error": "Unknown feature flag \"not_a_flag\""
+    }
+  }
+}

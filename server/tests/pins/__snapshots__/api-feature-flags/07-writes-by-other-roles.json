@@ -1,0 +1,162 @@
+{
+  "admin": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "recruiter": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "bookkeeper": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "recruiter_manager": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "accountant_manager": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "sales": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "recruiter_director": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  },
+  "jobseeker": {
+    "put": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "config": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied. Super admin only."
+      }
+    ]
+  }
+}

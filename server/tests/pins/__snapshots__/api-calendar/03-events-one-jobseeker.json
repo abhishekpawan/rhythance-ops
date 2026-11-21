@@ -1,0 +1,31 @@
+{
+  "status": 200,
+  "answer": {
+    "success": true,
+    "data": {
+      "events": [
+        {
+          "id": "assignment_00000000-0000-4000-8000-000000000071",
+          "title": "Sam Sinclair - Warehouse Associate",
+          "start": "2026-09-01",
+          "end": "2027-03-31",
+          "jobseekerId": "00000000-0000-4000-8000-000000000011",
+          "jobseekerName": "Sam Sinclair",
+          "positionId": "00000000-0000-4000-8000-000000000031",
+          "positionTitle": "Warehouse Associate",
+          "clientId": "00000000-0000-4000-8000-000000000021",
+          "clientName": "Northwind Test Staffing Client",
+          "totalPositions": 3,
+          "assignedCount": 1,
+          "availablePositions": 2,
+          "allDay": true
+        }
+      ],
+      "summary": {
+        "totalPositions": 5,
+        "totalJobseekers": 1,
+        "activeAssignments": 1
+      }
+    }
+  }
+}

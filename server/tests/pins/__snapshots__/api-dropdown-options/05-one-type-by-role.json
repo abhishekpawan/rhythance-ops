@@ -1,0 +1,106 @@
+{
+  "allowed": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Ashish Tandon",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Bill Henderson",
+        "display_order": 2,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "John Mageau",
+        "display_order": 3,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Karen Elsdon",
+        "display_order": 4,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Iman Thanvi",
+        "display_order": 5,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "In-House",
+        "display_order": 6,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Jules LeRiche",
+        "display_order": 7,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Abrar Syed",
+        "display_order": 8,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Nick Pereira",
+        "display_order": 9,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Josh Poulin",
+        "display_order": 10,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "refused": {
+    "jobseeker": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin, recruiter"
+      }
+    }
+  }
+}

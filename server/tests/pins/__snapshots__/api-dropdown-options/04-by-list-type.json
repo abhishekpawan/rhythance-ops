@@ -1,0 +1,472 @@
+{
+  "client_manager": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Mansha Malik",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Amandeep Kaur",
+        "display_order": 2,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Sumandeep Kaur",
+        "display_order": 3,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Mandeep Kaur",
+        "display_order": 4,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Rishi Dhaliwal",
+        "display_order": 5,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Yashpal Kaur",
+        "display_order": 6,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Morgan Drouin",
+        "display_order": 7,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Ajay",
+        "display_order": 8,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Rahul Singh Rawat",
+        "display_order": 9,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Vinayak",
+        "display_order": 10,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Kirandeep Kaur",
+        "display_order": 11,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Komal",
+        "display_order": 12,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Vani Sreeram",
+        "display_order": 13,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Hiral",
+        "display_order": 14,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Rahul Sharma",
+        "display_order": 15,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Samuel Jacob",
+        "display_order": 16,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Sharmili",
+        "display_order": 17,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_manager",
+        "name": "Rajneet Kaur",
+        "display_order": 18,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "client_representative": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Mansha Malik",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Amandeep Kaur",
+        "display_order": 2,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Sumandeep Kaur",
+        "display_order": 3,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Mandeep Kaur",
+        "display_order": 4,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Rishi Dhaliwal",
+        "display_order": 5,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Yashpal Kaur",
+        "display_order": 6,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Morgan Drouin",
+        "display_order": 7,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Ajay",
+        "display_order": 8,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Rahul Singh Rawat",
+        "display_order": 9,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Vinayak",
+        "display_order": 10,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Kirandeep Kaur",
+        "display_order": 11,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Komal",
+        "display_order": 12,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Vani Sreeram",
+        "display_order": 13,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Hiral",
+        "display_order": 14,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Rahul Sharma",
+        "display_order": 15,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Samuel Jacob",
+        "display_order": 16,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Sharmili",
+        "display_order": 17,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "client_representative",
+        "name": "Rajneet Kaur",
+        "display_order": 18,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "salesperson": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Ashish Tandon",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Bill Henderson",
+        "display_order": 2,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "John Mageau",
+        "display_order": 3,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Karen Elsdon",
+        "display_order": 4,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Iman Thanvi",
+        "display_order": 5,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "In-House",
+        "display_order": 6,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Jules LeRiche",
+        "display_order": 7,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Abrar Syed",
+        "display_order": 8,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Nick Pereira",
+        "display_order": 9,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "salesperson",
+        "name": "Josh Poulin",
+        "display_order": 10,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "accounting_person": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "accounting_person",
+        "name": "Ankit",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "accounting_person",
+        "name": "Rajita",
+        "display_order": 2,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "accounting_person",
+        "name": "Shruti",
+        "display_order": 3,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "accounting_manager": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "accounting_manager",
+        "name": "Hiral Patel",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "position_title": {
+    "status": 200,
+    "answer": []
+  },
+  "list_name": {
+    "status": 200,
+    "answer": []
+  },
+  "subcategory_position": {
+    "status": 200,
+    "answer": [
+      {
+        "id": "<uuid>",
+        "list_type": "subcategory_position",
+        "name": "Miles",
+        "display_order": 0,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      },
+      {
+        "id": "<uuid>",
+        "list_type": "subcategory_position",
+        "name": "Bonus",
+        "display_order": 1,
+        "created_at": "<timestamp>",
+        "updated_at": "<timestamp>"
+      }
+    ]
+  },
+  "nope": {
+    "status": 400,
+    "answer": {
+      "error": "Invalid list type",
+      "validTypes": [
+        "client_manager",
+        "client_representative",
+        "salesperson",
+        "accounting_person",
+        "accounting_manager",
+        "position_title",
+        "list_name",
+        "subcategory_position"
+      ]
+    }
+  }
+}

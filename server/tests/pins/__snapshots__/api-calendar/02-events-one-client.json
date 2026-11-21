@@ -1,0 +1,47 @@
+{
+  "status": 200,
+  "answer": {
+    "success": true,
+    "data": {
+      "events": [
+        {
+          "id": "assignment_00000000-0000-4000-8000-000000000075",
+          "title": "Corey Corporate - Driver Helper",
+          "start": "2026-10-01",
+          "end": "2027-02-28",
+          "jobseekerId": "00000000-0000-4000-8000-000000000014",
+          "jobseekerName": "Corey Corporate",
+          "positionId": "00000000-0000-4000-8000-000000000034",
+          "positionTitle": "Driver Helper",
+          "clientId": "00000000-0000-4000-8000-000000000022",
+          "clientName": "Quebec Test Logistics Client",
+          "totalPositions": 2,
+          "assignedCount": 1,
+          "availablePositions": 1,
+          "allDay": true
+        },
+        {
+          "id": "position_open_00000000-0000-4000-8000-000000000034",
+          "title": "Driver Helper (1 available)",
+          "start": "2026-10-01",
+          "end": "2027-02-28",
+          "jobseekerId": "",
+          "jobseekerName": "",
+          "positionId": "00000000-0000-4000-8000-000000000034",
+          "positionTitle": "Driver Helper",
+          "clientId": "00000000-0000-4000-8000-000000000022",
+          "clientName": "Quebec Test Logistics Client",
+          "totalPositions": 2,
+          "assignedCount": 1,
+          "availablePositions": 1,
+          "allDay": true
+        }
+      ],
+      "summary": {
+        "totalPositions": 2,
+        "totalJobseekers": 1,
+        "activeAssignments": 1
+      }
+    }
+  }
+}

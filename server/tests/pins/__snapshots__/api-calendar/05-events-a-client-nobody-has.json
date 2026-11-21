@@ -1,0 +1,14 @@
+{
+  "status": 200,
+  "answer": {
+    "success": true,
+    "data": {
+      "events": [],
+      "summary": {
+        "totalPositions": 0,
+        "totalJobseekers": 0,
+        "activeAssignments": 0
+      }
+    }
+  }
+}

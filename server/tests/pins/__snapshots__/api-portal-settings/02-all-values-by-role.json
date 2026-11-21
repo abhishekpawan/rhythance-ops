@@ -1,0 +1,45 @@
+{
+  "allowed": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director",
+    "jobseeker"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": {
+      "values": {
+        "portal.name": "Test Portal",
+        "email.noReplyFrom": "no-reply@example.test",
+        "email.assignmentFrom": "assignments@example.test",
+        "email.defaultFrom": "no-reply@example.test",
+        "email.invoiceCc": "",
+        "email.supportNotifyTo": "support@example.test",
+        "email.supportNotifyCc": "",
+        "company.name": "Test Staffing Inc.",
+        "company.address": "240 Humberline Dr",
+        "company.address2": "Etobicoke ON, M9W 5X1",
+        "company.taxNumber": "GST/HST No. 825183387",
+        "branding.aiChatTitle": "Motion Falcon AI Chat",
+        "branding.brandName": "Motion Falcon",
+        "switcher.currentLogo": "",
+        "switcher.options": "",
+        "access.staffEmailContains": "",
+        "access.staffEmailExcluded": "",
+        "legal.companyName": "Test Staffing Inc.",
+        "legal.companyShortName": "Motion Falcon Group",
+        "legal.contactAddress": "",
+        "legal.contactEmail": "privacy@example.test",
+        "legal.contactPhone": "",
+        "training.video1": "3uXKmNbTZos",
+        "training.video2": "O615tiZ6eOk"
+      }
+    }
+  },
+  "refused": {}
+}

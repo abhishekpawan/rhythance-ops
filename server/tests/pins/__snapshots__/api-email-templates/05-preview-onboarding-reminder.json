@@ -1,0 +1,22 @@
+{
+  "status": 200,
+  "answer": {
+    "id": "onboarding-reminder",
+    "name": "Onboarding Reminder",
+    "subject": "Complete Your Account Setup - Action Required",
+    "description": "Sent in two scenarios: (#2b) when a recruiter has verified their email but not completed onboarding; (#15) on a jobseeker's first login if they have not yet completed their profile.",
+    "service": "sendgrid",
+    "tone": "neutral",
+    "triggerRef": "#2b, #15",
+    "attachments": [],
+    "from": "Test Portal Ops Portal <no-reply@example.test>",
+    "cc": [],
+    "dynamicCc": false,
+    "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Complete Your Account Setup</title>\n</head>\n<body style=\"margin:0;padding:0;background-color:#f7f7f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#1a1a1a;line-height:1.6;-webkit-font-smoothing:antialiased;\">\n\n<div style=\"max-width:700px;margin:0 auto;padding:40px 20px;\">\n<div style=\"background:#ffffff;border-radius:8px;border:1px solid #e5e5e5;overflow:hidden;border-top:4px solid #2563eb;\">\n\n<!-- Header -->\n<div style=\"padding:28px 32px 0;\">\n  <p style=\"margin:0 0 20px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#999999;\">Test Portal</p>\n  <h1 style=\"margin:0;font-size:22px;font-weight:600;color:#000000;letter-spacing:-0.3px;\">Complete Your Account Setup</h1>\n</div>\n<div style=\"padding:0 32px;\"><hr style=\"border:none;border-top:2px solid #2563eb;margin:20px 0 0;\"></div>\n\n<!-- Body -->\n<div style=\"padding:24px 32px 32px;\">\n\n<p style=\"margin:0 0 16px;font-size:15px;color:#333333;line-height:1.6;\">Hi Chris Johnson,</p>\n\n<p style=\"margin:0 0 16px;font-size:15px;color:#333333;line-height:1.6;\">It looks like you haven't finished setting up your account yet. Your email has been verified, but there are a few more steps to complete.</p>\n\n<div style=\"background:#fafafa;border-left:3px solid #d4d4d4;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:14px;color:#333333;line-height:1.5;\">\n  <strong>Action needed:</strong> Please complete your account setup to get full access to the platform.\n</div>\n\n<div style=\"text-align:center;margin:28px 0;\">\n  <a href=\"https://portal.example.com/complete-signup\" style=\"display:inline-block;background:#2563eb;color:#ffffff !important;text-decoration:none !important;padding:12px 28px;border-radius:6px;font-size:14px;font-weight:600;letter-spacing:0.2px;\">Complete Account Setup</a>\n</div>\n\n<p style=\"margin:0 0 16px;font-size:15px;color:#333333;line-height:1.6;\">If you need any help, feel free to reach out to our support team.</p>\n\n<p style=\"margin:0;font-size:15px;color:#333333;line-height:1.6;\">Best regards,<br><strong style=\"font-weight:600;color:#1a1a1a;\">The Team at Test Portal</strong></p>\n\n</div>\n\n<!-- Footer -->\n<div style=\"padding:20px 32px;border-top:1px solid #f0f0f0;\">\n  <p style=\"margin:0;font-size:12px;color:#999999;line-height:1.5;\">This is an automated message from Test Portal. If you believe this was sent in error, please contact our support team.</p>\n  <p style=\"margin:8px 0 0;font-size:12px;color:#cccccc;\">&copy; 2026 Test Portal</p>\n</div>\n\n</div>\n</div>\n\n</body>\n</html>",
+    "text": "Complete Your Account Setup\n\nHi Chris Johnson,\n\nIt looks like you haven't finished setting up your account yet. Your email has been verified, but there are a few more steps to complete.\n\nAction needed: Please complete your account setup to get full access to the platform.\n\nComplete your setup here:\nhttps://portal.example.com/complete-signup\n\nIf you need any help, feel free to reach out to our support team.\n\nBest regards,\nThe Team at Test Portal\n\n---\nThis is an automated message from Test Portal. If you believe this was sent in error, please contact our support team.",
+    "sampleData": {
+      "name": "Chris Johnson",
+      "onboarding_url": "https://portal.example.com/complete-signup"
+    }
+  }
+}

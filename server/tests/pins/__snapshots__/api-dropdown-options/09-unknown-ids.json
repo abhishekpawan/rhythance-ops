@@ -1,0 +1,27 @@
+{
+  "put an unknown id": {
+    "status": 404,
+    "answer": {
+      "error": "Dropdown option not found"
+    }
+  },
+  "delete an unknown id": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "deletedId": "<uuid>"
+    }
+  },
+  "put a text id": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update dropdown option"
+    }
+  },
+  "delete a text id": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to delete dropdown option"
+    }
+  }
+}

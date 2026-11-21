@@ -1,0 +1,420 @@
+[
+  {
+    "step": "save two settings",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "attach_handbook_to_assignment_email",
+        "title": "Employee handbook on assignment email",
+        "description": "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+        "category": "positions",
+        "defaultEnabled": false,
+        "wired": true,
+        "intended": {
+          "godspeed": true,
+          "gdworkforce": false,
+          "canhire": false,
+          "allstaff": false
+        },
+        "notes": "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+        "settings": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf"
+          }
+        ],
+        "settingValues": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents",
+            "value": "pin-bucket",
+            "source": "database"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf",
+            "value": "pin/file.pdf",
+            "source": "database"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf",
+            "value": "Godspeed_Employee_Handbook_2024.pdf",
+            "source": "default"
+          }
+        ],
+        "enabled": false,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "an empty value removes it",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "attach_handbook_to_assignment_email",
+        "title": "Employee handbook on assignment email",
+        "description": "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+        "category": "positions",
+        "defaultEnabled": false,
+        "wired": true,
+        "intended": {
+          "godspeed": true,
+          "gdworkforce": false,
+          "canhire": false,
+          "allstaff": false
+        },
+        "notes": "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+        "settings": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf"
+          }
+        ],
+        "settingValues": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents",
+            "value": "default-documents",
+            "source": "default"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf",
+            "value": "pin/file.pdf",
+            "source": "database"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf",
+            "value": "Godspeed_Employee_Handbook_2024.pdf",
+            "source": "default"
+          }
+        ],
+        "enabled": false,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "the on/off value is kept when settings change",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "attach_handbook_to_assignment_email",
+        "title": "Employee handbook on assignment email",
+        "description": "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+        "category": "positions",
+        "defaultEnabled": false,
+        "wired": true,
+        "intended": {
+          "godspeed": true,
+          "gdworkforce": false,
+          "canhire": false,
+          "allstaff": false
+        },
+        "notes": "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+        "settings": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf"
+          }
+        ],
+        "settingValues": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents",
+            "value": "default-documents",
+            "source": "default"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf",
+            "value": "employeeHandbook/employeeHandbook2024.pdf",
+            "source": "default"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf",
+            "value": "Pin.pdf",
+            "source": "database"
+          }
+        ],
+        "enabled": false,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "an empty config clears all",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "attach_handbook_to_assignment_email",
+        "title": "Employee handbook on assignment email",
+        "description": "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+        "category": "positions",
+        "defaultEnabled": false,
+        "wired": true,
+        "intended": {
+          "godspeed": true,
+          "gdworkforce": false,
+          "canhire": false,
+          "allstaff": false
+        },
+        "notes": "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+        "settings": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf"
+          }
+        ],
+        "settingValues": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents",
+            "value": "default-documents",
+            "source": "default"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf",
+            "value": "employeeHandbook/employeeHandbook2024.pdf",
+            "source": "default"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf",
+            "value": "Godspeed_Employee_Handbook_2024.pdf",
+            "source": "default"
+          }
+        ],
+        "enabled": false,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "unknown setting",
+    "status": 400,
+    "answer": {
+      "error": "Unknown setting \"nope\""
+    }
+  },
+  {
+    "step": "setting is a number",
+    "status": 400,
+    "answer": {
+      "error": "Setting \"bucket\" must be text"
+    }
+  },
+  {
+    "step": "setting is longer than 300",
+    "status": 400,
+    "answer": {
+      "error": "Setting \"bucket\" is longer than 300 characters"
+    }
+  },
+  {
+    "step": "setting is exactly 300",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "attach_handbook_to_assignment_email",
+        "title": "Employee handbook on assignment email",
+        "description": "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+        "category": "positions",
+        "defaultEnabled": false,
+        "wired": true,
+        "intended": {
+          "godspeed": true,
+          "gdworkforce": false,
+          "canhire": false,
+          "allstaff": false
+        },
+        "notes": "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+        "settings": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf"
+          }
+        ],
+        "settingValues": [
+          {
+            "key": "bucket",
+            "label": "Storage bucket",
+            "description": "Supabase storage bucket that holds the handbook.",
+            "defaultValue": "default-documents",
+            "value": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+            "source": "database"
+          },
+          {
+            "key": "path",
+            "label": "File path in the bucket",
+            "description": "Path of the handbook PDF inside the bucket.",
+            "defaultValue": "employeeHandbook/employeeHandbook2024.pdf",
+            "value": "employeeHandbook/employeeHandbook2024.pdf",
+            "source": "default"
+          },
+          {
+            "key": "fileName",
+            "label": "Attachment name in the email",
+            "description": "File name the jobseeker sees on the attachment.",
+            "defaultValue": "Godspeed_Employee_Handbook_2024.pdf",
+            "value": "Godspeed_Employee_Handbook_2024.pdf",
+            "source": "default"
+          }
+        ],
+        "enabled": false,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "no config",
+    "status": 400,
+    "answer": {
+      "error": "`config` must be an object"
+    }
+  },
+  {
+    "step": "config is text",
+    "status": 400,
+    "answer": {
+      "error": "`config` must be an object"
+    }
+  },
+  {
+    "step": "config is a list",
+    "status": 400,
+    "answer": {
+      "error": "`config` must be an object"
+    }
+  },
+  {
+    "step": "config is null",
+    "status": 400,
+    "answer": {
+      "error": "`config` must be an object"
+    }
+  },
+  {
+    "step": "a flag with no settings",
+    "status": 400,
+    "answer": {
+      "error": "This flag has no settings"
+    }
+  },
+  {
+    "step": "unknown flag",
+    "status": 404,
+    "answer": {
+      "error": "Unknown feature flag \"not_a_flag\""
+    }
+  }
+]

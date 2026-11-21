@@ -1,0 +1,50 @@
+{
+  "admin": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "recruiter": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "bookkeeper": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "recruiter_manager": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "accountant_manager": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "sales": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "recruiter_director": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  },
+  "jobseeker": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied. Super admin only."
+    }
+  }
+}

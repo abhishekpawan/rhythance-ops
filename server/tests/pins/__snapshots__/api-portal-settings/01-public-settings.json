@@ -1,0 +1,15 @@
+{
+  "status": 200,
+  "answer": {
+    "values": {
+      "branding.brandName": "Motion Falcon",
+      "switcher.currentLogo": "",
+      "switcher.options": "",
+      "legal.companyName": "Test Staffing Inc.",
+      "legal.companyShortName": "Motion Falcon Group",
+      "legal.contactAddress": "",
+      "legal.contactEmail": "privacy@example.test",
+      "legal.contactPhone": ""
+    }
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "recruiter": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "bookkeeper": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "recruiter_manager": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "accountant_manager": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "sales": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "recruiter_director": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "jobseeker": {
+    "post": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "put": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ],
+    "delete": [
+      403,
+      {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin"
+      }
+    ]
+  },
+  "noToken": {
+    "post": {
+      "noToken": {
+        "status": 401,
+        "answer": {
+          "error": "Missing authentication token"
+        }
+      },
+      "badToken": {
+        "status": 403,
+        "answer": {
+          "error": "Invalid or expired token"
+        }
+      }
+    },
+    "put": {
+      "noToken": {
+        "status": 401,
+        "answer": {
+          "error": "Missing authentication token"
+        }
+      },
+      "badToken": {
+        "status": 403,
+        "answer": {
+          "error": "Invalid or expired token"
+        }
+      }
+    },
+    "delete": {
+      "noToken": {
+        "status": 401,
+        "answer": {
+          "error": "Missing authentication token"
+        }
+      },
+      "badToken": {
+        "status": 403,
+        "answer": {
+          "error": "Invalid or expired token"
+        }
+      }
+    }
+  }
+}

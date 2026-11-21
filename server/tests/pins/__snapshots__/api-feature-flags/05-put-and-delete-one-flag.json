@@ -1,0 +1,110 @@
+[
+  {
+    "step": "switch off",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "subcategory_positions",
+        "clientVisible": true,
+        "title": "Subcategory positions",
+        "description": "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
+        "category": "positions",
+        "defaultEnabled": true,
+        "wired": true,
+        "intended": {
+          "godspeed": false,
+          "gdworkforce": false,
+          "canhire": true,
+          "allstaff": true
+        },
+        "notes": "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
+        "settingValues": [],
+        "enabled": false,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "switch on (a stored override that equals the default)",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "subcategory_positions",
+        "clientVisible": true,
+        "title": "Subcategory positions",
+        "description": "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
+        "category": "positions",
+        "defaultEnabled": true,
+        "wired": true,
+        "intended": {
+          "godspeed": false,
+          "gdworkforce": false,
+          "canhire": true,
+          "allstaff": true
+        },
+        "notes": "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
+        "settingValues": [],
+        "enabled": true,
+        "source": "override",
+        "updatedAt": "<timestamp>",
+        "updatedByName": "Test Super Admin"
+      }
+    }
+  },
+  {
+    "step": "reset",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "subcategory_positions",
+        "clientVisible": true,
+        "title": "Subcategory positions",
+        "description": "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
+        "category": "positions",
+        "defaultEnabled": true,
+        "wired": true,
+        "intended": {
+          "godspeed": false,
+          "gdworkforce": false,
+          "canhire": true,
+          "allstaff": true
+        },
+        "notes": "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
+        "settingValues": [],
+        "enabled": true,
+        "source": "default",
+        "updatedAt": null,
+        "updatedByName": null
+      }
+    }
+  },
+  {
+    "step": "reset again, nothing stored",
+    "status": 200,
+    "answer": {
+      "flag": {
+        "key": "subcategory_positions",
+        "clientVisible": true,
+        "title": "Subcategory positions",
+        "description": "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
+        "category": "positions",
+        "defaultEnabled": true,
+        "wired": true,
+        "intended": {
+          "godspeed": false,
+          "gdworkforce": false,
+          "canhire": true,
+          "allstaff": true
+        },
+        "notes": "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
+        "settingValues": [],
+        "enabled": true,
+        "source": "default",
+        "updatedAt": null,
+        "updatedByName": null
+      }
+    }
+  }
+]

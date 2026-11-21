@@ -1,0 +1,58 @@
+{
+  "no dates": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "startDate and endDate are required parameters"
+    }
+  },
+  "no end": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "startDate and endDate are required parameters"
+    }
+  },
+  "no start": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "startDate and endDate are required parameters"
+    }
+  },
+  "a date with a slash": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "Dates must be in YYYY-MM-DD format"
+    }
+  },
+  "a date with a time": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "Dates must be in YYYY-MM-DD format"
+    }
+  },
+  "a day that is not a day": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "message": "Failed to fetch calendar data"
+    }
+  },
+  "a client that is not an id": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "message": "Failed to fetch calendar data"
+    }
+  },
+  "a jobseeker that is not an id": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "message": "Failed to fetch assignment data"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "allowed": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director",
+    "jobseeker"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": {
+      "flags": {
+        "jobseeker_payroll_summary": false,
+        "subcategory_positions": true,
+        "hide_jobseeker_pay_rate": false,
+        "jobseeker_profile_godspeed_rules": false,
+        "ai_chat": false
+      }
+    }
+  },
+  "refused": {}
+}

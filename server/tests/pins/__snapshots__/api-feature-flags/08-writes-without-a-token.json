@@ -1,0 +1,44 @@
+{
+  "put": {
+    "noToken": {
+      "status": 401,
+      "answer": {
+        "error": "Missing authentication token"
+      }
+    },
+    "badToken": {
+      "status": 403,
+      "answer": {
+        "error": "Invalid or expired token"
+      }
+    }
+  },
+  "config": {
+    "noToken": {
+      "status": 401,
+      "answer": {
+        "error": "Missing authentication token"
+      }
+    },
+    "badToken": {
+      "status": 403,
+      "answer": {
+        "error": "Invalid or expired token"
+      }
+    }
+  },
+  "delete": {
+    "noToken": {
+      "status": 401,
+      "answer": {
+        "error": "Missing authentication token"
+      }
+    },
+    "badToken": {
+      "status": 403,
+      "answer": {
+        "error": "Invalid or expired token"
+      }
+    }
+  }
+}

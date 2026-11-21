@@ -1,0 +1,23 @@
+{
+  "status": 200,
+  "answer": {
+    "success": true,
+    "data": {
+      "totalPositions": 5,
+      "totalJobseekers": 4,
+      "activeAssignments": 4,
+      "availablePositions": 1,
+      "fillRate": 80,
+      "statusBreakdown": {
+        "active": 4,
+        "upcoming": 0,
+        "completed": 0,
+        "cancelled": 0
+      },
+      "dateRange": {
+        "startDate": "2026-11-01",
+        "endDate": "2026-11-30"
+      }
+    }
+  }
+}

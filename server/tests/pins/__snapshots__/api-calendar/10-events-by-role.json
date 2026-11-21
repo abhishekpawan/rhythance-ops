@@ -1,0 +1,116 @@
+{
+  "allowed": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "data": {
+        "events": [
+          {
+            "id": "assignment_00000000-0000-4000-8000-000000000071",
+            "title": "Sam Sinclair - Warehouse Associate",
+            "start": "2026-09-01",
+            "end": "2027-03-31",
+            "jobseekerId": "00000000-0000-4000-8000-000000000011",
+            "jobseekerName": "Sam Sinclair",
+            "positionId": "00000000-0000-4000-8000-000000000031",
+            "positionTitle": "Warehouse Associate",
+            "clientId": "00000000-0000-4000-8000-000000000021",
+            "clientName": "Northwind Test Staffing Client",
+            "totalPositions": 3,
+            "assignedCount": 3,
+            "availablePositions": 0,
+            "allDay": true
+          },
+          {
+            "id": "assignment_00000000-0000-4000-8000-000000000073",
+            "title": "Casey Cashman - Warehouse Associate",
+            "start": "2026-09-01",
+            "end": "2027-03-31",
+            "jobseekerId": "00000000-0000-4000-8000-000000000012",
+            "jobseekerName": "Casey Cashman",
+            "positionId": "00000000-0000-4000-8000-000000000031",
+            "positionTitle": "Warehouse Associate",
+            "clientId": "00000000-0000-4000-8000-000000000021",
+            "clientName": "Northwind Test Staffing Client",
+            "totalPositions": 3,
+            "assignedCount": 3,
+            "availablePositions": 0,
+            "allDay": true
+          },
+          {
+            "id": "assignment_00000000-0000-4000-8000-000000000074",
+            "title": "Hana Hybrid - Warehouse Associate",
+            "start": "2026-09-01",
+            "end": "2027-03-31",
+            "jobseekerId": "00000000-0000-4000-8000-000000000013",
+            "jobseekerName": "Hana Hybrid",
+            "positionId": "00000000-0000-4000-8000-000000000031",
+            "positionTitle": "Warehouse Associate",
+            "clientId": "00000000-0000-4000-8000-000000000021",
+            "clientName": "Northwind Test Staffing Client",
+            "totalPositions": 3,
+            "assignedCount": 3,
+            "availablePositions": 0,
+            "allDay": true
+          },
+          {
+            "id": "assignment_00000000-0000-4000-8000-000000000075",
+            "title": "Corey Corporate - Driver Helper",
+            "start": "2026-10-01",
+            "end": "2027-02-28",
+            "jobseekerId": "00000000-0000-4000-8000-000000000014",
+            "jobseekerName": "Corey Corporate",
+            "positionId": "00000000-0000-4000-8000-000000000034",
+            "positionTitle": "Driver Helper",
+            "clientId": "00000000-0000-4000-8000-000000000022",
+            "clientName": "Quebec Test Logistics Client",
+            "totalPositions": 2,
+            "assignedCount": 1,
+            "availablePositions": 1,
+            "allDay": true
+          },
+          {
+            "id": "position_open_00000000-0000-4000-8000-000000000034",
+            "title": "Driver Helper (1 available)",
+            "start": "2026-10-01",
+            "end": "2027-02-28",
+            "jobseekerId": "",
+            "jobseekerName": "",
+            "positionId": "00000000-0000-4000-8000-000000000034",
+            "positionTitle": "Driver Helper",
+            "clientId": "00000000-0000-4000-8000-000000000022",
+            "clientName": "Quebec Test Logistics Client",
+            "totalPositions": 2,
+            "assignedCount": 1,
+            "availablePositions": 1,
+            "allDay": true
+          }
+        ],
+        "summary": {
+          "totalPositions": 5,
+          "totalJobseekers": 4,
+          "activeAssignments": 4
+        }
+      }
+    }
+  },
+  "refused": {
+    "jobseeker": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin, recruiter"
+      }
+    }
+  }
+}

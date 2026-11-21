@@ -1,0 +1,6 @@
+{
+  "status": 404,
+  "answer": {
+    "error": "Unknown feature flag \"not_a_flag\""
+  }
+}

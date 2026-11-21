@@ -1,0 +1,23 @@
+{
+  "no dates": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "startDate and endDate are required parameters"
+    }
+  },
+  "a date with a slash": {
+    "status": 400,
+    "answer": {
+      "success": false,
+      "message": "Dates must be in YYYY-MM-DD format"
+    }
+  },
+  "a client that is not an id": {
+    "status": 500,
+    "answer": {
+      "success": false,
+      "message": "Failed to fetch calendar summary data"
+    }
+  }
+}

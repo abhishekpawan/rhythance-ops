@@ -1,0 +1,48 @@
+{
+  "no body": {
+    "status": 400,
+    "answer": {
+      "error": "listType and name are required"
+    }
+  },
+  "no list type": {
+    "status": 400,
+    "answer": {
+      "error": "listType and name are required"
+    }
+  },
+  "no name": {
+    "status": 400,
+    "answer": {
+      "error": "listType and name are required"
+    }
+  },
+  "blank name": {
+    "status": 400,
+    "answer": {
+      "error": "listType and name are required"
+    }
+  },
+  "unknown list type": {
+    "status": 400,
+    "answer": {
+      "error": "Invalid list type",
+      "validTypes": [
+        "client_manager",
+        "client_representative",
+        "salesperson",
+        "accounting_person",
+        "accounting_manager",
+        "position_title",
+        "list_name",
+        "subcategory_position"
+      ]
+    }
+  },
+  "name is a number": {
+    "status": 500,
+    "answer": {
+      "error": "Internal server error"
+    }
+  }
+}

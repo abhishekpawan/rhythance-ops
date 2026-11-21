@@ -1,0 +1,135 @@
+[
+  {
+    "step": "create",
+    "status": 201,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test One",
+      "display_order": 7,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "same name, another list",
+    "status": 201,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "salesperson",
+      "name": "Pin Test One",
+      "display_order": 0,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "same name, same list",
+    "status": 409,
+    "answer": {
+      "error": "\"Pin Test One\" already exists in client_manager"
+    }
+  },
+  {
+    "step": "no display order is 0, a text order is 0",
+    "status": 201,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test Two",
+      "display_order": 0,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "rename",
+    "status": 200,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test Renamed",
+      "display_order": 7,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "change the order only",
+    "status": 200,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test Renamed",
+      "display_order": 2,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "a text order is ignored",
+    "status": 200,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test Renamed",
+      "display_order": 2,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "nothing to change",
+    "status": 200,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test Renamed",
+      "display_order": 2,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "rename to a name the list has",
+    "status": 409,
+    "answer": {
+      "error": "A duplicate entry already exists"
+    }
+  },
+  {
+    "step": "rename to empty",
+    "status": 400,
+    "answer": {
+      "error": "name cannot be empty"
+    }
+  },
+  {
+    "step": "a list type in the body is ignored",
+    "status": 200,
+    "answer": {
+      "id": "<uuid>",
+      "list_type": "client_manager",
+      "name": "Pin Test Moved",
+      "display_order": 2,
+      "created_at": "<timestamp>",
+      "updated_at": "<timestamp>"
+    }
+  },
+  {
+    "step": "delete",
+    "status": 200,
+    "answer": {
+      "success": true,
+      "deletedId": "<uuid>"
+    }
+  },
+  {
+    "step": "delete again",
+    "status": 200,
+    "answer": {
+      "success": true,
+      "deletedId": "<uuid>"
+    }
+  }
+]

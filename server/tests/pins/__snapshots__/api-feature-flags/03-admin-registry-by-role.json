@@ -1,0 +1,272 @@
+{
+  "allowed": [
+    "superadmin"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": {
+      "flags": [
+        {
+          "key": "jobseeker_payroll_summary",
+          "clientVisible": true,
+          "title": "Jobseeker payroll summary cards",
+          "description": "Shows \"Total No. Hours\" and \"Gross Amount\" cards on the Jobseeker dashboard.",
+          "category": "dashboard",
+          "defaultEnabled": false,
+          "wired": true,
+          "intended": {
+            "canhire": true,
+            "gdworkforce": true,
+            "godspeed": false,
+            "allstaff": false
+          },
+          "notes": "Requested for CanHire and GD Workforce only. Turn it on from this page for those portals. Hours = regular + overtime; Gross Amount = pay before deductions.",
+          "settingValues": [],
+          "enabled": false,
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "subcategory_positions",
+          "clientVisible": true,
+          "title": "Subcategory positions",
+          "description": "Subcategory position pages, menu entry and the subcategory option in dropdown management.",
+          "category": "positions",
+          "defaultEnabled": true,
+          "wired": true,
+          "intended": {
+            "godspeed": false,
+            "gdworkforce": false,
+            "canhire": true,
+            "allstaff": true
+          },
+          "notes": "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
+          "settingValues": [],
+          "enabled": true,
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "attach_handbook_to_assignment_email",
+          "title": "Employee handbook on assignment email",
+          "description": "Attaches the employee handbook PDF (read from this portal's storage) to the email a jobseeker receives when they are assigned to a position.",
+          "category": "positions",
+          "defaultEnabled": false,
+          "wired": true,
+          "intended": {
+            "godspeed": true,
+            "gdworkforce": false,
+            "canhire": false,
+            "allstaff": false
+          },
+          "notes": "Previously hard-coded for Godspeed. Where the handbook is read from and what the attachment is called are settings below; the defaults are Godspeed's.",
+          "settings": [
+            {
+              "key": "bucket",
+              "label": "Storage bucket",
+              "description": "Supabase storage bucket that holds the handbook.",
+              "defaultValue": "default-documents"
+            },
+            {
+              "key": "path",
+              "label": "File path in the bucket",
+              "description": "Path of the handbook PDF inside the bucket.",
+              "defaultValue": "employeeHandbook/employeeHandbook2024.pdf"
+            },
+            {
+              "key": "fileName",
+              "label": "Attachment name in the email",
+              "description": "File name the jobseeker sees on the attachment.",
+              "defaultValue": "Godspeed_Employee_Handbook_2024.pdf"
+            }
+          ],
+          "settingValues": [
+            {
+              "key": "bucket",
+              "label": "Storage bucket",
+              "description": "Supabase storage bucket that holds the handbook.",
+              "defaultValue": "default-documents",
+              "value": "default-documents",
+              "source": "default"
+            },
+            {
+              "key": "path",
+              "label": "File path in the bucket",
+              "description": "Path of the handbook PDF inside the bucket.",
+              "defaultValue": "employeeHandbook/employeeHandbook2024.pdf",
+              "value": "employeeHandbook/employeeHandbook2024.pdf",
+              "source": "default"
+            },
+            {
+              "key": "fileName",
+              "label": "Attachment name in the email",
+              "description": "File name the jobseeker sees on the attachment.",
+              "defaultValue": "Godspeed_Employee_Handbook_2024.pdf",
+              "value": "Godspeed_Employee_Handbook_2024.pdf",
+              "source": "default"
+            }
+          ],
+          "enabled": false,
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "hide_jobseeker_pay_rate",
+          "clientVisible": true,
+          "title": "Hide pay rate in jobseeker compensation",
+          "description": "Hides the pay rate and bill rate inputs on the jobseeker profile Compensation step (values default to 0).",
+          "category": "jobseeker_profile",
+          "defaultEnabled": false,
+          "wired": true,
+          "intended": {
+            "gdworkforce": true,
+            "godspeed": false,
+            "canhire": false,
+            "allstaff": false
+          },
+          "notes": "Previously hard-coded in the GD Workforce branch only. Now controlled here; on for GD Workforce.",
+          "settingValues": [],
+          "enabled": false,
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "jobseeker_profile_godspeed_rules",
+          "clientVisible": true,
+          "title": "Godspeed jobseeker profile rules",
+          "description": "Lighter jobseeker profile rules: the driver's licence number is required; SIN, most address/qualification fields and the compensation fields are optional; the mandatory document is a driver's licence or passport (instead of SIN + government ID). Applies to the profile forms and to the server checks.",
+          "category": "jobseeker_profile",
+          "defaultEnabled": false,
+          "wired": true,
+          "intended": {
+            "godspeed": true,
+            "gdworkforce": false,
+            "canhire": false,
+            "allstaff": false
+          },
+          "notes": "Previously a code fork in the Godspeed branch. Turn on only for portals that want the lighter rules; Godspeed has it on.",
+          "settingValues": [],
+          "enabled": false,
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "ai_chat",
+          "clientVisible": true,
+          "title": "AI chat in the menu",
+          "description": "Shows the AI Chat entry in the side menu for staff. Turn it on for a portal only after its database has migration 037 and its AI service has the chat switched on (CHAT_ENABLED); until then the chat page shows a notice.",
+          "category": "admin",
+          "defaultEnabled": false,
+          "wired": true,
+          "intended": {
+            "godspeed": true,
+            "gdworkforce": true,
+            "canhire": true,
+            "allstaff": true
+          },
+          "notes": "Hides the menu entry only; the /ai-chat page itself still opens and shows the service's notice until the chat is switched on. Rollout is one portal at a time, stage first (docs/features/ai-chat.md).",
+          "settingValues": [],
+          "enabled": false,
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "staff_two_factor_enforced",
+          "title": "Enforce two-step login for staff on the server",
+          "description": "Admin and recruiter accounts must enter the phone code before the server accepts their session. Without it the code is only checked by the login screen, so anyone with the password can skip it. Jobseekers are never affected.",
+          "category": "admin",
+          "defaultEnabled": true,
+          "wired": true,
+          "intended": {
+            "godspeed": true,
+            "gdworkforce": true,
+            "canhire": true,
+            "allstaff": true
+          },
+          "notes": "On by default, so a new portal is protected from day one; the four live portals have it on (2026-11-19). Staff who are signed in when it is turned on are sent back to the login screen once and enter a phone code. The demo portals (stage database) store enabled=false: the demo login bypasses the code. Apply migration 035 to a new portal's database first.",
+          "settingValues": [],
+          "enabled": false,
+          "source": "override",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        }
+      ],
+      "tableMissing": false,
+      "loadFailed": false,
+      "portals": [
+        {
+          "id": "godspeed",
+          "label": "Godspeed"
+        },
+        {
+          "id": "gdworkforce",
+          "label": "GD Workforce"
+        },
+        {
+          "id": "canhire",
+          "label": "CanHire"
+        },
+        {
+          "id": "allstaff",
+          "label": "All Staff"
+        }
+      ]
+    }
+  },
+  "refused": {
+    "admin": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "recruiter": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "bookkeeper": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "recruiter_manager": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "accountant_manager": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "sales": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "recruiter_director": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    },
+    "jobseeker": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied. Super admin only."
+      }
+    }
+  }
+}

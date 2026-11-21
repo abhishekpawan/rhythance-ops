@@ -1,0 +1,345 @@
+{
+  "unknown key": {
+    "status": 400,
+    "answer": {
+      "error": "Unknown setting \"nope.nope\""
+    }
+  },
+  "one good, one unknown": {
+    "status": 400,
+    "answer": {
+      "error": "Unknown setting \"nope.nope\""
+    }
+  },
+  "a number": {
+    "status": 400,
+    "answer": {
+      "error": "Setting \"company.address\" must be text"
+    }
+  },
+  "longer than 300": {
+    "status": 400,
+    "answer": {
+      "error": "Setting \"company.address\" is longer than 300 characters"
+    }
+  },
+  "exactly 300": {
+    "status": 200,
+    "answer": {
+      "settings": [
+        {
+          "key": "portal.name",
+          "group": "portal",
+          "label": "Portal name",
+          "description": "Name used in email sender names, welcome emails, signup metadata and support tickets.",
+          "defaultValue": "Ops Portal",
+          "envFallback": "PORTAL_NAME",
+          "value": "Test Portal",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "email.noReplyFrom",
+          "group": "email",
+          "label": "No-reply sender address",
+          "description": "From address of automated emails (confirmations, invoices, ...).",
+          "defaultValue": "",
+          "envFallback": "NO_REPLY_FROM_EMAIL",
+          "value": "no-reply@example.test",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "email.assignmentFrom",
+          "group": "email",
+          "label": "Assignment email sender address",
+          "description": "From address of the jobseeker assignment and removal emails. Falls back to the no-reply address.",
+          "defaultValue": "",
+          "envFallback": "ASSIGNMENT_FROM_EMAIL",
+          "value": "assignments@example.test",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "email.defaultFrom",
+          "group": "email",
+          "label": "Default sender address",
+          "description": "Used when no other sender address is set.",
+          "defaultValue": "",
+          "envFallback": "DEFAULT_FROM_EMAIL",
+          "value": "no-reply@example.test",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "email.invoiceCc",
+          "group": "email",
+          "label": "Invoice email CC addresses",
+          "description": "Comma-separated addresses copied on every invoice email.",
+          "defaultValue": "",
+          "envFallback": "INVOICE_CC_EMAILS",
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "email.supportNotifyTo",
+          "group": "email",
+          "label": "Support ticket notification addresses",
+          "description": "Comma-separated addresses notified about support tickets. Empty means no notification.",
+          "defaultValue": "",
+          "envFallback": "SUPPORT_NOTIFY_TO",
+          "value": "support@example.test",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "email.supportNotifyCc",
+          "group": "email",
+          "label": "Support ticket notification CC",
+          "description": "Comma-separated addresses copied on support ticket notifications.",
+          "defaultValue": "",
+          "envFallback": "SUPPORT_NOTIFY_CC",
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "company.name",
+          "group": "company",
+          "label": "Company name",
+          "description": "Legal company name printed at the top of invoices.",
+          "defaultValue": "9084380 Canada Inc. O/A Motion Falcon Group",
+          "value": "Test Staffing Inc.",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "company.address",
+          "group": "company",
+          "label": "Address line 1",
+          "description": "Street address printed on invoices.",
+          "defaultValue": "240 Humberline Dr",
+          "value": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test Super Admin"
+        },
+        {
+          "key": "company.address2",
+          "group": "company",
+          "label": "Address line 2",
+          "description": "City, province and postal code printed on invoices.",
+          "defaultValue": "Etobicoke ON, M9W 5X1",
+          "value": "Etobicoke ON, M9W 5X1",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "company.taxNumber",
+          "group": "company",
+          "label": "Tax number",
+          "description": "GST/HST number printed on invoices, with its label.",
+          "defaultValue": "GST/HST No. 825183387",
+          "value": "GST/HST No. 825183387",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "branding.aiChatTitle",
+          "group": "branding",
+          "label": "AI chat page title",
+          "description": "Title shown on the AI chat page.",
+          "defaultValue": "Motion Falcon AI Chat",
+          "value": "Motion Falcon AI Chat",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "branding.brandName",
+          "group": "branding",
+          "label": "Brand name",
+          "description": "Short brand name used in headings, the browser tab title, dashboard subtitles, the AI chat and logo descriptions.",
+          "defaultValue": "Motion Falcon",
+          "public": true,
+          "value": "Motion Falcon",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "switcher.currentLogo",
+          "group": "switcher",
+          "label": "Portal switcher: this portal's icon",
+          "description": "Icon shown for this portal in the portal switcher: godspeed, canhire, allstaff or hdgroup. Leave empty (with no other portals below) to hide the switcher.",
+          "defaultValue": "",
+          "public": true,
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "switcher.options",
+          "group": "switcher",
+          "label": "Portal switcher: other portals",
+          "description": "One portal per line as: Name | https://address | icon (godspeed, canhire, allstaff or hdgroup). Leave empty to hide the switcher.",
+          "defaultValue": "",
+          "multiline": true,
+          "public": true,
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "access.staffEmailContains",
+          "group": "access",
+          "label": "Staff email: contains",
+          "description": "Comma-separated text. A sign-up or login whose email contains any of these (for example @company.com; end an entry with $ to match only the end of the email) is treated as staff (recruiter/admin side). Empty means nobody is recognised by email.",
+          "defaultValue": "",
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "access.staffEmailExcluded",
+          "group": "access",
+          "label": "Staff email: never staff",
+          "description": "Comma-separated exact emails that are never treated as staff.",
+          "defaultValue": "",
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "legal.companyName",
+          "group": "legal",
+          "label": "Legal company name",
+          "description": "Full company name at the top and in the contact block of the Privacy Policy and Terms of Service.",
+          "defaultValue": "Motion Falcon Group",
+          "public": true,
+          "value": "Test Staffing Inc.",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "legal.companyShortName",
+          "group": "legal",
+          "label": "Short company name",
+          "description": "Name used inside the sentences of the Privacy Policy and Terms of Service.",
+          "defaultValue": "Motion Falcon Group",
+          "public": true,
+          "value": "Motion Falcon Group",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "legal.contactAddress",
+          "group": "legal",
+          "label": "Contact address",
+          "description": "Address in the Contact section of the legal pages. Leave all three contact fields empty to hide the section.",
+          "defaultValue": "",
+          "public": true,
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "legal.contactEmail",
+          "group": "legal",
+          "label": "Contact email",
+          "description": "Email address in the Contact section of the legal pages.",
+          "defaultValue": "",
+          "public": true,
+          "value": "privacy@example.test",
+          "source": "database",
+          "updatedAt": "<timestamp>",
+          "updatedByName": "Test seed"
+        },
+        {
+          "key": "legal.contactPhone",
+          "group": "legal",
+          "label": "Contact phone",
+          "description": "Phone number in the Contact section of the legal pages.",
+          "defaultValue": "",
+          "public": true,
+          "value": "",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "training.video1",
+          "group": "training",
+          "label": "Training video 1 (YouTube ID)",
+          "description": "YouTube video ID of the first mandatory training module.",
+          "defaultValue": "3uXKmNbTZos",
+          "value": "3uXKmNbTZos",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        },
+        {
+          "key": "training.video2",
+          "group": "training",
+          "label": "Training video 2 (YouTube ID)",
+          "description": "YouTube video ID of the second mandatory training module.",
+          "defaultValue": "O615tiZ6eOk",
+          "value": "O615tiZ6eOk",
+          "source": "default",
+          "updatedAt": null,
+          "updatedByName": null
+        }
+      ],
+      "tableMissing": false,
+      "loadFailed": false
+    }
+  },
+  "no body": {
+    "status": 400,
+    "answer": {
+      "error": "`values` must be an object"
+    }
+  },
+  "no values": {
+    "status": 400,
+    "answer": {
+      "error": "`values` must be an object"
+    }
+  },
+  "values is text": {
+    "status": 400,
+    "answer": {
+      "error": "`values` must be an object"
+    }
+  },
+  "values is a list": {
+    "status": 400,
+    "answer": {
+      "error": "`values` must be an object"
+    }
+  },
+  "values is null": {
+    "status": 400,
+    "answer": {
+      "error": "`values` must be an object"
+    }
+  }
+}
