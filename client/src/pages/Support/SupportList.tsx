@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { getTickets } from "../../services/api/support";
 import { SupportTicket, SupportTicketStatus } from "../../types/support";
+import { EmptyState } from "../../components/EmptyState";
 import { Pagination } from "../../components/Pagination";
 import type { PaginationInfo } from "../../hooks/usePagination";
 import { SupportListTable } from "./SupportListTable";
@@ -193,38 +194,25 @@ export const SupportList: React.FC = () => {
               </p>
             </div>
           ) : tickets.length === 0 ? (
-            /* Friendly Empty State */
-            <div style={{ textAlign: "center", padding: "64px 20px" }}>
-              <LifeBuoy
-                size={48}
-                style={{ color: "var(--text-muted)", marginBottom: "16px" }}
-              />
-              <h3
-                style={{
-                  fontSize: "18px",
-                  marginBottom: "8px",
-                  color: "var(--text)",
-                }}
-              >
-                {t("support.emptyTitle")}
-              </h3>
-              <p
-                style={{
-                  color: "var(--text-muted)",
-                  maxWidth: "420px",
-                  margin: "0 auto 24px",
-                }}
-              >
-                {t("support.emptyDesc")}
-              </p>
-              <button
-                className="button primary button-icon support-raise-btn"
-                onClick={() => navigate("/support/new")}
-              >
-                <Plus size={16} />
-                <span>{t("support.raiseTicket")}</span>
-              </button>
-            </div>
+            <EmptyState
+              icon={
+                <LifeBuoy
+                  size={48}
+                  style={{ color: "var(--text-muted)", marginBottom: "16px" }}
+                />
+              }
+              title={t("support.emptyTitle")}
+              description={t("support.emptyDesc")}
+              action={
+                <button
+                  className="button primary button-icon support-raise-btn"
+                  onClick={() => navigate("/support/new")}
+                >
+                  <Plus size={16} />
+                  <span>{t("support.raiseTicket")}</span>
+                </button>
+              }
+            />
           ) : (
             <>
               <SupportListTable
