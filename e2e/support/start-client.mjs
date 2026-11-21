@@ -1,5 +1,7 @@
-// Starts the client (Vite dev server, source unchanged) for the browser journeys. Runs as its own process,
-// started by global-setup.ts with an explicit environment.
+// Starts the client for the browser journeys: the Vite dev server (the default, source unchanged), or with
+// E2E_CLIENT=build the production build (`vite build` into a temporary folder, then `vite preview`), which
+// splits chunks and orders the CSS like the deployed app. Runs as its own process, started by global-setup.ts
+// with an explicit environment.
 //
 // Local only, enforced like the test database (D1a): refuses with exit code 2 unless both addresses the
 // client will use (Supabase and the API) are localhost, 127.0.0.1 or ::1. The addresses come only from the
@@ -29,23 +31,50 @@ if (!Number.isInteger(port) || port < 1024) {
   process.exit(2);
 }
 
+const mode = process.env.E2E_CLIENT === "build" ? "build" : "dev";
+if (mode === "build") process.env.NODE_ENV = "production"; // vite build must not run as development
+
 const emptyEnvDir = mkdtempSync(path.join(os.tmpdir(), "portal-e2e-env-"));
 const requireFromClient = createRequire(path.join(CLIENT_DIR, "package.json"));
-const { createServer } = requireFromClient("vite");
+const vite = requireFromClient("vite");
 
-const server = await createServer({
-  root: CLIENT_DIR,
-  envDir: emptyEnvDir,
-  clearScreen: false,
-  server: { port, strictPort: true, host: "localhost", open: false },
-  // the app is served with the same defaults as `pnpm dev`; nothing else is changed
-});
-await server.listen();
-console.log(`client ready on http://localhost:${port}`);
+let server;
+let builtDir;
+if (mode === "build") {
+  // built outside the repo, so client/dist is never touched; the VITE_* variables come from this process
+  builtDir = mkdtempSync(path.join(os.tmpdir(), "portal-e2e-dist-"));
+  await vite.build({
+    root: CLIENT_DIR,
+    envDir: emptyEnvDir,
+    clearScreen: false,
+    logLevel: "warn",
+    build: { outDir: builtDir, emptyOutDir: true },
+  });
+  server = await vite.preview({
+    root: CLIENT_DIR,
+    envDir: emptyEnvDir,
+    clearScreen: false,
+    build: { outDir: builtDir },
+    preview: { port, strictPort: true, host: "localhost", open: false },
+  });
+  console.log(`client (built) ready on http://localhost:${port}`);
+} else {
+  server = await vite.createServer({
+    root: CLIENT_DIR,
+    envDir: emptyEnvDir,
+    clearScreen: false,
+    server: { port, strictPort: true, host: "localhost", open: false },
+    // the app is served with the same defaults as `pnpm dev`; nothing else is changed
+  });
+  await server.listen();
+  console.log(`client ready on http://localhost:${port}`);
+}
 
 async function stop() {
-  await server.close();
+  if (mode === "build") await new Promise((r) => server.httpServer.close(r));
+  else await server.close();
   rmSync(emptyEnvDir, { recursive: true, force: true });
+  if (builtDir) rmSync(builtDir, { recursive: true, force: true });
   process.exit(0);
 }
 process.on("SIGTERM", stop);

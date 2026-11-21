@@ -46,7 +46,8 @@ async function startClient(env: Record<string, string>, url: string) {
   child.stdout?.on("data", (d) => (output += d));
   child.stderr?.on("data", (d) => (output += d));
   child.on("exit", () => (exited = true));
-  const deadline = Date.now() + 90_000;
+  const built = env.E2E_CLIENT === "build"; // the build runs before the server answers
+  const deadline = Date.now() + (built ? 240_000 : 90_000);
   for (;;) {
     if (exited)
       throw new Error(`the client stopped while starting:\n${output}`);
@@ -57,12 +58,12 @@ async function startClient(env: Record<string, string>, url: string) {
     }
     if (Date.now() > deadline) {
       child.kill();
-      throw new Error(`the client did not start in 90 s:\n${output}`);
+      throw new Error(`the client did not start in time:\n${output}`);
     }
     await new Promise((r) => setTimeout(r, 200));
   }
   // Vite compiles on first request; load the entry once so the first journey does not pay for it
-  await fetch(`${url}/src/main.tsx`).catch(() => undefined);
+  if (!built) await fetch(`${url}/src/main.tsx`).catch(() => undefined);
   return async () => {
     if (!exited) {
       child.kill("SIGTERM");
@@ -107,6 +108,8 @@ export default async function globalSetup() {
     HOME: process.env.HOME ?? "",
     TMPDIR: process.env.TMPDIR ?? "",
     NODE_ENV: "development",
+    // E2E_CLIENT=build runs the journeys on the production build (vite build + preview); the default is the dev server
+    E2E_CLIENT: process.env.E2E_CLIENT === "build" ? "build" : "dev",
     E2E_CLIENT_PORT: String(clientPort),
     VITE_SUPABASE_URL: stack.apiUrl,
     VITE_SUPABASE_ANON_KEY: stack.anonKey,
