@@ -11,8 +11,10 @@ export interface DocumentRecord {
   aiValidation?: AIValidationResponse | null;
 }
 
-// Interface for the AI validation response
-interface AIValidationResponse {
+// The AI service's answer for one document: a finished check (score and flags) or "not checked"
+// (the check failed: no score and no flags, only a reason; see utils/aiValidation.ts)
+export interface AIValidationChecked {
+  check_status?: "checked";
   document_authentication_percentage: number;
   is_tampered: boolean;
   is_blurry: boolean;
@@ -21,6 +23,14 @@ interface AIValidationResponse {
   notes: string;
   document_status?: string;
 }
+
+export interface AIValidationNotChecked {
+  check_status: "not_checked";
+  not_checked_reason?: string;
+  document_status?: string;
+}
+
+export type AIValidationResponse = AIValidationChecked | AIValidationNotChecked;
 
 export interface JobSeekerProfile {
   id: string;

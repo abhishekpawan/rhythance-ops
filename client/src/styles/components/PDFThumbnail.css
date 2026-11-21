@@ -154,3 +154,9 @@
     height: 150px;
   }
 }  */
+/* An uploaded image (PNG, JPG) shown in the same card as a PDF's first page */
+.image-document-thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

@@ -33,9 +33,9 @@
 942 client/src/pages/InvoiceManagement/InvoiceList.tsx
 3720 client/src/pages/InvoiceManagement/InvoiceManagement.tsx
 749 client/src/pages/InvoiceManagement/InvoiceView.tsx
-952 client/src/pages/JobseekerManagement/JobSeekerManagement.tsx
+928 client/src/pages/JobseekerManagement/JobSeekerManagement.tsx
 694 client/src/pages/JobseekerManagement/JobSeekerPositions.tsx
-2785 client/src/pages/JobseekerManagement/JobSeekerProfile.tsx
+2611 client/src/pages/JobseekerManagement/JobSeekerProfile.tsx
 716 client/src/pages/JobseekerManagement/SinWorkPermitManagement.tsx
 322 client/src/pages/JobseekerProfile/AddressQualificationsForm.tsx
 361 client/src/pages/JobseekerProfile/CompensationForm.tsx
@@ -101,7 +101,7 @@
 2108 server/src/routes/consent.ts
 365 server/src/routes/emailTemplates.ts
 1623 server/src/routes/invoices.ts
-2771 server/src/routes/jobseekers.ts
+2766 server/src/routes/jobseekers.ts
 998 server/src/routes/positionDrafts.ts
 3091 server/src/routes/positions.ts
 986 server/src/routes/profile.ts

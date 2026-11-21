@@ -17,6 +17,7 @@ import {
 import { getTodayInCanada, addDaysToDateStr } from "../utils/dateUtils.js";
 import { isFeatureEnabled } from "../services/featureFlags.js";
 import { sendDocumentsToAiCheck } from "../services/aiVerification.js";
+import { validationByDocument } from "../utils/documentValidation.js";
 
 dotenv.config();
 
@@ -32,14 +33,17 @@ interface DocumentRecord {
   aiValidation?: AIValidationResponse | null;
 }
 
-// Interface for the AI validation response
+// Interface for the AI validation response. A check that failed is stored as `check_status: "not_checked"` with
+// a reason and none of the other fields (godspeed-ops-ai `NotChecked`); the portal shows it as "not checked".
 interface AIValidationResponse {
-  document_authentication_percentage: number;
-  is_tampered: boolean;
-  is_blurry: boolean;
-  is_text_clear: boolean;
-  is_resubmission_required: boolean;
-  notes: string;
+  check_status?: "checked" | "not_checked";
+  not_checked_reason?: string;
+  document_authentication_percentage?: number;
+  is_tampered?: boolean;
+  is_blurry?: boolean;
+  is_text_clear?: boolean;
+  is_resubmission_required?: boolean;
+  notes?: string;
   document_status?: string;
 }
 
@@ -856,17 +860,8 @@ router.get("/profile/:id", async (req, res) => {
           console.error("Error fetching AI validation data:", aiError);
           // Don't fail the whole request if we can't get validation data
         } else if (aiValidations && aiValidations.length > 0) {
-          // Create a map of document_id to validation data for quick lookup
-          const validationMap = aiValidations.reduce(
-            (map, validation) => {
-              map[validation.document_id] = {
-                ...validation.ai_response,
-                document_status: validation.document_status,
-              };
-              return map;
-            },
-            {} as { [key: string]: any }
-          );
+          // document_id -> its current answer; rows of documents no longer on the profile (inactive) are left out
+          const validationMap = validationByDocument(aiValidations);
 
           // Update documents with validation data where available
           formattedProfile.documents = formattedProfile.documents.map(

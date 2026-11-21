@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { isImageDocument } from "../utils/documentKind";
 import { Document, Page } from "react-pdf";
 import { pdfDocumentOptions } from "../utils/pdfViewer";
 import { X } from "lucide-react";
@@ -10,18 +11,6 @@ interface PDFViewerModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-// Helper function to check if a URL or filename is an image
-const isImageUrl = (url: string | null | undefined): boolean => {
-  if (!url) return false;
-
-  // Check by file extension (handle URLs with query params)
-  const cleanUrl = url.toLowerCase().split("?")[0].split("#")[0];
-  const extension = cleanUrl.split(".").pop();
-  const imageExtensions = ["jpg", "jpeg", "png"];
-
-  return imageExtensions.includes(extension || "");
-};
 
 const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
   pdfUrl,
@@ -38,7 +27,8 @@ const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const [isImage, setIsImage] = useState<boolean>(false);
+  // Worked out on every render, so a PNG never reaches the PDF viewer (and a PDF opened after a PNG never the image tag)
+  const isImage = isImageDocument(pdfUrl) || isImageDocument(documentName);
 
   // Effect to listen for window resize
   useEffect(() => {
@@ -53,24 +43,15 @@ const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Reset to first page whenever a new PDF is loaded and detect if it's an image
+  // Reset to first page whenever a new file is opened
   useEffect(() => {
     if (pdfUrl) {
       setPageNumber(1);
-      setLoading(true);
       setError(null);
-
-      // Detect if the URL is an image or check document name
-      const urlIsImage = isImageUrl(pdfUrl) || isImageUrl(documentName);
-      setIsImage(urlIsImage);
-
-      // If it's an image, set loading to false immediately
-      if (urlIsImage) {
-        // Give a small delay for the image to load
-        setTimeout(() => setLoading(false), 100);
-      }
+      // A PDF reports when it is ready through <Document>, an image through its own onLoad
+      if (!isImage) setLoading(true);
     }
-  }, [pdfUrl, documentName]);
+  }, [pdfUrl, documentName, isImage]);
 
   // Function to handle successful document loading
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
@@ -193,11 +174,11 @@ const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
             </Document>
           )}
 
-          {pdfUrl && isImage && !loading && (
+          {pdfUrl && isImage && (
             <div
               className="image-viewer-container"
               style={{
-                display: "flex",
+                display: loading ? "none" : "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 overflow: "auto",

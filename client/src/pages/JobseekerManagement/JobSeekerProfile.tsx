@@ -15,8 +15,6 @@ import {
   Trash2,
   Pencil,
   AlertCircle,
-  CheckSquare,
-  Shield,
   CircleAlert,
   AlertTriangle,
   RefreshCw,
@@ -36,12 +34,14 @@ import {
 } from "../../services/api/jobseeker";
 import { hasAnyExactAccessRole } from "../../lib/auth";
 import { DocumentRecord } from "../../types/jobseeker";
+import { documentNeedsAttention } from "../../utils/aiValidation";
 import { supabase } from "../../lib/supabaseClient";
 import {
   isHybridPaymentMethod,
   profileUsesCashDeductionField,
 } from "../../lib/hybridPayrollSplit";
-import PDFThumbnail from "../../components/PDFThumbnail";
+import DocumentThumbnail from "../../components/DocumentThumbnail";
+import DocumentValidation from "./DocumentValidation";
 import PDFViewerModal from "../../components/PDFViewerModal";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { AppHeader } from "../../components/AppHeader";
@@ -156,16 +156,7 @@ const profileNeedsAttention = (
   // Check if profile has documents with AI validation issues
   if (!profile.documents || profile.documents.length === 0) return false;
 
-  return profile.documents.some((doc) => {
-    if (!doc.aiValidation) return false;
-
-    return (
-      doc.aiValidation.is_tampered === true ||
-      doc.aiValidation.is_blurry === true ||
-      doc.aiValidation.is_text_clear === false ||
-      doc.aiValidation.is_resubmission_required === true
-    );
-  });
+  return profile.documents.some(documentNeedsAttention);
 };
 
 // Helper function to calculate days until SIN expiry
@@ -1037,12 +1028,6 @@ export function JobSeekerProfile() {
   };
 
   // Helper function to get score color class based on percentage
-  const getScoreColorClass = (percentage: number): string => {
-    if (percentage >= 80) return "success";
-    if (percentage >= 40) return "pending";
-    return "failure";
-  };
-
   const renderRejectionReason = () => {
     // Show rejection reason if it exists, regardless of current status
     // This allows recruiters to see why a profile was previously rejected, even if it's now pending
@@ -1713,9 +1698,6 @@ export function JobSeekerProfile() {
             <div className="document-list">
               {(profile.documents || []).map(
                 (doc: DocumentRecord, index: number) => {
-                  const scoreClass = getScoreColorClass(
-                    doc.aiValidation?.document_authentication_percentage || 0
-                  );
                   return (
                     <div key={doc.id || index} className="document-item">
                       <div className="document-content">
@@ -1787,175 +1769,19 @@ export function JobSeekerProfile() {
                           </div>
                         </div>
 
-                        {/* AI Document Validation - Now with consistent data from cache */}
-                        <div className="document-validation">
-                          <div className="validation-header">
-                            <Shield size={16} />
-                            <h3>
-                              {t("jobSeekerProfile.aiDocumentValidation")}
-                            </h3>
-                          </div>
-
-                          {doc.aiValidation === null ? (
-                            // Fallback UI when AI validation is null/in progress
-                            <div className="validation-in-progress">
-                              <div className="validation-loading">
-                                <div className="validation-spinner">
-                                  <div className="validation-spinner-inner"></div>
-                                </div>
-                              </div>
-                              <h4 className="validation-progress-title">
-                                {t("jobSeekerProfile.aiValidationInProgress")}
-                              </h4>
-                              <p className="validation-progress-message">
-                                {t(
-                                  "jobSeekerProfile.aiValidationInProgressMessage"
-                                )}
-                              </p>
-                              <p className="validation-progress-note">
-                                {t(
-                                  "jobSeekerProfile.aiValidationInProgressNote"
-                                )}
-                              </p>
-                            </div>
-                          ) : (
-                            // Regular UI when AI validation data is available
-                            <>
-                              <div className="authentication-score">
-                                <div className="score-gauge">
-                                  <div
-                                    className={`score-fill ${scoreClass}`}
-                                    style={{
-                                      width: `${doc.aiValidation?.document_authentication_percentage}%`,
-                                    }}
-                                  ></div>
-                                  <span className="score-value">
-                                    {
-                                      doc.aiValidation
-                                        ?.document_authentication_percentage
-                                    }
-                                    %
-                                  </span>
-                                </div>
-                                <span className="score-label">
-                                  {t("jobSeekerProfile.authenticationScore")}
-                                </span>
-                              </div>
-
-                              <div className="validation-status-list">
-                                <div
-                                  className={`validation-status-item ${
-                                    !doc.aiValidation?.is_tampered
-                                      ? "valid"
-                                      : "invalid"
-                                  }`}
-                                >
-                                  {!doc.aiValidation?.is_tampered ? (
-                                    <CheckSquare size={16} />
-                                  ) : (
-                                    <CircleAlert size={16} />
-                                  )}
-                                  <span>
-                                    {!doc.aiValidation?.is_tampered
-                                      ? t("jobSeekerProfile.notTampered")
-                                      : t("jobSeekerProfile.tampered")}
-                                  </span>
-                                </div>
-                                <div
-                                  className={`validation-status-item ${
-                                    !doc.aiValidation?.is_blurry
-                                      ? "valid"
-                                      : "invalid"
-                                  }`}
-                                >
-                                  {!doc.aiValidation?.is_blurry ? (
-                                    <CheckSquare size={16} />
-                                  ) : (
-                                    <CircleAlert size={16} />
-                                  )}
-                                  <span>
-                                    {!doc.aiValidation?.is_blurry
-                                      ? t("jobSeekerProfile.notBlurry")
-                                      : t("jobSeekerProfile.blurry")}
-                                  </span>
-                                </div>
-                                <div
-                                  className={`validation-status-item ${
-                                    doc.aiValidation?.is_text_clear
-                                      ? "valid"
-                                      : "invalid"
-                                  }`}
-                                >
-                                  {doc.aiValidation?.is_text_clear ? (
-                                    <CheckSquare size={16} />
-                                  ) : (
-                                    <CircleAlert size={16} />
-                                  )}
-                                  <span>
-                                    {doc.aiValidation?.is_text_clear
-                                      ? t("jobSeekerProfile.textClear")
-                                      : t("jobSeekerProfile.textUnclear")}
-                                  </span>
-                                </div>
-                                <div
-                                  className={`validation-status-item ${
-                                    !doc.aiValidation?.is_resubmission_required
-                                      ? "valid"
-                                      : "invalid"
-                                  }`}
-                                >
-                                  {!doc.aiValidation
-                                    ?.is_resubmission_required ? (
-                                    <CheckSquare size={16} />
-                                  ) : (
-                                    <CircleAlert size={16} />
-                                  )}
-                                  <span>
-                                    {!doc.aiValidation?.is_resubmission_required
-                                      ? t(
-                                          "jobSeekerProfile.noResubmissionRequired"
-                                        )
-                                      : t(
-                                          "jobSeekerProfile.resubmissionRequired"
-                                        )}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="validation-notes">
-                                <div className="validation-notes-header">
-                                  <AlertCircle size={14} />
-                                  <span>
-                                    {t("jobSeekerProfile.aiAnalysisNotes")}
-                                  </span>
-                                </div>
-                                <p
-                                  className={`validation-notes-content ${
-                                    expandedNotesIds.has(doc.id || "")
-                                      ? "expanded"
-                                      : ""
-                                  }`}
-                                >
-                                  {doc.aiValidation?.notes}
-                                </p>
-                                <button
-                                  className="toggle-notes-btn"
-                                  onClick={() => toggleNotes(doc.id)}
-                                >
-                                  {expandedNotesIds.has(doc.id || "")
-                                    ? t("jobSeekerProfile.showLess")
-                                    : t("jobSeekerProfile.showFullNotes")}
-                                </button>
-                              </div>
-                            </>
-                          )}
-                        </div>
+                        <DocumentValidation
+                          validation={doc.aiValidation}
+                          notesExpanded={expandedNotesIds.has(doc.id || "")}
+                          onToggleNotes={() => toggleNotes(doc.id)}
+                        />
                       </div>
 
                       <div className="document-preview">
                         {doc.documentPath ? (
-                          <PDFThumbnail
-                            pdfUrl={pdfCache[doc.documentPath] || null}
+                          <DocumentThumbnail
+                            url={pdfCache[doc.documentPath] || null}
+                            fileName={doc.documentFileName}
+                            filePath={doc.documentPath}
                             onClick={() =>
                               handlePreviewDocument(
                                 doc.documentPath,

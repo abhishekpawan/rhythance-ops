@@ -23,6 +23,11 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// "Documents scanned" counts finished checks only: a check that failed is stored (when the AI service keeps
+// those) as ai_response.check_status = "not_checked" and has not scanned anything.
+const CHECKED_DOCUMENTS =
+  "ai_response->>check_status.is.null,ai_response->>check_status.neq.not_checked";
+
 interface PositionRow {
   id: string;
   number_of_positions: number | null;
@@ -113,7 +118,8 @@ router.get(
       // Get total documents scanned by AI from ai_validation table
       const { count: documentsScanned, error: documentsError } = await supabase
         .from("ai_validation")
-        .select("*", { count: "exact", head: true });
+        .select("*", { count: "exact", head: true })
+        .or(CHECKED_DOCUMENTS);
 
       if (documentsError) {
         console.error("Error fetching AI validation data:", documentsError);
@@ -176,7 +182,8 @@ router.get(
       // stay at zero and the card shows "N/A" for the trend instead of a made-up one.
       const { count: totalDocumentsScanned, error: documentsError } = await supabase
         .from("ai_validation")
-        .select("*", { count: "exact", head: true });
+        .select("*", { count: "exact", head: true })
+        .or(CHECKED_DOCUMENTS);
 
       if (documentsError) {
         console.error("Error fetching AI validation data:", documentsError);

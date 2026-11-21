@@ -19,7 +19,8 @@ import {
   getJobseekerProfiles,
   deleteJobseeker,
 } from "../../services/api/jobseeker";
-import { JobSeekerProfile } from "../../types/jobseeker";
+import { DocumentRecord, JobSeekerProfile } from "../../types/jobseeker";
+import { documentNeedsAttention } from "../../utils/aiValidation";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { AppHeader } from "../../components/AppHeader";
 import { EXPERIENCE_LEVELS } from "../../constants/formOptions";
@@ -35,23 +36,7 @@ import "../../styles/components/CommonTable.css";
 // Extend the JobSeekerProfile type to include documents
 interface ExtendedJobSeekerProfile extends JobSeekerProfile {
   employeeId?: string;
-  documents?: Array<{
-    id?: string;
-    documentType: string;
-    documentPath?: string;
-    documentTitle?: string;
-    documentFileName?: string;
-    documentNotes?: string;
-    aiValidation?: {
-      document_authentication_percentage: number;
-      is_tampered: boolean;
-      is_blurry: boolean;
-      is_text_clear: boolean;
-      is_resubmission_required: boolean;
-      notes: string;
-      document_status?: string;
-    } | null;
-  }>;
+  documents?: DocumentRecord[];
 }
 
 interface PaginationInfo {
@@ -229,16 +214,7 @@ export function JobSeekerManagement() {
     // Check if profile has documents with AI validation issues
     if (!profile.documents || profile.documents.length === 0) return false;
 
-    return profile.documents.some((doc) => {
-      if (!doc.aiValidation) return false;
-
-      return (
-        doc.aiValidation.is_tampered === true ||
-        doc.aiValidation.is_blurry === true ||
-        doc.aiValidation.is_text_clear === false ||
-        doc.aiValidation.is_resubmission_required === true
-      );
-    });
+    return profile.documents.some(documentNeedsAttention);
   };
 
   // Get the effective status for display (including the 'need attention' status)
