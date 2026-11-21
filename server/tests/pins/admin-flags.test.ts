@@ -85,6 +85,16 @@ describe("GET /api/feature-flags/admin", () => {
   it("only the super admin sees the registry; the plain admin and everyone else get 403", async () => {
     const m = await matrix("/api/feature-flags/admin", [SUPER]);
     expect(Object.keys(m.refused).sort()).toEqual([...NOT_SUPER].sort());
+    // The seeded row of staff_two_factor_enforced is rewritten by other test files (staff-data-api-session switches it
+    // on and puts it back off), which leaves its "changed by" empty: who changed it last depends on the files that
+    // ran before this one. Its on/off value and source stay in the stored answer; who and when do not.
+    for (const flag of (m.answer.answer as any).flags) {
+      if (flag.key === SEEDED_FLAG) {
+        expect([flag.source, flag.enabled]).toEqual(["override", false]);
+        flag.updatedByName = "<whoever changed it last>";
+        flag.updatedAt = "<when>";
+      }
+    }
     await pin(FLAGS, 3, "admin registry by role", m);
   });
   it("no token is 401, a bad token 403", async () => {

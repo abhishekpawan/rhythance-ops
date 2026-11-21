@@ -193,8 +193,8 @@
           "settingValues": [],
           "enabled": false,
           "source": "override",
-          "updatedAt": "<timestamp>",
-          "updatedByName": "Test seed"
+          "updatedAt": "<when>",
+          "updatedByName": "<whoever changed it last>"
         }
       ],
       "tableMissing": false,
