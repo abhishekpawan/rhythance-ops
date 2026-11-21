@@ -8,6 +8,9 @@ import { expect, test } from "../support/fixtures";
 test.use({ storageState: ".auth/admin.json" });
 
 const PUBLIC_SETTINGS = "/api/portal-settings/public";
+// Asked on start and again after sign-in. The client keeps GET answers for a minute, so whether the second
+// one reaches the network depends on whether the first answer has arrived yet: 1 or 2 on the same code.
+const PUBLIC_SETTINGS_AT_MOST = 2;
 
 /**
  * The pages and what each endpoint is asked, per load. Before the language provider's `t` was memoised
@@ -22,20 +25,19 @@ const PAGES = [
     ready: ".dashboard-heading",
     asked: {
       "/api/metrics/jobseekers/expiry-status-counts": 1,
-      [PUBLIC_SETTINGS]: 2,
     },
   },
   {
     name: "Recruiter hierarchy",
     route: "/recruiter-hierarchy",
     ready: ".recruiter-hierarchy .dashboard-heading",
-    asked: { "/api/users": 2, [PUBLIC_SETTINGS]: 2 },
+    asked: { "/api/users": 2 },
   },
   {
     name: "All users",
     route: "/all-users-management",
     ready: "table",
-    asked: { "/api/users": 3, [PUBLIC_SETTINGS]: 2 },
+    asked: { "/api/users": 3 },
   },
 ];
 
@@ -63,5 +65,9 @@ for (const { name, route, ready, asked } of PAGES) {
     expect(
       Object.fromEntries(wanted.map((path) => [path, counts[path] ?? 0]))
     ).toEqual(asked);
+    expect(counts[PUBLIC_SETTINGS] ?? 0).toBeGreaterThanOrEqual(1);
+    expect(counts[PUBLIC_SETTINGS] ?? 0).toBeLessThanOrEqual(
+      PUBLIC_SETTINGS_AT_MOST
+    );
   });
 }

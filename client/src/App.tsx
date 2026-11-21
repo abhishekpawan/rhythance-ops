@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,83 +17,34 @@ import {
   RoleRoute,
   SuperAdminRoute,
 } from "./components/ProtectedRoute";
-import { Signup } from "./pages/Authentication/Signup";
 import { Login } from "./pages/Authentication/Login";
-import { VerificationPending } from "./pages/Authentication/VerificationPending";
-import { EmailConfirmed } from "./pages/Authentication/EmailConfirmed";
-import { CompleteSignup } from "./pages/Authentication/CompleteSignup";
-import { ProfileVerificationPending } from "./pages/JobseekerManagement/ProfileVerificationPending";
-import { ProfileVerificationRejected } from "./pages/JobseekerManagement/ProfileVerificationRejected";
-import { ForgotPassword } from "./pages/Authentication/ForgotPassword";
 import { ResetPassword } from "./pages/Authentication/ResetPassword";
-import { ProfileCreate } from "./pages/JobseekerProfile/ProfileCreate";
-import { ProfileAccountCreated } from "./pages/JobseekerProfile/ProfileAccountCreated";
-import { ProfileSuccess } from "./pages/JobseekerProfile/ProfileSuccess";
-import { JobSeekerProfile } from "./pages/JobseekerManagement/JobSeekerProfile";
 import { GeometricShapes } from "./components/GeometricShapes";
-import { ProfileEdit } from "./pages/JobseekerProfile/ProfileEdit";
-import { ClientCreate } from "./pages/ClientManagement/ClientCreate";
-import { ClientEdit } from "./pages/ClientManagement/ClientEdit";
-import { ClientDrafts } from "./pages/ClientManagement/ClientDrafts";
-import { ClientDraftEdit } from "./pages/ClientManagement/ClientDraftEdit";
-import { ClientView } from "./pages/ClientManagement/ClientView";
-import { JobSeekerManagement } from "./pages/JobseekerManagement/JobSeekerManagement";
-import { SinWorkPermitManagement } from "./pages/JobseekerManagement/SinWorkPermitManagement";
-import { PositionManagement } from "./pages/PositionManagement/PositionManagement";
-import { PositionCreate } from "./pages/PositionManagement/PositionCreate";
-import { PositionEdit } from "./pages/PositionManagement/PositionEdit";
-import { PositionDrafts } from "./pages/PositionManagement/PositionDrafts";
-import { PositionDraftEdit } from "./pages/PositionManagement/PositionDraftEdit";
-import { PositionView } from "./pages/PositionManagement/PositionView";
-import { PositionMatching } from "./pages/PositionManagement/PositionMatching";
-import { JobseekerDrafts } from "./pages/JobseekerProfile/JobseekerDrafts";
-import { JobseekerProfileDraftEdit } from "./pages/JobseekerProfile/JobseekerProfileDraftEdit";
-import { TrainingModules } from "./pages/TrainingModules";
-import { UserProfile } from "./pages/UserProfile";
-import { JobSeekerPositions } from "./pages/JobseekerManagement/JobSeekerPositions";
-import { TimesheetManagement } from "./pages/TimesheetManagement/TimesheetManagement";
-import { TimesheetView } from "./pages/TimesheetManagement/TimesheetView";
 import { TwoFactorAuth } from "./pages/Authentication/TwoFactorAuth";
-import { ClientManagement } from "./pages/ClientManagement/ClientManagement";
-import { InvoiceManagement } from "./pages/InvoiceManagement/InvoiceManagement";
-import { InvoiceList } from "./pages/InvoiceManagement/InvoiceList";
-import { InvoiceView } from "./pages/InvoiceManagement/InvoiceView";
-import { AllUsersManagement } from "./pages/AllUsersManagement";
-import { Reports } from "./pages/Reports/Reports";
-import { WeeklyTimesheet } from "./pages/Reports/WeeklyTimesheet";
-import { MarginReport } from "./pages/Reports/MarginReport";
-import { RateList } from "./pages/Reports/RateList";
-import { DeductionReport } from "./pages/Reports/DeductionReport";
-import { InvoiceReport } from "./pages/Reports/InvoiceReport";
-import { ClientsReport } from "./pages/Reports/ClientsReport";
-import { SalesReport } from "./pages/Reports/SalesReport";
-import { EnvelopePrintingReport } from "./pages/Reports/EnvelopePrintingReport";
-import { EnvelopePrintingByDueDateReport } from "./pages/Reports/EnvelopePrintingByDueDateReport";
+import {
+  Signup, VerificationPending, EmailConfirmed, CompleteSignup,
+  ProfileVerificationPending, ProfileVerificationRejected, ForgotPassword,
+  ProfileCreate, ProfileAccountCreated, ProfileSuccess, JobSeekerProfile,
+  ProfileEdit, ClientCreate, ClientEdit, ClientDrafts, ClientDraftEdit,
+  ClientView, JobSeekerManagement, SinWorkPermitManagement,
+  PositionManagement, PositionCreate, PositionEdit, PositionDrafts,
+  PositionDraftEdit, PositionView, PositionMatching, JobseekerDrafts,
+  JobseekerProfileDraftEdit, TrainingModules, UserProfile,
+  JobSeekerPositions, TimesheetManagement, TimesheetView, ClientManagement,
+  InvoiceManagement, InvoiceList, InvoiceView, AllUsersManagement, Reports,
+  WeeklyTimesheet, MarginReport, RateList, DeductionReport, InvoiceReport,
+  ClientsReport, SalesReport, EnvelopePrintingReport,
+  EnvelopePrintingByDueDateReport, Dashboard, BulkTimesheetManagement,
+  BulkTimesheetJobseekerManagement, TimesheetList, GodspeedAIChat,
+  RecruiterHierarchy, InviteRecruiter, DropdownOptionsManagement,
+  CalendarPage, ConsentListPage, CreateConsentPage, ConsentDetailPage,
+  ConsentTemplatePage, EmailTemplatePreviewPage, FeatureFlagsPage,
+  PortalSettingsPage, OnboardingConsent, TermsOfService, PrivacyPolicy,
+  SupportList, SupportNew, SupportTicketPage
+} from "./routes/lazyPages";
 import { LanguageProvider } from "./contexts/language/language-provider";
 import "./styles/main.css";
-import { Dashboard } from "./pages/Dashboard/Dashboard";
-import { BulkTimesheetManagement } from "./pages/TimesheetManagement/BulkTimesheetManagement";
-import { BulkTimesheetJobseekerManagement } from "./pages/TimesheetManagement/BulkTimesheetJobseekerManagement";
-import { TimesheetList } from "./pages/TimesheetManagement/TimesheetList";
-import { GodspeedAIChat } from "./pages/GodspeedAIChat";
-import { RecruiterHierarchy } from "./pages/RecruiterHierarchy";
-import { InviteRecruiter } from "./pages/RecruiterManagement/InviteRecruiter";
-import { DropdownOptionsManagement } from "./pages/Admin/DropdownOptionsManagement";
-import { CalendarPage } from "./pages/Calendar/CalendarPage";
-import { ConsentListPage } from "./pages/Consent/ConsentListPage";
-import { CreateConsentPage } from "./pages/Consent/CreateConsentPage";
-import { ConsentDetailPage } from "./pages/Consent/ConsentDetailPage";
-import { ConsentTemplatePage } from "./pages/Consent/ConsentTemplatePage";
-import { EmailTemplatePreviewPage } from "./pages/EmailTemplatePreview/EmailTemplatePreviewPage";
-import { FeatureFlagsPage } from "./pages/Admin/FeatureFlagsPage";
-import { PortalSettingsPage } from "./pages/Admin/PortalSettingsPage";
 import { ConsentPage } from "./pages/Consent/ConsentPage";
-import { OnboardingConsent } from "./pages/Consent/OnboardingConsent";
-import { TermsOfService } from "./pages/Legal/TermsOfService";
-import { PrivacyPolicy } from "./pages/Legal/PrivacyPolicy";
-import { SupportList } from "./pages/Support/SupportList";
-import { SupportNew } from "./pages/Support/SupportNew";
-import { SupportTicketPage } from "./pages/Support/SupportTicket";
 import {
   AI_CHAT_ROLES,
   ALL_USERS_ROLES,
@@ -130,6 +82,13 @@ function App() {
             <PortalSettingsProvider>
           <Router>
             <GeometricShapes />
+            <Suspense
+              fallback={
+                <div className="flex h-screen w-screen items-center justify-center">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                </div>
+              }
+            >
             <Routes>
               {/* Public routes */}
               <Route element={<PublicRoute />}>
@@ -537,6 +496,7 @@ function App() {
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
+            </Suspense>
           </Router>
             </PortalSettingsProvider>
           </FeatureFlagsProvider>
