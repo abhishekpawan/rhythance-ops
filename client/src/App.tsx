@@ -10,6 +10,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { FeatureFlagsProvider } from "./contexts/FeatureFlagsContext";
 import { PortalSettingsProvider } from "./contexts/PortalSettingsContext";
 import { FeatureGate } from "./components/FeatureGate";
+import { PageLoader } from "./components/PageLoader";
 import {
   ProtectedRoute,
   PublicRoute,
@@ -80,15 +81,10 @@ function App() {
         <AuthProvider>
           <FeatureFlagsProvider>
             <PortalSettingsProvider>
-          <Router>
+          {/* v7_startTransition: a page that is not downloaded yet keeps the page on screen until it is ready */}
+          <Router future={{ v7_startTransition: true }}>
             <GeometricShapes />
-            <Suspense
-              fallback={
-                <div className="flex h-screen w-screen items-center justify-center">
-                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-                </div>
-              }
-            >
+            <Suspense fallback={<PageLoader />}>
             <Routes>
               {/* Public routes */}
               <Route element={<PublicRoute />}>

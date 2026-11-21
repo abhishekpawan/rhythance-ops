@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +29,17 @@ export const SupportNew: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Stable between renders: the uploader reports its files from an effect that depends on this function, so a new
+  // function on every render made the two re-render each other without end (which kept the page busy, and with the
+  // router's start-transition kept the next page from ever replacing this one).
+  const onAttachmentsChange = useCallback((atts: PendingAttachmentUpload[]) => {
+    setAttachments(atts);
+    if (atts.length > 0) {
+      setAttachmentError(null);
+      setSubmitError(null);
+    }
+  }, []);
 
   const {
     register,
@@ -182,13 +193,7 @@ export const SupportNew: React.FC = () => {
                 <span>{t("support.new.screenshotsOrFiles")}</span>
               </h2>
               <SupportAttachmentUploader
-                onAttachmentsChange={(atts) => {
-                  setAttachments(atts);
-                  if (atts.length > 0) {
-                    setAttachmentError(null);
-                    setSubmitError(null);
-                  }
-                }}
+                onAttachmentsChange={onAttachmentsChange}
                 onUploadingChange={setIsUploading}
                 disabled={submitting}
               />

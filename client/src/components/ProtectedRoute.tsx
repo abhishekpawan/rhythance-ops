@@ -179,6 +179,7 @@ export const JobSeekerRoute = () => {
 
 export const PublicRoute = () => {
   const { isAuthenticated, isLoading, user } = useAuth();
+  const location = useLocation();
 
   if (isLoading) {
     return (
@@ -190,7 +191,9 @@ export const PublicRoute = () => {
 
   const onboardingIncomplete = (user?.user_metadata as any)?.onboarding_complete === false;
 
-  if (isAuthenticated && !onboardingIncomplete) {
+  // a navigation that is still waiting for its page (router v7_startTransition) is not interrupted by this redirect
+  const navigationPending = window.location.pathname !== location.pathname;
+  if (isAuthenticated && !onboardingIncomplete && !navigationPending) {
     return <Navigate to="/dashboard" replace />;
   }
 
