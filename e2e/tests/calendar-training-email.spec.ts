@@ -109,12 +109,12 @@ for (const language of ["en", "fr"] as const) {
             snap(`email-${id}`, language)
           );
         };
-        // the page opens on the first template (a Supabase one, drawn by the page itself: no request)
+        // the page opens on the first template of its list and asks for its preview on its own
         await expect(page.locator(".etp-preview-title")).toHaveText(
           "Recruiter Invitation"
         );
         await snapshot("recruiter-invitation");
-        // the others are rendered by the server from sample data
+        // the others are asked for when clicked: the server renders them from sample data
         for (const [id, name] of [
           ["timesheet", "Timesheet Summary"],
           ["invoice", "Invoice"],

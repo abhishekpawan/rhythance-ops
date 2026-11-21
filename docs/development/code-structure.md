@@ -4,7 +4,7 @@
 
 **No source file over 300 lines** (TypeScript, TSX and CSS). A longer file is split by responsibility: data fetching into hooks or services, pure calculations into their own files, repeated markup into shared components, and CSS by section. JSON translation files follow the same idea by module (see [translations.md](translations.md)).
 
-The rule is applied module by module. **Done: dashboard (Nov 2026), reports (Nov 2026), support tickets (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
+The rule is applied module by module. **Done: dashboard (Nov 2026), reports (Nov 2026), support tickets (Nov 2026), admin pages / calendar / email previews / training (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
 
 ## The routine for one module
 
@@ -67,6 +67,26 @@ When splitting:
 | `client/src/styles/pages/Support.css`, `Support.<area>.css` | `Support.css` only imports the nine parts (base, toolbar, badges, new, files, modal, ticket, agent, responsive) in the original order; the built CSS file is byte-identical to before the split |
 
 Safety net for this module: `server/tests/pins/support-*.test.ts` (all nine endpoints, every role) and `e2e/tests/support.spec.ts` (`docs/development/testing.md`).
+
+## Admin pages, calendar, email previews and training module
+
+| Where | What |
+| --- | --- |
+| `client/src/pages/Admin/FeatureFlagsPage.tsx`, `FeatureFlagCard.tsx`, `useFeatureFlagsAdmin.ts` | Feature flags (super admin): the page (summary, search, groups, the confirm window); one flag's card (switch, text settings, per-portal intent, reset); the data hook (load, switch, save texts, reset, toast, drafts) |
+| `client/src/pages/Admin/DropdownOptionsManagement.tsx`, `DropdownListTabs.tsx`, `DropdownOptionsList.tsx` | Dropdown options: the page (add form and the calls); the two rows of list buttons; the options with their edit and delete buttons |
+| `client/src/pages/Admin/PortalSettingsPage.tsx` | Unchanged (under 300 lines); uses the `ff-` styles of the feature flags page |
+| `client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx`, `EmailTemplateSidebar.tsx`, `EmailTemplateMeta.tsx` | Email previews (super admin): the page (loading, the HTML and text views, sample data); the template list on the left; name, service, subject, sender, copies, attachments and trigger |
+| `client/src/pages/TrainingModules/index.tsx`, `trainingModules.tsx` | Training: the page (filters, search, the two windows); the list of modules (`buildTrainingModules(portalSettings)`: the first two videos are the portal's own settings) |
+| `client/src/components/calendar/SummaryWidgets.tsx`, `SummaryWidgetsSkeleton.tsx`, `useCalendarSummary.ts` | The calendar's summary: the numbers and period buttons; the loading look; what is asked of the server and the figures worked out from the answer |
+| `client/src/components/calendar/DayViewPanel.tsx`, `DayViewSkeleton.tsx` | The day panel and its loading look |
+| `client/src/styles/pages/FeatureFlags.css`, `EmailTemplatePreview.css`, `TrainingModules.css`; `components/calendar/CalendarView.css`, `SummaryWidgets.css`, `DayViewPanel.css` | Each file only imports its parts (`<Name>.<area>.css`, 2 to 4 each) in the original order; the built CSS file is byte-identical to before the split |
+| `server/src/routes/calendar.ts`, `routes/calendar/events.ts`, `summary.ts`, `supabase.ts` | The router mounts the two endpoints in the original order (`/api/calendar`, `/api/calendar/summary`); the service-role client they share |
+| `server/src/routes/emailTemplates.ts`, `routes/emailTemplates/registry.ts` | The two routes (list, preview) and the sender and copy helpers; the ten templates with their sample data and render functions |
+| `server/src/services/featureFlags.ts`, `featureFlags.types.ts` | The cache, the reads and the writes (export names unchanged); the types and `FeatureFlagError` (re-exported by `featureFlags.ts`) |
+
+Removed in the same module (dead code): `CalendarFilters.tsx` and its CSS (built, never mounted), `renderedcalenderhtml.html` (a 1,210-line reference nothing imported) and five unused helpers of `services/api/calendar.ts`.
+
+Safety net for this module: `server/tests/pins/admin-flags.test.ts`, `admin-dropdowns.test.ts`, `calendar.test.ts`, `email-templates.test.ts` (all 18 endpoints) and `e2e/tests/admin-pages.spec.ts`, `calendar-training-email.spec.ts` (`docs/development/testing.md`).
 
 ## Shared UI pieces (`client/src/components/`)
 
