@@ -80,6 +80,21 @@ function toAgentTicket(row: any, viewerId?: string) {
 }
 
 /**
+ * The columns of support_tickets that the two serializers above read (requester_id only for isOwner), so a list
+ * can ask the database for them instead of for every column. Nothing else is read: idempotency_key never leaves
+ * the server, and the technical context, the requester's email, the assignee and the effort are for the agent.
+ */
+const PUBLIC_TICKET_COLUMNS =
+  "id, ticket_number, type, title, urgency, priority, status, requester_name, requester_roles, locale, " +
+  "related_ticket_id, resolved_at, closed_at, confirmed_by, created_at, updated_at, requester_id";
+const AGENT_TICKET_COLUMNS = `${PUBLIC_TICKET_COLUMNS}, requester_email, assigned_to, context, effort_minutes`;
+
+/** The columns to select for the tickets that `serializeTicket` will write for this viewer. */
+export function ticketColumnsFor(user: Express.Request["user"] | undefined): string {
+  return isSupportAgent(user) ? AGENT_TICKET_COLUMNS : PUBLIC_TICKET_COLUMNS;
+}
+
+/**
  * Serializes a ticket row using the allow-list appropriate for the viewer.
  */
 export function serializeTicket(row: any, user: Express.Request["user"] | undefined) {

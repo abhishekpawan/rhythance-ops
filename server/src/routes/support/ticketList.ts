@@ -6,7 +6,10 @@ import {
   isSupportRequester,
   isSupportSharedViewer,
 } from "../../services/support.permissions.js";
-import { serializeTicket } from "../../services/support.serializers.js";
+import {
+  serializeTicket,
+  ticketColumnsFor,
+} from "../../services/support.serializers.js";
 import { notFoundResponse } from "../../services/support.errors.js";
 import { DbSupportTicket } from "../../types.js";
 
@@ -35,9 +38,12 @@ router.get(
         scope = "mine";
       }
 
+      // only the columns the serializer for this viewer writes (support.serializers.ts), not every column
       let query = supabase
         .from("support_tickets")
-        .select("*", { count: "exact" });
+        .select<string, DbSupportTicket>(ticketColumnsFor(req.user), {
+          count: "exact",
+        });
 
       if (scope === "mine") {
         query = query.eq("requester_id", req.user!.id);
