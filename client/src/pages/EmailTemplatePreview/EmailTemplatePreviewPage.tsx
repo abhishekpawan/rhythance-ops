@@ -11,18 +11,13 @@ import {
   FileText,
   Eye,
   Code,
-  ChevronRight,
   Loader2,
   AlertCircle,
   Menu,
   X,
-  Send,
-  Database,
-  Paperclip,
-  Users,
-  UserCircle,
-  Info,
 } from "lucide-react";
+import { EmailTemplateMeta } from "./EmailTemplateMeta";
+import { EmailTemplateSidebar } from "./EmailTemplateSidebar";
 import "../../styles/pages/EmailTemplatePreview.css";
 
 interface UnifiedTemplate extends EmailTemplateInfo {
@@ -35,16 +30,16 @@ const SUPABASE_TEMPLATES: UnifiedTemplate[] = [];
 
 // Defines the desired sidebar order by id
 const SIDEBAR_ORDER = [
-  "recruiter-invitation",             // #1, #2a
-  "onboarding-reminder",              // #2b, #15
-  "confirm-signup",                   // #3
-  "jobseeker-welcome",                // #4
-  "jobseeker-assignment",             // #5
-  "jobseeker-removal",                // #6
-  "timesheet",                        // #7, #8, #9
-  "invoice",                          // #10
-  "consent",                          // #11, #12
-  "employment-agreement",             // #13, #14
+  "recruiter-invitation", // #1, #2a
+  "onboarding-reminder", // #2b, #15
+  "confirm-signup", // #3
+  "jobseeker-welcome", // #4
+  "jobseeker-assignment", // #5
+  "jobseeker-removal", // #6
+  "timesheet", // #7, #8, #9
+  "invoice", // #10
+  "consent", // #11, #12
+  "employment-agreement", // #13, #14
 ];
 
 export function EmailTemplatePreviewPage() {
@@ -70,7 +65,7 @@ export function EmailTemplatePreviewPage() {
         // Merge SendGrid + Supabase and sort by sidebar order
         const merged: UnifiedTemplate[] = [
           ...SUPABASE_TEMPLATES,
-          ...data.map((t) => ({ ...t } as UnifiedTemplate)),
+          ...data.map((t) => ({ ...t }) as UnifiedTemplate),
         ];
         merged.sort((a, b) => {
           const ai = SIDEBAR_ORDER.indexOf(a.id);
@@ -125,7 +120,9 @@ export function EmailTemplatePreviewPage() {
         const data = await getEmailTemplatePreview(selectedId!);
         setPreview(data);
       } catch (err: any) {
-        setError(err.response?.data?.error || "Failed to load template preview");
+        setError(
+          err.response?.data?.error || "Failed to load template preview"
+        );
       } finally {
         setPreviewLoading(false);
       }
@@ -177,47 +174,13 @@ export function EmailTemplatePreviewPage() {
           <span>Templates</span>
         </button>
 
-        {/* Sidebar */}
-        <aside className={`etp-sidebar ${mobileSidebarOpen ? "etp-sidebar--open" : ""}`}>
-          <div className="etp-sidebar-header">
-            <Mail size={18} />
-            <h2>Email Templates</h2>
-          </div>
-
-          {loading ? (
-            <div className="etp-sidebar-loading">
-              <Loader2 size={20} className="etp-spinner" />
-              <span>Loading templates...</span>
-            </div>
-          ) : (
-            <nav className="etp-sidebar-list">
-              {allTemplates.map((t) => (
-                <button
-                  key={t.id}
-                  className={`etp-sidebar-item ${selectedId === t.id ? "etp-sidebar-item--active" : ""}`}
-                  onClick={() => handleSelectTemplate(t.id)}
-                >
-                  <div className="etp-sidebar-item-content">
-                    <div className="etp-sidebar-item-top">
-                      <span className="etp-sidebar-item-name">{t.name}</span>
-                      <span className={`etp-service-badge etp-service-badge--${t.service}`}>
-                        {t.service === "sendgrid" ? <Send size={10} /> : <Database size={10} />}
-                        {t.service === "sendgrid" ? "SendGrid" : "Supabase"}
-                      </span>
-                    </div>
-                    <span className="etp-sidebar-item-desc">{t.description}</span>
-                    <span className="etp-sidebar-item-trigger">{t.triggerRef}</span>
-                  </div>
-                  <ChevronRight size={14} className="etp-sidebar-item-arrow" />
-                </button>
-              ))}
-            </nav>
-          )}
-
-          <div className="etp-sidebar-footer">
-            <span className="etp-template-count">{allTemplates.length} templates</span>
-          </div>
-        </aside>
+        <EmailTemplateSidebar
+          allTemplates={allTemplates}
+          loading={loading}
+          selectedId={selectedId}
+          mobileSidebarOpen={mobileSidebarOpen}
+          handleSelectTemplate={handleSelectTemplate}
+        />
 
         {/* Main preview panel */}
         <main className="etp-main">
@@ -245,66 +208,7 @@ export function EmailTemplatePreviewPage() {
 
           {!previewLoading && preview && selectedTemplate && (
             <>
-              {/* Header bar */}
-              <div className="etp-preview-header">
-                <div className="etp-preview-meta">
-                  <div className="etp-preview-title-row">
-                    <h2 className="etp-preview-title">{preview.name}</h2>
-                    <span className={`etp-service-badge etp-service-badge--${preview.service} etp-service-badge--lg`}>
-                      {preview.service === "sendgrid" ? <Send size={12} /> : <Database size={12} />}
-                      {preview.service === "sendgrid" ? "SendGrid" : "Supabase Auth"}
-                    </span>
-                  </div>
-                  <p className="etp-preview-description">{preview.description}</p>
-                </div>
-              </div>
-
-              {/* Supabase nudge banner */}
-              {preview.service === "supabase" && (
-                <div className="etp-supabase-nudge">
-                  <Info size={16} />
-                  <div>
-                    <strong>Managed by Supabase Auth</strong>
-                    <p>This email is triggered and sent directly by Supabase. To customise its content, go to <strong>Supabase Dashboard → Authentication → Email Templates</strong>. The preview below is a placeholder.</p>
-                  </div>
-                </div>
-              )}
-
-              {/* Metadata rows: Subject, From, CC, Attachments */}
-              <div className="etp-meta-table">
-                <div className="etp-meta-row">
-                  <span className="etp-meta-label">Subject</span>
-                  <span className="etp-meta-value">{preview.subject}</span>
-                </div>
-                <div className="etp-meta-row">
-                  <UserCircle size={14} className="etp-meta-icon" />
-                  <span className="etp-meta-label">From</span>
-                  <span className="etp-meta-value">{preview.from}</span>
-                </div>
-                {(preview.cc.length > 0 || preview.dynamicCc) && (
-                  <div className="etp-meta-row">
-                    <Users size={14} className="etp-meta-icon" />
-                    <span className="etp-meta-label">CC</span>
-                    <span className="etp-meta-value">
-                      {preview.cc.length > 0 ? preview.cc.join(", ") : ""}
-                      {preview.dynamicCc && (
-                        <span className="etp-meta-dynamic"> + dynamic client CC emails</span>
-                      )}
-                    </span>
-                  </div>
-                )}
-                {preview.attachments.length > 0 && (
-                  <div className="etp-meta-row">
-                    <Paperclip size={14} className="etp-meta-icon" />
-                    <span className="etp-meta-label">Attachments</span>
-                    <span className="etp-meta-value">{preview.attachments.join(", ")}</span>
-                  </div>
-                )}
-                <div className="etp-meta-row">
-                  <span className="etp-meta-label">Trigger</span>
-                  <span className="etp-meta-value etp-meta-trigger">{preview.triggerRef}</span>
-                </div>
-              </div>
+              <EmailTemplateMeta preview={preview} />
 
               {/* View mode toggle */}
               <div className="etp-view-toggle">

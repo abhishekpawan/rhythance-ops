@@ -4,12 +4,8 @@
 628 client/src/components/DemoAutoFillWidget/demoPresets.ts
 1097 client/src/components/HamburgerMenu.tsx
 469 client/src/components/InvoiceAttachments.tsx
-312 client/src/components/calendar/DayViewPanel.tsx
-380 client/src/components/calendar/SummaryWidgets.tsx
 576 client/src/lib/auth.ts
 308 client/src/lib/hybridPayrollSplit.ts
-325 client/src/pages/Admin/DropdownOptionsManagement.tsx
-554 client/src/pages/Admin/FeatureFlagsPage.tsx
 843 client/src/pages/AllUsersManagement.tsx
 574 client/src/pages/Authentication/CompleteSignup.tsx
 304 client/src/pages/Authentication/Login.tsx
@@ -25,7 +21,6 @@
 957 client/src/pages/Consent/ConsentTemplatePage.tsx
 1365 client/src/pages/Consent/CreateConsentPage.tsx
 558 client/src/pages/Consent/OnboardingConsent.tsx
-364 client/src/pages/EmailTemplatePreview/EmailTemplatePreviewPage.tsx
 942 client/src/pages/InvoiceManagement/InvoiceList.tsx
 3720 client/src/pages/InvoiceManagement/InvoiceManagement.tsx
 749 client/src/pages/InvoiceManagement/InvoiceView.tsx
@@ -56,7 +51,6 @@
 403 client/src/pages/TimesheetManagement/components/TimesheetListTable.tsx
 443 client/src/pages/TimesheetManagement/hooks/useBulkJobseekerPositionForms.ts
 372 client/src/pages/TimesheetManagement/hooks/useTimesheetsList.ts
-330 client/src/pages/TrainingModules/index.tsx
 319 client/src/services/api/auth.ts
 361 client/src/services/api/client.ts
 462 client/src/services/api/consent.ts

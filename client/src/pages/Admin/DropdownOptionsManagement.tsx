@@ -11,21 +11,14 @@ import {
   type ClientDropdownOption,
   type DropdownListType,
 } from "../../services/api/dropdownOptions";
-import { Plus, Trash2, Edit2, Check, X, ClipboardList } from "lucide-react";
+import { Plus, ClipboardList } from "lucide-react";
+import { DropdownListTabs } from "./DropdownListTabs";
+import { DropdownOptionsList } from "./DropdownOptionsList";
 import "../../styles/components/form.css";
 import "../../styles/components/button.css";
 import "../../styles/pages/RecruiterHierarchy.css";
 import "../../styles/pages/ClientManagement.css";
 import "./DropdownOptionsManagement.css";
-
-const CLIENT_LIST_TYPES: DropdownListType[] = [
-  "client_manager",
-  "client_representative",
-  "salesperson",
-  "accounting_person",
-  "accounting_manager",
-  "list_name",
-];
 
 const POSITION_LIST_TYPES: DropdownListType[] = [
   "position_title",
@@ -166,42 +159,11 @@ export function DropdownOptionsManagement() {
         <p className="dashboard-subtitle">{t("dropdownOptions.subtitle")}</p>
 
         <div className="card dopts-card">
-          <div className="dopts-tabs" role="tablist">
-            <div className="dopts-tab-group">
-              <span className="dopts-tab-group-label">
-                {t("dropdownOptions.clientOptions")}
-              </span>
-              <div className="dopts-tab-group-buttons">
-                {CLIENT_LIST_TYPES.map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    className={`dopts-tab-btn ${selectedListType === type ? "dopts-tab-btn--active" : ""}`}
-                    onClick={() => setSelectedListType(type)}
-                  >
-                    {LIST_TYPE_LABELS[type]}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="dopts-tab-group">
-              <span className="dopts-tab-group-label">
-                {t("dropdownOptions.positionOptions")}
-              </span>
-              <div className="dopts-tab-group-buttons">
-                {positionListTypes.map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    className={`dopts-tab-btn ${selectedListType === type ? "dopts-tab-btn--active" : ""}`}
-                    onClick={() => setSelectedListType(type)}
-                  >
-                    {LIST_TYPE_LABELS[type]}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+          <DropdownListTabs
+            selectedListType={selectedListType}
+            positionListTypes={positionListTypes}
+            setSelectedListType={setSelectedListType}
+          />
 
           <div className="card-body dopts-card-body">
             <div className="dopts-add-section">
@@ -254,67 +216,17 @@ export function DropdownOptionsManagement() {
               ) : options.length === 0 ? (
                 <p className="dopts-empty">{t("dropdownOptions.empty")}</p>
               ) : (
-                <ul className="dopts-list">
-                  {options.map((opt) => (
-                    <li key={opt.id} className="dopts-list-item">
-                      {editingId === opt.id ? (
-                        <div className="dopts-list-edit">
-                          <input
-                            type="text"
-                            className="form-input dopts-edit-input"
-                            value={editValue}
-                            onChange={(e) => setEditValue(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") saveEdit();
-                              if (e.key === "Escape") cancelEdit();
-                            }}
-                            autoFocus
-                          />
-                          <button
-                            type="button"
-                            className="button primary dopts-btn-icon"
-                            onClick={saveEdit}
-                            disabled={saving}
-                            title={t("buttons.save")}
-                          >
-                            <Check size={16} />
-                          </button>
-                          <button
-                            type="button"
-                            className="button secondary dopts-btn-icon"
-                            onClick={cancelEdit}
-                            disabled={saving}
-                            title={t("buttons.cancel")}
-                          >
-                            <X size={16} />
-                          </button>
-                        </div>
-                      ) : (
-                        <>
-                          <span className="dopts-list-name">{opt.name}</span>
-                          <div className="dopts-list-actions">
-                            <button
-                              type="button"
-                              className="button secondary dopts-btn-icon"
-                              onClick={() => startEdit(opt)}
-                              title={t("buttons.edit")}
-                            >
-                              <Edit2 size={16} />
-                            </button>
-                            <button
-                              type="button"
-                              className="button secondary dopts-btn-icon dopts-btn-icon--danger"
-                              onClick={() => handleDelete(opt)}
-                              title={t("buttons.delete")}
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <DropdownOptionsList
+                  options={options}
+                  editingId={editingId}
+                  editValue={editValue}
+                  setEditValue={setEditValue}
+                  saving={saving}
+                  startEdit={startEdit}
+                  cancelEdit={cancelEdit}
+                  saveEdit={saveEdit}
+                  handleDelete={handleDelete}
+                />
               )}
             </div>
           </div>
