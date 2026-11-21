@@ -2,7 +2,8 @@
 // conflicting selectors (.content-container, .search-input, .modal-header ...) by which file comes last, and
 // pages loaded on demand would otherwise pull their stylesheet in whenever they are opened, in another order.
 // Imported first by main.tsx, so the built CSS file is byte for byte the one the app had before the pages were
-// split. Add a new stylesheet here (at the end, or where its position matters) as well as in its component.
+// split. The two demo-only stylesheets come in through ./demoCss/ (they do not exist on the production branches).
+// Add a new stylesheet here (at the end, or where its position matters) as well as in its component.
 import "./styles/variables.css";
 import "./styles/pages/Signup.css";
 import "./styles/pages/Login.css";
@@ -12,7 +13,7 @@ import "./styles/components/phone-input.css";
 import "react-phone-number-input/style.css";
 import "./styles/components/CustomDropdown.css";
 import "./styles/components/language-toggle.css";
-import "./styles/components/demo-login-modal.css";
+import "./demoCss/loginModal";
 import "./styles/pages/VerificationPending.css";
 import "./styles/components/hamburgerMenu.css";
 import "./styles/components/toast.css";
@@ -24,7 +25,7 @@ import "./styles/components/PDFThumbnail.css";
 import "./styles/components/PDFViewerModal.css";
 import "./styles/pages/JobseekerProfileStyles.css";
 import "./styles/components/ConfirmationModal.css";
-import "./components/DemoAutoFillWidget/DemoAutoFillWidget.css";
+import "./demoCss/autoFillWidget";
 import "./styles/pages/JobSeekerPositions.css";
 import "./styles/components/geometric-shapes.css";
 import "./styles/pages/ClientManagement.css";
