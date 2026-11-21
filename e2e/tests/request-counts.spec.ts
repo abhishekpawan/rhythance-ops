@@ -9,14 +9,19 @@ test.use({ storageState: ".auth/admin.json" });
 
 const PUBLIC_SETTINGS = "/api/portal-settings/public";
 
-/** The pages and what each endpoint is asked, per load. Today's numbers (AUDIT-1 §6 measured the same). */
+/**
+ * The pages and what each endpoint is asked, per load. Before the language provider's `t` was memoised
+ * (AUDIT-1 §6) the dashboard asked for the expiry counts 3 times, Recruiter hierarchy for the users 6 times and
+ * All users 5 times. What remains has other causes (listed in the SPEED-1 report): the public settings are
+ * fetched on start and again after sign-in; the two user lists ask again for their own reasons.
+ */
 const PAGES = [
   {
     name: "the dashboard",
     route: "/dashboard",
     ready: ".dashboard-heading",
     asked: {
-      "/api/metrics/jobseekers/expiry-status-counts": 3,
+      "/api/metrics/jobseekers/expiry-status-counts": 1,
       [PUBLIC_SETTINGS]: 2,
     },
   },
@@ -24,13 +29,13 @@ const PAGES = [
     name: "Recruiter hierarchy",
     route: "/recruiter-hierarchy",
     ready: ".recruiter-hierarchy .dashboard-heading",
-    asked: { "/api/users": 6, [PUBLIC_SETTINGS]: 2 },
+    asked: { "/api/users": 2, [PUBLIC_SETTINGS]: 2 },
   },
   {
     name: "All users",
     route: "/all-users-management",
     ready: "table",
-    asked: { "/api/users": 5, [PUBLIC_SETTINGS]: 2 },
+    asked: { "/api/users": 3, [PUBLIC_SETTINGS]: 2 },
   },
 ];
 

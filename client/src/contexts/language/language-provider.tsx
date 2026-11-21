@@ -1,7 +1,9 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -108,8 +110,15 @@ export function LanguageProvider({
     () => (localStorage.getItem(storageKey) as Language) || defaultLanguage
   );
 
-  // Re-render when the public settings (brand name) load or change
-  useSyncExternalStore(subscribePublicSettings, getPublicSettings);
+  // Re-render when the public settings (brand name) load or change. `t` writes the brand name from these
+  // settings (applyBrandTokens), so what it writes is a dependency of `t` below: without it `t` would keep the
+  // brand name it saw before the settings loaded. Only the brand name counts: every load of the settings makes
+  // a new object, and a `t` that changed with it would make screens fetch again for nothing.
+  const publicSettings = useSyncExternalStore(
+    subscribePublicSettings,
+    getPublicSettings
+  );
+  const brandName = publicSettings["branding.brandName"]; // the only value applyBrandTokens reads
 
   useEffect(() => {
     localStorage.setItem(storageKey, language);
@@ -117,38 +126,48 @@ export function LanguageProvider({
     document.documentElement.setAttribute("lang", language);
   }, [language, storageKey]);
 
-  // Translation function
-  const t = (key: string, interpolations?: Record<string, string | number>): string => {
-    const currentTranslations = translations[language];
-    let translatedValue = getNestedValue(currentTranslations, key);
+  // Translation function. Its identity changes only with the language or the public settings, so screens that
+  // list `t` in an effect or callback do not run again on every render of the provider.
+  const t = useCallback(
+    (key: string, interpolations?: Record<string, string | number>): string => {
+      const currentTranslations = translations[language];
+      let translatedValue = getNestedValue(currentTranslations, key);
 
-    // Fallback to English if translation is not found
-    if (translatedValue === undefined && language !== "en") {
-      translatedValue = getNestedValue(translations.en, key);
-    }
+      // Fallback to English if translation is not found
+      if (translatedValue === undefined && language !== "en") {
+        translatedValue = getNestedValue(translations.en, key);
+      }
 
-    // If still not found, return the key itself
-    if (translatedValue === undefined) {
-      console.warn(`Translation missing for key: ${key}`);
-      return key;
-    }
+      // If still not found, return the key itself
+      if (translatedValue === undefined) {
+        console.warn(`Translation missing for key: ${key}`);
+        return key;
+      }
 
-    // If interpolations are provided, replace placeholders
-    if (interpolations && typeof translatedValue === 'string') {
-      return applyBrandTokens(interpolateString(translatedValue, interpolations));
-    }
+      // If interpolations are provided, replace placeholders
+      if (interpolations && typeof translatedValue === 'string') {
+        return applyBrandTokens(interpolateString(translatedValue, interpolations));
+      }
 
-    return applyBrandTokens(String(translatedValue));
-  };
+      return applyBrandTokens(String(translatedValue));
+    },
+    // brandName is read by applyBrandTokens through the store, not through this closure
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [language, brandName]
+  );
 
-  const value = {
-    language,
-    setLanguage: (lang: Language) => {
+  const changeLanguage = useCallback(
+    (lang: Language) => {
       localStorage.setItem(storageKey, lang);
       setLanguage(lang);
     },
-    t,
-  };
+    [storageKey]
+  );
+
+  const value = useMemo(
+    () => ({ language, setLanguage: changeLanguage, t }),
+    [language, changeLanguage, t]
+  );
 
   return (
     <LanguageProviderContext.Provider {...props} value={value}>
