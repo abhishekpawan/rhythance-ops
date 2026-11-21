@@ -524,10 +524,6 @@ select.form-input {
   margin-right: 8px;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 .profile-submission-overlay {
   position: fixed;
   inset: 0;
@@ -1330,10 +1326,6 @@ select.form-input {
   border-radius: 50%;
   border-top-color: #fff;
   animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 /* Download error styling */

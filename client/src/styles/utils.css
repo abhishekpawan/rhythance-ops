@@ -166,3 +166,8 @@ td.status-cell .active-badge {
   color: #c4b5fd;
   border-color: #6d28d9;
 }
+
+/* The one spin animation of the loading spinners. */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

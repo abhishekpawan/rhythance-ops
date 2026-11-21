@@ -56,10 +56,6 @@
   animation: spin 1s ease-in-out infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 /* Error message */
 .error-message {
   background-color: rgba(var(--failure-rgb), 0.1);

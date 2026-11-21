@@ -112,10 +112,6 @@
   to { opacity: 1; }
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .pdf-thumbnail-container {

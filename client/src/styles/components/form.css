@@ -288,12 +288,6 @@ select.form-input, .form-select {
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Links */
 a {
   color: var(--primary);
