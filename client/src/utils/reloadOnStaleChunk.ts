@@ -12,9 +12,12 @@ const CLEAR_AFTER_MS = 10_000;
 
 export function reloadOnStaleChunk(
   target: Pick<Window, "addEventListener"> = window,
-  reload: () => void = () => window.location.reload()
+  reload: () => void = () => window.location.reload(),
+  // a background fetch (prefetchPages.ts) that fails is ignored there: no reload, and the error is not hidden
+  isBackgroundFetch: () => boolean = () => false
 ) {
   target.addEventListener("vite:preloadError", (event) => {
+    if (isBackgroundFetch()) return;
     if (sessionStorage.getItem(FLAG)) return; // already reloaded once: let the error show
     sessionStorage.setItem(FLAG, "1");
     event.preventDefault();

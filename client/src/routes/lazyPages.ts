@@ -1,15 +1,22 @@
 // The pages of the app, each loaded the first time its route is opened (React.lazy), so the sign-in screen
-// does not download the code of every other page. Sign-in, password reset, the second sign-in step and the
-// consent page opened from an e-mail link are imported directly in App.tsx and stay in the first download.
-// App.tsx wraps its routes in one <Suspense> with the full-page spinner.
+// does not download every other page. Sign-in, password reset, the second sign-in step and the e-mailed
+// consent page are imported directly in App.tsx. App.tsx wraps its routes in one <Suspense>.
 import { lazy, type ComponentType } from "react";
+
+// the loader of each page, so its code can be fetched ahead of the first visit (prefetchPages.ts)
+const loaders = new Map<object, () => Promise<unknown>>();
+export const loadPage = (c: object) => loaders.get(c)?.() ?? Promise.resolve();
 
 /** A page exported by name from its module, loaded on first render (its props stay typed). */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pages have different props
 const page = <Name extends string, Page extends ComponentType<any>>(
   load: () => Promise<Record<Name, Page>>,
   name: Name
-) => lazy(() => load().then((module) => ({ default: module[name] })));
+) => {
+  const component = lazy(() => load().then((m) => ({ default: m[name] })));
+  loaders.set(component, load);
+  return component;
+};
 
 export const Signup = page(
   () => import("../pages/Authentication/Signup"),

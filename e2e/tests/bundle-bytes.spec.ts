@@ -2,6 +2,8 @@
 // (empty browser cache each time). A measurement for the speed work (SPEED-1), not a pass/fail check of sizes:
 // it only runs on the production build (`E2E_CLIENT=build pnpm test:e2e`), because the dev server serves
 // thousands of unbundled modules, and it fails only when nothing was counted (a sign the build was not served).
+// The background download of the other pages (client/src/routes/prefetchPages.ts, measured in prefetch.spec.ts) is
+// switched off here by telling the page the browser wants to save data: this measures what is needed to show the page.
 // "gzip" is what the file would cost over the wire with gzip (the preview server itself sends it uncompressed).
 import { mkdirSync, writeFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
@@ -19,6 +21,11 @@ async function count(
   open: () => Promise<void>
 ) {
   const seen: Promise<Counted | null>[] = [];
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "connection", {
+      value: { saveData: true },
+    });
+  });
   page.on("response", (response) => {
     const url = new URL(response.url());
     if (!/\.(js|css)$/.test(url.pathname) || !/^\/assets\//.test(url.pathname))

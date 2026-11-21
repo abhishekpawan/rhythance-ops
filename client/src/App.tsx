@@ -10,7 +10,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { FeatureFlagsProvider } from "./contexts/FeatureFlagsContext";
 import { PortalSettingsProvider } from "./contexts/PortalSettingsContext";
 import { FeatureGate } from "./components/FeatureGate";
-import { PageLoader } from "./components/PageLoader";
+import { PageLoader, PagePrefetch } from "./components/PageLoading";
 import {
   ProtectedRoute,
   PublicRoute,
@@ -81,7 +81,6 @@ function App() {
         <AuthProvider>
           <FeatureFlagsProvider>
             <PortalSettingsProvider>
-          {/* v7_startTransition: a page that is not downloaded yet keeps the page on screen until it is ready */}
           <Router future={{ v7_startTransition: true }}>
             <GeometricShapes />
             <Suspense fallback={<PageLoader />}>
@@ -492,6 +491,7 @@ function App() {
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
+            <PagePrefetch />
             </Suspense>
           </Router>
             </PortalSettingsProvider>
