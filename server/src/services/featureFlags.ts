@@ -30,7 +30,7 @@ interface FlagOverrideRow {
   updated_at: string;
 }
 
-export type FeatureFlagSource = "default" | "override";
+type FeatureFlagSource = "default" | "override";
 
 export interface FeatureFlagSettingState {
   key: string;
@@ -71,7 +71,7 @@ let cache: {
   loadFailed: boolean;
 } | null = null;
 
-export function clearFeatureFlagCache(): void {
+function clearFeatureFlagCache(): void {
   cache = null;
 }
 

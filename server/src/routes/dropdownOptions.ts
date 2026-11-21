@@ -17,7 +17,7 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const DROPDOWN_LIST_TYPES = [
+const DROPDOWN_LIST_TYPES = [
   'client_manager',
   'client_representative',
   'salesperson',
@@ -28,7 +28,7 @@ export const DROPDOWN_LIST_TYPES = [
   'subcategory_position',
 ] as const;
 
-export type DropdownListType = (typeof DROPDOWN_LIST_TYPES)[number];
+type DropdownListType = (typeof DROPDOWN_LIST_TYPES)[number];
 
 /**
  * Get all dropdown options, optionally filtered by list_type

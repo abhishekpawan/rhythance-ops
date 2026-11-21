@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import { authenticateToken, authorizeRoles } from '../middleware/auth.js';
-import { sanitizeInputs, apiRateLimiter } from '../middleware/security.js';
+import { sanitizeInputs } from '../middleware/security.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -34,15 +34,6 @@ interface CalendarEvent {
   assignedCount: number;
   availablePositions: number;
   allDay?: boolean;
-}
-
-interface CalendarResponse {
-  events: CalendarEvent[];
-  summary: {
-    totalPositions: number;
-    totalJobseekers: number;
-    activeAssignments: number;
-  };
 }
 
 /**

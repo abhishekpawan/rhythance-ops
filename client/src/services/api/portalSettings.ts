@@ -11,7 +11,7 @@ export type PortalSettingGroup =
   | "legal"
   | "training";
 
-export type PortalSettingSource = "database" | "environment" | "default";
+type PortalSettingSource = "database" | "environment" | "default";
 
 export interface PortalSettingItem {
   key: string;

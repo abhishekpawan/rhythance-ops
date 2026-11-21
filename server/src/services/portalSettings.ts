@@ -68,7 +68,7 @@ let cache: {
   loadFailed: boolean;
 } | null = null;
 
-export function clearPortalSettingsCache(): void {
+function clearPortalSettingsCache(): void {
   cache = null;
 }
 

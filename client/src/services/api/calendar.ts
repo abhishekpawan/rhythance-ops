@@ -19,7 +19,7 @@ export interface CalendarEvent {
 }
 
 // Calendar summary statistics
-export interface CalendarSummary {
+interface CalendarSummary {
   totalPositions: number;
   totalJobseekers: number;
   activeAssignments: number;
@@ -117,116 +117,6 @@ export const getCalendarEvents = async (
     }
     throw new Error('Failed to fetch calendar events');
   }
-};
-
-/**
- * Get calendar events for a specific month
- * @param year - Year (e.g., 2024)
- * @param month - Month (1-12)
- * @param clientId - Optional client filter
- * @param jobseekerId - Optional jobseeker filter
- * @returns Promise with calendar events for the month
- */
-export const getCalendarEventsForMonth = async (
-  year: number,
-  month: number,
-  clientId?: string,
-  jobseekerId?: string
-): Promise<CalendarResponse> => {
-  // Calculate first and last day of the month
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 0); // Last day of the month
-
-  // Format dates as YYYY-MM-DD
-  const startDateStr = startDate.toISOString().split('T')[0];
-  const endDateStr = endDate.toISOString().split('T')[0];
-
-  return getCalendarEvents({
-    startDate: startDateStr,
-    endDate: endDateStr,
-    clientId,
-    jobseekerId,
-  });
-};
-
-/**
- * Get calendar events for a specific week
- * @param date - Any date within the week
- * @param clientId - Optional client filter
- * @param jobseekerId - Optional jobseeker filter
- * @returns Promise with calendar events for the week
- */
-export const getCalendarEventsForWeek = async (
-  date: Date,
-  clientId?: string,
-  jobseekerId?: string
-): Promise<CalendarResponse> => {
-  // Calculate start of week (Sunday)
-  const startOfWeek = new Date(date);
-  startOfWeek.setDate(date.getDate() - date.getDay());
-
-  // Calculate end of week (Saturday)
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-  // Format dates as YYYY-MM-DD
-  const startDateStr = startOfWeek.toISOString().split('T')[0];
-  const endDateStr = endOfWeek.toISOString().split('T')[0];
-
-  return getCalendarEvents({
-    startDate: startDateStr,
-    endDate: endDateStr,
-    clientId,
-    jobseekerId,
-  });
-};
-
-/**
- * Transform calendar events for react-big-calendar
- * react-big-calendar expects start and end to be Date objects
- */
-export const transformEventsForCalendar = (events: CalendarEvent[]) => {
-  return events.map(event => ({
-    ...event,
-    start: new Date(event.start),
-    end: new Date(event.end),
-  }));
-};
-
-/**
- * Get unique clients from calendar events for filter options
- */
-export const getUniqueClientsFromEvents = (events: CalendarEvent[]) => {
-  const clientMap = new Map<string, string>();
-  
-  events.forEach(event => {
-    if (event.clientId && event.clientName) {
-      clientMap.set(event.clientId, event.clientName);
-    }
-  });
-
-  return Array.from(clientMap.entries()).map(([id, name]) => ({
-    id,
-    name,
-  }));
-};
-
-/**
- * Get unique jobseekers from calendar events for filter options
- */
-export const getUniqueJobseekersFromEvents = (events: CalendarEvent[]) => {
-  const jobseekerMap = new Map<string, string>();
-  
-  events.forEach(event => {
-    if (event.jobseekerId && event.jobseekerName) {
-      jobseekerMap.set(event.jobseekerId, event.jobseekerName);
-    }
-  });
-
-  return Array.from(jobseekerMap.entries()).map(([id, name]) => ({
-    id,
-    name,
-  }));
 };
 
 /**

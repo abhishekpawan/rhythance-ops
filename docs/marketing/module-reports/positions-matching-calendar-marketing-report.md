@@ -355,12 +355,11 @@ sequenceDiagram
 | Layer | Paths |
 |-------|--------|
 | **Page** | [`CalendarPage.tsx`](../../../client/src/pages/Calendar/CalendarPage.tsx), [`CalendarPage.css`](../../../client/src/pages/Calendar/CalendarPage.css) |
-| **Components** | [`CalendarView.tsx`](../../../client/src/components/calendar/CalendarView.tsx), [`DayViewPanel.tsx`](../../../client/src/components/calendar/DayViewPanel.tsx), [`SummaryWidgets.tsx`](../../../client/src/components/calendar/SummaryWidgets.tsx), [`CalendarFilters.tsx`](../../../client/src/components/calendar/CalendarFilters.tsx) (**built, not mounted**) |
+| **Components** | [`CalendarView.tsx`](../../../client/src/components/calendar/CalendarView.tsx), [`DayViewPanel.tsx`](../../../client/src/components/calendar/DayViewPanel.tsx), [`SummaryWidgets.tsx`](../../../client/src/components/calendar/SummaryWidgets.tsx) (`CalendarFilters.tsx`, built but never mounted, was removed in the R-3 clean-up) |
 | **API client** | [`calendar.ts`](../../../client/src/services/api/calendar.ts) |
 | **API routes** | [`calendar.ts`](../../../server/src/routes/calendar.ts) |
 | **App route** | [`App.tsx`](../../../client/src/App.tsx) — `/calendar`, `CALENDAR_ROLES` |
 | **i18n** | [`en.json`](../../../client/src/contexts/language/locales/en.json), [`fr.json`](../../../client/src/contexts/language/locales/fr.json) (`calendar` keys) |
-| **Reference (not routed)** | [`renderedcalenderhtml.html`](../../../client/src/components/calendar/renderedcalenderhtml.html) |
 
 No dedicated `useCalendar*` hooks — state lives in page/components.
 
@@ -417,7 +416,7 @@ When `selectedDate` is set:
 
 | Filter | In code | Active on page |
 |--------|---------|----------------|
-| **Client dropdown** | [`CalendarFilters.tsx`](../../../client/src/components/calendar/CalendarFilters.tsx) + API `clientId` | **No** — import/JSX commented out on `CalendarPage` (L6, L26–43, L120–133) |
+| **Client dropdown** | `CalendarFilters.tsx` (removed in the R-3 clean-up) + API `clientId` | **No** — import/JSX commented out on `CalendarPage` (L6, L26–43, L120–133) |
 | **Jobseeker dropdown** | Same + API `jobseekerId`; suppresses open-position events when set | **No** |
 | **Date range (filter bar)** | `CalendarFilters` + quick-range buttons (commented inside component) | **No** |
 | **Month fetch range** | `CalendarPage` uses viewed month start/end | **Yes** (implicit via grid navigation) |
@@ -444,7 +443,7 @@ Calendar routes are **read-only** — no writes, emails, or activity log entries
 
 | Fully working | Partial / stubbed |
 |---------------|-------------------|
-| Event fetch, month navigation, color legend (assigned vs open), day panel + position drill-down, summary widgets with retry | `CalendarFilters` not mounted; event click UX; grid/summary date sync; `statusBreakdown` UI commented in `SummaryWidgets`; rate limiter commented on routes; static `renderedcalenderhtml.html` not integrated |
+| Event fetch, month navigation, color legend (assigned vs open), day panel + position drill-down, summary widgets with retry | `CalendarFilters` not mounted; event click UX; grid/summary date sync; `statusBreakdown` UI commented in `SummaryWidgets`; rate limiter commented on routes; (the static `renderedcalenderhtml.html` reference was removed in the R-3 clean-up) |
 
 ### 3.10 Buyer-facing value (accurate claims)
 

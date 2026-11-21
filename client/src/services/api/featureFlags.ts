@@ -7,7 +7,7 @@ export type FeatureFlagCategory =
   | "jobseeker_profile"
   | "admin";
 
-export type PortalId = "godspeed" | "gdworkforce" | "canhire" | "allstaff";
+type PortalId = "godspeed" | "gdworkforce" | "canhire" | "allstaff";
 
 export interface FeatureFlagSettingValue {
   key: string;
