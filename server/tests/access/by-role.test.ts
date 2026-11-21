@@ -18,18 +18,45 @@ const SIN_PROFILE = "00000000-0000-4000-8000-000000000041";
 const CASH_PROFILE = "00000000-0000-4000-8000-000000000042";
 
 describe("the server's staff endpoints", () => {
-  const staffEndpoints = [
-    "/api/jobseekers",
-    "/api/clients",
-    "/api/positions",
-    "/api/users",
-  ];
+  const staffEndpoints = ["/api/jobseekers", "/api/clients", "/api/positions"];
+  // DEV-3 (inbox 10): the staff user list and one user's record answer only the roles whose screens use them
+  // (All users and Recruiter hierarchy: ALL_USERS_ROLES, RECRUITER_HIERARCHY_ROLES). Before, every staff role got them.
+  const userListRoles = ["admin", "superadmin", "recruiter_director"];
 
   for (const role of staffRoles) {
     it(`${role}: 200 on every staff endpoint`, async () => {
       const token = await tokenFor(staffEmails[role]);
       for (const path of staffEndpoints)
         expect((await server(path, { token })).status, path).toBe(200);
+    });
+
+    it(`${role}: ${userListRoles.includes(role) ? "200" : "403"} on the staff user list and a user's record`, async () => {
+      const token = await tokenFor(staffEmails[role]);
+      const expected = userListRoles.includes(role) ? 200 : 403;
+      const list = await server("/api/users", { token });
+      expect(list.status, "/api/users").toBe(expected);
+      const one = await server(`/api/users/${STAFF.admin.id}`, { token });
+      expect(one.status, "/api/users/:id").toBe(expected);
+      if (expected === 403) {
+        expect(list.json.users).toBeUndefined();
+        expect(one.json.email).toBeUndefined();
+      }
+    });
+  }
+
+  // DEV-3 (inbox 53): changing someone's manager is the All users screen's write, so the same two roles only.
+  // Removing the manager of a seeded account (it has none) leaves it as it was.
+  for (const role of staffRoles) {
+    it(`${role}: ${userListRoles.includes(role) ? "may" : "may not"} change a user's manager`, async () => {
+      const token = await tokenFor(staffEmails[role]);
+      const res = await server(`/api/users/${STAFF.bookkeeper.id}/manager`, {
+        token,
+        method: "PATCH",
+        body: { managerId: null },
+      });
+      expect(res.status, "PATCH /api/users/:id/manager").toBe(
+        userListRoles.includes(role) ? 200 : 403
+      );
     });
   }
 
@@ -38,7 +65,7 @@ describe("the server's staff endpoints", () => {
   >) {
     it(`jobseeker ${key}: 403 on every staff endpoint`, async () => {
       const token = await tokenFor(jobseekerEmails[key]);
-      for (const path of staffEndpoints)
+      for (const path of [...staffEndpoints, "/api/users"])
         expect((await server(path, { token })).status, path).toBe(403);
     });
   }

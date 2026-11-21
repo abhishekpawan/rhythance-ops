@@ -89,7 +89,8 @@ The browser test run (read-only on production, writes only on the demo database)
   - Creating a consent request: the UI offers it to admin, recruiter, recruiter manager and recruiter director, the API accepts only a super admin, so they get a 403 on submit.
   - Dropdown options: the UI offers add/change/delete to managers and directors, the API accepts only `admin` for those.
   - Invite and resend invitation: the UI offers it to managers and directors, the API accepts only `admin`.
-  - `authorizeRoles(["recruiter"])` accepts every internal role, so reports, invoices, users, clients and positions can be called by roles that the UI does not show.
+  - `authorizeRoles(["recruiter"])` accepts every internal role, so reports and invoices can be called by roles that the UI does not show. (Users: fixed in DEV-3, `admin` and `recruiter_director` only. Clients and positions: left open on purpose, other screens use them for pickers.)
+  - `PATCH /api/users/:id/manager` accepts every internal role; only All Users (`admin`, `recruiter_director`) uses it. Roles (`PATCH .../roles`) already refuses everyone else.
 - [ ] 2FA: the login screen still carries the password in client route state between the password step and the code step (the server now checks the code, see [role-access-control.md](role-access-control.md#two-step-login-staff)). Replace with a short-lived server-side step. (The database helpers `has_role`, `is_admin` now require a verified session too: migration 039.)
 - [ ] If the floating AI chat is ever re-enabled it renders markdown through `dangerouslySetInnerHTML` with sanitisation disabled; sanitise first.
 - [ ] Consent links do not expire (the `expired` status is never set) although the email text mentions expiry. Either enforce an expiry or reword the email.

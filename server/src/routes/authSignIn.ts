@@ -21,6 +21,10 @@ const supabase = createClient(
 );
 const router = express.Router();
 
+// Every signOut below ends the throwaway session this request just opened with the password. It must be
+// { scope: "local" }: the default scope signs the account out on every device, so anyone who knows the
+// password (or a sign-in that finished a moment ago) could log the person out everywhere.
+
 const TWO_FACTOR_REQUIRED = {
   error: "Staff accounts sign in with the two-step login",
   code: "TWO_FACTOR_REQUIRED",
@@ -93,7 +97,7 @@ router.post("/login", async (req, res) => {
 
     // With enforcement on, staff get a session only through complete-2fa (after the phone code).
     if (isStaffUser(data.user) && (await twoFactorEnforced())) {
-      await signInClient.auth.signOut();
+      await signInClient.auth.signOut({ scope: "local" });
       return res.status(403).json(TWO_FACTOR_REQUIRED);
     }
 
@@ -139,7 +143,7 @@ router.post("/validate-credentials", async (req, res) => {
 
     if (needsTwoFactor) {
       // Immediately sign out to invalidate the session: staff get one only after the phone code
-      await signInClient.auth.signOut();
+      await signInClient.auth.signOut({ scope: "local" });
 
       // When enforced, the screen must send the code to the number on file, not the editable profile one
       const phone = enforced ? twoFactorPhone(data.user) : null;
@@ -195,7 +199,7 @@ router.post("/complete-2fa", async (req, res) => {
 
     if (isStaffUser(data.user) && (code || (await twoFactorEnforced()))) {
       const refuse = async (status: number, body: Record<string, string>) => {
-        await signInClient.auth.signOut();
+        await signInClient.auth.signOut({ scope: "local" });
         return res.status(status).json(body);
       };
       if (!code) {

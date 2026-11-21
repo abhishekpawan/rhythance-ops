@@ -1,7 +1,7 @@
 import express from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
-import { authenticateToken, isAdminOrRecruiter, authorizeRoles, getResolvedUserRoles, hasAccessRole } from '../middleware/auth.js';
+import { authenticateToken, isAdminOrRecruiter, authorizeRoles, authorizeExactRoles, getResolvedUserRoles, hasAccessRole } from '../middleware/auth.js';
 import activityLogger from '../middleware/activityLogger.js';
 import sgMail from '@sendgrid/mail';
 import { onboardingReminderHtmlTemplate } from '../email-templates/onboarding-reminder-html.js';
@@ -28,9 +28,9 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 /**
  * @route GET /api/users
  * @desc Get all auth users with filters and pagination
- * @access Private (Admin, Recruiter)
+ * @access Private (Admin, Recruiter Director = ALL_USERS_ROLES and RECRUITER_HIERARCHY_ROLES in the client)
  */
-router.get('/', authenticateToken, isAdminOrRecruiter, async (req, res) => {
+router.get('/', authenticateToken, authorizeExactRoles(['admin', 'recruiter_director']), async (req, res) => {
   try {
     // Extract pagination and filter parameters from query
     const {
@@ -198,9 +198,9 @@ router.get('/', authenticateToken, isAdminOrRecruiter, async (req, res) => {
 /**
  * @route GET /api/users/:id
  * @desc Get a single auth user by ID
- * @access Private (Admin, Recruiter)
+ * @access Private (Admin, Recruiter Director)
  */
-router.get('/:id', authenticateToken, isAdminOrRecruiter, async (req, res) => {
+router.get('/:id', authenticateToken, authorizeExactRoles(['admin', 'recruiter_director']), async (req, res) => {
   try {
     const { id } = req.params as { id: string };
 
@@ -271,12 +271,12 @@ router.get('/:id', authenticateToken, isAdminOrRecruiter, async (req, res) => {
 /**
  * @route PATCH /api/users/:id/manager
  * @desc Set or update a user's manager_id in user_metadata.hierarchy
- * @access Private (Admin, Recruiter)
+ * @access Private (Admin, Recruiter Director = the All Users screen in the client; same roles as the user list)
  */
 router.patch(
   '/:id/manager',
   authenticateToken,
-  isAdminOrRecruiter,
+  authorizeExactRoles(['admin', 'recruiter_director']),
   activityLogger({
     onSuccess: (req, res) => {
       const targetUser: any = res.locals.userForActivity;

@@ -202,6 +202,8 @@ The tables above describe the **UI**. On the server, `authorizeRoles(["recruiter
 | Dropdown options (add, change, delete) | admin, recruiter manager, accountant manager, recruiter director | admin only; reading is open to every internal role |
 | Invite / resend invitation | admin, recruiter manager, accountant manager, recruiter director | admin only |
 | Consent templates (create, delete) | super admin | admin |
-| Reports, invoices, users, clients, positions | roles in the tables above | any internal role |
+| Reports, invoices | roles in the tables above | any internal role |
+| Clients and positions (`GET /api/clients`, `GET /api/positions`) | All Clients: `admin`, `recruiter_manager`, `accountant_manager`, `recruiter_director`, `sales`; All Positions: as in the Positions table | any internal role, so `recruiter` and `bookkeeper` can read the client list although they do not see the All Clients page. **Intended, not a gap:** the timesheet, invoice, report, consent and position screens read the lists to fill pickers. Changing a client or position is limited to the roles in the tables above. |
+| Staff user list and changing a manager (`GET /api/users`, `GET /api/users/:id`, `PATCH /api/users/:id/manager`) | All Users and Recruiter Hierarchy: `admin`, `recruiter_director` | the same two roles (exact match: `admin` includes the super admin). Since DEV-3 no other staff role gets it: no other screen uses them; the list returns every staff member's email, phone and sign-in times, and the manager change rewrites the hierarchy. |
 
 Each is tracked in [TODO.md](TODO.md) until the UI and API agree. Frontend access is always only a convenience; the server check is the real one.
