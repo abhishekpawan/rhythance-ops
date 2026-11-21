@@ -52,9 +52,10 @@ import {
   getTodayInCanada,
   addDaysToDateStr,
 } from "../../utils/dateUtils";
-import type { InvoiceData as PDFInvoiceData } from "../../utils/pdfGenerator.tsx";
+import { loadPdfMaker, preloadPdfMaker, type InvoiceData as PDFInvoiceData } from "../../utils/loadPdfMaker";
 import { Document, Page } from "react-pdf";
 import { pdfDocumentOptions } from "../../utils/pdfViewer";
+preloadPdfMaker();
 
 // Interface for assigned jobseeker data
 interface AssignedJobseeker {
@@ -1755,8 +1756,7 @@ export function InvoiceManagement() {
         messageOnInvoice: messageOnInvoice,
         termsOnInvoice: termsOnInvoice,
       };
-      // the PDF maker is large: loaded when an invoice PDF is made, not with the page
-      const { generateInvoicePDF: generatePDF } = await import("../../utils/pdfGenerator.tsx");
+      const { generateInvoicePDF: generatePDF } = await loadPdfMaker();
       const pdfBlob = await generatePDF(pdfData);
       const pdfObjectUrl = URL.createObjectURL(pdfBlob);
       setPdfBlobUrl(pdfObjectUrl);
