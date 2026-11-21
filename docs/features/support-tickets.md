@@ -18,7 +18,7 @@ A user who is neither the owner nor an agent gets "not found" for a ticket (not 
 
 - **Type:** `bug`, `change`, `feature`, `question`.
 - **Urgency** (chosen by the requester): `blocked`, `annoying`, `not_urgent`.
-- **Priority** (set by the agent, default `p3`): `p1`, `p2`, `p3`.
+- **Priority** (`p1`, `p2`, `p3`): starts from the urgency the requester chose (`blocked` p1, `annoying` p2, `not_urgent` p3) and the agent can change it.
 - **Status:** `open`, `in_progress`, `waiting_on_client`, `resolved`, `closed`. Every change is recorded in `support_ticket_status_events`.
 - Title up to 200 characters; messages up to 10,000 characters; the agent can record effort in hours (stored as minutes).
 - Ticket reference shown to people: `SUP-0001`, `SUP-0002`, and so on.
@@ -44,10 +44,12 @@ Direct upload to the private `support-attachments` Supabase Storage bucket using
 | `POST /tickets/:id/messages` | owner or agent |
 | `POST /tickets/:id/confirm` | owner, ticket must be `resolved` |
 | `POST /tickets/:id/reopen` | owner or agent |
-| `PATCH /tickets/:id` | agent only (status, priority, title, assignee, effort) |
+| `PATCH /tickets/:id` | agent only (status, priority, title, assignee, effort); who may change which field is `PATCHABLE_FIELDS` in `support.permissions.ts`, what each field accepts is the table in `support.patchFields.ts` |
 | `POST /attachments/sign`, `GET /attachments/:id/url` | requester or agent (download: ticket owner or agent) |
 
-Status changes and messages go through database functions (`support_change_status`, `support_add_message`, and so on in `027_support_module.sql`) so the status history and the reopen window are enforced in one place.
+Status changes and messages go through database functions (`support_change_status`, `support_add_message`, and so on in `027_support_module.sql`) so the status history, the allowed moves between statuses and the reopen window are enforced in one place; the server keeps no second copy of the moves.
+
+The ticket list asks the database only for the columns its serializer writes for the viewer (`ticketColumnsFor` in `support.serializers.ts`): everyone but the agent gets no technical context, requester email, assignee or effort. A new column that a serializer should show must be added to that list too (the list pins fail if it is not).
 
 ## Emails
 
@@ -57,7 +59,7 @@ Five emails, #16 to #20, described in [email-triggers.md](../email-triggers.md).
 
 | Part | Location |
 | --- | --- |
-| Pages and components | `client/src/pages/Support/` |
+| Pages and components | `client/src/pages/Support/`; built on the shared pieces in `client/src/components/` (`Pagination`, `EmptyState`, `StatusBadge`, `Modal`, see [code-structure.md](../development/code-structure.md)) |
 | API client | `client/src/services/api/support.ts` |
 | Routes | `server/src/routes/support/` (`tickets.ts`, `ticketActions.ts`, `attachments.ts`) |
 | Services | `server/src/services/support.*.ts` (permissions, email, attachments, serializers, context, errors) |
