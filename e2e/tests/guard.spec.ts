@@ -44,15 +44,15 @@ test.describe("every request to another host is aborted and counted", () => {
     outsideRequests,
   }) => {
     await page.goto("/login");
-    // fonts.googleapis.com is one of the hosts the app asks for itself (KNOWN_OUTSIDE_HOSTS)
+    // a host listed in KNOWN_OUTSIDE_HOSTS: the test is not failed for asking, but the request is still aborted
     const result = await page.evaluate(() =>
-      fetch("https://fonts.googleapis.com/css2?family=Inter")
+      fetch("https://guard-probe.example.invalid/probe")
         .then(() => "answered")
         .catch(() => "blocked")
     );
     expect(result).toBe("blocked");
     expect(outsideRequests.map((r) => r.host)).toContain(
-      "fonts.googleapis.com"
+      "guard-probe.example.invalid"
     );
   });
 

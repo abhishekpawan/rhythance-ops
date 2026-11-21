@@ -11,10 +11,14 @@ export const OUTSIDE_LOG = path.resolve(
   "outside-requests.jsonl"
 );
 
-/** What the app tries to reach today (checked 2026-11-19), and why. */
+/**
+ * What the app tries to reach on purpose. Nothing: since SPEED-1 the Inter font is served by the app itself
+ * (client/src/fonts/). The one entry is a made-up host that only the guard journey (tests/guard.spec.ts) asks for,
+ * to prove that a known host is aborted and counted; no page of the app uses it.
+ */
 export const KNOWN_OUTSIDE_HOSTS: Record<string, string> = {
-  "fonts.googleapis.com":
-    "client/src/styles/main.css imports the Inter font (every page)",
+  "guard-probe.example.invalid":
+    "asked only by tests/guard.spec.ts, on purpose",
 };
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
