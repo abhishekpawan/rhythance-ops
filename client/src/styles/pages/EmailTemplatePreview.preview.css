@@ -1,0 +1,225 @@
+/* ── Preview header ─────────────────────────────────── */
+.etp-preview-header {
+  margin-bottom: 16px;
+}
+
+.etp-preview-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.etp-preview-title {
+  margin: 0 0 4px;
+  font-size: var(--font-size-xl, 20px);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+}
+
+.etp-preview-description {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary, #6b7280);
+  line-height: 1.5;
+}
+
+/* ── Service badges ─────────────────────────────────── */
+.etp-service-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.etp-service-badge--sendgrid {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.etp-service-badge--supabase {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.etp-service-badge--lg {
+  font-size: 11px;
+  padding: 3px 9px;
+}
+
+/* ── Supabase nudge banner ──────────────────────────── */
+.etp-supabase-nudge {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-radius: var(--border-radius);
+  margin-bottom: 12px;
+  color: #4c1d95;
+}
+
+.etp-supabase-nudge strong {
+  display: block;
+  font-size: var(--font-size-sm);
+  margin-bottom: 4px;
+}
+
+.etp-supabase-nudge p {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.etp-supabase-nudge svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Meta table (Subject, From, CC, Attachments) ────── */
+.etp-meta-table {
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  background: var(--card);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.etp-meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--font-size-sm);
+}
+
+.etp-meta-row:last-child {
+  border-bottom: none;
+}
+
+.etp-meta-icon {
+  flex-shrink: 0;
+  color: var(--text-secondary, #6b7280);
+  position: relative;
+  top: 2px;
+}
+
+.etp-meta-label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary, #6b7280);
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.etp-meta-value {
+  color: var(--text);
+  font-weight: var(--font-weight-medium);
+  word-break: break-word;
+}
+
+.etp-meta-dynamic {
+  font-style: italic;
+  color: var(--text-secondary, #6b7280);
+  font-weight: 400;
+}
+
+.etp-meta-trigger {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+  color: var(--text-secondary, #6b7280);
+}
+
+/* ── Sidebar item enhancement ───────────────────────── */
+.etp-sidebar-item-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.etp-sidebar-item-trigger {
+  display: block;
+  font-size: 10px;
+  font-family: "Courier New", Courier, monospace;
+  color: var(--text-secondary, #6b7280);
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+/* ── View toggle ────────────────────────────────────── */
+.etp-view-toggle {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.etp-view-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  background: var(--card);
+  color: var(--text-secondary, #6b7280);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.etp-view-btn:hover {
+  background: var(--hover-bg, rgba(0, 0, 0, 0.04));
+}
+
+.etp-view-btn--active {
+  background: var(--accent, #2563eb);
+  color: #fff;
+  border-color: var(--accent, #2563eb);
+}
+
+.etp-view-btn--active:hover {
+  background: var(--accent-hover, #1d4ed8);
+}
+
+/* ── Preview content ────────────────────────────────── */
+.etp-preview-content {
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: #ffffff;
+  margin-bottom: 16px;
+}
+
+.etp-iframe-wrapper {
+  width: 100%;
+  background: #f8f9fa;
+}
+
+.etp-iframe {
+  width: 100%;
+  min-height: 500px;
+  border: none;
+  display: block;
+}
+
+.etp-text-preview {
+  margin: 0;
+  padding: 20px 24px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+  background: var(--card);
+}

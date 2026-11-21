@@ -1,0 +1,194 @@
+/* ── Feature Flags (super admin) ───────────────────────── */
+/* Prefix: ff- */
+
+.ff-page {
+  margin-left: 68px;
+  margin-top: 60px;
+  min-height: calc(100vh - 60px);
+  background: var(--background);
+  color: var(--text);
+}
+
+.ff-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Intro ─────────────────────────────────────────────── */
+.ff-intro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ff-intro-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text);
+  color: var(--background);
+  flex-shrink: 0;
+}
+
+.ff-subtitle {
+  font-size: var(--font-size-subheader);
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* ── States / banners ──────────────────────────────────── */
+.ff-state {
+  display: flex;
+  justify-content: center;
+  padding: 56px 0;
+  color: var(--text-muted);
+}
+
+.ff-spinner {
+  animation: ff-spin 0.9s linear infinite;
+  color: var(--text-muted);
+}
+
+@keyframes ff-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ff-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-body);
+  line-height: 1.45;
+}
+
+.ff-banner svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ff-banner p {
+  margin-top: 2px;
+  color: var(--text-muted);
+}
+
+.ff-banner--warning {
+  background: var(--pending-bg);
+  border-color: var(--pending);
+}
+
+.ff-banner--error {
+  background: var(--failure-bg);
+  border-color: var(--failure);
+  color: var(--failure);
+}
+
+/* ── Summary ───────────────────────────────────────────── */
+.ff-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ff-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.ff-summary-value {
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+}
+
+.ff-summary-label {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+}
+
+/* ── Toolbar ───────────────────────────────────────────── */
+.ff-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ff-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 280px;
+  max-width: 420px;
+  padding: 0 12px;
+  height: 38px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-muted);
+  transition: border-color var(--transition-fast);
+}
+
+.ff-search:focus-within {
+  border-color: var(--text);
+}
+
+.ff-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: var(--font-size-body);
+}
+
+.ff-segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--pending-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+}
+
+.ff-segment {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ff-segment:hover {
+  color: var(--text);
+}
+
+.ff-segment--active {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: var(--card-shadow);
+}

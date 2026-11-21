@@ -1,0 +1,162 @@
+/* FINAL OVERRIDE RULES - Maximum specificity for calendar differentiation */
+.calendar-view .rbc-calendar .rbc-month-view .rbc-day-bg.rbc-off-range-bg {
+  background: var(--background) !important;
+  opacity: 0.8 !important;
+  filter: grayscale(80%) !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-off-range
+  .rbc-button-link {
+  color: var(--text-muted) !important;
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  text-decoration: line-through !important;
+  background: transparent !important;
+  border: 1px dashed var(--text-muted) !important;
+  font-weight: var(--font-weight-normal) !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-off-range
+  .rbc-button-link:hover {
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell:not(.rbc-off-range) {
+  border-left: 1px solid #ddd !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell:not(.rbc-off-range):first-child {
+  border-left: none !important;
+}
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell:not(.rbc-off-range):last-child {
+  border-right: none !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell:not(.rbc-off-range)
+  .rbc-button-link {
+  color: var(--text) !important;
+  font-weight: var(--font-weight-bold) !important;
+  background: var(--card) !important;
+  border: 2px solid transparent !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  text-decoration: none !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell:not(.rbc-off-range)
+  .rbc-button-link:hover {
+  background: var(--primary) !important;
+  color: var(--background) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+  border-color: var(--primary) !important;
+}
+
+/* FINAL OVERRIDE - Current date with maximum specificity (green theme, no effects) */
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-now.rbc-current {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-now.rbc-current
+  .rbc-button-link {
+  color: white !important;
+  font-weight: var(--font-weight-bold) !important;
+  background: linear-gradient(135deg, #16a34a, #15803d) !important;
+  border: 2px solid white !important;
+  width: 36px !important;
+  height: 36px !important;
+  position: relative !important;
+  z-index: 11 !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-now.rbc-current
+  .rbc-button-link:hover {
+  background: linear-gradient(135deg, #15803d, #166534) !important;
+  color: white !important;
+}
+
+/* Selected date styling - directly target date cells with selected-date class */
+.calendar-view .rbc-calendar .rbc-month-view .rbc-date-cell.selected-date {
+  background: linear-gradient(135deg, #fed7aa, #fdba74) !important;
+  border: 2px solid #ea580c !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.selected-date
+  .rbc-button-link {
+  color: white !important;
+  font-weight: var(--font-weight-semibold) !important;
+  background: linear-gradient(135deg, #ea580c, #dc2626) !important;
+  border: 2px solid white !important;
+  width: 34px !important;
+  height: 34px !important;
+  position: relative !important;
+  z-index: 6 !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.selected-date
+  .rbc-button-link:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+  color: white !important;
+}
+
+/* Ensure current date styling takes precedence over selected date */
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-now.rbc-current.selected-date {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0) !important;
+  border: none !important;
+  z-index: 10 !important;
+}
+
+.calendar-view
+  .rbc-calendar
+  .rbc-month-view
+  .rbc-date-cell.rbc-now.rbc-current.selected-date
+  .rbc-button-link {
+  background: linear-gradient(135deg, #16a34a, #15803d) !important;
+  z-index: 11 !important;
+}

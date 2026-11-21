@@ -1,0 +1,187 @@
+/* Remove old button group styling */
+.rbc-btn-group button:first-child,
+.rbc-btn-group button:not(:first-child):not(:last-child),
+.rbc-btn-group button:last-child {
+  border-radius: 8px !important;
+  border: none !important;
+}
+
+/* Week and Day View Styles */
+.rbc-time-view {
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+
+.rbc-time-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.rbc-time-content {
+  border-left: 1px solid var(--border);
+}
+
+.rbc-time-slot {
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.rbc-timeslot-group {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Agenda View Styles */
+.rbc-agenda-view {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+}
+
+.rbc-agenda-view table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rbc-agenda-view tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.rbc-agenda-view tbody tr:hover {
+  background: var(--card);
+  opacity: 0.8;
+}
+
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell,
+.rbc-agenda-event-cell {
+  padding: var(--spacing-3);
+  color: var(--text);
+}
+
+.rbc-agenda-date-cell {
+  font-weight: var(--font-weight-semibold);
+  background: var(--card);
+  opacity: 0.9;
+}
+
+/* Loading States - Scoped under calendar-skeleton-loading */
+.calendar-skeleton-loading {
+  position: relative;
+  min-height: 600px;
+  max-height: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-skeleton-loading .calendar-skeleton {
+  width: 100%;
+  max-width: 980px;
+  opacity: 0.6;
+}
+
+.calendar-skeleton-loading .skeleton-header {
+  height: 40px;
+  background: var(--card);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-5);
+  animation: calendar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  opacity: 0.6;
+}
+
+.calendar-skeleton-loading .skeleton-toolbar {
+  height: 56px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-5);
+  animation: calendar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-skeleton-loading .skeleton-btn-group {
+  display: flex;
+  background: var(--background);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  animation: calendar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.calendar-skeleton-loading .skeleton-nav-buttons {
+  width: 140px;
+  height: 36px;
+}
+
+.calendar-skeleton-loading .skeleton-view-buttons {
+  width: 180px;
+  height: 36px;
+}
+
+.calendar-skeleton-loading .skeleton-toolbar-label {
+  height: 24px;
+  width: 120px;
+  background: var(--background);
+  border-radius: var(--border-radius);
+  animation: calendar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  border: 1px solid var(--border);
+}
+
+.calendar-skeleton-loading .skeleton-calendar-container {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-skeleton-loading .skeleton-month-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-skeleton-loading .skeleton-header-cell {
+  padding: var(--spacing-3);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-body);
+  color: var(--text);
+  background: linear-gradient(135deg, var(--card), var(--background));
+  border-right: 1px solid var(--border);
+  opacity: 0.8;
+}
+
+.calendar-skeleton-loading .skeleton-header-cell:last-child {
+  border-right: none;
+}
+
+.calendar-skeleton-loading .skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.calendar-skeleton-loading .skeleton-cell {
+  height: 80px;
+  background: var(--card);
+  animation: calendar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  opacity: 0.4;
+}
+
+@keyframes calendar-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
