@@ -1,3 +1,11 @@
+/* Raise a ticket is a form, so it sits in the same centred 1,200 px column as the Dashboard (.dashboard-main:
+   max-width 1200px, margin 0 auto) and no longer fills the width like the lists do. */
+.content-container.support-new-column {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Choice Cards (New Ticket) */
 .support-choice-grid {
   display: grid;

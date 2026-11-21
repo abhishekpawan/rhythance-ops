@@ -138,7 +138,7 @@ export const SupportNew: React.FC = () => {
         statusType="error"
       />
 
-      <div className="content-container">
+      <div className="content-container support-new-column">
         {submitError && (
           <div
             className="error-message mb-4 flex items-center gap-2"
