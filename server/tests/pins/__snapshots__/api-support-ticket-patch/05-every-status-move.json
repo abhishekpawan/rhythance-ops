@@ -1,0 +1,798 @@
+{
+  "steps": [
+    {
+      "step": "open to open",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "open"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "open to in_progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "open to waiting_on_client",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "waiting_on_client",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "open to resolved",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "resolved",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "open to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'open' to 'closed'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "in_progress to open",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "open"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'in_progress' to 'open'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "in_progress to in_progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "in_progress to waiting_on_client",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "waiting_on_client",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "in_progress to resolved",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "resolved",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "in_progress to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'in_progress' to 'closed'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "waiting_on_client to open",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "open"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'waiting_on_client' to 'open'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "waiting_on_client to in_progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "waiting_on_client to waiting_on_client",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "waiting_on_client",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "waiting_on_client to resolved",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "resolved",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "waiting_on_client to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'waiting_on_client' to 'closed'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "resolved to open",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "open"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'resolved' to 'open'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "resolved to in_progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "resolved to waiting_on_client",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'resolved' to 'waiting_on_client'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "resolved to resolved",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "resolved",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "resolved to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": "<timestamp>",
+          "confirmedBy": "agent",
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "closed to open",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "open"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'closed' to 'open'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "closed to in_progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "closed to waiting_on_client",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "waiting_on_client"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'closed' to 'waiting_on_client'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "closed to resolved",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "resolved"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "INVALID_TRANSITION: Cannot transition ticket <uuid> from 'closed' to 'resolved'",
+        "code": "INVALID_TRANSITION"
+      }
+    },
+    {
+      "step": "closed to closed",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "closed"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "closed",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": "<timestamp>",
+          "closedAt": "<timestamp>",
+          "confirmedBy": "client",
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "closed 20 days ago to in progress (the window is 14 days)",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 409,
+      "answer": {
+        "success": false,
+        "error": "REOPEN_WINDOW_EXPIRED: Cannot reopen ticket <uuid> closed more than 14 days ago",
+        "code": "REOPEN_WINDOW_EXPIRED"
+      }
+    },
+    {
+      "step": "closed 13 days ago to in progress",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    }
+  ],
+  "messagesSent": [
+    {
+      "to": [
+        "sales@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "sales@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "sales@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "sales@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    },
+    {
+      "to": [
+        "sales@example.test"
+      ],
+      "subject": "[Test Portal] SUP-<number>: Scene for a pin"
+    }
+  ]
+}

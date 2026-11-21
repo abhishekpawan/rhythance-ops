@@ -1,0 +1,1003 @@
+{
+  "steps": [
+    {
+      "step": "priority p2",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p2"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p2",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "priority p3",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p3"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "priority null changes nothing",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": null
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "priority in capitals",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "P1"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "priority must be p1, p2, or p3"
+      }
+    },
+    {
+      "step": "priority as a number",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": 1
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "priority must be p1, p2, or p3"
+      }
+    },
+    {
+      "step": "title null changes nothing",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": null
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Scene for a pin",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "title of exactly 200 characters",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "title of one character",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "x"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "x",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "title as a number",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": 5
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "title must be between 1 and 200 characters"
+      }
+    },
+    {
+      "step": "title with a line break and tabs",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "\tTwo\nlines\t"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "assigned to the agent",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": "00000000-0000-4000-8000-000000000002"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "assigned to a valid id nobody has",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": "<uuid>"
+      },
+      "status": 500,
+      "answer": {
+        "success": false,
+        "error": "Failed to update ticket"
+      }
+    },
+    {
+      "step": "assigned to nobody",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": null
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": null
+        }
+      }
+    },
+    {
+      "step": "assigned to an empty text",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": ""
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "assignedTo must be a valid UUID or null"
+      }
+    },
+    {
+      "step": "hours 1000",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": 1000
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 60000
+        }
+      }
+    },
+    {
+      "step": "hours 0.0083 round to 0 minutes",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": 0.0083
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 0
+        }
+      }
+    },
+    {
+      "step": "hours 0.01 round to 1 minute",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": 0.01
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 1
+        }
+      }
+    },
+    {
+      "step": "hours 2.5 as text",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": "2.5"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 150
+        }
+      }
+    },
+    {
+      "step": "hours null changes nothing",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": null
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 150
+        }
+      }
+    },
+    {
+      "step": "hours an empty text count as 0",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": ""
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 0
+        }
+      }
+    },
+    {
+      "step": "hours false count as 0",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": false
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 0
+        }
+      }
+    },
+    {
+      "step": "hours not a number at all",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": {}
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "effortHours must be a number between 0 and 1000"
+      }
+    },
+    {
+      "step": "hours infinite",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "effortHours": "Infinity"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "effortHours must be a number between 0 and 1000"
+      }
+    },
+    {
+      "step": "status null changes nothing",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": null
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 0
+        }
+      }
+    },
+    {
+      "step": "status in capitals",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "OPEN"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "status must be one of: open, in_progress, waiting_on_client, resolved, closed"
+      }
+    },
+    {
+      "step": "a status and a priority that are both wrong",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "paused",
+        "priority": "p9"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "status must be one of: open, in_progress, waiting_on_client, resolved, closed"
+      }
+    },
+    {
+      "step": "a priority and a title that are both wrong",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "priority": "p9",
+        "title": ""
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "priority must be p1, p2, or p3"
+      }
+    },
+    {
+      "step": "a title and an assignee that are both wrong",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "title": "",
+        "assignedTo": "me"
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "title must be between 1 and 200 characters"
+      }
+    },
+    {
+      "step": "an assignee and hours that are both wrong",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "assignedTo": "me",
+        "effortHours": -1
+      },
+      "status": 400,
+      "answer": {
+        "success": false,
+        "error": "assignedTo must be a valid UUID or null"
+      }
+    },
+    {
+      "step": "something nobody reads",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "colour": "red",
+        "id": "x"
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "Two\nlines",
+          "urgency": "annoying",
+          "priority": "p3",
+          "status": "open",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": null,
+          "context": {},
+          "effortMinutes": 0
+        }
+      }
+    },
+    {
+      "step": "every field at once",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress",
+        "priority": "p1",
+        "title": "All five",
+        "assignedTo": "00000000-0000-4000-8000-000000000002",
+        "effortHours": 1.25
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "All five",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {},
+          "effortMinutes": 75
+        }
+      }
+    },
+    {
+      "step": "the same again (the status is the one it has)",
+      "as": "superadmin",
+      "request": "PATCH /api/support/tickets/<uuid>",
+      "requestBody": {
+        "status": "in_progress",
+        "priority": "p1",
+        "title": "All five",
+        "assignedTo": "00000000-0000-4000-8000-000000000002",
+        "effortHours": 1.25
+      },
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "All five",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {},
+          "effortMinutes": 75
+        }
+      }
+    },
+    {
+      "step": "the ticket afterwards",
+      "as": "superadmin",
+      "request": "GET /api/support/tickets/<uuid>",
+      "status": 200,
+      "answer": {
+        "success": true,
+        "ticket": {
+          "id": "<uuid>",
+          "ticketNumber": "<number>",
+          "type": "bug",
+          "title": "All five",
+          "urgency": "annoying",
+          "priority": "p1",
+          "status": "in_progress",
+          "requesterName": "Test Sales",
+          "requesterRoles": [
+            "sales"
+          ],
+          "locale": "en",
+          "relatedTicketId": null,
+          "resolvedAt": null,
+          "closedAt": null,
+          "confirmedBy": null,
+          "createdAt": "<timestamp>",
+          "updatedAt": "<timestamp>",
+          "isOwner": false,
+          "requesterId": "00000000-0000-4000-8000-000000000007",
+          "requesterEmail": "sales@example.test",
+          "assignedTo": "00000000-0000-4000-8000-000000000002",
+          "context": {},
+          "effortMinutes": 75,
+          "messages": [],
+          "attachments": [],
+          "statusEvents": [
+            {
+              "id": "<uuid>",
+              "ticketId": "<uuid>",
+              "fromStatus": "open",
+              "toStatus": "in_progress",
+              "changedBy": "00000000-0000-4000-8000-000000000002",
+              "createdAt": "<timestamp>",
+              "oldStatus": "open",
+              "newStatus": "in_progress",
+              "actorKind": "agent",
+              "actorName": "Test Super Admin"
+            }
+          ],
+          "elapsedMinutes": "<minutes>"
+        },
+        "messages": [],
+        "attachments": [],
+        "statusEvents": [
+          {
+            "id": "<uuid>",
+            "ticketId": "<uuid>",
+            "fromStatus": "open",
+            "toStatus": "in_progress",
+            "changedBy": "00000000-0000-4000-8000-000000000002",
+            "createdAt": "<timestamp>",
+            "oldStatus": "open",
+            "newStatus": "in_progress",
+            "actorKind": "agent",
+            "actorName": "Test Super Admin"
+          }
+        ],
+        "elapsedMinutes": "<minutes>"
+      }
+    }
+  ],
+  "messagesSent": []
+}
