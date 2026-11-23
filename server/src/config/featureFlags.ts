@@ -91,13 +91,13 @@ export const FEATURE_FLAGS: ReadonlyArray<FeatureFlagDefinition> = [
     defaultEnabled: true,
     wired: true,
     intended: {
-      godspeed: false,
-      gdworkforce: false,
+      godspeed: true,
+      gdworkforce: true,
       canhire: true,
       allstaff: true,
     },
     notes:
-      "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.",
+      "Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now on for every portal.",
   },
   {
     key: "attach_handbook_to_assignment_email",

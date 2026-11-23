@@ -52,7 +52,7 @@ An on/off switch for behaviour that only some portals want.
 | Flag | What it does | Default | On for |
 | --- | --- | --- | --- |
 | `jobseeker_payroll_summary` | "Total No. Hours" and "Gross Amount" cards on the jobseeker dashboard (hours = regular + overtime; gross = pay before deductions). The API refuses the numbers when off. | off | intended for CanHire and GD Workforce; **to be switched on by the owner** (see [TODO.md](TODO.md)) |
-| `subcategory_positions` | Subcategory position pages, menu entry and the dropdown-management option | on | off for Godspeed and GD Workforce |
+| `subcategory_positions` | Subcategory position pages, menu entry and the dropdown-management option | on | all portals |
 | `attach_handbook_to_assignment_email` | Attaches the employee handbook PDF to the assignment email; bucket, path and attachment name are flag settings | off | Godspeed |
 | `hide_jobseeker_pay_rate` | Hides pay rate and bill rate in the jobseeker Compensation step | off | GD Workforce |
 | `jobseeker_profile_godspeed_rules` | Lighter jobseeker profile rules (licence number required, SIN and most address/qualification/compensation fields optional, document rule driver's licence or passport), in the forms and on the server | off | Godspeed |
