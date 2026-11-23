@@ -52,14 +52,8 @@
 }
 
 .ff-spinner {
-  animation: ff-spin 0.9s linear infinite;
+  animation: spin 0.9s linear infinite;
   color: var(--text-muted);
-}
-
-@keyframes ff-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .ff-banner {

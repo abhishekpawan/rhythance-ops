@@ -214,12 +214,6 @@
   font-size: var(--font-size-sm);
 }
 
-@keyframes etp-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .etp-spinner {
-  animation: etp-spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
