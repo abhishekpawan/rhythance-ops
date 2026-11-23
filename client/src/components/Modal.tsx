@@ -13,8 +13,12 @@ interface ModalProps {
   closeLabel: string;
   /** the body under the header */
   children: React.ReactNode;
+  /** a block under the body (`<classPrefix>-footer`); nothing is drawn without it */
+  footer?: React.ReactNode;
+  /** the size of the cross of the close button; 18 unless a page's own window always had another */
+  closeIconSize?: number;
   /**
-   * The class of every part is `<classPrefix>-backdrop`, `-content`, `-header`, `-title`, `-body` and `-close`, so
+   * The class of every part is `<classPrefix>-backdrop`, `-content`, `-header`, `-title`, `-body`, `-footer` and `-close`, so
    * a page keeps styling its window in its own stylesheet (stacking order included).
    */
   classPrefix: string;
@@ -31,6 +35,8 @@ export const Modal: React.FC<ModalProps> = ({
   actions,
   closeLabel,
   children,
+  footer,
+  closeIconSize = 18,
   classPrefix,
 }) => {
   const onCloseRef = useRef(onClose);
@@ -58,7 +64,7 @@ export const Modal: React.FC<ModalProps> = ({
       title={closeLabel}
       aria-label={closeLabel}
     >
-      <X size={18} />
+      <X size={closeIconSize} />
     </button>
   );
 
@@ -86,6 +92,7 @@ export const Modal: React.FC<ModalProps> = ({
           )}
         </div>
         <div className={`${classPrefix}-body`}>{children}</div>
+        {footer && <div className={`${classPrefix}-footer`}>{footer}</div>}
       </div>
     </div>
   );

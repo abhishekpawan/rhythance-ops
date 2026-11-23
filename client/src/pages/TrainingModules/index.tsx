@@ -151,6 +151,18 @@ export function TrainingModules() {
                 key={module.id}
                 className={`module-card ${module.completed ? "completed" : ""} ${module.youtubeId ? "video-module" : ""} ${module.comingSoon ? "coming-soon-module" : ""} ${module.mandatory ? "mandatory-module" : ""}`}
                 onClick={() => handleModuleClick(module)}
+                // a card opens a window: the keyboard reaches it and gets the focus back when the window closes
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (
+                    e.target === e.currentTarget &&
+                    (e.key === "Enter" || e.key === " ")
+                  ) {
+                    e.preventDefault();
+                    handleModuleClick(module);
+                  }
+                }}
               >
                 <div className="module-card-header">
                   {module.icon}

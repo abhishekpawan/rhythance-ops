@@ -1,5 +1,5 @@
 /* Coming Soon Modal Styles */
-.coming-soon-modal-overlay {
+.coming-soon-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@
   backdrop-filter: blur(4px);
 }
 
-.coming-soon-modal {
+.coming-soon-modal-content {
   background: var(--card);
   border-radius: var(--border-radius);
   max-width: 90vw;
@@ -54,7 +54,7 @@
   color: white;
 }
 
-.coming-soon-modal-title {
+.coming-soon-heading {
   font-size: var(--font-size-subheader);
   font-weight: var(--font-weight-semibold);
   color: var(--text);
@@ -87,7 +87,7 @@
   color: var(--text);
 }
 
-.coming-soon-modal-content {
+.coming-soon-modal-body {
   padding: var(--spacing-6);
   flex: 1;
   overflow-y: auto;
@@ -211,7 +211,7 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .coming-soon-modal {
+  .coming-soon-modal-content {
     width: 95vw;
     max-height: 95vh;
   }
@@ -220,11 +220,11 @@
     padding: var(--spacing-4);
   }
 
-  .coming-soon-modal-title {
+  .coming-soon-heading {
     font-size: var(--font-size-body);
   }
 
-  .coming-soon-modal-content {
+  .coming-soon-modal-body {
     padding: var(--spacing-4);
   }
 

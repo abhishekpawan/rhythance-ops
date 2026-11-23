@@ -1,5 +1,5 @@
 /* Video Modal Styles */
-.video-modal-overlay {
+.video-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@
   backdrop-filter: blur(4px);
 }
 
-.video-modal {
+.video-modal-content {
   background: var(--card);
   border-radius: var(--border-radius);
   max-width: 90vw;
@@ -35,7 +35,7 @@
   border-bottom: 1px solid var(--border);
 }
 
-.video-modal-title {
+.video-modal-heading {
   font-size: var(--font-size-subheader);
   font-weight: var(--font-weight-semibold);
   color: var(--text);
@@ -100,7 +100,7 @@
 
 /* Responsive for video modal */
 @media (max-width: 768px) {
-  .video-modal {
+  .video-modal-content {
     width: 95vw;
     max-height: 95vh;
   }
@@ -109,7 +109,7 @@
     padding: var(--spacing-4);
   }
 
-  .video-modal-title {
+  .video-modal-heading {
     font-size: var(--font-size-body);
   }
 } 

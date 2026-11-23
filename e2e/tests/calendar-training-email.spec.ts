@@ -87,6 +87,38 @@ for (const language of ["en", "fr"] as const) {
           snap("training-module", language)
         );
       });
+
+      test("a module window: Escape closes it and the focus goes back to the module that opened it", async ({
+        page,
+      }) => {
+        // the video window embeds YouTube: that address is answered here with an empty page, so no request leaves
+        // this machine
+        await page.route("https://www.youtube.com/**", (route) =>
+          route.fulfill({ contentType: "text/html", body: "<html></html>" })
+        );
+        await open(page, "/training-modules", language);
+        await expect(page.locator(".module-card").first()).toBeVisible();
+        // the last video card: its video is the same before and after the portal's own two have loaded
+        const cards = {
+          "coming soon": page
+            .locator(".module-card.coming-soon-module")
+            .first(),
+          video: page.locator(".module-card.video-module").last(),
+        };
+        const windows = {
+          "coming soon": page.locator(".coming-soon-modal-backdrop"),
+          video: page.locator(".video-modal-backdrop"),
+        };
+        for (const kind of ["coming soon", "video"] as const) {
+          // a click gives the card the focus, as it does a person's
+          await cards[kind].click();
+          await expect(windows[kind]).toBeVisible();
+          await expect(page.getByRole("dialog")).toHaveCount(1);
+          await page.keyboard.press("Escape");
+          await expect(windows[kind]).toHaveCount(0);
+          await expect(cards[kind]).toBeFocused();
+        }
+      });
     });
 
     test.describe("email template previews", () => {
