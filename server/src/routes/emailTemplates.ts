@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { authenticateToken } from "../middleware/auth.js";
+import { requireSuperAdmin } from "../middleware/superAdmin.js";
 import {
   getAssignmentFromEmail,
   getNoReplyFromEmail,
@@ -8,18 +9,6 @@ import { getPortalSettingSync } from "../services/portalSettings.js";
 import { TEMPLATES } from "./emailTemplates/registry.js";
 
 const router = Router();
-
-// Middleware: require super admin
-function requireSuperAdmin(req: Request, res: Response, next: Function) {
-  if (!req.user) {
-    return res.status(401).json({ error: "Authentication required" });
-  }
-  const userRoles = req.user.user_metadata?.user_role;
-  if (!Array.isArray(userRoles) || !userRoles.includes("superadmin")) {
-    return res.status(403).json({ error: "Access denied. Super admin only." });
-  }
-  next();
-}
 
 function getTemplateFromEmail(templateId: string): string {
   if (
