@@ -34,14 +34,14 @@ POSITIONS
 Subcategory positions
 subcategory_positions
 Subcategory position pages, menu entry and the subcategory option in dropdown management.
-Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now controlled here: off for those two, on for the others.
+Previously hard-coded (commented out) in the Godspeed and GD Workforce branches. Now on for every portal.
 CONTROLS BEHAVIOUR
 DEFAULT
 Planned (not the current setting)
 Godspeed
-Off
+On
 GD Workforce
-Off
+On
 CanHire
 On
 All Staff
