@@ -1,4 +1,5 @@
 import { ChevronRight, Database, Loader2, Mail, Send } from "lucide-react";
+import { StatusBadge } from "../../components/StatusBadge";
 import type { EmailTemplateInfo } from "../../services/api/emailTemplates";
 
 interface EmailTemplateSidebarProps {
@@ -44,16 +45,19 @@ export function EmailTemplateSidebar({
                 <div className="etp-sidebar-item-content">
                   <div className="etp-sidebar-item-top">
                     <span className="etp-sidebar-item-name">{t.name}</span>
-                    <span
-                      className={`etp-service-badge etp-service-badge--${t.service}`}
-                    >
-                      {t.service === "sendgrid" ? (
-                        <Send size={10} />
-                      ) : (
-                        <Database size={10} />
-                      )}
-                      {t.service === "sendgrid" ? "SendGrid" : "Supabase"}
-                    </span>
+                    <StatusBadge
+                      variant="plain"
+                      baseClass="etp-service-badge"
+                      tone={`etp-service-badge--${t.service}`}
+                      icon={
+                        t.service === "sendgrid" ? (
+                          <Send size={10} />
+                        ) : (
+                          <Database size={10} />
+                        )
+                      }
+                      label={t.service === "sendgrid" ? "SendGrid" : "Supabase"}
+                    />
                   </div>
                   <span className="etp-sidebar-item-desc">{t.description}</span>
                   <span className="etp-sidebar-item-trigger">

@@ -1,4 +1,5 @@
 import { CheckCircle2, Link2Off, Loader2, RotateCcw } from "lucide-react";
+import { StatusBadge } from "../../components/StatusBadge";
 import { useLanguage } from "../../contexts/language/language-provider";
 import type {
   FeatureFlagAdminItem,
@@ -55,21 +56,33 @@ export function FeatureFlagCard({
         {flag.notes && <p className="ff-notes">{flag.notes}</p>}
 
         <div className="ff-badges">
-          <span
-            className={`ff-badge ${flag.wired ? "ff-badge--controls" : "ff-badge--tracking"}`}
-          >
-            {flag.wired ? <CheckCircle2 size={12} /> : <Link2Off size={12} />}
-            {flag.wired
-              ? t("featureFlags.status.controls")
-              : t("featureFlags.status.tracking")}
-          </span>
-          <span
-            className={`ff-badge ${flag.source === "override" ? "ff-badge--changed" : "ff-badge--default"}`}
-          >
-            {flag.source === "override"
-              ? t("featureFlags.status.customized")
-              : t("featureFlags.status.default")}
-          </span>
+          <StatusBadge
+            variant="plain"
+            baseClass="ff-badge"
+            tone={flag.wired ? "ff-badge--controls" : "ff-badge--tracking"}
+            icon={
+              flag.wired ? <CheckCircle2 size={12} /> : <Link2Off size={12} />
+            }
+            label={
+              flag.wired
+                ? t("featureFlags.status.controls")
+                : t("featureFlags.status.tracking")
+            }
+          />
+          <StatusBadge
+            variant="plain"
+            baseClass="ff-badge"
+            tone={
+              flag.source === "override"
+                ? "ff-badge--changed"
+                : "ff-badge--default"
+            }
+            label={
+              flag.source === "override"
+                ? t("featureFlags.status.customized")
+                : t("featureFlags.status.default")
+            }
+          />
         </div>
 
         {flag.settingValues.length > 0 && (

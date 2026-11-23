@@ -6,6 +6,7 @@ import {
   UserCircle,
   Users,
 } from "lucide-react";
+import { StatusBadge } from "../../components/StatusBadge";
 import type { EmailTemplatePreview } from "../../services/api/emailTemplates";
 
 /** What the page says about the template before its body: name, service, subject, sender, copies, attachments, trigger. */
@@ -21,16 +22,22 @@ export function EmailTemplateMeta({
         <div className="etp-preview-meta">
           <div className="etp-preview-title-row">
             <h2 className="etp-preview-title">{preview.name}</h2>
-            <span
-              className={`etp-service-badge etp-service-badge--${preview.service} etp-service-badge--lg`}
-            >
-              {preview.service === "sendgrid" ? (
-                <Send size={12} />
-              ) : (
-                <Database size={12} />
-              )}
-              {preview.service === "sendgrid" ? "SendGrid" : "Supabase Auth"}
-            </span>
+            <StatusBadge
+              variant="plain"
+              baseClass="etp-service-badge"
+              tone={`etp-service-badge--${preview.service}`}
+              className="etp-service-badge--lg"
+              icon={
+                preview.service === "sendgrid" ? (
+                  <Send size={12} />
+                ) : (
+                  <Database size={12} />
+                )
+              }
+              label={
+                preview.service === "sendgrid" ? "SendGrid" : "Supabase Auth"
+              }
+            />
           </div>
           <p className="etp-preview-description">{preview.description}</p>
         </div>
