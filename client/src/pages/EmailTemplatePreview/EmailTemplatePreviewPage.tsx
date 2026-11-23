@@ -16,6 +16,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { EmptyState } from "../../components/EmptyState";
 import { EmailTemplateMeta } from "./EmailTemplateMeta";
 import { EmailTemplateSidebar } from "./EmailTemplateSidebar";
 import "../../styles/pages/EmailTemplatePreview.css";
@@ -185,11 +186,12 @@ export function EmailTemplatePreviewPage() {
         {/* Main preview panel */}
         <main className="etp-main">
           {!selectedId && !loading && (
-            <div className="etp-empty">
-              <Mail size={48} />
-              <h3>Select a template</h3>
-              <p>Choose an email template from the sidebar to preview it.</p>
-            </div>
+            <EmptyState
+              className="etp-empty"
+              icon={<Mail size={48} />}
+              title="Select a template"
+              description="Choose an email template from the sidebar to preview it."
+            />
           )}
 
           {error && (

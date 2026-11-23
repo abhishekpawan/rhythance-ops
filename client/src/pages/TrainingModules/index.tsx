@@ -12,6 +12,7 @@ import {
 import { VideoModal } from "./VideoModal";
 import { buildTrainingModules, type Module } from "./trainingModules";
 import { ComingSoonModal } from "./ComingSoonModal";
+import { EmptyState } from "../../components/EmptyState";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { usePortalSettings } from "../../contexts/PortalSettingsContext";
 import "../../styles/pages/TrainingModules.css";
@@ -194,18 +195,21 @@ export function TrainingModules() {
               </div>
             ))
           ) : (
-            <div className="no-modules-message">
-              <p>{t("training.noModulesMessage")}</p>
-              <button
-                className="button outline"
-                onClick={() => {
-                  setSelectedCategory("all");
-                  setSearchQuery("");
-                }}
-              >
-                {t("training.resetFilters")}
-              </button>
-            </div>
+            <EmptyState
+              className="no-modules-message"
+              description={t("training.noModulesMessage")}
+              action={
+                <button
+                  className="button outline"
+                  onClick={() => {
+                    setSelectedCategory("all");
+                    setSearchQuery("");
+                  }}
+                >
+                  {t("training.resetFilters")}
+                </button>
+              }
+            />
           )}
         </div>
       </main>

@@ -12,6 +12,7 @@ import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { Toast } from "../../components/Toast";
 import { useLanguage } from "../../contexts/language/language-provider";
 import type { FeatureFlagCategory } from "../../services/api/featureFlags";
+import { EmptyState } from "../../components/EmptyState";
 import { FeatureFlagCard } from "./FeatureFlagCard";
 import { useFeatureFlagsAdmin } from "./useFeatureFlagsAdmin";
 import "../../styles/pages/FeatureFlags.css";
@@ -164,10 +165,11 @@ export function FeatureFlagsPage() {
             </div>
 
             {grouped.length === 0 && (
-              <div className="ff-empty">
-                <SlidersHorizontal size={32} />
-                <p>{t("featureFlags.empty")}</p>
-              </div>
+              <EmptyState
+                className="ff-empty"
+                icon={<SlidersHorizontal size={32} />}
+                description={t("featureFlags.empty")}
+              />
             )}
 
             {grouped.map(({ category, items }) => (
