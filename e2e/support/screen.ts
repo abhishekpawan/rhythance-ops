@@ -17,7 +17,10 @@ export async function screenText(
   root: string,
   { maskDates = true }: { maskDates?: boolean } = {}
 ) {
-  await page.waitForLoadState("networkidle");
+  // No waitForLoadState("networkidle") here: a screen that holds a srcdoc iframe (the email preview) never reaches it
+  // when the machine is slow, however quiet the network is. Each journey waits for the state its screen shows
+  // (cards, rows, the preview itself) before it calls this; this waits for the screen and the loader.
+  await expect(page.locator(root).first()).toBeVisible();
   await expect(page.locator(".loading-spinner")).toHaveCount(0);
   // the toast ("saved", "added") stays for a few seconds and then goes: it is not part of the page, and whether it is
   // still there depends on how fast the run is. A journey waits for the state a save leaves behind, never for the toast.

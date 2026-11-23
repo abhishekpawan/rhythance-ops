@@ -18,7 +18,6 @@ const snap = (name: string, language: Language) => [
 async function open(page: Page, path: string, language: Language) {
   await page.goto(path);
   await expect(page.locator("html")).toHaveAttribute("lang", language);
-  await page.waitForLoadState("networkidle");
 }
 
 for (const language of ["en", "fr"] as const) {
