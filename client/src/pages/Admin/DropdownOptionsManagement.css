@@ -1,5 +1,18 @@
 /* Dropdown Options Management - Scoped under .dropdown-options-management */
 
+/* the top bar names the page: the role badge and one line of text open it */
+.dropdown-options-management .page-intro {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.dropdown-options-management .page-intro .dashboard-subtitle {
+  margin-bottom: 0;
+}
+
 .dropdown-options-management .card.dopts-card {
   width: 100%;
   max-width: 100%;

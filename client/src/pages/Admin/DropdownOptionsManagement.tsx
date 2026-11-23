@@ -149,14 +149,13 @@ export function DropdownOptionsManagement() {
       />
 
       <div className="content-container">
-        <div className="dashboard-heading">
-          <h1 className="dashboard-title">{t("dropdownOptions.title")}</h1>
+        <div className="page-intro">
           <div className="user-role-badge">
             <ClipboardList className="role-icon" size={18} />
             <span>{t("dropdownOptions.title")}</span>
           </div>
+          <p className="dashboard-subtitle">{t("dropdownOptions.subtitle")}</p>
         </div>
-        <p className="dashboard-subtitle">{t("dropdownOptions.subtitle")}</p>
 
         <div className="card dopts-card">
           <DropdownListTabs

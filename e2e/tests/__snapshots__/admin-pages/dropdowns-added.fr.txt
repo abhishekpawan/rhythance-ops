@@ -1,6 +1,5 @@
 Gestion des options de listes déroulantes
 Gestion des options de listes déroulantes
-Gestion des options de listes déroulantes
 Gérer les valeurs des listes déroulantes utilisées dans les formulaires — options du personnel client (Gestionnaire, Représentant, Vendeur, Comptable) et options de postes (Titre).
 OPTIONS CLIENT
 Client Manager

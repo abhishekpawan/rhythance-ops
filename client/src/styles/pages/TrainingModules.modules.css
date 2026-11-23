@@ -6,6 +6,18 @@
   margin: 0 auto;
 }
 
+/* the top bar names the page: the role badge and one line of text open it */
+.training-modules-main .page-intro {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.training-modules-main .page-intro .dashboard-subtitle {
+  margin-bottom: 0;
+}
+
 /* Module filters */
 .module-filters {
   display: flex;

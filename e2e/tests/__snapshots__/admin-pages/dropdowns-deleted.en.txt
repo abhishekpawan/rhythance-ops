@@ -1,6 +1,5 @@
 Dropdown Options Management
 Dropdown Options Management
-Dropdown Options Management
 Manage dropdown values used across forms — client personnel options (Manager, Representative, Sales Person, Accounting) and position options (Title).
 CLIENT OPTIONS
 Client Manager

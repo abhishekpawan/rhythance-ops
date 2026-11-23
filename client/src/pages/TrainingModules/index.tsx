@@ -93,14 +93,13 @@ export function TrainingModules() {
 
       {/* Main content */}
       <main className="training-modules-main">
-        <div className="dashboard-heading">
-          <h1 className="dashboard-title">{t("training.subtitle")}</h1>
+        <div className="page-intro">
           <div className="user-role-badge">
             <Award className="role-icon" />
             <span>{t("training.learningPortal")}</span>
           </div>
+          <p className="dashboard-subtitle">{t("training.description")}</p>
         </div>
-        <p className="dashboard-subtitle">{t("training.description")}</p>
 
         {/* Filters and search */}
         <div className="module-filters">
