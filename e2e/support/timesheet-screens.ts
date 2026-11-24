@@ -2,6 +2,7 @@
 // weeks the journeys write to, a service-key sweep that puts the database back, and the readers for what the screens
 // send and show. The expected request bodies are written by hand in the specs (never copied from a run).
 import { expect, type Page, type Request } from "@playwright/test";
+import { putBackTimesheetWrites } from "../../server/tests/support/put-back.mjs";
 import { localStack } from "../../server/tests/support/stack.mjs";
 
 const uid = (n: number) =>
@@ -56,13 +57,14 @@ const rest = (path: string, init: RequestInit = {}) =>
     },
   });
 
-/** Removes every timesheet written before June 2026 (the seed starts in September 2026): the journeys' own rows. */
+/**
+ * Puts the database back: removes every timesheet written before June 2026 (the seed starts in September 2026) and what
+ * the server logged and moved because of them (the activity rows, the clients' and jobseekers' last-activity dates:
+ * `server/tests/support/put-back.mjs`). The server logs a write after it has answered, so it waits a moment first.
+ */
 export async function sweepTimesheets() {
-  const r = await rest("/rest/v1/timesheets?week_start_date=lt.2026-06-01", {
-    method: "DELETE",
-    headers: { Prefer: "return=minimal" },
-  });
-  expect(r.status, await r.text()).toBeLessThan(300);
+  await new Promise((r) => setTimeout(r, 600));
+  putBackTimesheetWrites(stack.dbUrl, "week_start_date < '2026-06-01'");
 }
 
 /** The rows written before June 2026 (what a journey saved), oldest week first, in the order of their segment. */

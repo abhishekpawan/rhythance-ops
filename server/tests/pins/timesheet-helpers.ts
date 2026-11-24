@@ -17,6 +17,7 @@ import {
   type Reply,
 } from "../support/api";
 import { settle, STAFF_ROLES, type Role } from "./module-helpers";
+import { putBackTimesheetWrites } from "../support/put-back.mjs";
 
 const uid = (n: number) =>
   `00000000-0000-4000-8000-${String(n).padStart(12, "0")}`;
@@ -152,15 +153,14 @@ export const settled = (value: unknown) => settle(value) as any;
 
 const serviceKey = () => stack().serviceKey;
 
-/** Removes, straight in the database, every timesheet a pin made (found by its note). */
+/**
+ * Puts the database back after a pin wrote: removes every timesheet it made (found by its note) and what the server
+ * logged and moved because of them (`support/put-back.mjs`). The server logs a write after it has answered, so this
+ * waits a moment first for the last of those rows to arrive.
+ */
 export async function sweep() {
-  const r = await supabase(`/rest/v1/timesheets?notes=like.${NOTE}*`, {
-    method: "DELETE",
-    token: serviceKey(),
-    key: serviceKey(),
-    headers: { Prefer: "return=minimal" },
-  });
-  expect(r.status, r.text).toBeLessThan(300);
+  await new Promise((r) => setTimeout(r, 600));
+  putBackTimesheetWrites(stack().dbUrl, `notes LIKE '${NOTE}%'`);
 }
 
 /** The row as the database holds it (service key), or null. */

@@ -22,13 +22,14 @@ export default defineConfig({
       testIgnore: [/auth\.setup\.ts/, /timesheets-.*\.spec\.ts/],
       dependencies: ["setup"],
     },
-    // The Timesheets journeys write timesheets (removed after each test) and read the list of all of them, so no two of
-    // them may run at the same time: each file is a project that waits for the one before. They share nothing with the
-    // journeys above (the rows they write are in weeks of 2025, which no other journey reads).
+    // The Timesheets journeys write timesheets (removed after each test, with the dates they move) and read the list of
+    // all of them, so no two of them may run at the same time, and none may run while the journeys above read the
+    // clients' and jobseekers' last-activity dates (the Reports tables): each file is a project that waits for the one
+    // before, the first for every other journey.
     {
       name: "timesheets-entry",
       testMatch: /timesheets-entry\.spec\.ts/,
-      dependencies: ["setup"],
+      dependencies: ["setup", "journeys"],
     },
     {
       name: "timesheets-bulk",
