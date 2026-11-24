@@ -1,0 +1,4 @@
+TABLE 1
+HEADER: N° Facture | Client | Poste | Période de la semaine Sélectionner la plage | Demandeurs d'emploi | Email de facturation | Total Pay Pay ($) | Statut de l'e-mail Tous les statuts d'email Email envoyé Email non envoyé | Actions View • Edit • Delete
+ROW: # 900002 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Hana Hybrid jobseeker.hybrid@example.test | - | $360.00 | Renvoyer | 
+ROW: # 900002 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Hana Hybrid jobseeker.hybrid@example.test | - | $400.00 | Renvoyer | 

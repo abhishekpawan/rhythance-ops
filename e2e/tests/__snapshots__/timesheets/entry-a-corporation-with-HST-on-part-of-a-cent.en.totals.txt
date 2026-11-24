@@ -1,0 +1,17 @@
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours(incl. premium $2.5/h)
+37.50
+$22.50
+$843.75
+Total Hours:
+37.5
+Subtotal:
+$843.75
+Tax (HST/GST):
++$109.69
+Employee Pay:
+$953.44

@@ -1,0 +1,17 @@
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+Heures de travail standard
+40.00
+$20.00
+$800.00
+Total des heures:
+40.0
+Sous-total:
+$800.00
+Déduction cash (10%)
+-$80.00
+Rémunération de l'employé:
+$720.00

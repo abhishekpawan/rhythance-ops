@@ -1,0 +1,3 @@
+TABLE 1
+HEADER: N° Facture | Client | Poste | Période de la semaine Sélectionner la plage | Demandeurs d'emploi | Email de facturation | Total Pay Pay ($) | Statut de l'e-mail Tous les statuts d'email Email envoyé Email non envoyé | Actions View • Edit • Delete
+ROW: # 900003 | Quebec Test Logistics Client | Driver Helper | 2026-11-08 - 2026-11-14 | Corey Corporate jobseeker.corp@example.test | - | $1017.00 | Envoyer un email | 

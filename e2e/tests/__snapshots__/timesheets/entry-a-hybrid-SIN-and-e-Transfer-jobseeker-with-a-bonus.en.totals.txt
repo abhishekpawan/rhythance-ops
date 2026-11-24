@@ -1,0 +1,28 @@
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+SIN-Direct Deposit
+30.00
+$20.00
+$600.00
+Total Regular Hours
+e-Transfer
+10.00
+$20.00
+$200.00
+Bonus
+-
+-
++$50.00
+Total Hours:
+40.0
+Subtotal:
+$800.00
+Cash Deduction (5%)
+-$10.00
+Bonus:
++$50.00
+Employee Pay:
+$840.00

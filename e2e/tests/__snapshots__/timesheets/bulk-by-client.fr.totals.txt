@@ -1,0 +1,129 @@
+Détails de l'employé
+NOM
+Casey Cashman
+COURRIEL
+jobseeker.cash@example.test
+COURRIEL DE FACTURATION
+N/D
+TÉLÉPHONE
++15555550112
+ID EMPLOYÉ
+E-0012
+MODE DE PAIEMENT
+Cash
+DÉDUCTION CASH
+10%
+Heures quotidiennes
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Ajustements de rémunération
+PRIME
+Montant
+DÉDUCTION
+Montant
+Taux de rémunération régulier
+$20/h
+Seuil des heures supplémentaires
+40 heures
+Notes supplémentaires
+Envoyer la feuille de temps par email à ce demandeur d'emploi
+L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+Heures de travail standard
+40.00
+$20.00
+$800.00
+Total des heures:
+40.0
+Sous-total:
+$800.00
+Déduction cash (10%)
+-$80.00
+Rémunération de l'employé:
+$720.00
+Détails de l'employé
+NOM
+Sam Sinclair
+COURRIEL
+jobseeker.sin@example.test
+COURRIEL DE FACTURATION
+N/D
+TÉLÉPHONE
++15555550111
+ID EMPLOYÉ
+E-0011
+MODE DE PAIEMENT
+SIN-Direct Deposit
+Heures quotidiennes
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Ajustements de rémunération
+PRIME
+Montant
+DÉDUCTION
+Montant
+Taux de rémunération régulier
+$20/h
+Seuil des heures supplémentaires
+40 heures
+Notes supplémentaires
+Envoyer la feuille de temps par email à ce demandeur d'emploi
+L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+Heures de travail standard
+40.00
+$20.00
+$800.00
+Total des heures:
+40.0
+Sous-total:
+$800.00
+Rémunération de l'employé:
+$800.00
+RÉSUMÉ FINAL
+HEURES
+RATE
+AMOUNT
+Total des heures régulières
+80.00
+$20.00
+$1600.00
+Grand total des heures:
+80.00
+Grand total de la rémunération:
+$1520.00
+Envoyer les feuilles de temps par email à tous les demandeurs d'emploi
+L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal
+Générer la feuille de temps en lot

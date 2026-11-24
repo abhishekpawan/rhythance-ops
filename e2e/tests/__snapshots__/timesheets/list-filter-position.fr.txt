@@ -1,0 +1,4 @@
+TABLE 1
+HEADER: N° Facture | Client | Poste | Période de la semaine Sélectionner la plage | Demandeurs d'emploi | Email de facturation | Total Pay Pay ($) | Statut de l'e-mail Tous les statuts d'email Email envoyé Email non envoyé | Actions View • Edit • Delete
+ROW: # 900004 | Pacific Test Warehousing Client | Loader | 2026-10-25 - 2026-10-31 | Ely Etransfer jobseeker.hybrid.et@example.test | - | $190.00 | Renvoyer | 
+ROW: # 900004 | Pacific Test Warehousing Client | Loader | 2026-10-25 - 2026-10-31 | Ely Etransfer jobseeker.hybrid.et@example.test | - | $650.00 | Renvoyer | 

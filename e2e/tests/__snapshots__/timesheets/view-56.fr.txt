@@ -1,0 +1,51 @@
+Back to List
+Send Email
+Edit Timesheet
+View Timesheet #900003
+Timesheet Overview
+Email Not Sent
+INVOICE NUMBER
+#900003
+WEEK PERIOD
+2026-11-08 to 2026-11-14
+TOTAL REGULAR HOURS
+40 hrs
+TOTAL OVERTIME HOURS
+0 hrs
+CREATED AT
+<date>
+Daily Hours Entry
+DATE HOURS LOGGED
+2026-11-09 8 hrs
+2026-11-10 8 hrs
+2026-11-11 8 hrs
+2026-11-12 8 hrs
+2026-11-13 8 hrs
+Jobseeker Details
+FULL NAME
+Corey Corporate
+PRIMARY EMAIL
+jobseeker.corp@example.test
+BILLING EMAIL
+-
+PAYMENT METHOD
+Corporation-Direct Deposit
+TAX RATE (HST/GST)
+13%%
+Client & Position
+CLIENT NAME
+-
+POSITION TITLE
+Driver Helper
+POSITION CODE
+QL001
+Jobseeker Pay & Rates
+Regular Pay Rate $20.00/hr
+Premium Rate $2.50/hr
+Overtime Rate $20.00/hr
+Tax (HST/GST) +$117.00
+Grand Total Pay $1017.00
+Client Billing Summary
+Regular Bill Rate $35.00/hr
+Overtime Bill Rate $35.00/hr
+Total Client Bill $1400.00

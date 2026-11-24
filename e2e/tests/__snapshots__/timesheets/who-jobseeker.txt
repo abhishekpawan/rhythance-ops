@@ -1,0 +1,6 @@
+entry: /timesheet-management -> /onboarding-consent
+list: /timesheet-management/list -> /onboarding-consent
+view: /timesheet-management/view/00000000-0000-4000-8000-000000000051 -> /onboarding-consent
+bulk by client: /bulk-timesheet-management -> /onboarding-consent
+bulk by jobseeker: /bulk-timesheet-management/jobseeker -> /onboarding-consent
+bulk list: /bulk-timesheet-management/list -> /onboarding-consent

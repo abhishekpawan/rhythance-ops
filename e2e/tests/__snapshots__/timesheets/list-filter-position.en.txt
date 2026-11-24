@@ -1,0 +1,4 @@
+TABLE 1
+HEADER: Invoice # | Client | Position | Week Period Select Range | Jobseekers | Billing Email | Total Pay Pay ($) | Email Status All Email Status Email Sent Email Not Sent | Actions View • Edit • Delete
+ROW: # 900004 | Pacific Test Warehousing Client | Loader | 2026-10-25 - 2026-10-31 | Ely Etransfer jobseeker.hybrid.et@example.test | - | $190.00 | Resend | 
+ROW: # 900004 | Pacific Test Warehousing Client | Loader | 2026-10-25 - 2026-10-31 | Ely Etransfer jobseeker.hybrid.et@example.test | - | $650.00 | Resend | 

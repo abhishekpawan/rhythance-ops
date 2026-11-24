@@ -1,0 +1,52 @@
+Back to List
+Resend Email
+Edit Timesheet
+View Timesheet #900004
+Timesheet Overview
+Email Sent
+INVOICE NUMBER
+#900004
+WEEK PERIOD
+2026-10-25 to 2026-10-31
+TOTAL REGULAR HOURS
+30 hrs
+TOTAL OVERTIME HOURS
+0 hrs
+CREATED AT
+<date>
+Daily Hours Entry
+DATE HOURS LOGGED
+2026-10-26 10 hrs
+2026-10-27 10 hrs
+2026-10-28 10 hrs
+2026-10-29 0 hrs
+2026-10-30 0 hrs
+Additional Notes
+Bonus 50
+Jobseeker Details
+FULL NAME
+Ely Etransfer
+PRIMARY EMAIL
+jobseeker.hybrid.et@example.test
+BILLING EMAIL
+-
+PAYMENT METHOD
+SIN and e-Transfer
+CASH DEDUCTION
+5%
+Client & Position
+CLIENT NAME
+-
+POSITION TITLE
+Loader
+POSITION CODE
+PW001
+Jobseeker Pay & Rates
+Regular Pay Rate $20.00/hr
+Overtime Rate $20.00/hr
+Bonus +$50.00
+Grand Total Pay $650.00
+Client Billing Summary
+Regular Bill Rate $35.00/hr
+Overtime Bill Rate $35.00/hr
+Total Client Bill $1050.00

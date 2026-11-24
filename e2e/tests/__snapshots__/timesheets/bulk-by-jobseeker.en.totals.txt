@@ -1,0 +1,127 @@
+JOB SEEKER
+Sam Sinclair
+CLIENT
+Northwind Test Staffing Client
+WEEK PERIOD
+Dec 7, 2025 - Dec 13, 2025
+Employee Details
+NAME
+Sam Sinclair
+EMAIL
+jobseeker.sin@example.test
+BILLING EMAIL
+N/A
+PHONE NUMBER
++15555550111
+EMPLOYEE ID
+E-0011
+PAYMENT METHOD
+SIN-Direct Deposit
+Add another position
+Position
+Forklift Operator —
+Daily Hours
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Pay Adjustments
+BONUS
+Amount
+DEDUCTION
+Amount
+Pay details
+Regular Pay Rate
+$20/h
+Overtime Pay Rate
+$30/h
+Overtime Threshold
+40 hours
+Send timesheet via email to this jobseeker
+Email will be sent to billing email if provided, otherwise to primary email
+Additional Notes
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours
+20.00
+$20.00
+$400.00
+Total Hours:
+20.0
+Subtotal:
+$400.00
+Employee Pay:
+$400.00
+Position
+Warehouse Associate —
+Daily Hours
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Pay Adjustments
+BONUS
+Amount
+DEDUCTION
+Amount
+Pay details
+Regular Pay Rate
+$20/h
+Overtime Threshold
+40 hours
+Send timesheet via email to this jobseeker
+Email will be sent to billing email if provided, otherwise to primary email
+Additional Notes
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours
+32.00
+$20.00
+$640.00
+Total Hours:
+32.0
+Subtotal:
+$640.00
+Employee Pay:
+$640.00
+FINAL SUMMARY
+HOURS
+—
+AMOUNT
+Total Regular Hours
+52.00
+N/A
+N/A
+Grand Total Hours:
+52.00
+Grand Total Pay:
+$1040.00
+Send timesheets via email for every position row
+Email will be sent to billing email if provided, otherwise to primary email
+Generate Bulk Timesheet

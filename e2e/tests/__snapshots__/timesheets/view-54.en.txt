@@ -1,0 +1,49 @@
+Back to List
+Resend Email
+Edit Timesheet
+View Timesheet #900002
+Timesheet Overview
+Email Sent
+INVOICE NUMBER
+#900002
+WEEK PERIOD
+2026-11-01 to 2026-11-07
+TOTAL REGULAR HOURS
+20 hrs
+TOTAL OVERTIME HOURS
+0 hrs
+CREATED AT
+<date>
+Daily Hours Entry
+DATE HOURS LOGGED
+2026-11-02 8 hrs
+2026-11-03 8 hrs
+2026-11-04 4 hrs
+2026-11-05 0 hrs
+2026-11-06 0 hrs
+Jobseeker Details
+FULL NAME
+Hana Hybrid
+PRIMARY EMAIL
+jobseeker.hybrid@example.test
+BILLING EMAIL
+-
+PAYMENT METHOD
+SIN and cash
+CASH DEDUCTION
+10%
+Client & Position
+CLIENT NAME
+-
+POSITION TITLE
+Warehouse Associate
+POSITION CODE
+NW001
+Jobseeker Pay & Rates
+Regular Pay Rate $20.00/hr
+Overtime Rate $20.00/hr
+Grand Total Pay $400.00
+Client Billing Summary
+Regular Bill Rate $35.00/hr
+Overtime Bill Rate $35.00/hr
+Total Client Bill $700.00

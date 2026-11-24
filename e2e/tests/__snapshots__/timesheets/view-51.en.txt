@@ -1,0 +1,47 @@
+Back to List
+Resend Email
+Edit Timesheet
+View Timesheet #900001
+Timesheet Overview
+Email Sent
+INVOICE NUMBER
+#900001
+WEEK PERIOD
+2026-11-01 to 2026-11-07
+TOTAL REGULAR HOURS
+40 hrs
+TOTAL OVERTIME HOURS
+0 hrs
+CREATED AT
+<date>
+Daily Hours Entry
+DATE HOURS LOGGED
+2026-11-02 8 hrs
+2026-11-03 8 hrs
+2026-11-04 8 hrs
+2026-11-05 8 hrs
+2026-11-06 8 hrs
+Jobseeker Details
+FULL NAME
+Sam Sinclair
+PRIMARY EMAIL
+jobseeker.sin@example.test
+BILLING EMAIL
+-
+PAYMENT METHOD
+SIN-Direct Deposit
+Client & Position
+CLIENT NAME
+-
+POSITION TITLE
+Warehouse Associate
+POSITION CODE
+NW001
+Jobseeker Pay & Rates
+Regular Pay Rate $20.00/hr
+Overtime Rate $20.00/hr
+Grand Total Pay $800.00
+Client Billing Summary
+Regular Bill Rate $35.00/hr
+Overtime Bill Rate $35.00/hr
+Total Client Bill $1400.00

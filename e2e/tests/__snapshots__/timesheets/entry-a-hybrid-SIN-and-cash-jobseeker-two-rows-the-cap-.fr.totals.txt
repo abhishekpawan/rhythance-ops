@@ -1,0 +1,22 @@
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+SIN-Direct Deposit
+20.00
+$20.00
+$400.00
+Total des heures régulières
+Cash
+20.00
+$20.00
+$400.00
+Total des heures:
+40.0
+Sous-total:
+$800.00
+Déduction cash (10%)
+-$40.00
+Rémunération de l'employé:
+$760.00

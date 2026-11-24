@@ -1,0 +1,17 @@
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+Heures de travail standard(incl. prime $2.5/h)
+37.50
+$22.50
+$843.75
+Total des heures:
+37.5
+Sous-total:
+$843.75
+Taxe (TVH/TPS):
++$109.69
+Rémunération de l'employé:
+$953.44

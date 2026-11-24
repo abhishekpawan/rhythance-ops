@@ -1,0 +1,20 @@
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours
+40.00
+$20.00
+$800.00
+Overtime Hours
+Hours exceeding 40 hours/week
+10.00
+$30
+$300.00
+Total Hours:
+50.0
+Subtotal:
+$1100.00
+Employee Pay:
+$1100.00

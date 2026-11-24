@@ -1,0 +1,47 @@
+Back to List
+Send Email
+Edit Timesheet
+View Timesheet #00000000-0000-4000-8000-000000000052
+Timesheet Overview
+Email Not Sent
+INVOICE NUMBER
+#-
+WEEK PERIOD
+2026-11-08 to 2026-11-14
+TOTAL REGULAR HOURS
+40 hrs
+TOTAL OVERTIME HOURS
+10 hrs
+CREATED AT
+<date>
+Daily Hours Entry
+DATE HOURS LOGGED
+2026-11-09 10 hrs
+2026-11-10 10 hrs
+2026-11-11 10 hrs
+2026-11-12 10 hrs
+2026-11-13 10 hrs
+Jobseeker Details
+FULL NAME
+Sam Sinclair
+PRIMARY EMAIL
+jobseeker.sin@example.test
+BILLING EMAIL
+-
+PAYMENT METHOD
+SIN-Direct Deposit
+Client & Position
+CLIENT NAME
+-
+POSITION TITLE
+Forklift Operator
+POSITION CODE
+NW002
+Jobseeker Pay & Rates
+Regular Pay Rate $20.00/hr
+Overtime Rate $30.00/hr
+Grand Total Pay $1100.00
+Client Billing Summary
+Regular Bill Rate $35.00/hr
+Overtime Bill Rate $52.50/hr
+Total Client Bill $1925.00

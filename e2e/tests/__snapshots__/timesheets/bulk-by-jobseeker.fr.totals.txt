@@ -1,0 +1,127 @@
+DEMANDEUR D'EMPLOI
+Sam Sinclair
+CLIENT
+Northwind Test Staffing Client
+PÉRIODE DE LA SEMAINE
+Dec 7, 2025 - Dec 13, 2025
+Détails de l'employé
+NOM
+Sam Sinclair
+COURRIEL
+jobseeker.sin@example.test
+COURRIEL DE FACTURATION
+N/D
+TÉLÉPHONE
++15555550111
+ID EMPLOYÉ
+E-0011
+MODE DE PAIEMENT
+SIN-Direct Deposit
+Ajouter un autre poste
+Poste
+Forklift Operator —
+Heures quotidiennes
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Ajustements de rémunération
+PRIME
+Montant
+DÉDUCTION
+Montant
+Détails de rémunération
+Taux de rémunération régulier
+$20/h
+Taux de rémunération des heures supplémentaires
+$30/h
+Seuil des heures supplémentaires
+40 heures
+Envoyer la feuille de temps par email à ce demandeur d'emploi
+L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal
+Notes supplémentaires
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+Heures de travail standard
+20.00
+$20.00
+$400.00
+Total des heures:
+20.0
+Sous-total:
+$400.00
+Rémunération de l'employé:
+$400.00
+Poste
+Warehouse Associate —
+Heures quotidiennes
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Ajustements de rémunération
+PRIME
+Montant
+DÉDUCTION
+Montant
+Détails de rémunération
+Taux de rémunération régulier
+$20/h
+Seuil des heures supplémentaires
+40 heures
+Envoyer la feuille de temps par email à ce demandeur d'emploi
+L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal
+Notes supplémentaires
+DESCRIPTION
+HEURES
+TAUX
+MONTANT
+Total des heures régulières
+Heures de travail standard
+32.00
+$20.00
+$640.00
+Total des heures:
+32.0
+Sous-total:
+$640.00
+Rémunération de l'employé:
+$640.00
+RÉSUMÉ FINAL
+HEURES
+—
+MONTANT
+Total des heures régulières
+52.00
+N/D
+N/D
+Grand total des heures:
+52.00
+Grand total de la rémunération:
+$1040.00
+Envoyer les feuilles de temps par courriel pour chaque ligne de poste
+L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal
+Générer la feuille de temps en lot

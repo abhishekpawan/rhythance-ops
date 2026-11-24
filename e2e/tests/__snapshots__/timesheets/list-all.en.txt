@@ -1,0 +1,11 @@
+TABLE 1
+HEADER: Invoice # | Client | Position | Week Period Select Range | Jobseekers | Billing Email | Total Pay Pay ($) | Email Status All Email Status Email Sent Email Not Sent | Actions View • Edit • Delete
+ROW: # 900001 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Casey Cashman jobseeker.cash@example.test | - | $720.00 | Resend | 
+ROW: # 900001 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Sam Sinclair jobseeker.sin@example.test | - | $800.00 | Resend | 
+ROW: # 900002 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Hana Hybrid jobseeker.hybrid@example.test | - | $360.00 | Resend | 
+ROW: # 900002 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Hana Hybrid jobseeker.hybrid@example.test | - | $400.00 | Resend | 
+ROW: # 900003 | Quebec Test Logistics Client | Driver Helper | 2026-11-08 - 2026-11-14 | Corey Corporate jobseeker.corp@example.test | - | $1017.00 | Send Email | 
+ROW: # 900004 | Pacific Test Warehousing Client | Loader | 2026-10-25 - 2026-10-31 | Ely Etransfer jobseeker.hybrid.et@example.test | - | $190.00 | Resend | 
+ROW: # 900004 | Pacific Test Warehousing Client | Loader | 2026-10-25 - 2026-10-31 | Ely Etransfer jobseeker.hybrid.et@example.test | - | $650.00 | Resend | 
+ROW: # 900005 | Prairie Test Foods Client | Line Cook Helper | 2026-09-20 - 2026-09-26 | Sam Sinclair jobseeker.sin@example.test | - | $800.00 | Resend | 
+ROW: # | Northwind Test Staffing Client | Forklift Operator | 2026-11-08 - 2026-11-14 | Sam Sinclair jobseeker.sin@example.test | - | $1100.00 | Send Email | 

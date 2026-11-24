@@ -1,0 +1,15 @@
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours
+42.00
+$20.00
+$840.00
+Total Hours:
+42.0
+Subtotal:
+$840.00
+Employee Pay:
+$840.00

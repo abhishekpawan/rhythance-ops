@@ -1,0 +1,6 @@
+entry: /timesheet-management -> /dashboard
+list: /timesheet-management/list -> /dashboard
+view: /timesheet-management/view/00000000-0000-4000-8000-000000000051 -> /dashboard
+bulk by client: /bulk-timesheet-management -> /dashboard
+bulk by jobseeker: /bulk-timesheet-management/jobseeker -> /dashboard
+bulk list: /bulk-timesheet-management/list -> /dashboard

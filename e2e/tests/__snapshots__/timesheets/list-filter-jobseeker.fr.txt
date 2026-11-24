@@ -1,0 +1,3 @@
+TABLE 1
+HEADER: N° Facture | Client | Poste | Période de la semaine Sélectionner la plage | Demandeurs d'emploi | Email de facturation | Total Pay Pay ($) | Statut de l'e-mail Tous les statuts d'email Email envoyé Email non envoyé | Actions View • Edit • Delete
+ROW: # 900001 | Northwind Test Staffing Client | Warehouse Associate | 2026-11-01 - 2026-11-07 | Casey Cashman jobseeker.cash@example.test | - | $720.00 | Renvoyer | 

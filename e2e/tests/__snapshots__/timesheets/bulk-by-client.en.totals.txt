@@ -1,0 +1,129 @@
+Employee Details
+NAME
+Casey Cashman
+EMAIL
+jobseeker.cash@example.test
+BILLING EMAIL
+N/A
+PHONE NUMBER
++15555550112
+EMPLOYEE ID
+E-0012
+PAYMENT METHOD
+Cash
+CASH DEDUCTION
+10%
+Daily Hours
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Pay Adjustments
+BONUS
+Amount
+DEDUCTION
+Amount
+Regular Pay Rate
+$20/h
+Overtime Threshold
+40 hours
+Additional Notes
+Send timesheet via email to this jobseeker
+Email will be sent to billing email if provided, otherwise to primary email
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours
+40.00
+$20.00
+$800.00
+Total Hours:
+40.0
+Subtotal:
+$800.00
+Cash Deduction (10%)
+-$80.00
+Employee Pay:
+$720.00
+Employee Details
+NAME
+Sam Sinclair
+EMAIL
+jobseeker.sin@example.test
+BILLING EMAIL
+N/A
+PHONE NUMBER
++15555550111
+EMPLOYEE ID
+E-0011
+PAYMENT METHOD
+SIN-Direct Deposit
+Daily Hours
+SUN
+(2025-12-07)
+MON
+(2025-12-08)
+TUE
+(2025-12-09)
+WED
+(2025-12-10)
+THU
+(2025-12-11)
+FRI
+(2025-12-12)
+SAT
+(2025-12-13)
+Pay Adjustments
+BONUS
+Amount
+DEDUCTION
+Amount
+Regular Pay Rate
+$20/h
+Overtime Threshold
+40 hours
+Additional Notes
+Send timesheet via email to this jobseeker
+Email will be sent to billing email if provided, otherwise to primary email
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+Standard work hours
+40.00
+$20.00
+$800.00
+Total Hours:
+40.0
+Subtotal:
+$800.00
+Employee Pay:
+$800.00
+FINAL SUMMARY
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+80.00
+$20.00
+$1600.00
+Grand Total Hours:
+80.00
+Grand Total Pay:
+$1520.00
+Send timesheets via email to all jobseekers
+Email will be sent to billing email if provided, otherwise to primary email
+Generate Bulk Timesheet

@@ -1,0 +1,22 @@
+DESCRIPTION
+HOURS
+RATE
+AMOUNT
+Total Regular Hours
+SIN-Direct Deposit
+20.00
+$20.00
+$400.00
+Total Regular Hours
+Cash
+20.00
+$20.00
+$400.00
+Total Hours:
+40.0
+Subtotal:
+$800.00
+Cash Deduction (10%)
+-$40.00
+Employee Pay:
+$760.00

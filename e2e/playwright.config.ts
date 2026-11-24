@@ -19,8 +19,26 @@ export default defineConfig({
     { name: "setup", testMatch: /auth\.setup\.ts/ },
     {
       name: "journeys",
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: [/auth\.setup\.ts/, /timesheets-.*\.spec\.ts/],
       dependencies: ["setup"],
+    },
+    // The Timesheets journeys write timesheets (removed after each test) and read the list of all of them, so no two of
+    // them may run at the same time: each file is a project that waits for the one before. They share nothing with the
+    // journeys above (the rows they write are in weeks of 2025, which no other journey reads).
+    {
+      name: "timesheets-entry",
+      testMatch: /timesheets-entry\.spec\.ts/,
+      dependencies: ["setup"],
+    },
+    {
+      name: "timesheets-bulk",
+      testMatch: /timesheets-bulk\.spec\.ts/,
+      dependencies: ["timesheets-entry"],
+    },
+    {
+      name: "timesheets-list-view",
+      testMatch: /timesheets-list-view\.spec\.ts/,
+      dependencies: ["timesheets-bulk"],
     },
   ],
   // a missing snapshot is a failure on CI, never a silent write
