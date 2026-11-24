@@ -1,9 +1,9 @@
 // API pins for DELETE /api/timesheets/:id and PATCH /api/timesheets/:id/document (R-4, recorded on the code as it is,
 // before the split).
 //
-// Who may call them, worked out from the routes: `authorizeRoles(["admin", "recruiter", "jobseeker"])` lets all nine
-// accounts through; a jobseeker reaches only rows with their own user id (another's row is "not found", 404, and
-// stays). Every row below is made by this file (notes start with R4-PIN) and removed in `afterAll`.
+// Who may call them, worked out from the routes: `authorizeRoles(["admin", "recruiter"])` lets the eight staff
+// accounts through and refuses a jobseeker with a 403, their own rows included (DEV-6, inbox 66). Every row below is
+// made by this file (notes start with R4-PIN) and removed in `afterAll`.
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { JOBSEEKERS, STAFF } from "../support/api";
 import { noTokenAnswers, pin, STAFF_ROLES } from "./module-helpers";
@@ -28,9 +28,9 @@ const patchDoc = (who: Parameters<typeof call>[0], id: string, body: unknown) =>
   call(who, `/api/timesheets/${id}/document`, { method: "PATCH", body });
 
 describe("DELETE /api/timesheets/:id", () => {
-  it("each staff account deletes a row and a jobseeker deletes their own; the answer names the row and it is gone", async () => {
+  it("each staff account deletes a row; the answer names the row and it is gone", async () => {
     const out: Record<string, unknown> = {};
-    for (const role of [...STAFF_ROLES, "js:sin"] as const) {
+    for (const role of STAFF_ROLES) {
       const row = await make("admin", "sin");
       const r = await del(role, row.id);
       expect(r.status, `${role}: ${r.text}`).toBe(200);
@@ -41,11 +41,17 @@ describe("DELETE /api/timesheets/:id", () => {
         answer: { ...r.json, deleted_id: "<id>" },
       };
     }
+    // a jobseeker is refused on their own row, and the row stays (DEV-6)
+    const mine = await make("admin", "sin");
+    const refused = await del("js:sin", mine.id);
+    expect(refused.status, refused.text).toBe(403);
+    expect(await rowOf(mine.id)).not.toBeNull();
+
     for (const [role, v] of Object.entries(out)) {
       expect(v, role).toEqual(out.admin);
     }
     await pin(DIR, 1, "delete, the same from every role", {
-      roles: [...STAFF_ROLES, "jobseeker (their own)"],
+      roles: [...STAFF_ROLES],
       ...(out.admin as object),
     });
   });
@@ -60,15 +66,25 @@ describe("DELETE /api/timesheets/:id", () => {
     });
   });
 
-  it("a jobseeker cannot delete another jobseeker's row: 404, and the row stays", async () => {
+  it("a jobseeker cannot delete a row, their own or another's: 403, and the row stays", async () => {
     const casey = await make("admin", "cash");
+    const sam = await make(
+      "admin",
+      "sin",
+      {},
+      { start: casey.week_start_date, end: casey.week_end_date }
+    ); // same week: keeps the later weeks where they were
     const r = await del("js:sin", casey.id);
-    expect(r.status).toBe(404);
+    expect(r.status).toBe(403);
     expect(await rowOf(casey.id)).not.toBeNull();
+    const own = await del("js:sin", sam.id);
+    expect(own.status).toBe(403);
+    expect(await rowOf(sam.id)).not.toBeNull();
     const signup = await del("js:signup", casey.id);
-    expect(signup.status).toBe(404);
+    expect(signup.status).toBe(403);
     await pin(DIR, 3, "jobseeker, another's row", {
       "another jobseeker": answerOfRun(r),
+      "their own row": answerOfRun(own),
       "the jobseeker without a profile": answerOfRun(signup),
     });
   });
@@ -101,7 +117,7 @@ describe("DELETE /api/timesheets/:id", () => {
 });
 
 describe("PATCH /api/timesheets/:id/document", () => {
-  it("each staff account sets the document and a jobseeker sets their own; the history gets no new entry", async () => {
+  it("each staff account sets the document; the history gets no new entry", async () => {
     // `version` is left out of what is stored: migration 005's trigger counts every update (2 here), but that trigger
     // is on no production database (rhythence-hq/refactor/PLAN.md, finding 1), where a document change leaves it at 1.
     const noVersion = (t: Record<string, any>) => {
@@ -110,12 +126,12 @@ describe("PATCH /api/timesheets/:id/document", () => {
     };
     const out: Record<string, unknown> = {};
     let admin: unknown;
-    for (const role of [...STAFF_ROLES, "js:sin"] as const) {
+    for (const role of STAFF_ROLES) {
       const row = await make("admin", "sin");
       const r = await patchDoc(role, row.id, { document: "R4-PIN document" });
       expect(r.status, `${role}: ${r.text}`).toBe(200);
       const t = r.json.timesheet;
-      const me = role === "js:sin" ? JOBSEEKERS.sin.id : STAFF[role].id;
+      const me = STAFF[role].id;
       expect(t.document).toBe("R4-PIN document");
       expect(t.updated_by_user_id).toBe(me);
       expect(t.version_history).toHaveLength(1);
@@ -126,12 +142,20 @@ describe("PATCH /api/timesheets/:id/document", () => {
           answer: { ...r.json, timesheet: noVersion(t) },
         });
     }
+    // a jobseeker is refused on their own row (DEV-6)
+    const mine = await make("admin", "sin");
+    const refused = await patchDoc("js:sin", mine.id, {
+      document: "R4-PIN document",
+    });
+    expect(refused.status, refused.text).toBe(403);
+    expect((await rowOf(mine.id)).document).toBeNull();
+
     for (const [role, v] of Object.entries(out)) {
       expect(v, role).toEqual(out.admin);
     }
     await pin(DIR, 5, "set the document as the admin", admin);
     await pin(DIR, 6, "the row after, the same from every role", {
-      roles: [...STAFF_ROLES, "jobseeker (their own)"],
+      roles: [...STAFF_ROLES],
       ...(out.admin as object),
     });
   });
@@ -153,11 +177,20 @@ describe("PATCH /api/timesheets/:id/document", () => {
     await pin(DIR, 7, "document validation", out);
   });
 
-  it("who may set whose: a jobseeker's own, not another's; a row that is not there is a 404", async () => {
+  it("who may set whose: a jobseeker's own or another's is a 403; a row that is not there is a 404", async () => {
     const casey = await make("admin", "cash");
+    const sam = await make(
+      "admin",
+      "sin",
+      {},
+      { start: casey.week_start_date, end: casey.week_end_date }
+    ); // same week: keeps the later weeks where they were
     const out = {
       "jobseeker, another's row": answerOfRun(
         await patchDoc("js:sin", casey.id, { document: "x" })
+      ),
+      "jobseeker, their own row": answerOfRun(
+        await patchDoc("js:sin", sam.id, { document: "x" })
       ),
       "an id nobody has": answerOfRun(
         await patchDoc("admin", NO_SUCH_ID, { document: "x" })
@@ -166,8 +199,10 @@ describe("PATCH /api/timesheets/:id/document", () => {
         await patchDoc("admin", "not-an-id", { document: "x" })
       ),
     };
-    expect(out["jobseeker, another's row"].status).toBe(404);
+    expect(out["jobseeker, another's row"].status).toBe(403);
+    expect(out["jobseeker, their own row"].status).toBe(403);
     expect((await rowOf(casey.id)).document).toBeNull();
+    expect((await rowOf(sam.id)).document).toBeNull();
     await pin(DIR, 8, "document, who may and may not", out);
   });
 

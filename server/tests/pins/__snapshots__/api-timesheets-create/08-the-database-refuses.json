@@ -16,11 +16,9 @@
     }
   },
   "a profile nobody has": {
-    "status": 500,
+    "status": 400,
     "answer": {
-      "error": "Failed to create timesheet",
-      "details": "insert or update on table \"timesheets\" violates foreign key constraint \"timesheets_jobseeker_profile_id_fkey\"",
-      "code": "23503"
+      "error": "jobseeker_profile_id does not belong to jobseeker_user_id"
     }
   },
   "a position nobody has": {

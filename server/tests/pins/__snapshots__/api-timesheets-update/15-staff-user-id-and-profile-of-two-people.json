@@ -1,0 +1,26 @@
+{
+  "profile only, in the body with Sam's user id": {
+    "status": 400,
+    "answer": {
+      "error": "jobseeker_profile_id does not belong to jobseeker_user_id"
+    }
+  },
+  "profile only, no user id in the body": {
+    "status": 400,
+    "answer": {
+      "error": "jobseeker_profile_id does not belong to jobseeker_user_id"
+    }
+  },
+  "user id only, no profile in the body": {
+    "status": 400,
+    "answer": {
+      "error": "jobseeker_profile_id does not belong to jobseeker_user_id"
+    }
+  },
+  "a profile nobody has": {
+    "status": 400,
+    "answer": {
+      "error": "jobseeker_profile_id does not belong to jobseeker_user_id"
+    }
+  }
+}

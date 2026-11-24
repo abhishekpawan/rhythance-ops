@@ -1,14 +1,23 @@
 {
   "another jobseeker": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Timesheet not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "their own row": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "the jobseeker without a profile": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Timesheet not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   }
 }

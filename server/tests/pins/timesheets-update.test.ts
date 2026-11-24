@@ -1,9 +1,10 @@
 // API pins for PUT /api/timesheets/:id (R-4, recorded on the code as it is, before the split).
 //
-// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter", "jobseeker"])` lets all nine
-// accounts through. A jobseeker reaches only rows with their own user id (another's row is "not found", 404) and may
-// not put another user id in the body (403). Every row below is made by this file (notes start with R4-PIN) and the
-// rows are removed in `afterAll`; the seeded timesheets are never written.
+// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter"])` lets the eight staff accounts
+// through and refuses a jobseeker with a 403 (DEV-6, inbox 66; before it, a jobseeker could update their own rows and
+// move one onto another person's profile). For every role the profile in the body (or on the row) must belong to the
+// user id in the body (or on the row): 400 when it does not. Every row below is made by this file (notes start with
+// R4-PIN) and the rows are removed in `afterAll`; the seeded timesheets are never written.
 //
 // The update does not require any field and writes every column the body names; fields it names itself (premium rate,
 // tax, email flag, pay segment, line payment method) fall back to defaults when left out, so a partial body resets them.
@@ -48,16 +49,16 @@ const edited = (week: { start: string; end: string }, over = {}) =>
   });
 
 describe("PUT /api/timesheets/:id: every role", () => {
-  it("each staff account updates a row and a jobseeker updates their own: version 2, a second history entry, the same row", async () => {
+  it("each staff account updates a row: version 2, a second history entry, the same row", async () => {
     const out: Record<string, unknown> = {};
     let adminAnswer: unknown;
-    for (const role of [...STAFF_ROLES, "js:sin"] as const) {
+    for (const role of STAFF_ROLES) {
       const week = freshWeek();
       const row = await make("admin", "sin", {}, week);
       const r = await put(role, row.id, edited(week));
       expect(r.status, `${role}: ${r.text}`).toBe(200);
       const t = r.json.timesheet;
-      const me = role === "js:sin" ? JOBSEEKERS.sin.id : STAFF[role].id;
+      const me = STAFF[role].id;
       expect(t.id).toBe(row.id);
       expect(t.version, role).toBe(2);
       expect(t.version_history, role).toHaveLength(2);
@@ -70,12 +71,19 @@ describe("PUT /api/timesheets/:id: every role", () => {
       out[role] = { status: r.status, row: generic(t) };
       if (role === "admin") adminAnswer = answerOfRun(r);
     }
+    // a jobseeker is refused on their own row (DEV-6)
+    const week = freshWeek();
+    const row = await make("admin", "sin", {}, week);
+    const refused = await put("js:sin", row.id, edited(week));
+    expect(refused.status, refused.text).toBe(403);
+    expect((await rowOf(row.id)).version).toBe(1);
+
     for (const [role, v] of Object.entries(out)) {
       expect(v, role).toEqual(out.admin);
     }
     await pin(DIR, 1, "the update by the admin", adminAnswer);
     await pin(DIR, 2, "the updated row, the same from every role", {
-      roles: [...STAFF_ROLES, "jobseeker (their own)"],
+      roles: [...STAFF_ROLES],
       ...(out.admin as object),
     });
   });
@@ -234,7 +242,7 @@ describe("PUT /api/timesheets/:id: the body decides what is stored", () => {
 });
 
 describe("PUT /api/timesheets/:id: who may update whose", () => {
-  it("a jobseeker may update their own row; another's row is a 404 and stays as it was", async () => {
+  it("a jobseeker may not update any row, their own or another's: 403, and the rows stay as they were", async () => {
     const mine = await make("admin", "sin");
     const casey = await make("admin", "cash");
     const out: Record<string, unknown> = {};
@@ -260,12 +268,14 @@ describe("PUT /api/timesheets/:id: who may update whose", () => {
         )
       )
     );
-    expect((out["another jobseeker's row"] as any).status).toBe(404);
+    expect((out["own row"] as any).status).toBe(403);
+    expect((out["another jobseeker's row"] as any).status).toBe(403);
+    expect((await rowOf(mine.id)).total_jobseeker_pay).toBe(800);
     expect((await rowOf(casey.id)).total_jobseeker_pay).toBe(800);
     await pin(DIR, 11, "jobseeker, own and another's", out);
   });
 
-  it("a jobseeker may not put another user id in the body of their own row", async () => {
+  it("a jobseeker may not put another user id in the body of their own row: 403, nothing changes", async () => {
     const mine = await make("admin", "sin");
     const r = await put(
       "js:sin",
@@ -286,7 +296,7 @@ describe("PUT /api/timesheets/:id: who may update whose", () => {
     );
   });
 
-  it("a jobseeker's own row can be moved to another jobseeker's profile (security finding, inbox 66)", async () => {
+  it("a jobseeker cannot move their own row to another jobseeker's profile (inbox 66): 403, the row stays", async () => {
     const mine = await make("admin", "sin");
     const week = { start: mine.week_start_date, end: mine.week_end_date };
     const r = await put(
@@ -294,9 +304,10 @@ describe("PUT /api/timesheets/:id: who may update whose", () => {
       mine.id,
       bodyFor("cash", week, { jobseeker_user_id: JOBSEEKERS.sin.id })
     );
-    // today: 200, the row now sits on Casey's profile with Sam's user id. Pinned as it is; not fixed in this session.
-    expect(r.status, r.text).toBe(200);
-    expect((await rowOf(mine.id)).jobseeker_profile_id).toBe(PROFILE.cash);
+    expect(r.status, r.text).toBe(403);
+    const row = await rowOf(mine.id);
+    expect(row.jobseeker_profile_id).toBe(PROFILE.sin);
+    expect(row.version).toBe(1);
     await pin(
       DIR,
       13,
@@ -324,5 +335,51 @@ describe("PUT /api/timesheets/:id: messages", () => {
       answer: answerOfRun(loud),
       messages: sent.map(mailOf),
     });
+  });
+});
+
+describe("PUT /api/timesheets/:id: matching ids, later in the file so the weeks of the pins above do not move", () => {
+  it("staff cannot put a row on a profile that is not the user id's, nor a user id on a profile that is not theirs: 400, the row stays", async () => {
+    const mine = await make("admin", "sin");
+    const week = { start: mine.week_start_date, end: mine.week_end_date };
+    const out: Record<string, unknown> = {};
+    // the profile moves, the user id stays Sam's (in the body)
+    out["profile only, in the body with Sam's user id"] = answerOfRun(
+      await put(
+        "admin",
+        mine.id,
+        bodyFor("cash", week, { jobseeker_user_id: JOBSEEKERS.sin.id })
+      )
+    );
+    // the profile moves and the body names no user id: the row's user id is Sam's
+    const noUser = bodyFor("cash", week);
+    delete noUser.jobseeker_user_id;
+    out["profile only, no user id in the body"] = answerOfRun(
+      await put("admin", mine.id, noUser)
+    );
+    // the user id moves and the body names no profile: the row's profile is Sam's
+    const noProfile = bodyFor("sin", week, {
+      jobseeker_user_id: JOBSEEKERS.cash.id,
+    });
+    delete noProfile.jobseeker_profile_id;
+    out["user id only, no profile in the body"] = answerOfRun(
+      await put("admin", mine.id, noProfile)
+    );
+    // a profile nobody has
+    out["a profile nobody has"] = answerOfRun(
+      await put(
+        "admin",
+        mine.id,
+        bodyFor("sin", week, { jobseeker_profile_id: NO_SUCH_ID })
+      )
+    );
+    for (const [name, v] of Object.entries(out)) {
+      expect((v as any).status, name).toBe(400);
+    }
+    const row = await rowOf(mine.id);
+    expect(row.jobseeker_profile_id).toBe(PROFILE.sin);
+    expect(row.jobseeker_user_id).toBe(JOBSEEKERS.sin.id);
+    expect(row.version).toBe(1);
+    await pin(DIR, 15, "staff, user id and profile of two people", out);
   });
 });

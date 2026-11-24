@@ -1,8 +1,16 @@
 {
   "jobseeker, another's row": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Timesheet not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "jobseeker, their own row": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "an id nobody has": {

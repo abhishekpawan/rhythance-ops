@@ -1,8 +1,8 @@
 // API pins for POST /api/timesheets/send-email/:id (R-4, recorded on the code as it is, before the split).
 //
-// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter", "jobseeker"])` lets all nine
-// accounts through; the service then refuses a jobseeker who is not the owner (403, after the row was found, so a row
-// that is not there is a 404 even for them). The message goes to the jobseeker's billing email, or their email when
+// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter"])` lets the eight staff accounts
+// through and refuses a jobseeker with a 403 before the row is looked at, their own rows included (DEV-6, inbox 66;
+// before it a jobseeker could send their own row's email). The message goes to the jobseeker's billing email, or their email when
 // they have no billing email (no seeded profile has one, so every message below goes to the jobseeker's own address).
 // The outbound recorder holds what would have been sent: the pins assert it (who, the subject, that html and text were
 // built), and nothing leaves the machine. The SendGrid stand-in never fails, so the "email could not be sent" answer
@@ -29,9 +29,9 @@ const send = (who: Parameters<typeof call>[0], id: string) =>
   call(who, `/api/timesheets/send-email/${id}`, { method: "POST" });
 
 describe("POST /api/timesheets/send-email/:id", () => {
-  it("each staff account sends it, and a jobseeker for their own row: one message, the flag is set", async () => {
+  it("each staff account sends it: one message, the flag is set", async () => {
     const out: Record<string, unknown> = {};
-    for (const role of [...STAFF_ROLES, "js:sin"] as const) {
+    for (const role of STAFF_ROLES) {
       const row = await make("admin", "sin", { invoice_number: "800100" });
       const before = emailsSent().length;
       const r = await send(role, row.id);
@@ -46,11 +46,19 @@ describe("POST /api/timesheets/send-email/:id", () => {
         message: mailOf(sent[0]),
       };
     }
+    // a jobseeker is refused on their own row: nothing sent, the flag stays off (DEV-6)
+    const mine = await make("admin", "sin", { invoice_number: "800100" });
+    const beforeRefused = emailsSent().length;
+    const refused = await send("js:sin", mine.id);
+    expect(refused.status, refused.text).toBe(403);
+    expect(await newEmails(beforeRefused, 0)).toEqual([]);
+    expect((await rowOf(mine.id)).email_sent).toBe(false);
+
     for (const [role, v] of Object.entries(out)) {
       expect(v, role).toEqual(out.admin);
     }
     await pin(DIR, 1, "the send, the same from every role", {
-      roles: [...STAFF_ROLES, "jobseeker (their own)"],
+      roles: [...STAFF_ROLES],
       ...(out.admin as object),
     });
   });
@@ -84,17 +92,29 @@ describe("POST /api/timesheets/send-email/:id", () => {
     await pin(DIR, 2, "messages by kind of payment", out);
   });
 
-  it("a jobseeker cannot send for another jobseeker's row: 403, nothing sent, the flag stays off", async () => {
+  it("a jobseeker cannot send for any row, theirs or another's: 403, nothing sent, the flag stays off", async () => {
     const casey = await make("admin", "cash");
+    const sam = await make(
+      "admin",
+      "sin",
+      {},
+      { start: casey.week_start_date, end: casey.week_end_date }
+    ); // same week: keeps the later weeks where they were
     const before = emailsSent().length;
     const r = await send("js:sin", casey.id);
     expect(r.status).toBe(403);
+    const own = await send("js:sin", sam.id);
+    expect(own.status).toBe(403);
     expect(await newEmails(before, 0)).toEqual([]);
     expect((await rowOf(casey.id)).email_sent).toBe(false);
-    await pin(DIR, 3, "jobseeker, another's row", answerOfRun(r));
+    expect((await rowOf(sam.id)).email_sent).toBe(false);
+    await pin(DIR, 3, "jobseeker, another's row", {
+      "another's row": answerOfRun(r),
+      "their own row": answerOfRun(own),
+    });
   });
 
-  it("a row that is not there, or an id that is not an id, is a 404 and nothing is sent", async () => {
+  it("a row that is not there, or an id that is not an id, is a 404 for staff (a jobseeker gets 403) and nothing is sent", async () => {
     const before = emailsSent().length;
     const out = {
       "an id nobody has": answerOfRun(await send("admin", NO_SUCH_ID)),

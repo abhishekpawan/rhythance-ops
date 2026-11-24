@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import sgMail from "@sendgrid/mail";
 import { getNoReplyFromEmail } from "../middleware/emailNotifier.js";
+import { checkProfileBelongsToUser } from "./timesheet.profileCheck.js";
 import { timesheetHtmlTemplate } from "../email-templates/timesheet-html.js";
 import { timesheetTextTemplate } from "../email-templates/timesheet-txt.js";
 import {
@@ -606,16 +607,12 @@ export async function createTimesheet(
     }
   }
 
-  if (
-    userType === "jobseeker" &&
-    timesheetData.jobseeker_user_id !== userId
-  ) {
-    return {
-      success: false,
-      status: 403,
-      error: "You can only create timesheets for yourself",
-    };
-  }
+  const profileError = await checkProfileBelongsToUser(
+    supabase,
+    timesheetData.jobseeker_profile_id,
+    timesheetData.jobseeker_user_id
+  );
+  if (profileError) return profileError;
 
   if (
     !timesheetData.is_bulk &&
@@ -726,14 +723,15 @@ export async function updateTimesheet(
   }
 
   if (
-    userType === "jobseeker" &&
-    timesheetData.jobseeker_user_id !== userId
+    timesheetData.jobseeker_profile_id !== undefined ||
+    timesheetData.jobseeker_user_id !== undefined
   ) {
-    return {
-      success: false,
-      status: 403,
-      error: "You can only update your own timesheets",
-    };
+    const profileError = await checkProfileBelongsToUser(
+      supabase,
+      timesheetData.jobseeker_profile_id ?? existingTimesheet.jobseeker_profile_id,
+      timesheetData.jobseeker_user_id ?? existingTimesheet.jobseeker_user_id
+    );
+    if (profileError) return profileError;
   }
 
   const mergedWeek =

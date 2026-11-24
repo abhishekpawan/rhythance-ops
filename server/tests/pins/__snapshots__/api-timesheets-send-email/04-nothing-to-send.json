@@ -12,9 +12,10 @@
     }
   },
   "a jobseeker, an id nobody has": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Timesheet not found"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   }
 }

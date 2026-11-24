@@ -40,7 +40,7 @@ router.get(
 router.post(
   "/send-email/:id",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   activityLogger({
     onSuccess: (req, res) => {
       const { id } = req.params;
@@ -78,7 +78,7 @@ router.get(
 router.post(
   "/",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   sanitizeInputs,
   activityLogger({
     onSuccess: async (req: Request, res: Response) => {
@@ -159,7 +159,7 @@ router.post(
 router.patch(
   "/:id/document",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   sanitizeInputs,
   updateTimesheetDocument
 );
@@ -167,7 +167,7 @@ router.patch(
 router.put(
   "/:id",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   sanitizeInputs,
   activityLogger({
     onSuccess: async (req: Request, res: Response) => {
@@ -248,7 +248,7 @@ router.put(
 router.delete(
   "/:id",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   activityLogger({
     onSuccess: async (req: Request, res: Response) => {
       const { id } = req.params;

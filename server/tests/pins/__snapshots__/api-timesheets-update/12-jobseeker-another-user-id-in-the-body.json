@@ -1,6 +1,7 @@
 {
   "status": 403,
   "answer": {
-    "error": "You can only update your own timesheets"
+    "error": "Access denied",
+    "message": "This resource is only accessible to: admin, recruiter"
   }
 }

@@ -7,8 +7,7 @@
     "recruiter_manager",
     "accountant_manager",
     "sales",
-    "recruiter_director",
-    "jobseeker (their own)"
+    "recruiter_director"
   ],
   "status": 200,
   "answer": {

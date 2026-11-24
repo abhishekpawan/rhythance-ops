@@ -1,7 +1,8 @@
 // API pins for POST /api/timesheets (R-4, recorded on the code as it is, before the split).
 //
-// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter", "jobseeker"])` lets all nine
-// accounts through; a jobseeker may only create a timesheet whose `jobseeker_user_id` is their own.
+// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter"])` lets the eight staff accounts
+// through and refuses a jobseeker with a 403 (DEV-6, inbox 66; before it, a jobseeker could create a timesheet for
+// their own user id on any profile). For every role `jobseeker_profile_id` must belong to `jobseeker_user_id`: 400.
 //
 // The server stores what the browser computed: the totals are in the body (`docs/development/testing.md`, "Money is
 // calculated in the browser"), so every money case below sends the body the entry screen sends and pins the row as
@@ -23,7 +24,7 @@ import {
   NOTE,
   POSITION,
   PROFILE,
-  rowOf,
+  rowsWithNote,
   settled,
   sweep,
 } from "./timesheet-helpers";
@@ -36,7 +37,7 @@ const post = (who: Parameters<typeof call>[0], body: unknown) =>
   call(who, "/api/timesheets", { method: "POST", body });
 
 describe("POST /api/timesheets: every role", () => {
-  it("each staff account creates a timesheet and a jobseeker creates their own; the stored rows differ only by who made them", async () => {
+  it("each staff account creates a timesheet; the stored rows differ only by who made them", async () => {
     const week = freshWeek();
     const first = await post("admin", bodyFor("sin", week));
     expect(first.status, first.text).toBe(201);
@@ -56,16 +57,15 @@ describe("POST /api/timesheets: every role", () => {
       expect(t.version_history[0].action, role).toBe("created");
       rows[role] = { status: r.status, row: generic(t) };
     }
+    // a jobseeker is refused whatever the body (DEV-6)
     const own = await post("js:sin", bodyFor("sin", freshWeek()));
-    expect(own.status, own.text).toBe(201);
-    expect(own.json.timesheet.created_by_user_id).toBe(JOBSEEKERS.sin.id);
-    rows.jobseeker = { status: own.status, row: generic(own.json.timesheet) };
+    expect(own.status, own.text).toBe(403);
 
     for (const [role, v] of Object.entries(rows)) {
       expect(v, role).toEqual(rows.admin);
     }
     await pin(DIR, 2, "the stored row, the same from every role", {
-      roles: [...STAFF_ROLES, "jobseeker (their own)"],
+      roles: [...STAFF_ROLES],
       ...(rows.admin as object),
     });
   });
@@ -220,6 +220,7 @@ describe("POST /api/timesheets: what the server refuses", () => {
         bodyFor("sin", freshWeek(), { total_regular_hours: "abc" })
       )
     );
+    // DEV-6: no longer the database's 500 (foreign key): the profile check answers 400 before the insert
     out["a profile nobody has"] = answerOfRun(
       await post(
         "admin",
@@ -387,7 +388,8 @@ describe("POST /api/timesheets: what the stored row keeps, exactly as sent", () 
 });
 
 describe("POST /api/timesheets: who may create for whom", () => {
-  it("a jobseeker may create only for their own user id", async () => {
+  it("a jobseeker may not create a timesheet at all: 403, nothing is stored", async () => {
+    const before = (await rowsWithNote(NOTE)).length;
     const out: Record<string, unknown> = {};
     out["own"] = answerOfRun(await post("js:sin", bodyFor("sin", freshWeek())));
     out["another jobseeker's user id and profile"] = answerOfRun(
@@ -402,33 +404,42 @@ describe("POST /api/timesheets: who may create for whom", () => {
     out["the jobseeker without a profile"] = answerOfRun(
       await post("js:signup", bodyFor("sin", freshWeek()))
     );
-    expect((out["another jobseeker's user id and profile"] as any).status).toBe(
-      403
-    );
+    for (const [name, v] of Object.entries(out)) {
+      expect((v as any).status, name).toBe(403);
+    }
+    expect((await rowsWithNote(NOTE)).length).toBe(before);
     await pin(DIR, 11, "jobseekers", out);
   });
 
-  it("a jobseeker's own user id with another jobseeker's profile id is accepted (security finding, inbox 66)", async () => {
+  it("a jobseeker's own user id with another jobseeker's profile id is refused (inbox 66): 403, nothing is stored", async () => {
+    const before = (await rowsWithNote(NOTE)).length;
     const r = await post(
       "js:sin",
       bodyFor("cash", freshWeek(), { jobseeker_user_id: JOBSEEKERS.sin.id })
     );
-    // today: 201. The server checks the user id in the body, not that the profile belongs to that user, so a jobseeker
-    // can put a timesheet (with any pay) on someone else's profile. Pinned as it is; not fixed in this session.
-    expect(r.status, r.text).toBe(201);
-    const row = await rowOf(r.json.timesheet.id);
-    expect(row.jobseeker_profile_id).toBe(PROFILE.cash);
-    expect(row.jobseeker_user_id).toBe(JOBSEEKERS.sin.id);
+    expect(r.status, r.text).toBe(403);
+    expect((await rowsWithNote(NOTE)).length).toBe(before);
     await pin(DIR, 12, "own user id, another profile", answerOfRun(r));
   });
 
-  it("a staff account may create a row whose user id and profile belong to two different people", async () => {
-    const r = await post(
+  it("a staff account cannot create a row whose user id and profile belong to two different people: 400, nothing is stored", async () => {
+    const before = (await rowsWithNote(NOTE)).length;
+    const week = freshWeek(); // both are refused, so the same week
+    const mismatched = await post(
       "admin",
-      bodyFor("cash", freshWeek(), { jobseeker_user_id: JOBSEEKERS.sin.id })
+      bodyFor("cash", week, { jobseeker_user_id: JOBSEEKERS.sin.id })
     );
-    expect(r.status, r.text).toBe(201);
-    await pin(DIR, 13, "staff, mismatched user and profile", answerOfRun(r));
+    expect(mismatched.status, mismatched.text).toBe(400);
+    const nobody = await post(
+      "admin",
+      bodyFor("sin", week, { jobseeker_profile_id: NO_SUCH_ID })
+    );
+    expect(nobody.status, nobody.text).toBe(400);
+    expect((await rowsWithNote(NOTE)).length).toBe(before);
+    await pin(DIR, 13, "staff, mismatched user and profile", {
+      "user id of one jobseeker, profile of another": answerOfRun(mismatched),
+      "a profile nobody has": answerOfRun(nobody),
+    });
   });
 });
 
@@ -453,5 +464,16 @@ describe("POST /api/timesheets: messages", () => {
     });
     // the message is recorded; nothing left the machine (the outbound guard refuses every other socket)
     expect(settled(emailsSent().length - before)).toBe(1);
+  });
+});
+
+describe("POST /api/timesheets: matching ids, later in the file so the weeks of the pins above do not move", () => {
+  it("a staff account may create a row for any jobseeker when the user id and the profile match", async () => {
+    for (const who of ["cash", "hybrid", "corp"] as const) {
+      const r = await post("admin", bodyFor(who, freshWeek()));
+      expect(r.status, `${who}: ${r.text}`).toBe(201);
+      expect(r.json.timesheet.jobseeker_user_id).toBe(JOBSEEKERS[who].id);
+      expect(r.json.timesheet.jobseeker_profile_id).toBe(PROFILE[who]);
+    }
   });
 });

@@ -1,92 +1,30 @@
 {
   "own": {
-    "status": 201,
+    "status": 403,
     "answer": {
-      "success": true,
-      "message": "Timesheet created successfully",
-      "timesheet": {
-        "id": "<uuid>",
-        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
-        "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
-        "position_id": "00000000-0000-4000-8000-000000000031",
-        "week_start_date": "2025-02-23",
-        "week_end_date": "2025-03-01",
-        "daily_hours": [
-          {
-            "date": "2025-02-24",
-            "hours": 8
-          },
-          {
-            "date": "2025-02-25",
-            "hours": 8
-          },
-          {
-            "date": "2025-02-26",
-            "hours": 8
-          },
-          {
-            "date": "2025-02-27",
-            "hours": 8
-          },
-          {
-            "date": "2025-02-28",
-            "hours": 8
-          }
-        ],
-        "total_regular_hours": 40,
-        "total_overtime_hours": 0,
-        "regular_pay_rate": 20,
-        "overtime_pay_rate": 20,
-        "regular_bill_rate": 35,
-        "overtime_bill_rate": 35,
-        "total_jobseeker_pay": 800,
-        "total_client_bill": 1400,
-        "overtime_enabled": false,
-        "markup": null,
-        "document": null,
-        "invoice_number": "800000",
-        "email_sent": false,
-        "created_at": "<timestamp>",
-        "created_by_user_id": "00000000-0000-4000-8000-000000000011",
-        "updated_at": "<timestamp>",
-        "updated_by_user_id": "00000000-0000-4000-8000-000000000011",
-        "bonus_amount": 0,
-        "deduction_amount": 0,
-        "version": 1,
-        "version_history": [
-          {
-            "action": "created",
-            "version": 1,
-            "created_at": "<timestamp>",
-            "created_by": "00000000-0000-4000-8000-000000000011"
-          }
-        ],
-        "notes": "R4-PIN",
-        "premium_pay_rate": 0,
-        "pay_split_segment": "single",
-        "line_payment_method": null,
-        "is_bulk": false,
-        "bulk_breakdown": [],
-        "tax_amount": 0
-      }
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "another jobseeker's user id and profile": {
     "status": 403,
     "answer": {
-      "error": "You can only create timesheets for yourself"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "another jobseeker's user id, own profile": {
     "status": 403,
     "answer": {
-      "error": "You can only create timesheets for yourself"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "the jobseeker without a profile": {
     "status": 403,
     "answer": {
-      "error": "You can only create timesheets for yourself"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   }
 }

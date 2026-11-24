@@ -1,6 +1,16 @@
 {
-  "status": 403,
-  "answer": {
-    "error": "Access denied: You can only send emails for your own timesheets"
+  "another's row": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "their own row": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
   }
 }
