@@ -1,0 +1,6 @@
+{
+  "status": 403,
+  "answer": {
+    "error": "Access denied: You can only send emails for your own timesheets"
+  }
+}

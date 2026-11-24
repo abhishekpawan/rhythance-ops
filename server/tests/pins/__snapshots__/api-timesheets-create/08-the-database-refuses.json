@@ -1,0 +1,50 @@
+{
+  "an unknown column": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create timesheet",
+      "details": "Could not find the 'nonsense' column of 'timesheets' in the schema cache",
+      "code": "PGRST204"
+    }
+  },
+  "hours that are not a number": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create timesheet",
+      "details": "invalid input syntax for type numeric: \"abc\"",
+      "code": "22P02"
+    }
+  },
+  "a profile nobody has": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create timesheet",
+      "details": "insert or update on table \"timesheets\" violates foreign key constraint \"timesheets_jobseeker_profile_id_fkey\"",
+      "code": "23503"
+    }
+  },
+  "a position nobody has": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create timesheet",
+      "details": "insert or update on table \"timesheets\" violates foreign key constraint \"timesheets_position_id_fkey\"",
+      "code": "23503"
+    }
+  },
+  "a negative pay": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create timesheet",
+      "details": "new row for relation \"timesheets\" violates check constraint \"timesheets_pay_positive\"",
+      "code": "23514"
+    }
+  },
+  "a negative bill": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create timesheet",
+      "details": "new row for relation \"timesheets\" violates check constraint \"timesheets_pay_positive\"",
+      "code": "23514"
+    }
+  }
+}

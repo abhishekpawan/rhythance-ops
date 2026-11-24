@@ -1,0 +1,164 @@
+{
+  "loaded first": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "message": "Timesheet updated successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000044",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000014",
+        "position_id": "00000000-0000-4000-8000-000000000034",
+        "week_start_date": "2024-05-05",
+        "week_end_date": "2024-05-11",
+        "daily_hours": [
+          {
+            "date": "2024-05-06",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-07",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-08",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-09",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-10",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 1017,
+        "total_client_bill": 1400,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 2,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          },
+          {
+            "action": "updated",
+            "version": 2,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 2.5,
+        "pay_split_segment": "cash",
+        "line_payment_method": "Cash",
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 117
+      }
+    }
+  },
+  "then only the hours": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "message": "Timesheet updated successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000044",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000014",
+        "position_id": "00000000-0000-4000-8000-000000000034",
+        "week_start_date": "2024-05-05",
+        "week_end_date": "2024-05-11",
+        "daily_hours": [
+          {
+            "date": "2024-05-06",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-07",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-08",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-09",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-10",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 41,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 1017,
+        "total_client_bill": 1400,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 3,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          },
+          {
+            "action": "updated",
+            "version": 2,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          },
+          {
+            "action": "updated",
+            "version": 3,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  }
+}

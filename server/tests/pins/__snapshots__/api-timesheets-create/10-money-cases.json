@@ -1,0 +1,722 @@
+{
+  "overtime week": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+        "position_id": "00000000-0000-4000-8000-000000000032",
+        "week_start_date": "2024-12-29",
+        "week_end_date": "2025-01-04",
+        "daily_hours": [
+          {
+            "date": "2024-12-30",
+            "hours": 8
+          },
+          {
+            "date": "2024-12-31",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-01",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-02",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-03",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 10,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 30,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 52.5,
+        "total_jobseeker_pay": 1100,
+        "total_client_bill": 1925,
+        "overtime_enabled": true,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "cash with a deduction": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000042",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000012",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2025-01-05",
+        "week_end_date": "2025-01-11",
+        "daily_hours": [
+          {
+            "date": "2025-01-06",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-07",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-08",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-09",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-10",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 720,
+        "total_client_bill": 1400,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "hybrid, the SIN row": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000043",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000013",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2025-01-12",
+        "week_end_date": "2025-01-18",
+        "daily_hours": [
+          {
+            "date": "2025-01-13",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-14",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-15",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-16",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-17",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 20,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 400,
+        "total_client_bill": 700,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "sin",
+        "line_payment_method": "SIN-Direct Deposit",
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "hybrid, the cash row": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000043",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000013",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2025-01-12",
+        "week_end_date": "2025-01-18",
+        "daily_hours": [
+          {
+            "date": "2025-01-13",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-14",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-15",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-16",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-17",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 20,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 360,
+        "total_client_bill": 700,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "cash",
+        "line_payment_method": "Cash",
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "hybrid e-Transfer, the SIN row with a bonus": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000045",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000015",
+        "position_id": "00000000-0000-4000-8000-000000000035",
+        "week_start_date": "2025-01-19",
+        "week_end_date": "2025-01-25",
+        "daily_hours": [
+          {
+            "date": "2025-01-20",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-21",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-22",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-23",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-24",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 30,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 650,
+        "total_client_bill": 1050,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 50,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "sin",
+        "line_payment_method": "SIN-Direct Deposit",
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "hybrid e-Transfer, the e-Transfer row": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000045",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000015",
+        "position_id": "00000000-0000-4000-8000-000000000035",
+        "week_start_date": "2025-01-19",
+        "week_end_date": "2025-01-25",
+        "daily_hours": [
+          {
+            "date": "2025-01-20",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-21",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-22",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-23",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-24",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 10,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 190,
+        "total_client_bill": 350,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "e_transfer",
+        "line_payment_method": "e-Transfer",
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "corporation with HST": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000044",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000014",
+        "position_id": "00000000-0000-4000-8000-000000000034",
+        "week_start_date": "2025-01-26",
+        "week_end_date": "2025-02-01",
+        "daily_hours": [
+          {
+            "date": "2025-01-27",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-28",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-29",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-30",
+            "hours": 8
+          },
+          {
+            "date": "2025-01-31",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 1017,
+        "total_client_bill": 1400,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 2.5,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 117
+      }
+    }
+  },
+  "bonus and deduction": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2025-02-02",
+        "week_end_date": "2025-02-08",
+        "daily_hours": [
+          {
+            "date": "2025-02-03",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-04",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-05",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-06",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-07",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 830,
+        "total_client_bill": 1400,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 50,
+        "deduction_amount": 20,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "cents": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2025-02-09",
+        "week_end_date": "2025-02-15",
+        "daily_hours": [
+          {
+            "date": "2025-02-10",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-11",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-12",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-13",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-14",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 39.75,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 1234.57,
+        "total_client_bill": 2345.68,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "more digits than a cent": {
+    "status": 201,
+    "answer": {
+      "success": true,
+      "message": "Timesheet created successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2025-02-16",
+        "week_end_date": "2025-02-22",
+        "daily_hours": [
+          {
+            "date": "2025-02-17",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-18",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-19",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-20",
+            "hours": 8
+          },
+          {
+            "date": "2025-02-21",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 199.95,
+        "total_client_bill": 350.05,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 1,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "status": 200,
+  "answer": {
+    "id": "00000000-0000-4000-8000-000000000052",
+    "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+    "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+    "position_id": "00000000-0000-4000-8000-000000000032",
+    "week_start_date": "2026-11-08",
+    "week_end_date": "2026-11-14",
+    "daily_hours": [
+      {
+        "date": "2026-11-09",
+        "hours": 10
+      },
+      {
+        "date": "2026-11-10",
+        "hours": 10
+      },
+      {
+        "date": "2026-11-11",
+        "hours": 10
+      },
+      {
+        "date": "2026-11-12",
+        "hours": 10
+      },
+      {
+        "date": "2026-11-13",
+        "hours": 10
+      }
+    ],
+    "total_regular_hours": 40,
+    "total_overtime_hours": 10,
+    "regular_pay_rate": 20,
+    "overtime_pay_rate": 30,
+    "regular_bill_rate": 35,
+    "overtime_bill_rate": 52.5,
+    "total_jobseeker_pay": 1100,
+    "total_client_bill": 1925,
+    "overtime_enabled": true,
+    "markup": null,
+    "document": null,
+    "invoice_number": null,
+    "email_sent": false,
+    "created_at": "2026-11-16T14:00:00+00:00",
+    "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+    "updated_at": "2026-11-16T14:00:00+00:00",
+    "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+    "bonus_amount": 0,
+    "deduction_amount": 0,
+    "version": 1,
+    "version_history": [],
+    "notes": null,
+    "premium_pay_rate": 0,
+    "pay_split_segment": "single",
+    "line_payment_method": null,
+    "is_bulk": false,
+    "bulk_breakdown": [],
+    "tax_amount": 0,
+    "jobseeker_profiles": {
+      "id": "00000000-0000-4000-8000-000000000041",
+      "email": "jobseeker.sin@example.test",
+      "hst_gst": null,
+      "last_name": "Sinclair",
+      "first_name": "Sam",
+      "cash_deduction": null,
+      "payment_method": "SIN-Direct Deposit"
+    },
+    "positions": {
+      "id": "00000000-0000-4000-8000-000000000032",
+      "title": "Forklift Operator",
+      "client": "00000000-0000-4000-8000-000000000021",
+      "position_code": "NW002"
+    }
+  }
+}

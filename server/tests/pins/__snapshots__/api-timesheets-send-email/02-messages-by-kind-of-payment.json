@@ -1,0 +1,56 @@
+{
+  "cash": {
+    "answer": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": "Email sent successfully to jobseeker.cash@example.test",
+        "email_sent": true
+      }
+    },
+    "message": {
+      "to": [
+        "jobseeker.cash@example.test"
+      ],
+      "subject": "Timesheet #800101",
+      "hasHtml": true,
+      "hasText": true
+    }
+  },
+  "overtime": {
+    "answer": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": "Email sent successfully to jobseeker.sin@example.test",
+        "email_sent": true
+      }
+    },
+    "message": {
+      "to": [
+        "jobseeker.sin@example.test"
+      ],
+      "subject": "Timesheet #800101",
+      "hasHtml": true,
+      "hasText": true
+    }
+  },
+  "corporation": {
+    "answer": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "message": "Email sent successfully to jobseeker.corp@example.test",
+        "email_sent": true
+      }
+    },
+    "message": {
+      "to": [
+        "jobseeker.corp@example.test"
+      ],
+      "subject": "Timesheet #800101",
+      "hasHtml": true,
+      "hasText": true
+    }
+  }
+}

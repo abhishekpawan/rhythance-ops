@@ -1,0 +1,72 @@
+{
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "timesheets": [],
+      "pagination": {
+        "page": null,
+        "limit": 10,
+        "total": 3,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": null,
+          "limit": 10,
+          "total": 3,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "cash": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "hybrid": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "corp": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "hybridEt": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "signup": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "roles": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director",
+    "jobseeker (their own)"
+  ],
+  "status": 200,
+  "answer": {
+    "success": true,
+    "message": "Timesheet deleted successfully",
+    "deleted_id": "<id>"
+  }
+}

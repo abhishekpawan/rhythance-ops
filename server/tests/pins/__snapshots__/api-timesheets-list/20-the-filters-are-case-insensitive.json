@@ -1,0 +1,171 @@
+{
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "timesheets": [
+        {
+          "id": "00000000-0000-4000-8000-000000000056",
+          "invoice_number": "900003",
+          "week_start_date": "2026-11-08",
+          "week_end_date": "2026-11-14",
+          "total_jobseeker_pay": 1017,
+          "tax_amount": 117,
+          "email_sent": false,
+          "is_bulk": false,
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "title": "Driver Helper",
+            "client": "00000000-0000-4000-8000-000000000022",
+            "client_name": "Quebec Test Logistics Client",
+            "position_code": "QL001"
+          },
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000044",
+            "email": "jobseeker.corp@example.test",
+            "hst_gst": "13%",
+            "last_name": "Corporate",
+            "first_name": "Corey",
+            "billing_email": null
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 9,
+        "totalFiltered": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 3,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "cash": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 1,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 2,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "corp": {
+      "status": 200,
+      "answer": {
+        "timesheets": [
+          {
+            "id": "00000000-0000-4000-8000-000000000056",
+            "invoice_number": "900003",
+            "week_start_date": "2026-11-08",
+            "week_end_date": "2026-11-14",
+            "total_jobseeker_pay": 1017,
+            "tax_amount": 117,
+            "email_sent": false,
+            "is_bulk": false,
+            "positions": {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "title": "Driver Helper",
+              "client": "00000000-0000-4000-8000-000000000022",
+              "client_name": "Quebec Test Logistics Client",
+              "position_code": "QL001"
+            },
+            "jobseeker_profiles": {
+              "id": "00000000-0000-4000-8000-000000000044",
+              "email": "jobseeker.corp@example.test",
+              "hst_gst": "13%",
+              "last_name": "Corporate",
+              "first_name": "Corey",
+              "billing_email": null
+            }
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 1,
+          "totalFiltered": 1,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybridEt": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 2,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "signup": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    }
+  }
+}

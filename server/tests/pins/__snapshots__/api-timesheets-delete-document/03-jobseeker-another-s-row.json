@@ -1,0 +1,14 @@
+{
+  "another jobseeker": {
+    "status": 404,
+    "answer": {
+      "error": "Timesheet not found or access denied"
+    }
+  },
+  "the jobseeker without a profile": {
+    "status": 404,
+    "answer": {
+      "error": "Timesheet not found or access denied"
+    }
+  }
+}

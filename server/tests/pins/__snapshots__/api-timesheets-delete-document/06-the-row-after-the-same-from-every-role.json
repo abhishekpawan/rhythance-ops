@@ -1,0 +1,57 @@
+{
+  "roles": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director",
+    "jobseeker (their own)"
+  ],
+  "status": 200,
+  "row": {
+    "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+    "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+    "position_id": "00000000-0000-4000-8000-000000000031",
+    "total_regular_hours": 40,
+    "total_overtime_hours": 0,
+    "regular_pay_rate": 20,
+    "overtime_pay_rate": 20,
+    "regular_bill_rate": 35,
+    "overtime_bill_rate": 35,
+    "total_jobseeker_pay": 800,
+    "total_client_bill": 1400,
+    "overtime_enabled": false,
+    "markup": null,
+    "document": "R4-PIN document",
+    "invoice_number": "800000",
+    "email_sent": false,
+    "created_at": "<timestamp>",
+    "created_by_user_id": "<who>",
+    "updated_at": "<timestamp>",
+    "updated_by_user_id": "<who>",
+    "bonus_amount": 0,
+    "deduction_amount": 0,
+    "version_history": [
+      {
+        "action": "created",
+        "version": 1,
+        "created_at": "<timestamp>",
+        "created_by": "<who>"
+      }
+    ],
+    "notes": "R4-PIN",
+    "premium_pay_rate": 0,
+    "pay_split_segment": "single",
+    "line_payment_method": null,
+    "is_bulk": false,
+    "bulk_breakdown": [],
+    "tax_amount": 0,
+    "id": "<id>",
+    "week_start_date": "<week>",
+    "week_end_date": "<week>",
+    "daily_hours": "<5 days>"
+  }
+}

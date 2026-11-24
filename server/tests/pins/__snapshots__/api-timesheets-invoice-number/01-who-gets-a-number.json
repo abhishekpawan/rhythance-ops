@@ -1,0 +1,63 @@
+{
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "success": true,
+      "invoice_number": "900006"
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "invoice_number": "900006"
+      }
+    },
+    "cash": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "invoice_number": "900006"
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "invoice_number": "900006"
+      }
+    },
+    "corp": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "invoice_number": "900006"
+      }
+    },
+    "hybridEt": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "invoice_number": "900006"
+      }
+    },
+    "signup": {
+      "status": 200,
+      "answer": {
+        "success": true,
+        "invoice_number": "900006"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "missing": {
+    "status": 400,
+    "answer": {
+      "error": "Missing required field: position_id"
+    }
+  },
+  "null": {
+    "status": 400,
+    "answer": {
+      "error": "Missing required field: position_id"
+    }
+  }
+}

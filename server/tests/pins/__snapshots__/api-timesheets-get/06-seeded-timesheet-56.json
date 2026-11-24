@@ -1,0 +1,76 @@
+{
+  "status": 200,
+  "answer": {
+    "id": "00000000-0000-4000-8000-000000000056",
+    "jobseeker_profile_id": "00000000-0000-4000-8000-000000000044",
+    "jobseeker_user_id": "00000000-0000-4000-8000-000000000014",
+    "position_id": "00000000-0000-4000-8000-000000000034",
+    "week_start_date": "2026-11-08",
+    "week_end_date": "2026-11-14",
+    "daily_hours": [
+      {
+        "date": "2026-11-09",
+        "hours": 8
+      },
+      {
+        "date": "2026-11-10",
+        "hours": 8
+      },
+      {
+        "date": "2026-11-11",
+        "hours": 8
+      },
+      {
+        "date": "2026-11-12",
+        "hours": 8
+      },
+      {
+        "date": "2026-11-13",
+        "hours": 8
+      }
+    ],
+    "total_regular_hours": 40,
+    "total_overtime_hours": 0,
+    "regular_pay_rate": 20,
+    "overtime_pay_rate": 20,
+    "regular_bill_rate": 35,
+    "overtime_bill_rate": 35,
+    "total_jobseeker_pay": 1017,
+    "total_client_bill": 1400,
+    "overtime_enabled": false,
+    "markup": null,
+    "document": null,
+    "invoice_number": "900003",
+    "email_sent": false,
+    "created_at": "2026-11-16T14:00:00+00:00",
+    "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+    "updated_at": "2026-11-16T14:00:00+00:00",
+    "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+    "bonus_amount": 0,
+    "deduction_amount": 0,
+    "version": 1,
+    "version_history": [],
+    "notes": null,
+    "premium_pay_rate": 2.5,
+    "pay_split_segment": "single",
+    "line_payment_method": null,
+    "is_bulk": false,
+    "bulk_breakdown": [],
+    "tax_amount": 117,
+    "jobseeker_profiles": {
+      "id": "00000000-0000-4000-8000-000000000044",
+      "email": "jobseeker.corp@example.test",
+      "hst_gst": "13%",
+      "last_name": "Corporate",
+      "first_name": "Corey",
+      "cash_deduction": null,
+      "payment_method": "Corporation-Direct Deposit"
+    },
+    "positions": {
+      "id": "00000000-0000-4000-8000-000000000034",
+      "title": "Driver Helper",
+      "client": "00000000-0000-4000-8000-000000000022",
+      "position_code": "QL001"
+    }
+  }
+}

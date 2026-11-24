@@ -1,0 +1,38 @@
+{
+  "no body": {
+    "status": 400,
+    "answer": {
+      "error": "Document field is required and must be a string"
+    }
+  },
+  "no document": {
+    "status": 400,
+    "answer": {
+      "error": "Document field is required and must be a string"
+    }
+  },
+  "an empty string": {
+    "status": 400,
+    "answer": {
+      "error": "Document field is required and must be a string"
+    }
+  },
+  "a number": {
+    "status": 400,
+    "answer": {
+      "error": "Document field is required and must be a string"
+    }
+  },
+  "null": {
+    "status": 400,
+    "answer": {
+      "error": "Document field is required and must be a string"
+    }
+  },
+  "an object": {
+    "status": 400,
+    "answer": {
+      "error": "Document field is required and must be a string"
+    }
+  }
+}

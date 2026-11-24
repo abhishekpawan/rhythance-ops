@@ -1,0 +1,76 @@
+{
+  "status": 200,
+  "answer": {
+    "id": "00000000-0000-4000-8000-000000000057",
+    "jobseeker_profile_id": "00000000-0000-4000-8000-000000000045",
+    "jobseeker_user_id": "00000000-0000-4000-8000-000000000015",
+    "position_id": "00000000-0000-4000-8000-000000000035",
+    "week_start_date": "2026-10-25",
+    "week_end_date": "2026-10-31",
+    "daily_hours": [
+      {
+        "date": "2026-10-26",
+        "hours": 10
+      },
+      {
+        "date": "2026-10-27",
+        "hours": 10
+      },
+      {
+        "date": "2026-10-28",
+        "hours": 10
+      },
+      {
+        "date": "2026-10-29",
+        "hours": 0
+      },
+      {
+        "date": "2026-10-30",
+        "hours": 0
+      }
+    ],
+    "total_regular_hours": 30,
+    "total_overtime_hours": 0,
+    "regular_pay_rate": 20,
+    "overtime_pay_rate": 20,
+    "regular_bill_rate": 35,
+    "overtime_bill_rate": 35,
+    "total_jobseeker_pay": 650,
+    "total_client_bill": 1050,
+    "overtime_enabled": false,
+    "markup": null,
+    "document": null,
+    "invoice_number": "900004",
+    "email_sent": true,
+    "created_at": "2026-11-02T14:00:00+00:00",
+    "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+    "updated_at": "2026-11-02T14:00:00+00:00",
+    "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+    "bonus_amount": 50,
+    "deduction_amount": 0,
+    "version": 1,
+    "version_history": [],
+    "notes": "Bonus 50",
+    "premium_pay_rate": 0,
+    "pay_split_segment": "sin",
+    "line_payment_method": "SIN-Direct Deposit",
+    "is_bulk": false,
+    "bulk_breakdown": [],
+    "tax_amount": 0,
+    "jobseeker_profiles": {
+      "id": "00000000-0000-4000-8000-000000000045",
+      "email": "jobseeker.hybrid.et@example.test",
+      "hst_gst": null,
+      "last_name": "Etransfer",
+      "first_name": "Ely",
+      "cash_deduction": "5",
+      "payment_method": "SIN and e-Transfer"
+    },
+    "positions": {
+      "id": "00000000-0000-4000-8000-000000000035",
+      "title": "Loader",
+      "client": "00000000-0000-4000-8000-000000000023",
+      "position_code": "PW001"
+    }
+  }
+}

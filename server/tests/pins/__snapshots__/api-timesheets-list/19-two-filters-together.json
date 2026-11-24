@@ -1,0 +1,221 @@
+{
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "timesheets": [
+        {
+          "id": "00000000-0000-4000-8000-000000000051",
+          "invoice_number": "900001",
+          "week_start_date": "2026-11-01",
+          "week_end_date": "2026-11-07",
+          "total_jobseeker_pay": 800,
+          "tax_amount": 0,
+          "email_sent": true,
+          "is_bulk": false,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000041",
+            "email": "jobseeker.sin@example.test",
+            "hst_gst": null,
+            "last_name": "Sinclair",
+            "first_name": "Sam",
+            "billing_email": null
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "title": "Warehouse Associate",
+            "client": "00000000-0000-4000-8000-000000000021",
+            "client_name": "Northwind Test Staffing Client",
+            "position_code": "NW001"
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000052",
+          "invoice_number": null,
+          "week_start_date": "2026-11-08",
+          "week_end_date": "2026-11-14",
+          "total_jobseeker_pay": 1100,
+          "tax_amount": 0,
+          "email_sent": false,
+          "is_bulk": false,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000041",
+            "email": "jobseeker.sin@example.test",
+            "hst_gst": null,
+            "last_name": "Sinclair",
+            "first_name": "Sam",
+            "billing_email": null
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "title": "Forklift Operator",
+            "client": "00000000-0000-4000-8000-000000000021",
+            "client_name": "Northwind Test Staffing Client",
+            "position_code": "NW002"
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 9,
+        "totalFiltered": 2,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "timesheets": [
+          {
+            "id": "00000000-0000-4000-8000-000000000051",
+            "invoice_number": "900001",
+            "week_start_date": "2026-11-01",
+            "week_end_date": "2026-11-07",
+            "total_jobseeker_pay": 800,
+            "tax_amount": 0,
+            "email_sent": true,
+            "is_bulk": false,
+            "jobseeker_profiles": {
+              "id": "00000000-0000-4000-8000-000000000041",
+              "email": "jobseeker.sin@example.test",
+              "hst_gst": null,
+              "last_name": "Sinclair",
+              "first_name": "Sam",
+              "billing_email": null
+            },
+            "positions": {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "title": "Warehouse Associate",
+              "client": "00000000-0000-4000-8000-000000000021",
+              "client_name": "Northwind Test Staffing Client",
+              "position_code": "NW001"
+            }
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000052",
+            "invoice_number": null,
+            "week_start_date": "2026-11-08",
+            "week_end_date": "2026-11-14",
+            "total_jobseeker_pay": 1100,
+            "tax_amount": 0,
+            "email_sent": false,
+            "is_bulk": false,
+            "jobseeker_profiles": {
+              "id": "00000000-0000-4000-8000-000000000041",
+              "email": "jobseeker.sin@example.test",
+              "hst_gst": null,
+              "last_name": "Sinclair",
+              "first_name": "Sam",
+              "billing_email": null
+            },
+            "positions": {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "title": "Forklift Operator",
+              "client": "00000000-0000-4000-8000-000000000021",
+              "client_name": "Northwind Test Staffing Client",
+              "position_code": "NW002"
+            }
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 3,
+          "totalFiltered": 2,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "cash": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 1,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 2,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "corp": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 1,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybridEt": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 2,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "signup": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    }
+  }
+}

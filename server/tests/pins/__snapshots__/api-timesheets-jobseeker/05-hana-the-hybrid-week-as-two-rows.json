@@ -1,0 +1,354 @@
+{
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "timesheets": [
+        {
+          "id": "00000000-0000-4000-8000-000000000054",
+          "jobseeker_profile_id": "00000000-0000-4000-8000-000000000043",
+          "jobseeker_user_id": "00000000-0000-4000-8000-000000000013",
+          "position_id": "00000000-0000-4000-8000-000000000031",
+          "week_start_date": "2026-11-01",
+          "week_end_date": "2026-11-07",
+          "daily_hours": [
+            {
+              "date": "2026-11-02",
+              "hours": 8
+            },
+            {
+              "date": "2026-11-03",
+              "hours": 8
+            },
+            {
+              "date": "2026-11-04",
+              "hours": 4
+            },
+            {
+              "date": "2026-11-05",
+              "hours": 0
+            },
+            {
+              "date": "2026-11-06",
+              "hours": 0
+            }
+          ],
+          "total_regular_hours": 20,
+          "total_overtime_hours": 0,
+          "regular_pay_rate": 20,
+          "overtime_pay_rate": 20,
+          "regular_bill_rate": 35,
+          "overtime_bill_rate": 35,
+          "total_jobseeker_pay": 400,
+          "total_client_bill": 700,
+          "overtime_enabled": false,
+          "markup": null,
+          "document": null,
+          "invoice_number": "900002",
+          "email_sent": true,
+          "created_at": "2026-11-09T14:00:00+00:00",
+          "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+          "updated_at": "2026-11-09T14:00:00+00:00",
+          "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+          "bonus_amount": 0,
+          "deduction_amount": 0,
+          "version": 1,
+          "version_history": [],
+          "notes": null,
+          "premium_pay_rate": 0,
+          "pay_split_segment": "sin",
+          "line_payment_method": "SIN-Direct Deposit",
+          "is_bulk": false,
+          "bulk_breakdown": [],
+          "tax_amount": 0,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000043",
+            "email": "jobseeker.hybrid@example.test",
+            "last_name": "Hybrid",
+            "first_name": "Hana"
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "title": "Warehouse Associate",
+            "client": "00000000-0000-4000-8000-000000000021",
+            "position_code": "NW001"
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000055",
+          "jobseeker_profile_id": "00000000-0000-4000-8000-000000000043",
+          "jobseeker_user_id": "00000000-0000-4000-8000-000000000013",
+          "position_id": "00000000-0000-4000-8000-000000000031",
+          "week_start_date": "2026-11-01",
+          "week_end_date": "2026-11-07",
+          "daily_hours": [
+            {
+              "date": "2026-11-02",
+              "hours": 0
+            },
+            {
+              "date": "2026-11-03",
+              "hours": 0
+            },
+            {
+              "date": "2026-11-04",
+              "hours": 4
+            },
+            {
+              "date": "2026-11-05",
+              "hours": 8
+            },
+            {
+              "date": "2026-11-06",
+              "hours": 8
+            }
+          ],
+          "total_regular_hours": 20,
+          "total_overtime_hours": 0,
+          "regular_pay_rate": 20,
+          "overtime_pay_rate": 20,
+          "regular_bill_rate": 35,
+          "overtime_bill_rate": 35,
+          "total_jobseeker_pay": 360,
+          "total_client_bill": 700,
+          "overtime_enabled": false,
+          "markup": null,
+          "document": null,
+          "invoice_number": "900002",
+          "email_sent": true,
+          "created_at": "2026-11-09T14:00:00+00:00",
+          "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+          "updated_at": "2026-11-09T14:00:00+00:00",
+          "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+          "bonus_amount": 0,
+          "deduction_amount": 0,
+          "version": 1,
+          "version_history": [],
+          "notes": null,
+          "premium_pay_rate": 0,
+          "pay_split_segment": "cash",
+          "line_payment_method": "Cash",
+          "is_bulk": false,
+          "bulk_breakdown": [],
+          "tax_amount": 0,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000043",
+            "email": "jobseeker.hybrid@example.test",
+            "last_name": "Hybrid",
+            "first_name": "Hana"
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "title": "Warehouse Associate",
+            "client": "00000000-0000-4000-8000-000000000021",
+            "position_code": "NW001"
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 2,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "cash": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "timesheets": [
+          {
+            "id": "00000000-0000-4000-8000-000000000054",
+            "jobseeker_profile_id": "00000000-0000-4000-8000-000000000043",
+            "jobseeker_user_id": "00000000-0000-4000-8000-000000000013",
+            "position_id": "00000000-0000-4000-8000-000000000031",
+            "week_start_date": "2026-11-01",
+            "week_end_date": "2026-11-07",
+            "daily_hours": [
+              {
+                "date": "2026-11-02",
+                "hours": 8
+              },
+              {
+                "date": "2026-11-03",
+                "hours": 8
+              },
+              {
+                "date": "2026-11-04",
+                "hours": 4
+              },
+              {
+                "date": "2026-11-05",
+                "hours": 0
+              },
+              {
+                "date": "2026-11-06",
+                "hours": 0
+              }
+            ],
+            "total_regular_hours": 20,
+            "total_overtime_hours": 0,
+            "regular_pay_rate": 20,
+            "overtime_pay_rate": 20,
+            "regular_bill_rate": 35,
+            "overtime_bill_rate": 35,
+            "total_jobseeker_pay": 400,
+            "total_client_bill": 700,
+            "overtime_enabled": false,
+            "markup": null,
+            "document": null,
+            "invoice_number": "900002",
+            "email_sent": true,
+            "created_at": "2026-11-09T14:00:00+00:00",
+            "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+            "updated_at": "2026-11-09T14:00:00+00:00",
+            "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+            "bonus_amount": 0,
+            "deduction_amount": 0,
+            "version": 1,
+            "version_history": [],
+            "notes": null,
+            "premium_pay_rate": 0,
+            "pay_split_segment": "sin",
+            "line_payment_method": "SIN-Direct Deposit",
+            "is_bulk": false,
+            "bulk_breakdown": [],
+            "tax_amount": 0,
+            "jobseeker_profiles": {
+              "id": "00000000-0000-4000-8000-000000000043",
+              "email": "jobseeker.hybrid@example.test",
+              "last_name": "Hybrid",
+              "first_name": "Hana"
+            },
+            "positions": {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "title": "Warehouse Associate",
+              "client": "00000000-0000-4000-8000-000000000021",
+              "position_code": "NW001"
+            }
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000055",
+            "jobseeker_profile_id": "00000000-0000-4000-8000-000000000043",
+            "jobseeker_user_id": "00000000-0000-4000-8000-000000000013",
+            "position_id": "00000000-0000-4000-8000-000000000031",
+            "week_start_date": "2026-11-01",
+            "week_end_date": "2026-11-07",
+            "daily_hours": [
+              {
+                "date": "2026-11-02",
+                "hours": 0
+              },
+              {
+                "date": "2026-11-03",
+                "hours": 0
+              },
+              {
+                "date": "2026-11-04",
+                "hours": 4
+              },
+              {
+                "date": "2026-11-05",
+                "hours": 8
+              },
+              {
+                "date": "2026-11-06",
+                "hours": 8
+              }
+            ],
+            "total_regular_hours": 20,
+            "total_overtime_hours": 0,
+            "regular_pay_rate": 20,
+            "overtime_pay_rate": 20,
+            "regular_bill_rate": 35,
+            "overtime_bill_rate": 35,
+            "total_jobseeker_pay": 360,
+            "total_client_bill": 700,
+            "overtime_enabled": false,
+            "markup": null,
+            "document": null,
+            "invoice_number": "900002",
+            "email_sent": true,
+            "created_at": "2026-11-09T14:00:00+00:00",
+            "created_by_user_id": "00000000-0000-4000-8000-000000000004",
+            "updated_at": "2026-11-09T14:00:00+00:00",
+            "updated_by_user_id": "00000000-0000-4000-8000-000000000004",
+            "bonus_amount": 0,
+            "deduction_amount": 0,
+            "version": 1,
+            "version_history": [],
+            "notes": null,
+            "premium_pay_rate": 0,
+            "pay_split_segment": "cash",
+            "line_payment_method": "Cash",
+            "is_bulk": false,
+            "bulk_breakdown": [],
+            "tax_amount": 0,
+            "jobseeker_profiles": {
+              "id": "00000000-0000-4000-8000-000000000043",
+              "email": "jobseeker.hybrid@example.test",
+              "last_name": "Hybrid",
+              "first_name": "Hana"
+            },
+            "positions": {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "title": "Warehouse Associate",
+              "client": "00000000-0000-4000-8000-000000000021",
+              "position_code": "NW001"
+            }
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 2,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "corp": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "hybridEt": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    },
+    "signup": {
+      "status": 403,
+      "answer": {
+        "error": "You can only access your own timesheets"
+      }
+    }
+  }
+}

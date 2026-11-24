@@ -1,0 +1,195 @@
+{
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "timesheets": [
+        {
+          "id": "00000000-0000-4000-8000-000000000057",
+          "invoice_number": "900004",
+          "week_start_date": "2026-10-25",
+          "week_end_date": "2026-10-31",
+          "total_jobseeker_pay": 650,
+          "tax_amount": 0,
+          "email_sent": true,
+          "is_bulk": false,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000045",
+            "email": "jobseeker.hybrid.et@example.test",
+            "hst_gst": null,
+            "last_name": "Etransfer",
+            "first_name": "Ely",
+            "billing_email": null
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000035",
+            "title": "Loader",
+            "client": "00000000-0000-4000-8000-000000000023",
+            "client_name": "Pacific Test Warehousing Client",
+            "position_code": "PW001"
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000058",
+          "invoice_number": "900004",
+          "week_start_date": "2026-10-25",
+          "week_end_date": "2026-10-31",
+          "total_jobseeker_pay": 190,
+          "tax_amount": 0,
+          "email_sent": true,
+          "is_bulk": false,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000045",
+            "email": "jobseeker.hybrid.et@example.test",
+            "hst_gst": null,
+            "last_name": "Etransfer",
+            "first_name": "Ely",
+            "billing_email": null
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000035",
+            "title": "Loader",
+            "client": "00000000-0000-4000-8000-000000000023",
+            "client_name": "Pacific Test Warehousing Client",
+            "position_code": "PW001"
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000059",
+          "invoice_number": "900005",
+          "week_start_date": "2026-09-20",
+          "week_end_date": "2026-09-26",
+          "total_jobseeker_pay": 800,
+          "tax_amount": 0,
+          "email_sent": true,
+          "is_bulk": false,
+          "jobseeker_profiles": {
+            "id": "00000000-0000-4000-8000-000000000041",
+            "email": "jobseeker.sin@example.test",
+            "hst_gst": null,
+            "last_name": "Sinclair",
+            "first_name": "Sam",
+            "billing_email": null
+          },
+          "positions": {
+            "id": "00000000-0000-4000-8000-000000000036",
+            "title": "Line Cook Helper",
+            "client": "00000000-0000-4000-8000-000000000024",
+            "client_name": "Prairie Test Foods Client",
+            "position_code": "PF001"
+          }
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 6,
+        "total": 9,
+        "totalFiltered": 9,
+        "totalPages": 2,
+        "hasNextPage": false,
+        "hasPrevPage": true
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 2,
+          "limit": 6,
+          "total": 3,
+          "totalFiltered": 3,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "cash": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 2,
+          "limit": 6,
+          "total": 1,
+          "totalFiltered": 1,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 2,
+          "limit": 6,
+          "total": 2,
+          "totalFiltered": 2,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "corp": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 2,
+          "limit": 6,
+          "total": 1,
+          "totalFiltered": 1,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybridEt": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 2,
+          "limit": 6,
+          "total": 2,
+          "totalFiltered": 2,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "signup": {
+      "status": 200,
+      "answer": {
+        "timesheets": [],
+        "pagination": {
+          "page": 2,
+          "limit": 6,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    }
+  }
+}

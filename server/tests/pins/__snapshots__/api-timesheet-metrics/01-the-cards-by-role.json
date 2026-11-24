@@ -1,0 +1,1860 @@
+{
+  "allowed": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director"
+  ],
+  "answer": {
+    "status": 200,
+    "answer": {
+      "metrics": [
+        {
+          "id": "total_timesheets",
+          "label": "Total Timesheets Submitted",
+          "currentValue": 9,
+          "currentPeriodValue": 8,
+          "previousValue": 1,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 1
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 2,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 4,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 2,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 1,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 8,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "timesheets",
+          "formatType": "number",
+          "description": "Total number of timesheets submitted"
+        },
+        {
+          "id": "total_jobseeker_pay",
+          "label": "Total Jobseeker Pay",
+          "currentValue": 6037,
+          "currentPeriodValue": 5237,
+          "previousValue": 800,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 800
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 840,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 2280,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 2117,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 800,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 5237,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "currency",
+          "formatType": "currency",
+          "description": "Sum of all jobseeker pay from timesheets"
+        },
+        {
+          "id": "total_bonus_paid",
+          "label": "Total Bonus Paid",
+          "currentValue": 50,
+          "currentPeriodValue": 50,
+          "previousValue": 0,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 50,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 0,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 50,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "currency",
+          "formatType": "currency",
+          "description": "Sum of all bonuses paid from timesheets"
+        },
+        {
+          "id": "total_deduction",
+          "label": "Total Deduction",
+          "currentValue": 0,
+          "currentPeriodValue": 0,
+          "previousValue": 0,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 0,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "currency",
+          "formatType": "currency",
+          "description": "Sum of all deductions from timesheets"
+        },
+        {
+          "id": "total_regular_hours",
+          "label": "Total Regular Hours",
+          "currentValue": 280,
+          "currentPeriodValue": 240,
+          "previousValue": 40,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 40
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 40,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 120,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 80,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 40,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 240,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "hours",
+          "formatType": "number",
+          "description": "Sum of all regular labor hours from timesheets (excludes subcategories)"
+        },
+        {
+          "id": "total_overtime_hours",
+          "label": "Total Overtime Hours",
+          "currentValue": 10,
+          "currentPeriodValue": 10,
+          "previousValue": 0,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 10,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 0,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 10,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "hours",
+          "formatType": "number",
+          "description": "Sum of all overtime labor hours from timesheets"
+        },
+        {
+          "id": "total_miles_logged",
+          "label": "Total Miles Logged",
+          "currentValue": 0,
+          "currentPeriodValue": 0,
+          "previousValue": 0,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 0,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "miles",
+          "formatType": "number",
+          "description": "Total miles driven from mileage subcategory timesheets"
+        },
+        {
+          "id": "total_non_hourly_units",
+          "label": "Total Allowance / Stop Units",
+          "currentValue": 0,
+          "currentPeriodValue": 0,
+          "previousValue": 0,
+          "dailyData": [
+            {
+              "date": "2026-10-19",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-20",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-21",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-22",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-23",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-24",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-25",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-26",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-27",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-28",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-29",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-30",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-10-31",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-01",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-02",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-03",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-04",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-05",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-06",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-07",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-08",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-09",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-10",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-11",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-12",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-13",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-14",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-15",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-16",
+              "value": 0,
+              "previousValue": 0
+            },
+            {
+              "date": "2026-11-17",
+              "value": 0,
+              "previousValue": 0
+            }
+          ],
+          "historicalData": [
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2025-11"
+            },
+            {
+              "period": "Dec",
+              "value": 0,
+              "date": "2025-12"
+            },
+            {
+              "period": "Jan",
+              "value": 0,
+              "date": "2026-01"
+            },
+            {
+              "period": "Feb",
+              "value": 0,
+              "date": "2026-02"
+            },
+            {
+              "period": "Mar",
+              "value": 0,
+              "date": "2026-03"
+            },
+            {
+              "period": "Apr",
+              "value": 0,
+              "date": "2026-04"
+            },
+            {
+              "period": "May",
+              "value": 0,
+              "date": "2026-05"
+            },
+            {
+              "period": "Jun",
+              "value": 0,
+              "date": "2026-06"
+            },
+            {
+              "period": "Jul",
+              "value": 0,
+              "date": "2026-07"
+            },
+            {
+              "period": "Aug",
+              "value": 0,
+              "date": "2026-08"
+            },
+            {
+              "period": "Sep",
+              "value": 0,
+              "date": "2026-09"
+            },
+            {
+              "period": "Oct",
+              "value": 0,
+              "date": "2026-10"
+            },
+            {
+              "period": "Nov",
+              "value": 0,
+              "date": "2026-11"
+            }
+          ],
+          "unit": "units",
+          "formatType": "number",
+          "description": "Total non-hourly units (stops, layovers, meal credits) from subcategory timesheets"
+        }
+      ]
+    }
+  },
+  "refused": {
+    "jobseeker": {
+      "status": 403,
+      "answer": {
+        "error": "Access denied",
+        "message": "This resource is only accessible to: admin, recruiter"
+      }
+    }
+  }
+}

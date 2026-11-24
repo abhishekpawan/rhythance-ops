@@ -1,0 +1,14 @@
+{
+  "an id nobody has": {
+    "status": 404,
+    "answer": {
+      "error": "Timesheet not found or access denied"
+    }
+  },
+  "an id that is not a uuid": {
+    "status": 404,
+    "answer": {
+      "error": "Timesheet not found or access denied"
+    }
+  }
+}

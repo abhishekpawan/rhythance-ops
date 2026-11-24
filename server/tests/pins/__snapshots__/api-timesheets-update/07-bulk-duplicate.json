@@ -1,0 +1,6 @@
+{
+  "status": 409,
+  "answer": {
+    "error": "Another bulk timesheet for this jobseeker, week, and pay segment already exists"
+  }
+}

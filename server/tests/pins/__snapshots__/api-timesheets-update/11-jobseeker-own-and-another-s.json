@@ -1,0 +1,86 @@
+{
+  "own row": {
+    "status": 200,
+    "answer": {
+      "success": true,
+      "message": "Timesheet updated successfully",
+      "timesheet": {
+        "id": "<uuid>",
+        "jobseeker_profile_id": "00000000-0000-4000-8000-000000000041",
+        "jobseeker_user_id": "00000000-0000-4000-8000-000000000011",
+        "position_id": "00000000-0000-4000-8000-000000000031",
+        "week_start_date": "2024-05-26",
+        "week_end_date": "2024-06-01",
+        "daily_hours": [
+          {
+            "date": "2024-05-27",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-28",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-29",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-30",
+            "hours": 8
+          },
+          {
+            "date": "2024-05-31",
+            "hours": 8
+          }
+        ],
+        "total_regular_hours": 40,
+        "total_overtime_hours": 0,
+        "regular_pay_rate": 20,
+        "overtime_pay_rate": 20,
+        "regular_bill_rate": 35,
+        "overtime_bill_rate": 35,
+        "total_jobseeker_pay": 810,
+        "total_client_bill": 1400,
+        "overtime_enabled": false,
+        "markup": null,
+        "document": null,
+        "invoice_number": "800000",
+        "email_sent": false,
+        "created_at": "<timestamp>",
+        "created_by_user_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "<timestamp>",
+        "updated_by_user_id": "00000000-0000-4000-8000-000000000011",
+        "bonus_amount": 0,
+        "deduction_amount": 0,
+        "version": 2,
+        "version_history": [
+          {
+            "action": "created",
+            "version": 1,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000001"
+          },
+          {
+            "action": "updated",
+            "version": 2,
+            "created_at": "<timestamp>",
+            "created_by": "00000000-0000-4000-8000-000000000011"
+          }
+        ],
+        "notes": "R4-PIN",
+        "premium_pay_rate": 0,
+        "pay_split_segment": "single",
+        "line_payment_method": null,
+        "is_bulk": false,
+        "bulk_breakdown": [],
+        "tax_amount": 0
+      }
+    }
+  },
+  "another jobseeker's row": {
+    "status": 404,
+    "answer": {
+      "error": "Timesheet not found or access denied"
+    }
+  }
+}
