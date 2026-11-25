@@ -8,7 +8,7 @@ import {
 } from "../../../lib/hybridPayrollSplit";
 import { useTimesheetFormTranslation } from "../hooks/useTimesheetFormTranslation";
 
-export interface TimesheetJobseekerInfoExtras {
+interface TimesheetJobseekerInfoExtras {
   billingEmail?: string;
   employeeId?: string;
 }

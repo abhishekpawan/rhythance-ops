@@ -484,5 +484,3 @@ export function TimesheetView() {
     </div>
   );
 }
-
-export default TimesheetView;

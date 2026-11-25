@@ -63,7 +63,7 @@ router.get(
   "/",
   authenticateToken,
   authorizeRoles(["admin", "recruiter"]),
-  async (req: Request, res: Response) => {
+  async (_req: Request, res: Response) => {
     try {
       // Every timesheet with its position's subcategory info (paged: Supabase
       // caps one request at 1000 rows).

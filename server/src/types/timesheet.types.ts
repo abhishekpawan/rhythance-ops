@@ -2,7 +2,7 @@
 // Core (DB / API body)
 // ---------------------------------------------------------------------------
 
-export interface TimesheetDailyHours {
+interface TimesheetDailyHours {
   date: string;
   hours: number;
 }
@@ -69,7 +69,7 @@ export type TimesheetInput = Omit<
 // Joins (Supabase nested selects)
 // ---------------------------------------------------------------------------
 
-export interface TimesheetJobseekerProfileJoin {
+interface TimesheetJobseekerProfileJoin {
   id?: string;
   first_name: string;
   last_name: string;
@@ -81,7 +81,7 @@ export interface TimesheetJobseekerProfileJoin {
 }
 
 /** Position data from list or detail joins (detail may include extra columns). */
-export interface TimesheetPositionJoin {
+interface TimesheetPositionJoin {
   id?: string;
   position_code: string;
   title: string;
@@ -117,7 +117,7 @@ export type TimesheetWithJoins = TimesheetRow & {
 };
 
 /** JSON pagination (camelCase matches existing API responses). */
-export interface TimesheetPaginationMeta {
+interface TimesheetPaginationMeta {
   page: number;
   limit: number;
   total: number;
@@ -125,12 +125,6 @@ export interface TimesheetPaginationMeta {
   totalPages: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
-}
-
-export interface TimesheetMutationResponse {
-  success: boolean;
-  message: string;
-  timesheet: TimesheetRow;
 }
 
 // ---------------------------------------------------------------------------
@@ -166,7 +160,7 @@ export interface TimesheetJobseekerListQuery {
 // Service layer results (controller maps these to HTTP)
 // ---------------------------------------------------------------------------
 
-export type TimesheetServiceError = {
+type TimesheetServiceError = {
   success: false;
   status: number;
   error: string;
@@ -175,11 +169,11 @@ export type TimesheetServiceError = {
   field?: string;
 };
 
-export type TimesheetServiceOk<T extends Record<string, unknown>> = {
+type TimesheetServiceOk<T extends Record<string, unknown>> = {
   success: true;
 } & T;
 
-export type TimesheetServiceResult<T extends Record<string, unknown>> =
+type TimesheetServiceResult<T extends Record<string, unknown>> =
   | TimesheetServiceOk<T>
   | TimesheetServiceError;
 
@@ -219,7 +213,7 @@ export type UpdateTimesheetDocumentResult = TimesheetServiceResult<{
 }>;
 
 /** Activity logger `res.locals` after send-email. */
-export interface TimesheetSendEmailLocals {
+interface TimesheetSendEmailLocals {
   invoice_number: string;
   jobseeker_name: string;
   email_sent: boolean;

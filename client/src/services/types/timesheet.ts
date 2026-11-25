@@ -12,7 +12,7 @@ export interface TimesheetDailyHours {
   hours: number;
 }
 
-export interface TimesheetVersionHistoryEntry {
+interface TimesheetVersionHistoryEntry {
   version: number;
   created_by: string;
   created_at: string;
@@ -68,7 +68,7 @@ export type TimesheetInput = Omit<
   | "version_history"
 >;
 
-export interface TimesheetJobseekerProfileJoin {
+interface TimesheetJobseekerProfileJoin {
   id?: string;
   first_name: string;
   last_name: string;
@@ -79,7 +79,7 @@ export interface TimesheetJobseekerProfileJoin {
   hst_gst?: string | null;
 }
 
-export interface TimesheetPositionJoin {
+interface TimesheetPositionJoin {
   id?: string;
   position_code: string;
   title: string;
@@ -109,7 +109,7 @@ export type TimesheetWithJoins = TimesheetRow & {
   positions?: TimesheetPositionJoin | null;
 };
 
-export interface TimesheetFilterParams {
+interface TimesheetFilterParams {
   searchTerm?: string;
   jobseekerFilter?: string;
   positionFilter?: string;

@@ -4,7 +4,7 @@ import type { TimesheetRow } from "../../../services/types/timesheet";
 import { submitWeeklyTimesheets } from "../functions/timesheetSubmit";
 import type { ClientPosition, WeeklyTimesheet } from "../types";
 
-export type BulkTimesheetT = (
+type BulkTimesheetT = (
   key: string,
   params?: Record<string, string | number>
 ) => string;

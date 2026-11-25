@@ -1,7 +1,7 @@
 import { Building, FileText } from "lucide-react";
 import { useTimesheetFormTranslation } from "../hooks/useTimesheetFormTranslation";
 
-export type TimesheetEmptyVariant = "clients" | "positions";
+type TimesheetEmptyVariant = "clients" | "positions";
 
 interface TimesheetEmptyStateProps {
   variant: TimesheetEmptyVariant;

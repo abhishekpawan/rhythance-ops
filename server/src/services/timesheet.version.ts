@@ -1,6 +1,6 @@
 import type { TimesheetVersionHistoryEntry } from "../types/timesheet.types.js";
 
-export function createVersionEntry(
+function createVersionEntry(
   userId: string,
   version: number,
   action: "created" | "updated"

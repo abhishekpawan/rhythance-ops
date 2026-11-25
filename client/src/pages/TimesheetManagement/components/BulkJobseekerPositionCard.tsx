@@ -17,7 +17,7 @@ import type {
   PositionWithOvertime,
 } from "../types";
 
-export type TimesheetFormTf = ReturnType<typeof useTimesheetFormTranslation>;
+type TimesheetFormTf = ReturnType<typeof useTimesheetFormTranslation>;
 
 interface BulkTimesheetT {
   (key: string, params?: Record<string, string | number>): string;

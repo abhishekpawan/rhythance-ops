@@ -11,12 +11,7 @@ import type {
 } from "../types";
 import { generateWeekDates, getWeekEndDate } from "./weekUtils";
 
-export type {
-  PaySplitSegmentKey,
-  TimesheetDayEntry,
-  WeekTimesheetRecord,
-  WeeklyTimesheetSeed,
-} from "../types";
+export type { WeekTimesheetRecord, WeeklyTimesheetSeed } from "../types";
 
 function toNumber(value: unknown, fallback = 0): number {
   if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -25,7 +20,7 @@ function toNumber(value: unknown, fallback = 0): number {
 }
 
 /** Coerce wire `daily_hours` array from API (snake_case keys on each day). */
-export function normalizeDailyHoursFromWire(
+function normalizeDailyHoursFromWire(
   raw: TimesheetDailyHours[] | null | undefined
 ): TimesheetDailyHours[] {
   if (!Array.isArray(raw)) return [];
@@ -44,7 +39,7 @@ export function normalizeDailyHoursFromWire(
  * {@link WeekTimesheetRecord}. Does not convert to camelCase — that happens only
  * when building {@link WeeklyTimesheet} for the React form.
  */
-export function parseTimesheetFromApi(
+function parseTimesheetFromApi(
   timesheet: TimesheetWithJoins
 ): WeekTimesheetRecord {
   return {
@@ -80,7 +75,7 @@ export function filterTimesheetsForWeekAndPosition(
   );
 }
 
-export function buildSplitExistingIds(
+function buildSplitExistingIds(
   matching: WeekTimesheetRecord[]
 ): Partial<Record<PaySplitSegmentKey, string>> {
   const splitExistingIds: Partial<Record<PaySplitSegmentKey, string>> = {};
@@ -93,7 +88,7 @@ export function buildSplitExistingIds(
   return splitExistingIds;
 }
 
-export function mergeDailyHoursByDate(
+function mergeDailyHoursByDate(
   matching: WeekTimesheetRecord[]
 ): Record<string, number> {
   const byDate: Record<string, number> = {};
@@ -105,7 +100,7 @@ export function mergeDailyHoursByDate(
   return byDate;
 }
 
-export function pickPrimaryTimesheet(
+function pickPrimaryTimesheet(
   matching: WeekTimesheetRecord[]
 ): WeekTimesheetRecord | undefined {
   if (matching.length === 0) return undefined;
@@ -116,7 +111,7 @@ export function pickPrimaryTimesheet(
   );
 }
 
-export function buildEntriesForWeek(
+function buildEntriesForWeek(
   week_start_date: string,
   matching: WeekTimesheetRecord[]
 ): TimesheetDayEntry[] {
