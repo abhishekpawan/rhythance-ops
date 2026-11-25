@@ -46,13 +46,14 @@ export async function submitWeeklyTimesheets({
   let updatedCount = 0;
   let createdCount = 0;
 
-  const rates = resolvePositionRates(selectedPosition);
-  const regularPayRate = rates.regularPayRate;
-  const premiumPayRate = rates.premiumPayRate;
-  const effectivePayRate = rates.effectivePayRate;
-  const regularBillRate = rates.regularBillRate;
-  const overtimePayRate = rates.overtimePayRate;
-  const overtimeBillRate = rates.overtimeBillRate;
+  const {
+    regularPayRate,
+    premiumPayRate,
+    effectivePayRate,
+    regularBillRate,
+    overtimePayRate,
+    overtimeBillRate,
+  } = resolvePositionRates(selectedPosition);
 
   const sinCap = parseFloat(String(jobseeker.sinPayrollHoursCap ?? "0"));
 
@@ -69,6 +70,7 @@ export async function submitWeeklyTimesheets({
     const dailyHoursMap = new Map<string, number>();
 
     const bulk_breakdown = bulkRows.map((r) => {
+      const rowRates = resolvePositionRates(r.clientPosition);
       totalRegularHours += r.form.totalRegularHours;
       totalOvertimeHours += r.form.totalOvertimeHours;
       totalJobseekerPay += r.form.jobseekerPay;
@@ -91,10 +93,8 @@ export async function submitWeeklyTimesheets({
         overtime_hours: r.form.totalOvertimeHours,
         total_jobseeker_pay: r.form.jobseekerPay,
         total_client_bill: r.form.clientBill,
-        regular_pay_rate: resolvePositionRates(r.clientPosition)
-          .effectivePayRate,
-        regular_bill_rate: resolvePositionRates(r.clientPosition)
-          .regularBillRate,
+        regular_pay_rate: rowRates.effectivePayRate,
+        regular_bill_rate: rowRates.regularBillRate,
         bonus_amount: r.form.bonusAmount,
         deduction_amount: r.form.deductionAmount,
         tax_amount: r.form.taxAmount || 0,
