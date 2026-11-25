@@ -34,7 +34,7 @@ CASH DEDUCTION
 10%
 Client & Position
 CLIENT NAME
--
+Northwind Test Staffing Client
 POSITION TITLE
 Warehouse Associate
 POSITION CODE

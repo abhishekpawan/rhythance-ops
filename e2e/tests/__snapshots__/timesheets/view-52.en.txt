@@ -32,7 +32,7 @@ PAYMENT METHOD
 SIN-Direct Deposit
 Client & Position
 CLIENT NAME
--
+Northwind Test Staffing Client
 POSITION TITLE
 Forklift Operator
 POSITION CODE

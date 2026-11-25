@@ -34,7 +34,7 @@ TAUX DE TAXE (TVH/TPS)
 13%%
 Client et poste
 NOM DU CLIENT
--
+Quebec Test Logistics Client
 TITRE DU POSTE
 Driver Helper
 CODE DU POSTE

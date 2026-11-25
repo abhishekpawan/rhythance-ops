@@ -36,7 +36,7 @@ CASH DEDUCTION
 5%
 Client & Position
 CLIENT NAME
--
+Pacific Test Warehousing Client
 POSITION TITLE
 Loader
 POSITION CODE

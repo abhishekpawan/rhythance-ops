@@ -34,7 +34,7 @@ TAX RATE (HST/GST)
 13%%
 Client & Position
 CLIENT NAME
--
+Quebec Test Logistics Client
 POSITION TITLE
 Driver Helper
 POSITION CODE

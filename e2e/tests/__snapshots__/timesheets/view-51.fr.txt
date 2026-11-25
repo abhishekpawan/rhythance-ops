@@ -32,7 +32,7 @@ MODE DE PAIEMENT
 SIN-Direct Deposit
 Client et poste
 NOM DU CLIENT
--
+Northwind Test Staffing Client
 TITRE DU POSTE
 Warehouse Associate
 CODE DU POSTE

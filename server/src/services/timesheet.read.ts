@@ -72,7 +72,7 @@ export async function getTimesheetById(
       `
           *,
           jobseeker_profiles!inner(id, first_name, last_name, email, hst_gst, payment_method, cash_deduction),
-          positions(id, position_code, title, client)
+          positions(id, position_code, title, client, client_name)
         `
     )
     .eq("id", id);
