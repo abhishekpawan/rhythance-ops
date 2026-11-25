@@ -4,7 +4,7 @@
 
 **No source file over 300 lines** (TypeScript, TSX and CSS). A longer file is split by responsibility: data fetching into hooks or services, pure calculations into their own files, repeated markup into shared components, and CSS by section. JSON translation files follow the same idea by module (see [translations.md](translations.md)).
 
-The rule is applied module by module. **Done: dashboard (Nov 2026), reports (Nov 2026), support tickets (Nov 2026), admin pages / calendar / email previews / training (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
+The rule is applied module by module. **Done: dashboard (Nov 2026), reports (Nov 2026), support tickets (Nov 2026), admin pages / calendar / email previews / training (Nov 2026), timesheets (Nov 2026).** Other modules still have larger files; split one when you next work on it. `scripts/check-file-size.sh` (a ratchet against `scripts/file-size-baseline.txt`) stops any file from growing or a new one from passing 300 lines; see [testing.md](testing.md).
 
 ## The routine for one module
 
@@ -87,6 +87,25 @@ Safety net for this module: `server/tests/pins/support-*.test.ts` (all nine endp
 Removed in the same module (dead code): `CalendarFilters.tsx` and its CSS (built, never mounted), `renderedcalenderhtml.html` (a 1,210-line reference nothing imported) and five unused helpers of `services/api/calendar.ts`.
 
 Safety net for this module: `server/tests/pins/admin-flags.test.ts`, `admin-dropdowns.test.ts`, `calendar.test.ts`, `email-templates.test.ts` (all 18 endpoints) and `e2e/tests/admin-pages.spec.ts`, `calendar-training-email.spec.ts` (`docs/development/testing.md`).
+
+## Timesheets module
+
+| Where | What |
+| --- | --- |
+| `server/src/routes/timesheet.routes.ts`, `routes/timesheet.activity.ts` | The nine `/api/timesheets` routes in their original order with their access rules; the four activity-log entries (send email, create, update, delete) that the routes use, moved out unchanged. `routes/timesheetMetrics.ts` (`/api/timesheet-metrics`) is unchanged |
+| `server/src/controllers/timesheet.controller.ts` | Unchanged (under 300 lines): reads the request, calls the service, answers |
+| `server/src/services/timesheet.service.ts` | Only re-exports (`supabase`, `emailCashDeductionVars` and every service function), so the controller, the routes and `timesheet.email.ts` import from it as before |
+| `server/src/services/timesheet.<part>.ts` | `client` (the service-role Supabase client), `list` (the list filters and `getAllTimesheets`), `read` (`generateInvoiceNumber`, `getTimesheetById`, `getJobseekerTimesheets`), `send` (`sendTimesheetEmail`, the cash-deduction numbers for the email, SendGrid key), `defaults` (the fields a create or update fills in), `create`, `update`, `delete`, `document`; `profileCheck` (the profile must belong to the user, DEV-6), `version` (version history), `email` (the notifier emails) |
+| `client/src/pages/TimesheetManagement/TimesheetManagement.tsx`, `TimesheetList.tsx`, `TimesheetView.tsx` | The entry screen, the list and the view (`TimesheetView` keeps the page state and the header; its cards are `components/TimesheetViewMainCards.tsx` and `TimesheetViewSideCards.tsx`) |
+| `client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx` | Bulk by client: the hooks and the save. Parts in `components/`: `BulkClientSelectionBar` (with the option lists), `BulkClientHeader`, `BulkSubcategoryBanner`, `BulkRowCard` (one jobseeker; its hours and pay are `BulkRowHoursSection`), `BulkFinalSummary` (grand totals worked out from the rows), `BulkActionSection`, `BulkGeneratingOverlay`; `bulkClientTypes.ts` takes the prop types from the hooks |
+| `client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx` | Bulk by jobseeker: the hooks. Parts: `BulkJobseekerSelectionBar`, `BulkJobseekerProfileStrip`, `BulkJobseekerPositionRows` (one `BulkJobseekerPositionCard` per row; its hours and pay block is `BulkPositionHoursBlock`), `BulkJobseekerGrandSummary` (totals), `BulkJobseekerActionSection`, `BulkJobseekerGeneratingOverlay`; the position options and the generate click are the hooks `useBulkJobseekerPositionOptions` and `useBulkJobseekerGenerate` |
+| `client/src/pages/TimesheetManagement/hooks/` | `useTimesheetsList` (+ `.types.ts`, and `useTimesheetNavigation` for the view and edit links); `useBulkJobseekerPositionForms` (the rows and their money) with `useBulkJobseekerRowHydration` (loading the rows from the week's saved timesheet) and `functions/newEmptyBulkRow.ts` |
+| `client/src/pages/TimesheetManagement/components/TimesheetListTable.tsx`, `TimesheetListRow.tsx` | The list table: head and filters; one row and the loading rows |
+| `client/src/lib/hybridPayrollSplit.ts`, `hybridPayrollSplit.types.ts` | The hybrid SIN + cash / e-Transfer split (money, unit-tested); its six types live in the `.types.ts` file and are re-exported, the calculations are untouched |
+| `client/src/services/api/timesheet.ts` | The API calls (under 300 lines since the dead helper `createTimesheetFromFrontendData` went; `updateTimesheetDocument` stays, nothing calls it yet, see `docs/TODO.md`) |
+| `client/src/styles/pages/TimesheetManagement.css`, `BulkTimesheetManagement.css` | Each only imports its four parts (`.base`, `.form`, `.hours`, `.invoice` and `.base`, `.list`, `.position`, `.compact`) in the original order; the built CSS file is byte-identical to before the split on `multiple-login-demo`, on each production branch's own build and on public-main |
+
+Safety net for this module (R-4): `server/tests/pins/timesheet*.test.ts` (all ten endpoints), `server/tests/unit/timesheetMoneyBranches.test.ts` and the two `hybridPayrollSplit` tests, and `e2e/tests/timesheets-*.spec.ts` (request bodies, totals, en and fr). The split (R-4s) changed none of their stored answers.
 
 ## Shared UI pieces (`client/src/components/`)
 

@@ -83,7 +83,7 @@ Last verified against the code: November 2026.
 - Content: "Hi {first name}," with position title, location, employment type/term, start and end date, category, experience, number of positions; invitation to reply about other opportunities. Skipped if no email.
 
 ### #7, #8, #9 Timesheet emails
-- Files: `server/src/routes/timesheet.routes.ts` (#7 and #9 via `emailNotifier`), `server/src/services/timesheet.service.ts` (#8 sends directly). Templates: `timesheet-html/txt.ts`.
+- Files: `server/src/routes/timesheet.routes.ts` (#7 and #9 via `emailNotifier`), `server/src/services/timesheet.send.ts` (#8 sends directly; `timesheet.service.ts` only re-exports it). Templates: `timesheet-html/txt.ts`.
 - **To the jobseeker only**: billing email if set, otherwise primary email. No CC, ever.
 - #7 and #9 send only when the request has `emailSent: true`. #9 has an "Updated" prefix and badge.
 - #8 can be used by admin and recruiter-type roles; a jobseeker gets 403, their own timesheets included (DEV-6); on success it sets `email_sent = true` on the timesheet.

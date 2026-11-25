@@ -41,7 +41,7 @@ Build check (Nov 2026): `tsc --noEmit` passes with no errors on both `client` an
 
 **Timesheet & Payroll**
 
-_Module layout (May 2026):_ Client code lives under `client/src/pages/TimesheetManagement/` (pages, hooks, components, calculation helpers). Server API was split from monolithic `routes/timesheets.ts` into `routes/timesheet.routes.ts`, `controllers/timesheet.controller.ts`, `services/timesheet.service.ts`, `services/timesheet.email.ts`, and `types/timesheet.types.ts`. Routes remain mounted at `/api/timesheets`.
+_Module layout (May 2026):_ Client code lives under `client/src/pages/TimesheetManagement/` (pages, hooks, components, calculation helpers). Server API was split from monolithic `routes/timesheets.ts` into `routes/timesheet.routes.ts`, `controllers/timesheet.controller.ts`, `services/timesheet.service.ts`, `services/timesheet.email.ts`, and `types/timesheet.types.ts`. Routes remain mounted at `/api/timesheets`. Since the R-4s split (Nov 2026) `timesheet.service.ts` only re-exports ten smaller files; see `docs/development/code-structure.md`.
 
 | Route | Page | UI roles |
 | --- | --- | --- |
