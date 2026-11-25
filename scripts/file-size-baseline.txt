@@ -86,7 +86,5 @@
 998 server/src/routes/positionDrafts.ts
 3091 server/src/routes/positions.ts
 986 server/src/routes/profile.ts
-330 server/src/routes/timesheet.routes.ts
 765 server/src/routes/user.ts
-1005 server/src/services/timesheet.service.ts
 599 server/src/types.ts
