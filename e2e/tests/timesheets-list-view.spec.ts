@@ -169,6 +169,76 @@ for (const language of ["en", "fr"] as const) {
   });
 }
 
+// ---- where "Edit" leads (R-4b): the list's button and the view's button build the same link -------------------------------
+
+base.describe("the edit buttons", () => {
+  base.use({ language: "en", storageState: ".auth/admin.json" });
+  base.afterEach(sweepTimesheets);
+
+  // the seeded timesheet 51 (Sam, Warehouse Associate at Northwind, the week of 1 November 2026) is a single-position one
+  const SINGLE = `/timesheet-management?profileId=${PROFILE.sin}&clientId=${CLIENT.northwind}&positionId=${POSITION.warehouse}&weekStart=2026-11-01`;
+
+  base(
+    "the list and the view open the entry screen on that week",
+    async ({ page }) => {
+      await page.goto(LIST);
+      await expect(page.locator(".skeleton-row")).toHaveCount(0);
+      await page
+        .locator(".common-table tbody tr", { hasText: "# 900001" })
+        .filter({ hasText: "Sam Sinclair" })
+        .locator(".edit-btn")
+        .click();
+      await page.waitForURL("**/timesheet-management?**");
+      expect(page.url().replace(/^https?:\/\/[^/]+/, "")).toBe(SINGLE);
+
+      await page.goto(`/timesheet-management/view/${SEEDED_TIMESHEET(51)}`);
+      await page.getByRole("button", { name: "Edit Timesheet" }).click();
+      await page.waitForURL("**/timesheet-management?**");
+      expect(page.url().replace(/^https?:\/\/[^/]+/, "")).toBe(SINGLE);
+    }
+  );
+
+  base(
+    "a bulk timesheet opens the bulk-by-jobseeker screen",
+    async ({ page }) => {
+      const start = weekStart(20);
+      await createThroughServer({
+        jobseeker_profile_id: PROFILE.sin,
+        jobseeker_user_id: USER.sin,
+        position_id: POSITION.warehouse,
+        week_start_date: start,
+        week_end_date: days(start, [0, 0, 0, 0, 0, 0, 0])[6].date,
+        daily_hours: days(start, [0, 8, 8, 8, 8, 8, 0]),
+        total_regular_hours: 40,
+        total_overtime_hours: 0,
+        regular_pay_rate: 20,
+        premium_pay_rate: 0,
+        overtime_pay_rate: 20,
+        regular_bill_rate: 35,
+        overtime_bill_rate: 35,
+        total_jobseeker_pay: 800,
+        total_client_bill: 1400,
+        overtime_enabled: false,
+        notes: "",
+        email_sent: false,
+        invoice_number: "810001",
+        is_bulk: true,
+        bulk_breakdown: [],
+      });
+      await page.goto(LIST);
+      await expect(page.locator(".skeleton-row")).toHaveCount(0);
+      await page
+        .locator(".common-table tbody tr", { hasText: "# 810001" })
+        .locator(".edit-btn")
+        .click();
+      await page.waitForURL("**/bulk-timesheet-management/jobseeker?**");
+      expect(page.url().replace(/^https?:\/\/[^/]+/, "")).toBe(
+        `/bulk-timesheet-management/jobseeker?profileId=${PROFILE.sin}&clientId=${CLIENT.northwind}&positionId=${POSITION.warehouse}&weekStart=${start}`
+      );
+    }
+  );
+});
+
 // ---- who may open which screen ---------------------------------------------------------------------------------------
 
 const SCREENS = [
