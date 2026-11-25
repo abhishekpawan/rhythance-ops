@@ -45,7 +45,8 @@ export async function buildCreateTimesheetNotifierEmail(
   );
 
   const templateVars = {
-    invoice_number: timesheetData.invoice_number || newTimesheet?.invoice_number,
+    invoice_number:
+      timesheetData.invoice_number || newTimesheet?.invoice_number,
     jobseeker_name: `${jobseekerProfile.first_name} ${jobseekerProfile.last_name}`,
     jobseeker_email: emailTo,
     position_title: position?.title || "Unknown Position",

@@ -29,16 +29,12 @@ export function TimesheetList() {
               onClick={() => navigate("/bulk-timesheet-management")}
             >
               <Plus size={16} />
-              <span>
-                {t("bulkTimesheetManagement.newBulkTimesheetClient")}
-              </span>
+              <span>{t("bulkTimesheetManagement.newBulkTimesheetClient")}</span>
             </button>
             <button
               type="button"
               className="button secondary button-icon"
-              onClick={() =>
-                navigate("/bulk-timesheet-management/jobseeker")
-              }
+              onClick={() => navigate("/bulk-timesheet-management/jobseeker")}
             >
               <Plus size={16} />
               <span>

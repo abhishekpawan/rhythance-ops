@@ -76,11 +76,13 @@ export function useBulkTimesheetSelection() {
     setAssignmentsLoading(true);
     try {
       const response = await getPositionAssignments(positionId);
-      const sortedAssignments = (response.assignments || []).slice().sort((a, b) => {
-        const nameA = getAssignmentEmployeeName(a);
-        const nameB = getAssignmentEmployeeName(b);
-        return nameA.localeCompare(nameB, undefined, { sensitivity: "base" });
-      });
+      const sortedAssignments = (response.assignments || [])
+        .slice()
+        .sort((a, b) => {
+          const nameA = getAssignmentEmployeeName(a);
+          const nameB = getAssignmentEmployeeName(b);
+          return nameA.localeCompare(nameB, undefined, { sensitivity: "base" });
+        });
       setAssignedJobseekers(sortedAssignments);
     } catch {
       setAssignedJobseekers([]);

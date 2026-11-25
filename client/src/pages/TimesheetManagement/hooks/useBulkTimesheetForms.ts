@@ -22,7 +22,9 @@ export interface UseBulkTimesheetFormsParams {
   selectedWeekStart: string;
   clientPosition: ClientPosition | null;
   hoursLoading: boolean;
-  getMatchingForAssignment: (assignment: AssignmentRecord) => WeekTimesheetRecord[];
+  getMatchingForAssignment: (
+    assignment: AssignmentRecord
+  ) => WeekTimesheetRecord[];
 }
 
 export function useBulkTimesheetForms({
@@ -148,9 +150,7 @@ export function useBulkTimesheetForms({
           if (row.assignment.id !== assignmentId) return row;
 
           const updatedEntries = row.form.entries.map((entry) =>
-            entry.date === date
-              ? { ...entry, hours, overtimeHours: 0 }
-              : entry
+            entry.date === date ? { ...entry, hours, overtimeHours: 0 } : entry
           );
 
           const ctx = payrollCtxForRow(row.assignment);

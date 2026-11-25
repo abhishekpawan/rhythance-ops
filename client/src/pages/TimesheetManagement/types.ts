@@ -8,11 +8,7 @@ export interface TimesheetDayEntry {
   overtimeHours: number;
 }
 
-export type PaySplitSegmentKey =
-  | "single"
-  | "sin"
-  | "cash"
-  | "e_transfer";
+export type PaySplitSegmentKey = "single" | "sin" | "cash" | "e_transfer";
 
 /** Form seed built from existing DB rows for a jobseeker + position + week. */
 export interface WeeklyTimesheetSeed {

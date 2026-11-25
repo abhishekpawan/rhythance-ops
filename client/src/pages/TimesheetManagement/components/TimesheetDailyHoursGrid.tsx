@@ -27,8 +27,8 @@ export function TimesheetDailyHoursGrid({
   const title = isMiles
     ? "Daily Miles"
     : isSubcat
-    ? `Daily Units (${subcatLabel || "Subcategory"})`
-    : tf("dailyHours");
+      ? `Daily Units (${subcatLabel || "Subcategory"})`
+      : tf("dailyHours");
 
   return (
     <div className="timesheet-hours-section">

@@ -51,8 +51,7 @@ export function TimesheetFormCard({
   const tf = useTimesheetFormTranslation();
 
   const isSubcat = Boolean(
-    selectedPosition?.isSubcategory ||
-      (selectedPosition as any)?.is_subcategory
+    selectedPosition?.isSubcategory || (selectedPosition as any)?.is_subcategory
   );
   const subcatLabel = String(
     selectedPosition?.subcategoryPosition ||
@@ -63,8 +62,8 @@ export function TimesheetFormCard({
   const colUnitHeader = isMiles
     ? "MILES"
     : isSubcat
-    ? "QTY / UNITS"
-    : tf("colHours");
+      ? "QTY / UNITS"
+      : tf("colHours");
 
   return (
     <div className="timesheet-assignment-card">

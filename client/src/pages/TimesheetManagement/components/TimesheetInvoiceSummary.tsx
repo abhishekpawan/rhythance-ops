@@ -3,7 +3,11 @@ import {
   isHybridPaymentMethod,
   type ComputedTimesheetRow,
 } from "../../../lib/hybridPayrollSplit";
-import type { ClientPosition, PositionWithOvertime, WeeklyTimesheet } from "../types";
+import type {
+  ClientPosition,
+  PositionWithOvertime,
+  WeeklyTimesheet,
+} from "../types";
 import { resolvePositionRates } from "../functions/timesheetCalculations";
 import { useTimesheetFormTranslation } from "../hooks/useTimesheetFormTranslation";
 
@@ -34,7 +38,7 @@ export function TimesheetInvoiceSummary({
 
   const isSubcat = Boolean(
     (selectedPosition as any)?.isSubcategory ||
-      (selectedPosition as any)?.is_subcategory
+    (selectedPosition as any)?.is_subcategory
   );
   const subcatLabel = Array.isArray(
     (selectedPosition as any)?.subcategoryPosition ??
@@ -54,14 +58,14 @@ export function TimesheetInvoiceSummary({
   const regularLineTitle = isMiles
     ? "Total Miles"
     : isSubcat
-    ? `Total Units (${subcatLabel || "Subcategory"})`
-    : tf("totalRegularHours");
+      ? `Total Units (${subcatLabel || "Subcategory"})`
+      : tf("totalRegularHours");
 
   const regularLineSubtitle = isMiles
     ? "Logged mileage"
     : isSubcat
-    ? "Logged units"
-    : tf("standardWorkHours");
+      ? "Logged units"
+      : tf("standardWorkHours");
 
   return (
     <div className="timesheet-invoice-table-body">
@@ -130,9 +134,7 @@ export function TimesheetInvoiceSummary({
           <>
             <div className="timesheet-invoice-line-item">
               <div className="timesheet-col-description">
-                <div className="timesheet-item-title">
-                  {regularLineTitle}
-                </div>
+                <div className="timesheet-item-title">{regularLineTitle}</div>
                 <div className="timesheet-item-subtitle">
                   {regularLineSubtitle}
                   {premiumPayRate > 0 &&
@@ -148,8 +150,7 @@ export function TimesheetInvoiceSummary({
                 ${effectivePayRate.toFixed(2)}
               </div>
               <div className="timesheet-col-amount">
-                $
-                {(timesheet.totalRegularHours * effectivePayRate).toFixed(2)}
+                ${(timesheet.totalRegularHours * effectivePayRate).toFixed(2)}
               </div>
             </div>
 
@@ -160,8 +161,7 @@ export function TimesheetInvoiceSummary({
                     {tf("overtimeHours")}
                   </div>
                   <div className="timesheet-item-subtitle">
-                    {tf("exceedingHours")}{" "}
-                    {positionOt.overtimeHours || "40"}{" "}
+                    {tf("exceedingHours")} {positionOt.overtimeHours || "40"}{" "}
                     {tf("hoursPerWeek")}
                   </div>
                 </div>

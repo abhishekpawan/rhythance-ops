@@ -128,7 +128,10 @@ export function getPayrollPreviewRows(
     overtimeBillRate,
   } = resolvePositionRates(assignment);
 
-  const daily = timesheet.entries.map((e) => ({ date: e.date, hours: e.hours }));
+  const daily = timesheet.entries.map((e) => ({
+    date: e.date,
+    hours: e.hours,
+  }));
   const cap = parseFloat(String(ctx.jobseeker?.sinPayrollHoursCap ?? "0"));
 
   return buildTimesheetRowsForPayroll({

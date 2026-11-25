@@ -8,7 +8,11 @@ import {
   calculateTimesheetTotals,
   type PayrollComputationContext,
 } from "../functions/timesheetCalculations";
-import type { WeeklyTimesheet, TimesheetDayEntry, ClientPosition } from "../types";
+import type {
+  WeeklyTimesheet,
+  TimesheetDayEntry,
+  ClientPosition,
+} from "../types";
 
 export interface UseWeeklyTimesheetFormArgs {
   selectedJobseeker: JobSeekerProfile | null;
@@ -45,9 +49,13 @@ export function useWeeklyTimesheetForm({
     let cancelled = false;
 
     const applyWeekTimesheetForm = async () => {
-      const seed = await buildWeeklyTimesheetSeed(selectedWeekStart, matchingTimesheets, {
-        generateInvoiceNumber,
-      });
+      const seed = await buildWeeklyTimesheetSeed(
+        selectedWeekStart,
+        matchingTimesheets,
+        {
+          generateInvoiceNumber,
+        }
+      );
 
       if (cancelled) return;
 
@@ -106,8 +114,7 @@ export function useWeeklyTimesheetForm({
                 return { ...entry, overtimeHours: 0 };
               }
               const proportion = entry.hours / totalWeeklyHours;
-              const entryOvertimeHours =
-                totals.totalOvertimeHours * proportion;
+              const entryOvertimeHours = totals.totalOvertimeHours * proportion;
               return {
                 ...entry,
                 overtimeHours: entryOvertimeHours,

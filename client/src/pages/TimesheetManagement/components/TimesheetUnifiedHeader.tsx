@@ -34,25 +34,33 @@ export function TimesheetUnifiedHeader({
           <h4 className="timesheet-section-title">{tf("clientAndPosition")}</h4>
           <div className="timesheet-section-content">
             <div className="timesheet-detail-item">
-              <span className="timesheet-detail-label">{tf("clientName")}:</span>
+              <span className="timesheet-detail-label">
+                {tf("clientName")}:
+              </span>
               <span className="timesheet-detail-value">
                 {selectedClient.companyName}
               </span>
             </div>
             <div className="timesheet-detail-item">
-              <span className="timesheet-detail-label">{tf("positionTitle")}:</span>
+              <span className="timesheet-detail-label">
+                {tf("positionTitle")}:
+              </span>
               <span className="timesheet-detail-value">
                 {selectedPosition.title}
               </span>
             </div>
             <div className="timesheet-detail-item">
-              <span className="timesheet-detail-label">{tf("positionCode")}:</span>
+              <span className="timesheet-detail-label">
+                {tf("positionCode")}:
+              </span>
               <span className="timesheet-detail-value">
                 {selectedPosition.positionCode}
               </span>
             </div>
             <div className="timesheet-detail-item">
-              <span className="timesheet-detail-label">{tf("positionNumber")}:</span>
+              <span className="timesheet-detail-label">
+                {tf("positionNumber")}:
+              </span>
               <span className="timesheet-detail-value">
                 {selectedPosition.positionNumber}
               </span>
@@ -64,7 +72,9 @@ export function TimesheetUnifiedHeader({
           <h4 className="timesheet-section-title">{tf("invoiceAndPeriod")}</h4>
           <div className="timesheet-section-content">
             <div className="timesheet-detail-item">
-              <span className="timesheet-detail-label">{tf("invoiceNumber")}:</span>
+              <span className="timesheet-detail-label">
+                {tf("invoiceNumber")}:
+              </span>
               <span className="timesheet-detail-value">
                 #{timesheet.invoiceNumber || tf("tbd")}
               </span>

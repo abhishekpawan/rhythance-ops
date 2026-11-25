@@ -42,7 +42,12 @@ export function useTimesheetSubmit() {
       refetchWeekTimesheets,
       onSuccessReset,
     }: GenerateTimesheetSubmitParams) => {
-      if (!timesheetsToProcess.length || !jobseeker || !position || !weekStart) {
+      if (
+        !timesheetsToProcess.length ||
+        !jobseeker ||
+        !position ||
+        !weekStart
+      ) {
         setGenerationError(
           "Cannot generate timesheet data: Missing required information"
         );
@@ -77,7 +82,7 @@ export function useTimesheetSubmit() {
         }
 
         setGenerationMessage(message);
-        
+
         if (onSuccessReset) {
           onSuccessReset();
           setTimeout(() => setGenerationMessage(""), 5000);

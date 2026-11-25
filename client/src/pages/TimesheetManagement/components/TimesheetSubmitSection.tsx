@@ -13,8 +13,8 @@ interface TimesheetSubmitSectionProps {
 function hasExistingIds(timesheet: WeeklyTimesheet): boolean {
   return Boolean(
     timesheet.existingTimesheetId ||
-      (timesheet.splitExistingIds &&
-        Object.keys(timesheet.splitExistingIds).length > 0)
+    (timesheet.splitExistingIds &&
+      Object.keys(timesheet.splitExistingIds).length > 0)
   );
 }
 
@@ -26,8 +26,7 @@ export function TimesheetSubmitSection({
   isGenerating,
 }: TimesheetSubmitSectionProps) {
   const tf = useTimesheetFormTranslation();
-  const totalH =
-    timesheet.totalRegularHours + timesheet.totalOvertimeHours;
+  const totalH = timesheet.totalRegularHours + timesheet.totalOvertimeHours;
   const insufficient = totalH < 1;
 
   return (
@@ -40,7 +39,9 @@ export function TimesheetSubmitSection({
             onChange={(e) => onEmailChange(e.target.checked)}
             className="timesheet-checkbox"
           />
-          <span className="timesheet-checkbox-text">{tf("submit.sendEmail")}</span>
+          <span className="timesheet-checkbox-text">
+            {tf("submit.sendEmail")}
+          </span>
         </label>
         <p
           className="field-note"

@@ -37,9 +37,7 @@ export function TimesheetJobseekerInfoPanel({
   const tf = useTimesheetFormTranslation();
   const pm = jobseeker.paymentMethod?.trim() || "";
   const secondLine =
-    pm && isHybridPaymentMethod(pm)
-      ? hybridSecondLinePaymentMethod(pm)
-      : null;
+    pm && isHybridPaymentMethod(pm) ? hybridSecondLinePaymentMethod(pm) : null;
   const cashDeductionPct = parseFloat(jobseeker.cashDeduction || "0");
   const sinCapRaw = jobseeker.sinPayrollHoursCap;
   const sinCapNum = parseFloat(String(sinCapRaw ?? ""));
@@ -53,11 +51,15 @@ export function TimesheetJobseekerInfoPanel({
 
   const billingEmail =
     extras?.billingEmail?.trim() ||
-    (jobseeker as JobSeekerProfile & { billingEmail?: string }).billingEmail?.trim() ||
+    (
+      jobseeker as JobSeekerProfile & { billingEmail?: string }
+    ).billingEmail?.trim() ||
     "";
   const employeeId =
     extras?.employeeId?.trim() ||
-    (jobseeker as JobSeekerProfile & { employeeId?: string }).employeeId?.trim() ||
+    (
+      jobseeker as JobSeekerProfile & { employeeId?: string }
+    ).employeeId?.trim() ||
     "";
 
   const isRow = layout === "row";
@@ -73,7 +75,10 @@ export function TimesheetJobseekerInfoPanel({
         className={`timesheet-jobseeker-info-grid${isRow ? " timesheet-jobseeker-info-grid--row" : ""}`}
       >
         <InfoCell label={tf("employee.name")} value={jobseeker.name} />
-        <InfoCell label={tf("employee.email")} value={jobseeker.email || tf("na")} />
+        <InfoCell
+          label={tf("employee.email")}
+          value={jobseeker.email || tf("na")}
+        />
         <InfoCell
           label={tf("employee.billingEmail")}
           value={billingEmail || tf("na")}
@@ -86,10 +91,7 @@ export function TimesheetJobseekerInfoPanel({
           label={tf("employee.employeeId")}
           value={employeeId || tf("na")}
         />
-        <InfoCell
-          label={tf("employee.paymentMethod")}
-          value={pm || tf("na")}
-        />
+        <InfoCell label={tf("employee.paymentMethod")} value={pm || tf("na")} />
         {secondLine ? (
           <InfoCell
             label={tf("employee.paidAs")}
@@ -109,8 +111,12 @@ export function TimesheetJobseekerInfoPanel({
         {isHybridPaymentMethod(pm) ? (
           <InfoCell label={tf("employee.sinHoursCap")} value={sinCapDisplay} />
         ) : null}
-        {pm.startsWith("Corporation") && (jobseeker as JobSeekerProfile & { hstGst?: string }).hstGst ? (
-          <InfoCell label={tf("employee.hstGst")} value={`${(jobseeker as JobSeekerProfile & { hstGst?: string }).hstGst}%`} />
+        {pm.startsWith("Corporation") &&
+        (jobseeker as JobSeekerProfile & { hstGst?: string }).hstGst ? (
+          <InfoCell
+            label={tf("employee.hstGst")}
+            value={`${(jobseeker as JobSeekerProfile & { hstGst?: string }).hstGst}%`}
+          />
         ) : null}
       </div>
     </section>

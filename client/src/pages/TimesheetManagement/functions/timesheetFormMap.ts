@@ -1,7 +1,4 @@
-import type {
-  WeeklyTimesheet,
-  WeeklyTimesheetSeed,
-} from "../types";
+import type { WeeklyTimesheet, WeeklyTimesheetSeed } from "../types";
 import type { PayrollComputationContext } from "./timesheetCalculations";
 import { calculateTimesheetTotals } from "./timesheetCalculations";
 

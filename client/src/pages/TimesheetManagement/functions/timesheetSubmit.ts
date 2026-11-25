@@ -9,7 +9,11 @@ import {
 } from "../../../services/api/timesheet";
 import { getWeekEndDate } from "./weekUtils";
 import { resolvePositionRates } from "./timesheetCalculations";
-import type { ClientPosition, PaySplitSegmentKey, WeeklyTimesheet } from "../types";
+import type {
+  ClientPosition,
+  PaySplitSegmentKey,
+  WeeklyTimesheet,
+} from "../types";
 
 export interface SubmitWeeklyTimesheetsParams {
   timesheetsToProcess: WeeklyTimesheet[];
@@ -61,10 +65,10 @@ export async function submitWeeklyTimesheets({
     let deductionAmount = 0;
     let taxAmount = 0;
     let anyEmailSent = false;
-    
+
     const dailyHoursMap = new Map<string, number>();
-    
-    const bulk_breakdown = bulkRows.map(r => {
+
+    const bulk_breakdown = bulkRows.map((r) => {
       totalRegularHours += r.form.totalRegularHours;
       totalOvertimeHours += r.form.totalOvertimeHours;
       totalJobseekerPay += r.form.jobseekerPay;
@@ -73,12 +77,12 @@ export async function submitWeeklyTimesheets({
       deductionAmount += r.form.deductionAmount;
       taxAmount += r.form.taxAmount || 0;
       if (r.emailSent) anyEmailSent = true;
-      
+
       r.form.entries.forEach((e: any) => {
         const current = dailyHoursMap.get(e.date) || 0;
         dailyHoursMap.set(e.date, current + e.hours);
       });
-      
+
       return {
         position_id: r.clientPosition.id,
         position_title: r.clientPosition.title,
@@ -87,8 +91,10 @@ export async function submitWeeklyTimesheets({
         overtime_hours: r.form.totalOvertimeHours,
         total_jobseeker_pay: r.form.jobseekerPay,
         total_client_bill: r.form.clientBill,
-        regular_pay_rate: resolvePositionRates(r.clientPosition).effectivePayRate,
-        regular_bill_rate: resolvePositionRates(r.clientPosition).regularBillRate,
+        regular_pay_rate: resolvePositionRates(r.clientPosition)
+          .effectivePayRate,
+        regular_bill_rate: resolvePositionRates(r.clientPosition)
+          .regularBillRate,
         bonus_amount: r.form.bonusAmount,
         deduction_amount: r.form.deductionAmount,
         tax_amount: r.form.taxAmount || 0,
@@ -96,8 +102,10 @@ export async function submitWeeklyTimesheets({
         entries: r.form.entries,
       };
     });
-    
-    const dailyHours = Array.from(dailyHoursMap.entries()).map(([date, hours]) => ({ date, hours })).sort((a,b) => a.date.localeCompare(b.date));
+
+    const dailyHours = Array.from(dailyHoursMap.entries())
+      .map(([date, hours]) => ({ date, hours }))
+      .sort((a, b) => a.date.localeCompare(b.date));
 
     const partial: TimesheetInput = {
       jobseeker_profile_id: jobseeker.id,
@@ -127,7 +135,7 @@ export async function submitWeeklyTimesheets({
       pay_split_segment: "single",
       line_payment_method: null,
       is_bulk: true,
-      bulk_breakdown
+      bulk_breakdown,
     };
 
     const existingBulkId =

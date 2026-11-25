@@ -174,8 +174,7 @@ type TimesheetServiceOk<T extends Record<string, unknown>> = {
 } & T;
 
 type TimesheetServiceResult<T extends Record<string, unknown>> =
-  | TimesheetServiceOk<T>
-  | TimesheetServiceError;
+  TimesheetServiceOk<T> | TimesheetServiceError;
 
 export type GenerateInvoiceNumberResult = TimesheetServiceResult<{
   invoice_number: string;

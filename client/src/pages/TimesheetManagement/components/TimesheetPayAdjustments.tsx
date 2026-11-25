@@ -9,7 +9,11 @@ interface TimesheetPayAdjustmentsProps {
 }
 
 /** Limit fractional input to two decimal places on blur */
-function clampTwoDecimals(raw: string, setNumber: (n: number) => void, emptyMeansZero: boolean) {
+function clampTwoDecimals(
+  raw: string,
+  setNumber: (n: number) => void,
+  emptyMeansZero: boolean
+) {
   if (raw === "") {
     if (emptyMeansZero) setNumber(0);
     return;

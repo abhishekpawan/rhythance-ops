@@ -1,9 +1,4 @@
-import {
-  Calendar,
-  FileText,
-  User,
-  Building,
-} from "lucide-react";
+import { Calendar, FileText, User, Building } from "lucide-react";
 import {
   CustomDropdown,
   DropdownOption,

@@ -23,8 +23,7 @@ export interface UseBulkTimesheetSubmitParams {
   t: BulkTimesheetT;
   /** Namespace for message keys under `.messages.*` */
   translationNamespace?:
-    | "bulkTimesheetManagement"
-    | "bulkJobseekerTimesheetManagement";
+    "bulkTimesheetManagement" | "bulkJobseekerTimesheetManagement";
   onSuccessReset: () => void;
 }
 
@@ -47,8 +46,7 @@ export function useBulkTimesheetSubmit({
   const generateBulkTimesheets = useCallback(
     async (rows: BulkSubmitRow[], weekStart: string) => {
       const withHours = rows.filter((row) => {
-        const total =
-          row.form.totalRegularHours + row.form.totalOvertimeHours;
+        const total = row.form.totalRegularHours + row.form.totalOvertimeHours;
         return total > 0;
       });
 
@@ -111,10 +109,13 @@ export function useBulkTimesheetSubmit({
               jobseeker: firstRow.jobseeker,
               selectedPosition: firstRow.clientPosition, // Using first position for client linking
               selectedWeekStart: weekStart,
-              emailPreferences: jobseekerRows.reduce((acc, r) => {
-                acc[r.clientPosition.id] = r.emailSent;
-                return acc;
-              }, {} as Record<string, boolean>),
+              emailPreferences: jobseekerRows.reduce(
+                (acc, r) => {
+                  acc[r.clientPosition.id] = r.emailSent;
+                  return acc;
+                },
+                {} as Record<string, boolean>
+              ),
               isBulk: true, // We will add this flag to submitWeeklyTimesheets
               bulkRows: jobseekerRows,
             });
@@ -162,9 +163,7 @@ export function useBulkTimesheetSubmit({
         const savedCount = savedRows.length;
         const grandTotalHours = withHours.reduce(
           (sum, row) =>
-            sum +
-            row.form.totalRegularHours +
-            row.form.totalOvertimeHours,
+            sum + row.form.totalRegularHours + row.form.totalOvertimeHours,
           0
         );
         const grandTotalPay = withHours.reduce(

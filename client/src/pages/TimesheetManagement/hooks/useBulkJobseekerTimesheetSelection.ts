@@ -13,14 +13,16 @@ export function useBulkJobseekerTimesheetSelection() {
   const location = useLocation();
   const urlParamsApplied = useRef(false);
 
-  const urlParams = useRef((() => {
-    const params = new URLSearchParams(location.search);
-    return {
-      profileId: params.get("profileId") ?? "",
-      clientId: params.get("clientId") ?? "",
-      weekStart: params.get("weekStart") ?? "",
-    };
-  })());
+  const urlParams = useRef(
+    (() => {
+      const params = new URLSearchParams(location.search);
+      return {
+        profileId: params.get("profileId") ?? "",
+        clientId: params.get("clientId") ?? "",
+        weekStart: params.get("weekStart") ?? "",
+      };
+    })()
+  );
   const [jobseekers, setJobseekers] = useState<JobSeekerProfile[]>([]);
   const [selectedJobseeker, setSelectedJobseeker] =
     useState<JobSeekerProfile | null>(null);
@@ -57,7 +59,8 @@ export function useBulkJobseekerTimesheetSelection() {
 
   useEffect(() => {
     const { profileId, weekStart } = urlParams.current;
-    if (!profileId || urlParamsApplied.current || jobseekers.length === 0) return;
+    if (!profileId || urlParamsApplied.current || jobseekers.length === 0)
+      return;
     const match = jobseekers.find((js) => js.id === profileId);
     if (match) {
       setSelectedJobseeker(match);

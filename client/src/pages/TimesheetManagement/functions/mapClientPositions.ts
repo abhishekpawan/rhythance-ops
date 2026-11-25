@@ -19,11 +19,9 @@ export function mapPositionsFromApiResponse(
     markup: pos.markup,
     positionNumber: pos.positionNumber,
     isSubcategory:
-      pos.isSubcategory ??
-      (pos as { is_subcategory?: boolean }).is_subcategory,
+      pos.isSubcategory ?? (pos as { is_subcategory?: boolean }).is_subcategory,
     subcategoryPosition:
       pos.subcategoryPosition ??
-      (pos as { subcategory_position?: string[] | null })
-        .subcategory_position,
+      (pos as { subcategory_position?: string[] | null }).subcategory_position,
   }));
 }

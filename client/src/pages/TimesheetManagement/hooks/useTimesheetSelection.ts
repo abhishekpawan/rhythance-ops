@@ -17,15 +17,17 @@ export function useTimesheetSelection() {
   const urlParamsApplied = useRef(false);
 
   // Parse URL params once on mount
-  const urlParams = useRef((() => {
-    const params = new URLSearchParams(location.search);
-    return {
-      profileId: params.get("profileId") ?? "",
-      clientId: params.get("clientId") ?? "",
-      positionId: params.get("positionId") ?? "",
-      weekStart: params.get("weekStart") ?? "",
-    };
-  })());
+  const urlParams = useRef(
+    (() => {
+      const params = new URLSearchParams(location.search);
+      return {
+        profileId: params.get("profileId") ?? "",
+        clientId: params.get("clientId") ?? "",
+        positionId: params.get("positionId") ?? "",
+        weekStart: params.get("weekStart") ?? "",
+      };
+    })()
+  );
   const [jobseekers, setJobseekers] = useState<JobSeekerProfile[]>([]);
   const [selectedJobseeker, setSelectedJobseeker] =
     useState<JobSeekerProfile | null>(null);
@@ -93,7 +95,8 @@ export function useTimesheetSelection() {
   // One-time: auto-select jobseeker from URL param after jobseekers load
   useEffect(() => {
     const { profileId, weekStart } = urlParams.current;
-    if (!profileId || urlParamsApplied.current || jobseekers.length === 0) return;
+    if (!profileId || urlParamsApplied.current || jobseekers.length === 0)
+      return;
     const match = jobseekers.find((js) => js.id === profileId);
     if (match) {
       setSelectedJobseeker(match);
@@ -215,9 +218,7 @@ export function useTimesheetSelection() {
     ? weekDropdownOptions.find((opt) => opt.value === selectedWeekStart)
     : null;
 
-  const handleJobseekerSelect = (
-    option: DropdownOption | DropdownOption[]
-  ) => {
+  const handleJobseekerSelect = (option: DropdownOption | DropdownOption[]) => {
     if (Array.isArray(option)) return;
     setSelectedJobseeker(option.value as JobSeekerProfile);
     setSelectedClient(null);
@@ -230,9 +231,7 @@ export function useTimesheetSelection() {
     setSelectedPosition(null);
   };
 
-  const handlePositionSelect = (
-    option: DropdownOption | DropdownOption[]
-  ) => {
+  const handlePositionSelect = (option: DropdownOption | DropdownOption[]) => {
     if (Array.isArray(option)) return;
     setSelectedPosition(option.value as ClientPosition);
   };

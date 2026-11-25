@@ -27,10 +27,7 @@ export function TimesheetListPaginationTop({
             pagination.total
           )}{" "}
           {t("bulkTimesheetManagement.pagination.to")}{" "}
-          {Math.min(
-            pagination.page * pagination.limit,
-            pagination.total
-          )}{" "}
+          {Math.min(pagination.page * pagination.limit, pagination.total)}{" "}
           {t("bulkTimesheetManagement.pagination.of")} {pagination.total}{" "}
           {t("bulkTimesheetManagement.pagination.entries")}
           {pagination.totalFiltered !== pagination.total && (
@@ -50,9 +47,7 @@ export function TimesheetListPaginationTop({
         <select
           id="pageSize"
           value={pagination.limit}
-          onChange={(e) =>
-            onLimitChange(Number.parseInt(e.target.value, 10))
-          }
+          onChange={(e) => onLimitChange(Number.parseInt(e.target.value, 10))}
           className="page-size-select"
         >
           <option value={10}>10</option>
@@ -106,37 +101,36 @@ export function TimesheetListPaginationBottom({
           <span>{t("bulkTimesheetManagement.pagination.previous")}</span>
         </button>
         <div className="page-numbers">
-          {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-            let pageNum;
-            if (pagination.totalPages <= 5) {
-              pageNum = i + 1;
-            } else if (pagination.page <= 3) {
-              pageNum = i + 1;
-            } else if (
-              pagination.page >=
-              pagination.totalPages - 2
-            ) {
-              pageNum = pagination.totalPages - 4 + i;
-            } else {
-              pageNum = pagination.page - 2 + i;
+          {Array.from(
+            { length: Math.min(5, pagination.totalPages) },
+            (_, i) => {
+              let pageNum;
+              if (pagination.totalPages <= 5) {
+                pageNum = i + 1;
+              } else if (pagination.page <= 3) {
+                pageNum = i + 1;
+              } else if (pagination.page >= pagination.totalPages - 2) {
+                pageNum = pagination.totalPages - 4 + i;
+              } else {
+                pageNum = pagination.page - 2 + i;
+              }
+              return (
+                <button
+                  type="button"
+                  key={pageNum}
+                  className={`page-number-btn ${
+                    pageNum === pagination.page ? "active" : ""
+                  }`}
+                  onClick={() => onPageChange(pageNum)}
+                  aria-label={t("bulkTimesheetManagement.pagination.goToPage", {
+                    page: pageNum,
+                  })}
+                >
+                  {pageNum}
+                </button>
+              );
             }
-            return (
-              <button
-                type="button"
-                key={pageNum}
-                className={`page-number-btn ${
-                  pageNum === pagination.page ? "active" : ""
-                }`}
-                onClick={() => onPageChange(pageNum)}
-                aria-label={t(
-                  "bulkTimesheetManagement.pagination.goToPage",
-                  { page: pageNum }
-                )}
-              >
-                {pageNum}
-              </button>
-            );
-          })}
+          )}
         </div>
         <button
           type="button"

@@ -40,9 +40,7 @@ export function useJobseekerWeekTimesheets({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const canFetch = Boolean(
-    enabled && jobseekerUserId && weekStartDate
-  );
+  const canFetch = Boolean(enabled && jobseekerUserId && weekStartDate);
 
   const refetch = useCallback(async () => {
     if (!canFetch || !jobseekerUserId || !weekStartDate) {

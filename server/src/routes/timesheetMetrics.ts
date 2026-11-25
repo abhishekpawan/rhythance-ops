@@ -67,18 +67,19 @@ router.get(
     try {
       // Every timesheet with its position's subcategory info (paged: Supabase
       // caps one request at 1000 rows).
-      const timesheets = await fetchAllRows<TimesheetRow>((from, to) =>
-        supabase
-          .from("timesheets")
-          .select(
-            "id, total_jobseeker_pay, bonus_amount, deduction_amount, total_regular_hours, total_overtime_hours, created_at, positions(is_subcategory, subcategory_position)"
-          )
-          .order("created_at", { ascending: true })
-          .order("id", { ascending: true })
-          .range(from, to) as unknown as PromiseLike<{
-          data: TimesheetRow[] | null;
-          error: { message: string } | null;
-        }>
+      const timesheets = await fetchAllRows<TimesheetRow>(
+        (from, to) =>
+          supabase
+            .from("timesheets")
+            .select(
+              "id, total_jobseeker_pay, bonus_amount, deduction_amount, total_regular_hours, total_overtime_hours, created_at, positions(is_subcategory, subcategory_position)"
+            )
+            .order("created_at", { ascending: true })
+            .order("id", { ascending: true })
+            .range(from, to) as unknown as PromiseLike<{
+            data: TimesheetRow[] | null;
+            error: { message: string } | null;
+          }>
       );
 
       const num = (value: unknown) => Number(value) || 0;
@@ -142,15 +143,22 @@ router.get(
         {
           id: "total_regular_hours",
           label: "Total Regular Hours",
-          ...summarize((ts) => num(ts.total_regular_hours), (ts) => !isSubcategory(ts)),
+          ...summarize(
+            (ts) => num(ts.total_regular_hours),
+            (ts) => !isSubcategory(ts)
+          ),
           unit: "hours",
           formatType: "number",
-          description: "Sum of all regular labor hours from timesheets (excludes subcategories)",
+          description:
+            "Sum of all regular labor hours from timesheets (excludes subcategories)",
         },
         {
           id: "total_overtime_hours",
           label: "Total Overtime Hours",
-          ...summarize((ts) => num(ts.total_overtime_hours), (ts) => !isSubcategory(ts)),
+          ...summarize(
+            (ts) => num(ts.total_overtime_hours),
+            (ts) => !isSubcategory(ts)
+          ),
           unit: "hours",
           formatType: "number",
           description: "Sum of all overtime labor hours from timesheets",
@@ -172,14 +180,20 @@ router.get(
           ),
           unit: "units",
           formatType: "number",
-          description: "Total non-hourly units (stops, layovers, meal credits) from subcategory timesheets",
+          description:
+            "Total non-hourly units (stops, layovers, meal credits) from subcategory timesheets",
         },
       ];
 
       res.json({ metrics });
     } catch (error) {
       console.error("Unexpected error fetching timesheet metrics:", error);
-      res.status(500).json({ error: "An unexpected error occurred while fetching timesheet metrics" });
+      res
+        .status(500)
+        .json({
+          error:
+            "An unexpected error occurred while fetching timesheet metrics",
+        });
     }
   }
 );

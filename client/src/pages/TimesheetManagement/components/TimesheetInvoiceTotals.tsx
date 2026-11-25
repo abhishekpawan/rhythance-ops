@@ -57,8 +57,8 @@ export function TimesheetInvoiceTotals({
   const totalQuantityLabel = isMiles
     ? "Total Miles:"
     : isSubcat
-    ? `Total Units (${subcatLabel || "Subcategory"}):`
-    : `${tf("totalHours")}:`;
+      ? `Total Units (${subcatLabel || "Subcategory"}):`
+      : `${tf("totalHours")}:`;
 
   return (
     <>
@@ -86,7 +86,9 @@ export function TimesheetInvoiceTotals({
       )}
       {timesheet.taxAmount !== undefined && timesheet.taxAmount > 0 && (
         <div className="timesheet-total-line">
-          <div className="timesheet-total-label">{tf("taxAmount", { defaultValue: "Tax (HST/GST)" })}:</div>
+          <div className="timesheet-total-label">
+            {tf("taxAmount", { defaultValue: "Tax (HST/GST)" })}:
+          </div>
           <div className="timesheet-total-value">
             +${timesheet.taxAmount.toFixed(2)}
           </div>

@@ -30,8 +30,8 @@ export function TimesheetManagement() {
     positionId: selection.selectedPosition?.id ?? null,
     enabled: Boolean(
       selection.selectedJobseeker &&
-        selection.selectedPosition &&
-        selection.selectedWeekStart
+      selection.selectedPosition &&
+      selection.selectedWeekStart
     ),
   });
 
