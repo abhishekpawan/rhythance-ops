@@ -43,13 +43,6 @@
 616 client/src/pages/PositionManagement/PositionView.tsx
 326 client/src/pages/PositionManagement/components/BasicDetailsSection.tsx
 515 client/src/pages/RecruiterHierarchy.tsx
-850 client/src/pages/TimesheetManagement/BulkTimesheetJobseekerManagement.tsx
-927 client/src/pages/TimesheetManagement/BulkTimesheetManagement.tsx
-486 client/src/pages/TimesheetManagement/TimesheetView.tsx
-379 client/src/pages/TimesheetManagement/components/BulkJobseekerPositionCard.tsx
-403 client/src/pages/TimesheetManagement/components/TimesheetListTable.tsx
-443 client/src/pages/TimesheetManagement/hooks/useBulkJobseekerPositionForms.ts
-372 client/src/pages/TimesheetManagement/hooks/useTimesheetsList.ts
 319 client/src/services/api/auth.ts
 361 client/src/services/api/client.ts
 462 client/src/services/api/consent.ts

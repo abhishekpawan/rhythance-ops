@@ -1,12 +1,5 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import {
   getTimesheets,
   type TimesheetListItem,
@@ -16,6 +9,11 @@ import {
   deleteTimesheet,
 } from "../../../services/api/timesheet";
 import type { TimesheetPaginationMeta } from "../../../services/types/timesheet";
+import { useTimesheetNavigation } from "./useTimesheetNavigation";
+import type {
+  TimesheetsListT,
+  UseTimesheetsListResult,
+} from "./useTimesheetsList.types";
 
 const DEFAULT_META: TimesheetPaginationMeta = {
   page: 1,
@@ -27,56 +25,8 @@ const DEFAULT_META: TimesheetPaginationMeta = {
   hasPrevPage: false,
 };
 
-export interface TimesheetsListT {
-  (key: string, options?: Record<string, string | number>): string;
-}
-
-export interface UseTimesheetsListResult {
-  timesheets: TimesheetListItem[];
-  loading: boolean;
-  error: string | null;
-  message: string | null;
-
-  pagination: TimesheetPaginationMeta;
-
-  invoiceNumberFilter: string;
-  setInvoiceNumberFilter: Dispatch<SetStateAction<string>>;
-  clientFilter: string;
-  setClientFilter: Dispatch<SetStateAction<string>>;
-  positionFilter: string;
-  setPositionFilter: Dispatch<SetStateAction<string>>;
-  jobseekerFilter: string;
-  setJobseekerFilter: Dispatch<SetStateAction<string>>;
-  billingEmailFilter: string;
-  setBillingEmailFilter: Dispatch<SetStateAction<string>>;
-  dateRangeStart: string;
-  setDateRangeStart: Dispatch<SetStateAction<string>>;
-  dateRangeEnd: string;
-  setDateRangeEnd: Dispatch<SetStateAction<string>>;
-  emailSentFilter: string;
-  setEmailSentFilter: Dispatch<SetStateAction<string>>;
-
-  sendingJobseekerEmail: Record<string, boolean>;
-
-  timesheetToDelete: TimesheetListItem | null;
-  isDeleteModalOpen: boolean;
-  setIsDeleteModalOpen: Dispatch<SetStateAction<boolean>>;
-  deleteError: string | null;
-
-  handlePageChange: (newPage: number) => void;
-  handleLimitChange: (newLimit: number) => void;
-  handlePreviousPage: () => void;
-  handleNextPage: () => void;
-  handleCancelDelete: () => void;
-  handleConfirmDelete: () => Promise<void>;
-  handleDeleteTimesheet: (timesheet: TimesheetListItem) => void;
-  handleViewTimesheet: (timesheet: TimesheetListItem) => void;
-  sendEmailToJobseeker: (timesheetId: string, jobseekerName: string) => Promise<void>;
-  handleEditTimesheet: (timesheet: TimesheetListItem) => void;
-}
-
 export function useTimesheetsList(t: TimesheetsListT): UseTimesheetsListResult {
-  const navigate = useNavigate();
+  const { handleViewTimesheet, handleEditTimesheet } = useTimesheetNavigation();
   const location = useLocation();
 
   /** Skip resetting page once after URL parses so bookmarked page+filters work. */
@@ -294,37 +244,6 @@ export function useTimesheetsList(t: TimesheetsListT): UseTimesheetsListResult {
       }
     },
     [t]
-  );
-
-  const handleViewTimesheet = useCallback(
-    (timesheet: TimesheetListItem) => {
-      if (timesheet.id) {
-        navigate(`/timesheet-management/view/${timesheet.id}`);
-      }
-    },
-    [navigate]
-  );
-
-  const handleEditTimesheet = useCallback(
-    (timesheet: TimesheetListItem) => {
-      const profileId = timesheet.jobseeker_profiles?.id ?? "";
-      const clientId = timesheet.positions?.client ?? "";
-      const positionId = timesheet.positions?.id ?? "";
-      const weekStart = timesheet.week_start_date ?? "";
-
-      const params = new URLSearchParams();
-      if (profileId) params.set("profileId", profileId);
-      if (clientId) params.set("clientId", clientId);
-      if (positionId) params.set("positionId", positionId);
-      if (weekStart) params.set("weekStart", weekStart);
-
-      if (timesheet.is_bulk) {
-        navigate(`/bulk-timesheet-management/jobseeker?${params.toString()}`);
-      } else {
-        navigate(`/timesheet-management?${params.toString()}`);
-      }
-    },
-    [navigate]
   );
 
   return {

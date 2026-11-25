@@ -5,12 +5,15 @@ import {
 } from "../../../components/CustomDropdown";
 import { Loader } from "../../../components/Loader";
 import { DropdownSkeleton } from "./DropdownSkeleton";
+import {
+  BulkPositionHoursBlock,
+  type BulkTimesheetT,
+} from "./BulkPositionHoursBlock";
 import type { PayrollComputationContext } from "../functions/timesheetCalculations";
 import { getPayrollPreviewRows } from "../functions/timesheetCalculations";
 import { useTimesheetFormTranslation } from "../hooks/useTimesheetFormTranslation";
 import { TimesheetInvoiceSummary } from "./TimesheetInvoiceSummary";
 import { TimesheetInvoiceTotals } from "./TimesheetInvoiceTotals";
-import { getDayOfWeekCanada } from "../../../utils/dateUtils";
 import type {
   BulkPositionRow,
   ClientPosition,
@@ -18,10 +21,6 @@ import type {
 } from "../types";
 
 type TimesheetFormTf = ReturnType<typeof useTimesheetFormTranslation>;
-
-interface BulkTimesheetT {
-  (key: string, params?: Record<string, string | number>): string;
-}
 
 export interface BulkJobseekerPositionCardProps {
   row: BulkPositionRow;
@@ -75,14 +74,19 @@ export function BulkJobseekerPositionCard({
   const showPayDetails = Boolean(form && position);
   const isSubcategory = Boolean(position?.isSubcategory);
   const subcatLabel = String(position?.subcategoryPosition || "").trim();
-  const isMiles = isSubcategory && subcatLabel.toLowerCase().startsWith("miles");
+  const isMiles =
+    isSubcategory && subcatLabel.toLowerCase().startsWith("miles");
   const dailyTitle = isMiles
     ? "Daily Miles"
     : isSubcategory
-    ? `Daily Units (${subcatLabel || "Subcategory"})`
-    : t("timesheetForm.dailyHours");
+      ? `Daily Units (${subcatLabel || "Subcategory"})`
+      : t("timesheetForm.dailyHours");
   const rateUnit = isMiles ? "/mi" : isSubcategory ? "/unit" : "/h";
-  const colUnitHeader = isMiles ? "MILES" : isSubcategory ? "QTY / UNITS" : tf("colHours");
+  const colUnitHeader = isMiles
+    ? "MILES"
+    : isSubcategory
+      ? "QTY / UNITS"
+      : tf("colHours");
 
   const removeButton = (variant: "floating" | "pay-header") => (
     <button
@@ -130,175 +134,19 @@ export function BulkJobseekerPositionCard({
         ) : null}
 
         {form && position ? (
-          <div className="timesheet-hours-adjustments-container bulk-position-hours-block">
-            <div className="timesheet-hours-section">
-              <h4 className="timesheet-hours-title">
-                {dailyTitle}
-              </h4>
-                <div className="timesheet-days-grid">
-                  {form.entries.map((entry) => (
-                    <div key={entry.date} className="timesheet-day-entry">
-                      <label className="timesheet-day-label">
-                        <div className="timesheet-day-name">
-                          {getDayOfWeekCanada(entry.date)}
-                        </div>
-
-                        <div className="timesheet-day-date">({entry.date})</div>
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        {...(!isSubcategory ? { max: "99", step: "0.5" } : { step: "0.01" })}
-                        value={entry.hours === 0 ? "" : entry.hours}
-                        onChange={(e) => {
-                          const rawValue = e.target.value;
-                          if (rawValue === "") {
-                            updateEntry(row.rowId, entry.date, 0);
-                            return;
-                          }
-                          const [intPart, decPart] = rawValue.split(".");
-                          let limitedValue = rawValue;
-                          if (decPart && decPart.length > 2) {
-                            limitedValue = `${intPart}.${decPart.slice(0, 2)}`;
-                          }
-                          const hours = parseFloat(limitedValue) || 0;
-                          updateEntry(row.rowId, entry.date, hours);
-                        }}
-                        placeholder="0.00"
-                        className="timesheet-hours-input"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            <div className="timesheet-hours-section adjustments-section">
-              <h4 className="timesheet-hours-title timesheet-pay-adjustments-title">
-                {t("timesheetForm.payAdjustments")}
-              </h4>
-              <div className="timesheet-days-grid">
-                <div className="timesheet-day-entry">
-                  <label className="timesheet-day-label">
-                    <div className="timesheet-day-name">
-                      {t("timesheetForm.bonus")}
-                    </div>
-                    <div className="timesheet-day-date">
-                      {t("timesheetForm.amount")}
-                    </div>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={form.bonusAmount === 0 ? "" : form.bonusAmount}
-                    onChange={(e) => {
-                      const rawValue = e.target.value;
-                      if (rawValue === "") {
-                        updateBonus(row.rowId, 0);
-                        return;
-                      }
-                      const [intPart, decPart] = rawValue.split(".");
-                      let limitedValue = rawValue;
-                      if (decPart && decPart.length > 2) {
-                        limitedValue = `${intPart}.${decPart.slice(0, 2)}`;
-                      }
-                      const amount = parseFloat(limitedValue) || 0;
-                      updateBonus(row.rowId, amount);
-                    }}
-                    placeholder="0.00"
-                    className="timesheet-hours-input"
-                  />
-                </div>
-                <div className="timesheet-day-entry">
-                  <label className="timesheet-day-label">
-                    <div className="timesheet-day-name">
-                      {t("timesheetForm.deduction")}
-                    </div>
-                    <div className="timesheet-day-date">
-                      {t("timesheetForm.amount")}
-                    </div>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={
-                      form.deductionAmount === 0 ? "" : form.deductionAmount
-                    }
-                    onChange={(e) => {
-                      const rawValue = e.target.value;
-                      if (rawValue === "") {
-                        updateDeduction(row.rowId, 0);
-                        return;
-                      }
-                      const [intPart, decPart] = rawValue.split(".");
-                      let limitedValue = rawValue;
-                      if (decPart && decPart.length > 2) {
-                        limitedValue = `${intPart}.${decPart.slice(0, 2)}`;
-                      }
-                      const amount = parseFloat(limitedValue) || 0;
-                      updateDeduction(row.rowId, amount);
-                    }}
-                    placeholder="0.00"
-                    className="timesheet-hours-input"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="timesheet-pay-info-section bulk-position-pay-info">
-              <div className="bulk-position-pay-details-header">
-                <h4 className="timesheet-hours-title bulk-position-pay-details-title">
-                  {t("bulkJobseekerTimesheetManagement.labels.payDetails")}
-                </h4>
-                {removeButton("pay-header")}
-              </div>
-              <div className="timesheet-pay-info-grid">
-                <div className="timesheet-pay-info-item">
-                  <span className="timesheet-pay-label">
-                    {t("timesheetForm.regularPayRate")}
-                  </span>
-                  <span className="timesheet-pay-value">
-                    $
-                    {position.regularPayRate ||
-                      t("bulkTimesheetManagement.constants.na")}
-                    {rateUnit}
-                  </span>
-                </div>
-                {parseFloat(position.premiumPayRate || "0") > 0 && (
-                  <div className="timesheet-pay-info-item">
-                    <span className="timesheet-pay-label">
-                      {t("timesheetForm.premiumPayRate")}
-                    </span>
-                    <span className="timesheet-pay-value">
-                      ${position.premiumPayRate}{rateUnit}
-                    </span>
-                  </div>
-                )}
-                {position.overtimeEnabled && (
-                  <div className="timesheet-pay-info-item">
-                    <span className="timesheet-pay-label">
-                      {t("timesheetForm.overtimePayRate")}
-                    </span>
-                    <span className="timesheet-pay-value">
-                      $
-                      {position.overtimePayRate ||
-                        t("bulkTimesheetManagement.constants.na")}
-                      /h
-                    </span>
-                  </div>
-                )}
-                <div className="timesheet-pay-info-item">
-                  <span className="timesheet-pay-label">
-                    {t("timesheetForm.overtimeThreshold")}
-                  </span>
-                  <span className="timesheet-pay-value">
-                    {position.overtimeHours || "40"} {t("timesheetForm.hours")}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BulkPositionHoursBlock
+            rowId={row.rowId}
+            form={form}
+            position={position}
+            isSubcategory={isSubcategory}
+            dailyTitle={dailyTitle}
+            rateUnit={rateUnit}
+            t={t}
+            removeButton={removeButton("pay-header")}
+            updateEntry={updateEntry}
+            updateBonus={updateBonus}
+            updateDeduction={updateDeduction}
+          />
         ) : null}
       </div>
 
