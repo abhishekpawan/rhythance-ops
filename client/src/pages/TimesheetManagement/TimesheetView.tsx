@@ -10,6 +10,7 @@ import {
   sendTimesheetEmails,
 } from "../../services/api/timesheet";
 import type { TimesheetWithJoins } from "../../services/types/timesheet";
+import { timesheetEditPath } from "./functions/timesheetEditPath";
 import { TimesheetViewMainCards } from "./components/TimesheetViewMainCards";
 import { TimesheetViewSideCards } from "./components/TimesheetViewSideCards";
 import "../../styles/pages/TimesheetView.css";
@@ -110,22 +111,7 @@ export function TimesheetView() {
 
   const handleEdit = () => {
     if (!timesheet) return;
-    const profileId = timesheet.jobseeker_profiles?.id ?? "";
-    const clientId = timesheet.positions?.client ?? "";
-    const positionId = timesheet.positions?.id ?? "";
-    const weekStart = timesheet.week_start_date ?? "";
-
-    const params = new URLSearchParams();
-    if (profileId) params.set("profileId", profileId);
-    if (clientId) params.set("clientId", clientId);
-    if (positionId) params.set("positionId", positionId);
-    if (weekStart) params.set("weekStart", weekStart);
-
-    if (timesheet.is_bulk) {
-      navigate(`/bulk-timesheet-management/jobseeker?${params.toString()}`);
-    } else {
-      navigate(`/timesheet-management?${params.toString()}`);
-    }
+    navigate(timesheetEditPath(timesheet));
   };
 
   if (loading) {
