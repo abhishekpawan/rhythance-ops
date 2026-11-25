@@ -64,7 +64,6 @@
 797 client/src/styles/components/hamburgerMenu.css
 391 client/src/styles/components/header.css
 362 client/src/styles/pages/AllUsersManagement.css
-762 client/src/styles/pages/BulkTimesheetManagement.css
 456 client/src/styles/pages/ConsentListAndDetailPage.css
 923 client/src/styles/pages/ConsentPage.css
 1583 client/src/styles/pages/CreateConsentPage.css
@@ -76,7 +75,6 @@
 435 client/src/styles/pages/PositionManagement.css
 1230 client/src/styles/pages/PositionMatching.css
 478 client/src/styles/pages/RecruiterHierarchy.css
-787 client/src/styles/pages/TimesheetManagement.css
 393 client/src/styles/pages/userProfile.css
 782 client/src/utils/pdfGenerator.tsx
 448 server/src/middleware/activityLogger.ts

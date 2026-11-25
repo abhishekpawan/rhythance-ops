@@ -1,0 +1,170 @@
+.bulk-timesheet-page-container {
+  /* Parent container for bulk timesheet management */
+  position: relative;
+}
+
+.bulk-timesheet-selection-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0 0 0.65rem 0;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.bulk-timesheet-selection-hint svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--primary);
+}
+
+/* Example: override or extend styles as needed */
+.bulk-timesheet-page-container .timesheet-assignment-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  padding: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+/* Employee details — full-width row above hours/adjustments */
+.bulk-timesheet-page-container .timesheet-jobseeker-info-section--row {
+  margin: 0 0 0.75rem 0;
+  padding: 0 0 0.75rem 0;
+  border-top: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.bulk-timesheet-page-container
+  .timesheet-jobseeker-info-section--row
+  .timesheet-jobseeker-info-title {
+  margin-bottom: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.bulk-timesheet-page-container .timesheet-jobseeker-info-grid--row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+  scrollbar-width: thin;
+}
+
+.bulk-timesheet-page-container
+  .timesheet-jobseeker-info-grid--row
+  .timesheet-jobseeker-info-item {
+  flex: 1 1 0;
+  min-width: 80px;
+  max-width: none;
+  padding: 0.35rem 0.45rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  filter: brightness(0.95);
+}
+
+.bulk-timesheet-page-container
+  .timesheet-jobseeker-info-grid--row
+  .timesheet-jobseeker-info-label {
+  font-size: 0.575rem;
+  white-space: nowrap;
+}
+
+.bulk-timesheet-page-container
+  .timesheet-jobseeker-info-grid--row
+  .timesheet-jobseeker-info-value {
+  font-size: 0.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bulk-timesheet-page-container .timesheet-hours-adjustments-container {
+  border: none;
+  box-shadow: none;
+  padding: 2px;
+}
+
+/* Timesheet hours header styling - similar to InvoiceManagement */
+.bulk-timesheet-page-container .timesheet-hours-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.bulk-timesheet-page-container .timesheet-hours-header .timesheet-hours-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: none;
+  width: 650px;
+}
+
+.bulk-timesheet-page-container
+  .timesheet-hours-title.timesheet-pay-adjustments-title {
+  padding-bottom: 20px;
+}
+
+/* Jobseeker bulk row: match daily hours title rhythm (avoid large gap above bonus/deduction) */
+.bulk-jobseeker-bulk-page
+  .bulk-jobseeker-position-card
+  .timesheet-hours-title.timesheet-pay-adjustments-title {
+  padding-bottom: 0.35rem;
+}
+
+.bulk-timesheet-page-container .timesheet-hours-header .button.danger {
+  background: var(--danger);
+  color: var(--background);
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  width: 60px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Individual email control styling */
+.bulk-timesheet-page-container .timesheet-email-control {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.bulk-timesheet-page-container
+  .timesheet-email-control
+  .timesheet-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.bulk-timesheet-page-container .timesheet-email-control .timesheet-checkbox {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+
+.bulk-timesheet-page-container
+  .timesheet-email-control
+  .timesheet-checkbox-text {
+  font-weight: 500;
+}

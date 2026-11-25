@@ -1,0 +1,178 @@
+/* Compact numeric fields: daily hours, bonus, deduction — same width & column rhythm */
+.bulk-jobseeker-bulk-page .bulk-jobseeker-position-card .timesheet-hours-input {
+  width: 4.5rem;
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  box-sizing: border-box;
+  padding: 0.3rem 0.35rem;
+  font-size: 0.78rem;
+}
+
+.bulk-jobseeker-bulk-page
+  .bulk-jobseeker-position-card
+  .timesheet-hours-section.adjustments-section
+  .timesheet-day-entry {
+  width: fit-content;
+  min-width: 0;
+}
+
+.bulk-jobseeker-position-card .bulk-position-notes-email-shell {
+  display: grid;
+  grid-template-columns: 35fr 65fr;
+  gap: 0.75rem;
+  align-items: stretch;
+  margin-top: 1rem;
+  margin-bottom: 0.65rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.bulk-jobseeker-position-card .bulk-position-email-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0.65rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+}
+
+.bulk-jobseeker-position-card .bulk-position-email-billing-note {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.bulk-jobseeker-position-card
+  .bulk-position-notes-email-shell
+  .timesheet-notes-section.bulk-position-notes-card {
+  margin: 0;
+  padding: 0.65rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+  min-width: 0;
+}
+
+.bulk-jobseeker-position-card
+  .bulk-position-notes-email-shell
+  .bulk-position-notes-card
+  .timesheet-notes-title {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.35rem;
+}
+
+@media (max-width: 900px) {
+  .bulk-jobseeker-position-card .bulk-position-notes-email-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bulk-jobseeker-bulk-page
+  .bulk-jobseeker-position-card
+  .bulk-position-notes-email-shell
+  .timesheet-notes-textarea {
+  min-height: 48px;
+  font-size: 0.8rem;
+}
+
+/* Compact invoice preview — scale to match bulk-position-inline-row density */
+.bulk-jobseeker-position-card .timesheet-invoice-container {
+  margin-top: 0.5rem;
+}
+
+.bulk-jobseeker-position-card
+  .timesheet-invoice-container
+  .timesheet-invoice-table {
+  border-radius: 6px;
+}
+
+.bulk-jobseeker-position-card .timesheet-invoice-table-header {
+  gap: 0.45rem;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.35px;
+  border-radius: 6px 6px 0 0;
+}
+
+.bulk-jobseeker-position-card .timesheet-invoice-line-item {
+  gap: 0.45rem;
+  padding: 0.45rem 0.65rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-item-title {
+  font-size: 0.78rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-item-subtitle {
+  font-size: 0.68rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-col-hours,
+.bulk-jobseeker-position-card .timesheet-col-rate,
+.bulk-jobseeker-position-card .timesheet-col-amount,
+.bulk-jobseeker-position-card .timesheet-col-tax {
+  font-size: 0.78rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-invoice-totals {
+  padding: 0.2rem 0.65rem 0 0.65rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-total-line {
+  padding: 0.3rem 0;
+}
+
+.bulk-jobseeker-position-card .timesheet-total-label,
+.bulk-jobseeker-position-card .timesheet-total-value {
+  font-size: 0.78rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-subtotal {
+  font-size: 0.78rem;
+}
+
+.bulk-jobseeker-position-card .timesheet-grand-total {
+  font-size: 0.85rem;
+  margin: 0.45rem -0.65rem 0 -0.65rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0 0 6px 6px;
+}
+
+.bulk-jobseeker-position-card .timesheet-grand-total .timesheet-total-label,
+.bulk-jobseeker-position-card .timesheet-grand-total .timesheet-total-value {
+  font-size: inherit;
+}
+
+.bulk-jobseeker-select-position-hint {
+  margin: 0.5rem 0 0;
+}
+
+@media (max-width: 1100px) {
+  .bulk-jobseeker-position-card .bulk-position-inline-row {
+    flex-wrap: wrap;
+  }
+
+  .bulk-jobseeker-position-card .bulk-position-field--dropdown {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: none;
+  }
+
+  .bulk-jobseeker-position-card .bulk-position-hours-block {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
+
+.bulk-jobseeker-grand-summary {
+  margin-top: 1rem;
+}
