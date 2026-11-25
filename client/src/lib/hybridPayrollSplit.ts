@@ -1,55 +1,26 @@
 /** Hybrid SIN + cash / e-Transfer payroll: timesheet row split (client + types for API). */
 
+import type {
+  BuildHybridRowsInput,
+  ComputedTimesheetRow,
+  DailyHourEntry,
+  WeeklyHoursSplitParams,
+} from "./hybridPayrollSplit.types";
+
+export type {
+  BuildHybridRowsInput,
+  ComputedTimesheetRow,
+  DailyHourEntry,
+  HybridPayrollRates,
+  PaySplitSegment,
+  WeeklyHoursSplitParams,
+} from "./hybridPayrollSplit.types";
+
 export const HYBRID_SIN_CASH = "SIN and cash";
 export const HYBRID_SIN_ETRANSFER = "SIN and e-Transfer";
 export const SIN_DIRECT_DEPOSIT = "SIN-Direct Deposit";
 
-export type PaySplitSegment = "single" | "sin" | "cash" | "e_transfer";
-
-export interface DailyHourEntry {
-  date: string;
-  hours: number;
-}
-
-export interface WeeklyHoursSplitParams {
-  entries: DailyHourEntry[];
-  overtimeEnabled: boolean;
-  /** Raw position.overtimeHours; if missing and OT enabled, 40 is used */
-  overtimeHoursRaw?: string | null;
-}
-
-export interface HybridPayrollRates {
-  effectiveRegularPayRate: number;
-  overtimePayRate: number;
-  regularBillRate: number;
-  overtimeBillRate: number;
-}
-
-export interface BuildHybridRowsInput extends WeeklyHoursSplitParams, HybridPayrollRates {
-  paymentMethod: string;
-  sinPayrollHoursCap: number;
-  cashDeductionPct: number;
-  bonusAmount: number;
-  deductionAmount: number;
-  hstGst?: string | null;
-}
-
-export interface ComputedTimesheetRow {
-  paySplitSegment: PaySplitSegment;
-  linePaymentMethod: string | null;
-  dailyHours: DailyHourEntry[];
-  totalRegularHours: number;
-  totalOvertimeHours: number;
-  totalClientBill: number;
-  totalJobseekerPay: number;
-  bonusAmount: number;
-  deductionAmount: number;
-  taxAmount?: number;
-}
-
-export function isHybridPaymentMethod(
-  pm: string | undefined | null
-): boolean {
+export function isHybridPaymentMethod(pm: string | undefined | null): boolean {
   return pm === HYBRID_SIN_CASH || pm === HYBRID_SIN_ETRANSFER;
 }
 
@@ -57,16 +28,10 @@ export function profileUsesCashDeductionField(
   pm: string | undefined | null
 ): boolean {
   if (!pm) return false;
-  return (
-    pm === "Cash" ||
-    pm === "e-Transfer" ||
-    isHybridPaymentMethod(pm)
-  );
+  return pm === "Cash" || pm === "e-Transfer" || isHybridPaymentMethod(pm);
 }
 
-export function hybridSecondSegment(
-  pm: string
-): "cash" | "e_transfer" | null {
+export function hybridSecondSegment(pm: string): "cash" | "e_transfer" | null {
   if (pm === HYBRID_SIN_CASH) return "cash";
   if (pm === HYBRID_SIN_ETRANSFER) return "e_transfer";
   return null;
@@ -95,10 +60,13 @@ export function parseHstGstPercentage(hstGst?: string | null): number {
   return 0;
 }
 
-export function computeWeeklyRegularOvertime(
-  params: WeeklyHoursSplitParams
-): { weeklyRegularHours: number; weeklyOvertimeHours: number } {
-  const sorted = [...params.entries].sort((a, b) => a.date.localeCompare(b.date));
+export function computeWeeklyRegularOvertime(params: WeeklyHoursSplitParams): {
+  weeklyRegularHours: number;
+  weeklyOvertimeHours: number;
+} {
+  const sorted = [...params.entries].sort((a, b) =>
+    a.date.localeCompare(b.date)
+  );
   const totalWeeklyHours = sorted.reduce((s, e) => s + e.hours, 0);
 
   if (!params.overtimeEnabled) {
@@ -112,9 +80,7 @@ export function computeWeeklyRegularOvertime(
     ? parseFloat(params.overtimeHoursRaw)
     : 40;
 
-  const weeklyRegularHours = roundHours(
-    Math.min(totalWeeklyHours, threshold)
-  );
+  const weeklyRegularHours = roundHours(Math.min(totalWeeklyHours, threshold));
   const weeklyOvertimeHours = roundHours(
     Math.max(0, totalWeeklyHours - threshold)
   );
@@ -208,7 +174,11 @@ export function buildTimesheetRowsForPayroll(
       }
     }
     const totalJobseekerPay =
-      basePay - cashDeductionAmount + taxAmount + input.bonusAmount - input.deductionAmount;
+      basePay -
+      cashDeductionAmount +
+      taxAmount +
+      input.bonusAmount -
+      input.deductionAmount;
     const clientBill =
       weeklyRegularHours * input.regularBillRate +
       weeklyOvertimeHours * input.overtimeBillRate;
@@ -258,8 +228,7 @@ export function buildTimesheetRowsForPayroll(
   const sinClientBill =
     sinRegular * input.regularBillRate + sinOvertime * input.overtimeBillRate;
   const cashClientBill =
-    cashRegular * input.regularBillRate +
-    cashOvertime * input.overtimeBillRate;
+    cashRegular * input.regularBillRate + cashOvertime * input.overtimeBillRate;
 
   const secondSeg = hybridSecondSegment(input.paymentMethod);
   const secondLinePm = hybridSecondLinePaymentMethod(input.paymentMethod);
