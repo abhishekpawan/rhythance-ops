@@ -51,6 +51,8 @@
 /* Hours and Adjustments Container - Side by Side Layout */
 .timesheet-hours-adjustments-container {
   display: flex;
+  flex-wrap: wrap;
+  row-gap: 1rem;
   justify-content: space-between;
   background: var(--card);
   border: 1px solid var(--border);
