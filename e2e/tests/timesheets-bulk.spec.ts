@@ -302,3 +302,68 @@ for (const language of ["en", "fr"] as const) {
     );
   });
 }
+
+// ---- "send to all" (R-4b): ticking it marks every jobseeker's timesheet to be emailed ----------------------------------
+
+base.describe("send to all", () => {
+  base.use({ language: "en", storageState: ".auth/admin.json" });
+  base.beforeAll(sweepTimesheets);
+  base.afterEach(sweepTimesheets);
+
+  base(
+    "by client: every saved timesheet is marked as emailed",
+    async ({ page }) => {
+      const sent = watchSaves(page);
+      await page.goto("/bulk-timesheet-management");
+      await pick(page, 0, "Northwind");
+      await pick(page, 1, "Warehouse Associate");
+      await pick(page, 2, DEC_7);
+      const cards = page.locator(".timesheet-assignment-card");
+      await expect(cards).toHaveCount(3);
+      await cards
+        .filter({ hasText: "Hana Hybrid" })
+        .locator("button.button.danger")
+        .click();
+      await expect(cards).toHaveCount(2);
+      for (const who of ["Sam Sinclair", "Casey Cashman"])
+        await typeCard(cards.filter({ hasText: who }), [0, 8, 8, 8, 8, 8, 0]);
+      const all = page.locator(".timesheet-action-section .timesheet-checkbox");
+      const each = cards.locator(".timesheet-checkbox");
+      await expect(each).toHaveCount(2);
+      await expect(all).not.toBeChecked();
+      await all.check();
+      await expect(each.first()).toBeChecked();
+      await expect(each.last()).toBeChecked();
+      // one jobseeker's own tick off: "send to all" lets go, and ticking it again puts every row back
+      await each.first().uncheck();
+      await expect(all).not.toBeChecked();
+      await all.check();
+      await expect(each.first()).toBeChecked();
+
+      await page.locator(".timesheet-action-section button.button").click();
+      const saved = await savedBodies(sent, 2);
+      expect(saved.map((s) => s.body.email_sent)).toEqual([true, true]);
+    }
+  );
+
+  base(
+    "by jobseeker: the one saved timesheet is marked as emailed",
+    async ({ page }) => {
+      const sent = watchSaves(page);
+      await page.goto("/bulk-timesheet-management/jobseeker");
+      await pick(page, 0, "Sam Sinclair");
+      await pick(page, 1, "Northwind");
+      await pick(page, 2, DEC_7);
+      await pick(page, 3, "Warehouse Associate");
+      const card = page.locator(".bulk-jobseeker-position-card");
+      await expect(card).toHaveCount(1);
+      await typeCard(card, [0, 8, 8, 8, 8, 8, 0]);
+      const all = page.locator(".timesheet-action-section .timesheet-checkbox");
+      await expect(all).not.toBeChecked();
+      await all.check();
+      await page.locator(".timesheet-action-section button.button").click();
+      const saved = await savedBodies(sent, 1);
+      expect(saved[0].body.email_sent).toBe(true);
+    }
+  );
+});
