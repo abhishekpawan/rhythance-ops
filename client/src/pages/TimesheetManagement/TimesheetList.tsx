@@ -47,9 +47,6 @@ export function TimesheetList() {
       />
       <div className="content-container">
         <div className="card">
-          <div className="card-header">
-            <h2>{t("bulkTimesheetManagement.listTitle")}</h2>
-          </div>
           <Pagination
             position="top"
             pagination={list.pagination}
