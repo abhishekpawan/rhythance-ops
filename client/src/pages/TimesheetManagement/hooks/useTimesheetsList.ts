@@ -94,20 +94,6 @@ export function useTimesheetsList(t: TimesheetsListT): UseTimesheetsListResult {
     setPagination((prev) => ({ ...prev, limit: newLimit, page: 1 }));
   }, []);
 
-  const handlePreviousPage = useCallback(() => {
-    setPagination((prev) => {
-      if (!prev.hasPrevPage) return prev;
-      return { ...prev, page: prev.page - 1 };
-    });
-  }, []);
-
-  const handleNextPage = useCallback(() => {
-    setPagination((prev) => {
-      if (!prev.hasNextPage) return prev;
-      return { ...prev, page: prev.page + 1 };
-    });
-  }, []);
-
   useEffect(() => {
     if (!initializedFromLocation) return;
     if (skipFirstFilterDerivedPageReset.current) {
@@ -279,8 +265,6 @@ export function useTimesheetsList(t: TimesheetsListT): UseTimesheetsListResult {
 
     handlePageChange,
     handleLimitChange,
-    handlePreviousPage,
-    handleNextPage,
     handleCancelDelete,
     handleConfirmDelete,
     handleDeleteTimesheet,

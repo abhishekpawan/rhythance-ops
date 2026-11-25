@@ -4,10 +4,8 @@ import { AppHeader } from "../../components/AppHeader";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { useTimesheetsList } from "./hooks/useTimesheetsList";
-import {
-  TimesheetListPaginationBottom,
-  TimesheetListPaginationTop,
-} from "./components/TimesheetListPagination";
+import { Pagination } from "../../components/Pagination";
+import { timesheetPaginationLabels } from "./functions/timesheetPaginationLabels";
 import { TimesheetListTable } from "./components/TimesheetListTable";
 import "../../styles/pages/InvoiceManagement.css";
 import "../../styles/pages/BulkTimesheetManagement.css";
@@ -16,6 +14,7 @@ export function TimesheetList() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const list = useTimesheetsList(t);
+  const paginationLabels = timesheetPaginationLabels(t, list.pagination);
 
   return (
     <div className="page-container timesheet-list-page">
@@ -51,9 +50,10 @@ export function TimesheetList() {
           <div className="card-header">
             <h2>{t("bulkTimesheetManagement.listTitle")}</h2>
           </div>
-          <TimesheetListPaginationTop
-            t={t}
+          <Pagination
+            position="top"
             pagination={list.pagination}
+            labels={paginationLabels}
             onLimitChange={list.handleLimitChange}
           />
           <TimesheetListTable
@@ -83,13 +83,13 @@ export function TimesheetList() {
             onDeleteTimesheet={list.handleDeleteTimesheet}
             onViewTimesheet={list.handleViewTimesheet}
           />
-          {!list.loading && list.pagination.totalPages > 1 && (
-            <TimesheetListPaginationBottom
-              t={t}
+          {!list.loading && (
+            <Pagination
+              position="bottom"
               pagination={list.pagination}
+              labels={paginationLabels}
               onPageChange={list.handlePageChange}
-              onPreviousPage={list.handlePreviousPage}
-              onNextPage={list.handleNextPage}
+              buttonType="button"
             />
           )}
         </div>

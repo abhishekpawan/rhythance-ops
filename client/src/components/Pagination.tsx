@@ -36,6 +36,8 @@ interface PaginationProps {
   selectId?: string;
   /** an extra class on the bar, for a page that styles its own variant */
   className?: string;
+  /** writes `type="button"` on the bottom bar's buttons, for a page that always had it; none by default */
+  buttonType?: "button";
 }
 
 const DEFAULT_SIZES = [10, 25, 50, 100];
@@ -53,6 +55,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   pageSizes = DEFAULT_SIZES,
   selectId = "pageSize",
   className,
+  buttonType,
 }) => {
   const { showBottomBar, pageNumbers } = usePagination(pagination);
   const classes = (base: string) => (className ? `${base} ${className}` : base);
@@ -99,6 +102,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       </div>
       <div className="pagination-buttons">
         <button
+          type={buttonType}
           className="pagination-btn prev"
           onClick={() => onPageChange?.(pagination.page - 1)}
           disabled={!pagination.hasPrevPage}
@@ -112,6 +116,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         <div className="page-numbers">
           {pageNumbers.map((pageNum) => (
             <button
+              type={buttonType}
               key={pageNum}
               className={`page-number-btn ${
                 pageNum === pagination.page ? "active" : ""
@@ -125,6 +130,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         </div>
 
         <button
+          type={buttonType}
           className="pagination-btn next"
           onClick={() => onPageChange?.(pagination.page + 1)}
           disabled={!pagination.hasNextPage}

@@ -40,8 +40,6 @@ export interface UseTimesheetsListResult {
 
   handlePageChange: (newPage: number) => void;
   handleLimitChange: (newLimit: number) => void;
-  handlePreviousPage: () => void;
-  handleNextPage: () => void;
   handleCancelDelete: () => void;
   handleConfirmDelete: () => Promise<void>;
   handleDeleteTimesheet: (timesheet: TimesheetListItem) => void;
