@@ -1,3 +1,4 @@
+import { BulkSendAllSection } from "./BulkSendAllSection";
 import type { BulkJsForms, BulkJsRows, BulkJsT } from "./bulkJobseekerTypes";
 
 interface BulkJobseekerActionSectionProps {
@@ -31,48 +32,27 @@ export function BulkJobseekerActionSection({
   );
 
   return (
-    <div className="timesheet-action-section">
-      <div className="timesheet-email-option">
-        <label className="timesheet-checkbox-label">
-          <input
-            type="checkbox"
-            checked={sendEmail}
-            onChange={(e) => {
-              setSendEmail(e.target.checked);
-
-              updateAllRowsEmailSent(e.target.checked);
-            }}
-            className="timesheet-checkbox"
-          />
-
-          <span className="timesheet-checkbox-text">
-            {t("bulkJobseekerTimesheetManagement.email.sendToAll")}
-          </span>
-        </label>
-
-        <p
-          className="field-note"
-          style={{ marginTop: "8px", marginLeft: "24px" }}
-        >
-          {t("bulkTimesheetManagement.email.billingEmailNote")}
-        </p>
-      </div>
-
-      <button
-        type="button"
-        className="button"
-        onClick={handleGenerate}
-        disabled={
-          rows.length === 0 ||
-          isGenerating ||
-          !!hasRowHydratingForm ||
-          !hasSubmissionReady
-        }
-      >
-        {isGenerating
+    <BulkSendAllSection
+      sendEmail={sendEmail}
+      onSendEmailChange={(checked) => {
+        setSendEmail(checked);
+        updateAllRowsEmailSent(checked);
+      }}
+      sendToAllLabel={t("bulkJobseekerTimesheetManagement.email.sendToAll")}
+      billingEmailNote={t("bulkTimesheetManagement.email.billingEmailNote")}
+      generateLabel={
+        isGenerating
           ? t("bulkJobseekerTimesheetManagement.buttons.generating")
-          : t("bulkJobseekerTimesheetManagement.buttons.generateBulk")}
-      </button>
-    </div>
+          : t("bulkJobseekerTimesheetManagement.buttons.generateBulk")
+      }
+      generateDisabled={
+        rows.length === 0 ||
+        isGenerating ||
+        !!hasRowHydratingForm ||
+        !hasSubmissionReady
+      }
+      onGenerate={handleGenerate}
+      buttonType="button"
+    />
   );
 }
