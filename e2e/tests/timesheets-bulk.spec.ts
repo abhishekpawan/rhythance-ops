@@ -367,3 +367,24 @@ base.describe("send to all", () => {
     }
   );
 });
+
+base.describe("removing a jobseeker from the bulk-by-client screen", () => {
+  base.use({ language: "en", storageState: ".auth/admin.json" });
+
+  base("the last one left cannot be removed", async ({ page }) => {
+    await page.goto("/bulk-timesheet-management");
+    await pick(page, 0, "Northwind");
+    await pick(page, 1, "Warehouse Associate");
+    await pick(page, 2, DEC_7);
+    const cards = page.locator(".timesheet-assignment-card");
+    await expect(cards).toHaveCount(3);
+    await expect(cards.locator("button.button.danger").first()).toBeEnabled();
+    for (const who of ["Hana Hybrid", "Casey Cashman"])
+      await cards
+        .filter({ hasText: who })
+        .locator("button.button.danger")
+        .click();
+    await expect(cards).toHaveCount(1);
+    await expect(cards.locator("button.button.danger")).toBeDisabled();
+  });
+});
