@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FileText } from "lucide-react";
 import { AppHeader } from "../../components/AppHeader";
+import { EmptyState } from "../../components/EmptyState";
 import { Loader } from "../../components/Loader";
 import { useLanguage } from "../../contexts/language/language-provider";
 import "../../styles/pages/BulkTimesheetManagement.css";
@@ -240,17 +241,14 @@ export function BulkTimesheetJobseekerManagement() {
           !positionLoading &&
           assignablePositions.length === 0 && (
             <div className="timesheet-card empty-state-card">
-              <div className="timesheet-empty-state">
-                <FileText size={48} />
-
-                <h3>{tf("empty.noPositionsTitle")}</h3>
-
-                <p>
-                  {t(
-                    "bulkJobseekerTimesheetManagement.empty.noAssignmentsForClient"
-                  )}
-                </p>
-              </div>
+              <EmptyState
+                className="timesheet-empty-state"
+                icon={<FileText size={48} />}
+                title={tf("empty.noPositionsTitle")}
+                description={t(
+                  "bulkJobseekerTimesheetManagement.empty.noAssignmentsForClient"
+                )}
+              />
             </div>
           )}
 

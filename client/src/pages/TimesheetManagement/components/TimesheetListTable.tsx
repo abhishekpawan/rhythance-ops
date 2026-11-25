@@ -1,4 +1,5 @@
 import { DateRangePicker } from "../../../components/DateRangePicker";
+import { EmptyState } from "../../../components/EmptyState";
 import type { TimesheetListItem } from "../../../services/api/timesheet";
 import type { TimesheetListT } from "../functions/timesheetListDisplay";
 import {
@@ -233,11 +234,12 @@ export function TimesheetListTable(props: TimesheetListTableProps) {
           ) : timesheets.length === 0 ? (
             <tr>
               <td colSpan={LIST_COLUMNS} className="empty-state-cell">
-                <div className="empty-state">
-                  <p>
-                    {t("bulkTimesheetManagement.messages.noBulkTimesheets")}
-                  </p>
-                </div>
+                <EmptyState
+                  className="empty-state"
+                  description={t(
+                    "bulkTimesheetManagement.messages.noBulkTimesheets"
+                  )}
+                />
               </td>
             </tr>
           ) : (

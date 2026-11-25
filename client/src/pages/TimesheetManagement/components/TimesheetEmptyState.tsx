@@ -1,4 +1,5 @@
 import { Building, FileText } from "lucide-react";
+import { EmptyState } from "../../../components/EmptyState";
 import { useTimesheetFormTranslation } from "../hooks/useTimesheetFormTranslation";
 
 type TimesheetEmptyVariant = "clients" | "positions";
@@ -13,22 +14,24 @@ export function TimesheetEmptyState({ variant }: TimesheetEmptyStateProps) {
   if (variant === "clients") {
     return (
       <div className="timesheet-card empty-state-card">
-        <div className="timesheet-empty-state">
-          <Building size={48} />
-          <h3>{tf("empty.noClientsTitle")}</h3>
-          <p>{tf("empty.noClientsBody")}</p>
-        </div>
+        <EmptyState
+          className="timesheet-empty-state"
+          icon={<Building size={48} />}
+          title={tf("empty.noClientsTitle")}
+          description={tf("empty.noClientsBody")}
+        />
       </div>
     );
   }
 
   return (
     <div className="timesheet-card empty-state-card">
-      <div className="timesheet-empty-state">
-        <FileText size={48} />
-        <h3>{tf("empty.noPositionsTitle")}</h3>
-        <p>{tf("empty.noPositionsBody")}</p>
-      </div>
+      <EmptyState
+        className="timesheet-empty-state"
+        icon={<FileText size={48} />}
+        title={tf("empty.noPositionsTitle")}
+        description={tf("empty.noPositionsBody")}
+      />
     </div>
   );
 }

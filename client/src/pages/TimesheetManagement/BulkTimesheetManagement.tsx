@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppHeader } from "../../components/AppHeader";
+import { EmptyState } from "../../components/EmptyState";
 import { Loader } from "../../components/Loader";
 import { useLanguage } from "../../contexts/language/language-provider";
 import { Info, Users } from "lucide-react";
@@ -220,11 +221,14 @@ export function BulkTimesheetManagement() {
           !assignmentsLoading &&
           assignedJobseekers.length === 0 && (
             <div className="timesheet-card empty-state-card">
-              <div className="timesheet-empty-state">
-                <Users size={48} />
-                <h3>{t("bulkTimesheetManagement.empty.noJobseekersTitle")}</h3>
-                <p>{t("bulkTimesheetManagement.empty.noJobseekersBody")}</p>
-              </div>
+              <EmptyState
+                className="timesheet-empty-state"
+                icon={<Users size={48} />}
+                title={t("bulkTimesheetManagement.empty.noJobseekersTitle")}
+                description={t(
+                  "bulkTimesheetManagement.empty.noJobseekersBody"
+                )}
+              />
             </div>
           )}
 
