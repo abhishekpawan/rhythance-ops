@@ -16,6 +16,8 @@ interface StatusBadgeProps {
    */
   variant?: "dot" | "tag" | "plain";
   icon?: React.ReactNode;
+  /** inline styles of the pill, for a page that has always written them on the badge (`plain` only) */
+  style?: React.CSSProperties;
 }
 
 /**
@@ -29,9 +31,13 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   className = "",
   variant = "dot",
   icon,
+  style,
 }) =>
   variant === "plain" ? (
-    <span className={`${baseClass} ${tone}${className && ` ${className}`}`}>
+    <span
+      className={`${baseClass} ${tone}${className && ` ${className}`}`}
+      style={style}
+    >
       {icon}
       {label}
     </span>

@@ -1,4 +1,5 @@
 import { Clock, CheckCircle, FileText } from "lucide-react";
+import { StatusBadge } from "../../../components/StatusBadge";
 import type { TimesheetWithJoins } from "../../../services/types/timesheet";
 import { formatDateTimeCanada } from "../../../utils/dateUtils";
 
@@ -21,18 +22,29 @@ export function TimesheetViewMainCards({
             <FileText size={20} /> Timesheet Overview
           </h2>
           {timesheet.email_sent ? (
-            <span
-              className="badge badge-success"
+            <StatusBadge
+              variant="plain"
+              baseClass="badge"
+              tone="badge-success"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "4px",
               }}
-            >
-              <CheckCircle size={14} /> Email Sent
-            </span>
+              icon={
+                <>
+                  <CheckCircle size={14} />{" "}
+                </>
+              }
+              label="Email Sent"
+            />
           ) : (
-            <span className="badge badge-warning">Email Not Sent</span>
+            <StatusBadge
+              variant="plain"
+              baseClass="badge"
+              tone="badge-warning"
+              label="Email Not Sent"
+            />
           )}
         </div>
 
