@@ -37,6 +37,22 @@
   width: 100%;
 }
 
+/* On a narrow screen the entry screen's four choosers wrap to a second row instead of running out of the card (the bars
+   with three choosers fit and stay as they are) */
+@media (max-width: 1100px) {
+  .timesheet-selection-bar:has(> .selection-section:nth-child(4)) {
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
+
+  .timesheet-selection-bar:has(> .selection-section:nth-child(4))
+    > .selection-section {
+    flex: 1 1 14rem;
+    width: auto;
+    min-width: 0;
+  }
+}
+
 .selection-label {
   display: flex;
   align-items: center;
