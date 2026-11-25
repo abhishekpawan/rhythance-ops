@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { BulkGrandTotalLines } from "./BulkGrandTotalLines";
 import type { BulkJsRows, BulkJsT, BulkJsTf } from "./bulkJobseekerTypes";
 
 interface BulkJobseekerGrandSummaryProps {
@@ -236,39 +237,12 @@ export function BulkJobseekerGrandSummary({
             </div>
           ))}
 
-          {grandTotalBonus > 0 ? (
-            <div className="timesheet-total-line">
-              <div className="timesheet-total-label">
-                {t("timesheetForm.grandTotalBonus")}:
-              </div>
-
-              <div className="timesheet-total-value">
-                +${grandTotalBonus.toFixed(2)}
-              </div>
-            </div>
-          ) : null}
-
-          {grandTotalDeduction > 0 ? (
-            <div className="timesheet-total-line">
-              <div className="timesheet-total-label">
-                {t("timesheetForm.grandTotalDeduction")}:
-              </div>
-
-              <div className="timesheet-total-value">
-                -${grandTotalDeduction.toFixed(2)}
-              </div>
-            </div>
-          ) : null}
-
-          <div className="timesheet-total-line timesheet-grand-total">
-            <div className="timesheet-total-label">
-              {t("timesheetForm.grandTotalPay")}:
-            </div>
-
-            <div className="timesheet-total-value">
-              ${grandTotalPay.toFixed(2)}
-            </div>
-          </div>
+          <BulkGrandTotalLines
+            t={t}
+            bonus={grandTotalBonus}
+            deduction={grandTotalDeduction}
+            pay={grandTotalPay}
+          />
         </div>
       </div>
     </div>
