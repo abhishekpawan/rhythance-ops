@@ -81,7 +81,12 @@ export function TimesheetListRow({
             type="button"
             disabled={isSending}
             onClick={() => void onSendEmail(timesheet.id || "", fullName)}
-            title={emailSent ? `Resend to ${fullName}` : `Send to ${fullName}`}
+            title={t(
+              emailSent
+                ? "bulkTimesheetManagement.email.resendTo"
+                : "bulkTimesheetManagement.email.sendTo",
+              { name: fullName }
+            )}
           >
             {isSending ? (
               <>

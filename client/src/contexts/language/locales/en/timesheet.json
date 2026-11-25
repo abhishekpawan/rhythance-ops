@@ -149,7 +149,9 @@
       "sendEmail": "Send Email",
       "sendToJobseeker": "Send timesheet via email to this jobseeker",
       "sendToAll": "Send timesheets via email to all jobseekers",
-      "billingEmailNote": "Email will be sent to billing email if provided, otherwise to primary email"
+      "billingEmailNote": "Email will be sent to billing email if provided, otherwise to primary email",
+      "sendTo": "Send to {{name}}",
+      "resendTo": "Resend to {{name}}"
     },
     "actions": {
       "viewDelete": "View • Delete",
@@ -263,5 +265,42 @@
       "partialTimesheetsCreated": "⚠️ {{successful}} of {{total}} timesheets created successfully ({{failed}} failed). Total: {{totalHours}} hours, ${{totalPay}} CAD",
       "allTimesheetsFailed": "❌ Failed to create any timesheets. Details: {{failureDetails}}"
     }
+  },
+  "timesheetView": {
+    "backToList": "Back to List",
+    "downloadPdf": "Download PDF",
+    "resendEmail": "Resend Email",
+    "editTimesheet": "Edit Timesheet",
+    "backToTimesheetList": "Back to Timesheet List",
+    "notFound": "Timesheet not found",
+    "missingId": "Timesheet ID is missing.",
+    "loadFailed": "Failed to load timesheet details",
+    "sendFailed": "Failed to send email.",
+    "emailSentFallback": "Email sent successfully.",
+    "unknownJobseeker": "Unknown Jobseeker",
+    "overview": "Timesheet Overview",
+    "weekRange": "{{start}} to {{end}}",
+    "hours": "{{hours}} hrs",
+    "createdAt": "Created At",
+    "dailyHoursEntry": "Daily Hours Entry",
+    "date": "Date",
+    "hoursLogged": "Hours Logged",
+    "noDailyHours": "No daily hours recorded.",
+    "jobseekerDetails": "Jobseeker Details",
+    "fullName": "Full Name",
+    "primaryEmail": "Primary Email",
+    "paymentMethod": "Payment Method",
+    "cashDeduction": "Cash Deduction",
+    "taxRate": "Tax Rate (HST/GST)",
+    "clientAndPosition": "Client & Position",
+    "location": "Location",
+    "payAndRates": "Jobseeker Pay & Rates",
+    "premiumRate": "Premium Rate",
+    "overtimeRate": "Overtime Rate",
+    "billingSummary": "Client Billing Summary",
+    "regularBillRate": "Regular Bill Rate",
+    "overtimeBillRate": "Overtime Bill Rate",
+    "totalClientBill": "Total Client Bill",
+    "perHour": "/hr"
   }
 }

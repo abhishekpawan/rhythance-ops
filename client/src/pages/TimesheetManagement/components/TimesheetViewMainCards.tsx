@@ -1,5 +1,6 @@
 import { Clock, CheckCircle, FileText } from "lucide-react";
 import { StatusBadge } from "../../../components/StatusBadge";
+import { useLanguage } from "../../../contexts/language/language-provider";
 import type { TimesheetWithJoins } from "../../../services/types/timesheet";
 import { formatDateTimeCanada } from "../../../utils/dateUtils";
 
@@ -13,13 +14,14 @@ export function TimesheetViewMainCards({
   timesheet,
   dailyHoursList,
 }: TimesheetViewMainCardsProps) {
+  const { t } = useLanguage();
   return (
     <>
       {/* Overview / Header Card */}
       <div className="timesheet-view-card">
         <div className="timesheet-view-card-header">
           <h2 className="timesheet-view-card-title">
-            <FileText size={20} /> Timesheet Overview
+            <FileText size={20} /> {t("timesheetView.overview")}
           </h2>
           {timesheet.email_sent ? (
             <StatusBadge
@@ -36,46 +38,63 @@ export function TimesheetViewMainCards({
                   <CheckCircle size={14} />{" "}
                 </>
               }
-              label="Email Sent"
+              label={t("bulkTimesheetManagement.filters.emailSent")}
             />
           ) : (
             <StatusBadge
               variant="plain"
               baseClass="badge"
               tone="badge-warning"
-              label="Email Not Sent"
+              label={t("bulkTimesheetManagement.filters.emailNotSent")}
             />
           )}
         </div>
 
         <div className="timesheet-meta-grid">
           <div className="timesheet-meta-item">
-            <span className="timesheet-meta-label">Invoice Number</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetForm.invoiceNumber")}
+            </span>
             <span className="timesheet-meta-value">
               #{timesheet.invoice_number || "-"}
             </span>
           </div>
           <div className="timesheet-meta-item">
-            <span className="timesheet-meta-label">Week Period</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetForm.selection.weekPeriod")}
+            </span>
             <span className="timesheet-meta-value">
-              {timesheet.week_start_date} to {timesheet.week_end_date}
+              {t("timesheetView.weekRange", {
+                start: timesheet.week_start_date,
+                end: timesheet.week_end_date,
+              })}
             </span>
           </div>
           <div className="timesheet-meta-item">
-            <span className="timesheet-meta-label">Total Regular Hours</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetForm.totalRegularHours")}
+            </span>
             <span className="timesheet-meta-value">
-              {timesheet.total_regular_hours} hrs
+              {t("timesheetView.hours", {
+                hours: timesheet.total_regular_hours,
+              })}
             </span>
           </div>
           <div className="timesheet-meta-item">
-            <span className="timesheet-meta-label">Total Overtime Hours</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetForm.totalOvertimeHours")}
+            </span>
             <span className="timesheet-meta-value">
-              {timesheet.total_overtime_hours} hrs
+              {t("timesheetView.hours", {
+                hours: timesheet.total_overtime_hours,
+              })}
             </span>
           </div>
           {timesheet.created_at && (
             <div className="timesheet-meta-item">
-              <span className="timesheet-meta-label">Created At</span>
+              <span className="timesheet-meta-label">
+                {t("timesheetView.createdAt")}
+              </span>
               <span className="timesheet-meta-value">
                 {formatDateTimeCanada(timesheet.created_at)}
               </span>
@@ -88,14 +107,14 @@ export function TimesheetViewMainCards({
       <div className="timesheet-view-card">
         <div className="timesheet-view-card-header">
           <h3 className="timesheet-view-card-title">
-            <Clock size={18} /> Daily Hours Entry
+            <Clock size={18} /> {t("timesheetView.dailyHoursEntry")}
           </h3>
         </div>
         <table className="timesheet-daily-table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Hours Logged</th>
+              <th>{t("timesheetView.date")}</th>
+              <th>{t("timesheetView.hoursLogged")}</th>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +123,9 @@ export function TimesheetViewMainCards({
                 <tr key={index}>
                   <td>{entry.date}</td>
                   <td>
-                    <strong>{entry.hours} hrs</strong>
+                    <strong>
+                      {t("timesheetView.hours", { hours: entry.hours })}
+                    </strong>
                   </td>
                 </tr>
               ))
@@ -117,7 +138,7 @@ export function TimesheetViewMainCards({
                     color: "var(--text-muted)",
                   }}
                 >
-                  No daily hours recorded.
+                  {t("timesheetView.noDailyHours")}
                 </td>
               </tr>
             )}
@@ -130,7 +151,7 @@ export function TimesheetViewMainCards({
         <div className="timesheet-view-card">
           <div className="timesheet-view-card-header">
             <h3 className="timesheet-view-card-title">
-              <FileText size={18} /> Additional Notes
+              <FileText size={18} /> {t("timesheetForm.additionalNotes")}
             </h3>
           </div>
           <p style={{ margin: 0, color: "var(--text)" }}>{timesheet.notes}</p>

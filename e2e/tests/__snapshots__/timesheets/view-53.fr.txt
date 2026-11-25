@@ -1,51 +1,51 @@
-Back to List
-Resend Email
-Edit Timesheet
-View Timesheet #900001
-Timesheet Overview
-Email Sent
-INVOICE NUMBER
+Retour à la liste
+Renvoyer l'email
+Modifier la feuille de temps
+Voir la feuille de temps #900001
+Aperçu de la feuille de temps
+Email envoyé
+NUMÉRO DE FACTURE
 #900001
-WEEK PERIOD
-2026-11-01 to 2026-11-07
-TOTAL REGULAR HOURS
-40 hrs
-TOTAL OVERTIME HOURS
-0 hrs
-CREATED AT
+PÉRIODE DE LA SEMAINE
+2026-11-01 au 2026-11-07
+TOTAL DES HEURES RÉGULIÈRES
+40 h
+TOTAL DES HEURES SUPPLÉMENTAIRES
+0 h
+CRÉÉ LE
 <date>
-Daily Hours Entry
-DATE HOURS LOGGED
-2026-11-02 8 hrs
-2026-11-03 8 hrs
-2026-11-04 8 hrs
-2026-11-05 8 hrs
-2026-11-06 8 hrs
-Additional Notes
+Saisie des heures quotidiennes
+DATE HEURES ENREGISTRÉES
+2026-11-02 8 h
+2026-11-03 8 h
+2026-11-04 8 h
+2026-11-05 8 h
+2026-11-06 8 h
+Notes supplémentaires
 Paid in cash
-Jobseeker Details
-FULL NAME
+Détails du demandeur d'emploi
+NOM COMPLET
 Casey Cashman
-PRIMARY EMAIL
+EMAIL PRINCIPAL
 jobseeker.cash@example.test
-BILLING EMAIL
+COURRIEL DE FACTURATION
 -
-PAYMENT METHOD
+MODE DE PAIEMENT
 Cash
-CASH DEDUCTION
+DÉDUCTION CASH
 10%
-Client & Position
-CLIENT NAME
+Client et poste
+NOM DU CLIENT
 -
-POSITION TITLE
+TITRE DU POSTE
 Warehouse Associate
-POSITION CODE
+CODE DU POSTE
 NW001
-Jobseeker Pay & Rates
-Regular Pay Rate $20.00/hr
-Overtime Rate $20.00/hr
-Grand Total Pay $720.00
-Client Billing Summary
-Regular Bill Rate $35.00/hr
-Overtime Bill Rate $35.00/hr
-Total Client Bill $1400.00
+Rémunération et taux du demandeur d'emploi
+Taux de rémunération régulier $20.00/h
+Taux des heures supplémentaires $20.00/h
+Grand total de la rémunération $720.00
+Résumé de facturation du client
+Taux de facturation régulier $35.00/h
+Taux de facturation des heures supplémentaires $35.00/h
+Total facturé au client $1400.00

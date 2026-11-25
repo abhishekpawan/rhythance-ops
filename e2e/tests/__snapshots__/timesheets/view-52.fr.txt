@@ -1,47 +1,47 @@
-Back to List
-Send Email
-Edit Timesheet
-View Timesheet #00000000-0000-4000-8000-000000000052
-Timesheet Overview
-Email Not Sent
-INVOICE NUMBER
+Retour à la liste
+Envoyer un email
+Modifier la feuille de temps
+Voir la feuille de temps #00000000-0000-4000-8000-000000000052
+Aperçu de la feuille de temps
+Email non envoyé
+NUMÉRO DE FACTURE
 #-
-WEEK PERIOD
-2026-11-08 to 2026-11-14
-TOTAL REGULAR HOURS
-40 hrs
-TOTAL OVERTIME HOURS
-10 hrs
-CREATED AT
+PÉRIODE DE LA SEMAINE
+2026-11-08 au 2026-11-14
+TOTAL DES HEURES RÉGULIÈRES
+40 h
+TOTAL DES HEURES SUPPLÉMENTAIRES
+10 h
+CRÉÉ LE
 <date>
-Daily Hours Entry
-DATE HOURS LOGGED
-2026-11-09 10 hrs
-2026-11-10 10 hrs
-2026-11-11 10 hrs
-2026-11-12 10 hrs
-2026-11-13 10 hrs
-Jobseeker Details
-FULL NAME
+Saisie des heures quotidiennes
+DATE HEURES ENREGISTRÉES
+2026-11-09 10 h
+2026-11-10 10 h
+2026-11-11 10 h
+2026-11-12 10 h
+2026-11-13 10 h
+Détails du demandeur d'emploi
+NOM COMPLET
 Sam Sinclair
-PRIMARY EMAIL
+EMAIL PRINCIPAL
 jobseeker.sin@example.test
-BILLING EMAIL
+COURRIEL DE FACTURATION
 -
-PAYMENT METHOD
+MODE DE PAIEMENT
 SIN-Direct Deposit
-Client & Position
-CLIENT NAME
+Client et poste
+NOM DU CLIENT
 -
-POSITION TITLE
+TITRE DU POSTE
 Forklift Operator
-POSITION CODE
+CODE DU POSTE
 NW002
-Jobseeker Pay & Rates
-Regular Pay Rate $20.00/hr
-Overtime Rate $30.00/hr
-Grand Total Pay $1100.00
-Client Billing Summary
-Regular Bill Rate $35.00/hr
-Overtime Bill Rate $52.50/hr
-Total Client Bill $1925.00
+Rémunération et taux du demandeur d'emploi
+Taux de rémunération régulier $20.00/h
+Taux des heures supplémentaires $30.00/h
+Grand total de la rémunération $1100.00
+Résumé de facturation du client
+Taux de facturation régulier $35.00/h
+Taux de facturation des heures supplémentaires $52.50/h
+Total facturé au client $1925.00

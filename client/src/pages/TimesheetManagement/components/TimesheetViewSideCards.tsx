@@ -1,4 +1,5 @@
 import { Building, DollarSign, MapPin, Receipt, User } from "lucide-react";
+import { useLanguage } from "../../../contexts/language/language-provider";
 import type { TimesheetWithJoins } from "../../../services/types/timesheet";
 
 interface TimesheetViewSideCardsProps {
@@ -17,38 +18,50 @@ export function TimesheetViewSideCards({
   fullName,
   positionLocation,
 }: TimesheetViewSideCardsProps) {
+  const { t } = useLanguage();
+  const perHour = t("timesheetView.perHour");
   return (
     <>
       {/* Jobseeker Info Card */}
       <div className="timesheet-view-card">
         <div className="timesheet-view-card-header">
           <h3 className="timesheet-view-card-title">
-            <User size={18} /> Jobseeker Details
+            <User size={18} /> {t("timesheetView.jobseekerDetails")}
           </h3>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Full Name</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetView.fullName")}
+          </span>
           <span className="timesheet-meta-value">{fullName}</span>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Primary Email</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetView.primaryEmail")}
+          </span>
           <span className="timesheet-meta-value">{profile?.email || "-"}</span>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Billing Email</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetForm.employee.billingEmail")}
+          </span>
           <span className="timesheet-meta-value">
             {profile?.billing_email || "-"}
           </span>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Payment Method</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetView.paymentMethod")}
+          </span>
           <span className="timesheet-meta-value">
             {profile?.payment_method || "-"}
           </span>
         </div>
         {profile?.cash_deduction && (
           <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-            <span className="timesheet-meta-label">Cash Deduction</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetView.cashDeduction")}
+            </span>
             <span className="timesheet-meta-value">
               {profile.cash_deduction}%
             </span>
@@ -56,7 +69,9 @@ export function TimesheetViewSideCards({
         )}
         {profile?.hst_gst && (
           <div className="timesheet-meta-item">
-            <span className="timesheet-meta-label">Tax Rate (HST/GST)</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetView.taxRate")}
+            </span>
             <span className="timesheet-meta-value">{profile.hst_gst}%</span>
           </div>
         )}
@@ -66,28 +81,36 @@ export function TimesheetViewSideCards({
       <div className="timesheet-view-card">
         <div className="timesheet-view-card-header">
           <h3 className="timesheet-view-card-title">
-            <Building size={18} /> Client & Position
+            <Building size={18} /> {t("timesheetView.clientAndPosition")}
           </h3>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Client Name</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetForm.clientName")}
+          </span>
           <span className="timesheet-meta-value">
             {position?.client_name || "-"}
           </span>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Position Title</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetForm.positionTitle")}
+          </span>
           <span className="timesheet-meta-value">{position?.title || "-"}</span>
         </div>
         <div className="timesheet-meta-item" style={{ marginBottom: "1rem" }}>
-          <span className="timesheet-meta-label">Position Code</span>
+          <span className="timesheet-meta-label">
+            {t("timesheetForm.positionCode")}
+          </span>
           <span className="timesheet-meta-value">
             {position?.position_code || "-"}
           </span>
         </div>
         {positionLocation && (
           <div className="timesheet-meta-item">
-            <span className="timesheet-meta-label">Location</span>
+            <span className="timesheet-meta-label">
+              {t("timesheetView.location")}
+            </span>
             <span
               className="timesheet-meta-value"
               style={{
@@ -106,36 +129,47 @@ export function TimesheetViewSideCards({
       <div className="timesheet-view-card">
         <div className="timesheet-view-card-header">
           <h3 className="timesheet-view-card-title">
-            <DollarSign size={18} /> Jobseeker Pay & Rates
+            <DollarSign size={18} /> {t("timesheetView.payAndRates")}
           </h3>
         </div>
         <table className="timesheet-pay-summary-table">
           <tbody>
             <tr>
-              <td className="timesheet-pay-summary-label">Regular Pay Rate</td>
+              <td className="timesheet-pay-summary-label">
+                {t("timesheetForm.regularPayRate")}
+              </td>
               <td className="timesheet-pay-summary-value">
-                ${timesheet.regular_pay_rate?.toFixed(2)}/hr
+                ${timesheet.regular_pay_rate?.toFixed(2)}
+                {perHour}
               </td>
             </tr>
             {timesheet.premium_pay_rate > 0 && (
               <tr>
-                <td className="timesheet-pay-summary-label">Premium Rate</td>
+                <td className="timesheet-pay-summary-label">
+                  {t("timesheetView.premiumRate")}
+                </td>
                 <td className="timesheet-pay-summary-value">
-                  ${timesheet.premium_pay_rate?.toFixed(2)}/hr
+                  ${timesheet.premium_pay_rate?.toFixed(2)}
+                  {perHour}
                 </td>
               </tr>
             )}
             {timesheet.overtime_pay_rate > 0 && (
               <tr>
-                <td className="timesheet-pay-summary-label">Overtime Rate</td>
+                <td className="timesheet-pay-summary-label">
+                  {t("timesheetView.overtimeRate")}
+                </td>
                 <td className="timesheet-pay-summary-value">
-                  ${timesheet.overtime_pay_rate?.toFixed(2)}/hr
+                  ${timesheet.overtime_pay_rate?.toFixed(2)}
+                  {perHour}
                 </td>
               </tr>
             )}
             {Number(timesheet.bonus_amount) > 0 ? (
               <tr>
-                <td className="timesheet-pay-summary-label">Bonus</td>
+                <td className="timesheet-pay-summary-label">
+                  {t("timesheetForm.bonus")}
+                </td>
                 <td className="timesheet-pay-summary-value">
                   +${Number(timesheet.bonus_amount).toFixed(2)}
                 </td>
@@ -143,7 +177,9 @@ export function TimesheetViewSideCards({
             ) : null}
             {Number(timesheet.deduction_amount) > 0 ? (
               <tr>
-                <td className="timesheet-pay-summary-label">Deduction</td>
+                <td className="timesheet-pay-summary-label">
+                  {t("timesheetForm.deduction")}
+                </td>
                 <td className="timesheet-pay-summary-value">
                   -${Number(timesheet.deduction_amount).toFixed(2)}
                 </td>
@@ -151,7 +187,9 @@ export function TimesheetViewSideCards({
             ) : null}
             {Number(timesheet.tax_amount) > 0 ? (
               <tr>
-                <td className="timesheet-pay-summary-label">Tax (HST/GST)</td>
+                <td className="timesheet-pay-summary-label">
+                  {t("timesheetForm.taxAmount")}
+                </td>
                 <td className="timesheet-pay-summary-value">
                   +${Number(timesheet.tax_amount).toFixed(2)}
                 </td>
@@ -162,7 +200,7 @@ export function TimesheetViewSideCards({
                 className="timesheet-pay-summary-label"
                 style={{ color: "var(--text)", fontWeight: 700 }}
               >
-                Grand Total Pay
+                {t("timesheetForm.grandTotalPay")}
               </td>
               <td className="timesheet-pay-summary-value">
                 ${timesheet.total_jobseeker_pay?.toFixed(2)}
@@ -177,7 +215,7 @@ export function TimesheetViewSideCards({
         <div className="timesheet-view-card">
           <div className="timesheet-view-card-header">
             <h3 className="timesheet-view-card-title">
-              <Receipt size={18} /> Client Billing Summary
+              <Receipt size={18} /> {t("timesheetView.billingSummary")}
             </h3>
           </div>
           <table className="timesheet-pay-summary-table">
@@ -185,20 +223,22 @@ export function TimesheetViewSideCards({
               {timesheet.regular_bill_rate > 0 && (
                 <tr>
                   <td className="timesheet-pay-summary-label">
-                    Regular Bill Rate
+                    {t("timesheetView.regularBillRate")}
                   </td>
                   <td className="timesheet-pay-summary-value">
-                    ${timesheet.regular_bill_rate?.toFixed(2)}/hr
+                    ${timesheet.regular_bill_rate?.toFixed(2)}
+                    {perHour}
                   </td>
                 </tr>
               )}
               {timesheet.overtime_bill_rate > 0 && (
                 <tr>
                   <td className="timesheet-pay-summary-label">
-                    Overtime Bill Rate
+                    {t("timesheetView.overtimeBillRate")}
                   </td>
                   <td className="timesheet-pay-summary-value">
-                    ${timesheet.overtime_bill_rate?.toFixed(2)}/hr
+                    ${timesheet.overtime_bill_rate?.toFixed(2)}
+                    {perHour}
                   </td>
                 </tr>
               )}
@@ -208,7 +248,7 @@ export function TimesheetViewSideCards({
                     className="timesheet-pay-summary-label"
                     style={{ color: "var(--text)", fontWeight: 700 }}
                   >
-                    Total Client Bill
+                    {t("timesheetView.totalClientBill")}
                   </td>
                   <td className="timesheet-pay-summary-value">
                     ${timesheet.total_client_bill?.toFixed(2)}

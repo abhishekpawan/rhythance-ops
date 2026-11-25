@@ -1,51 +1,51 @@
-Back to List
-Send Email
-Edit Timesheet
-View Timesheet #900003
-Timesheet Overview
-Email Not Sent
-INVOICE NUMBER
+Retour à la liste
+Envoyer un email
+Modifier la feuille de temps
+Voir la feuille de temps #900003
+Aperçu de la feuille de temps
+Email non envoyé
+NUMÉRO DE FACTURE
 #900003
-WEEK PERIOD
-2026-11-08 to 2026-11-14
-TOTAL REGULAR HOURS
-40 hrs
-TOTAL OVERTIME HOURS
-0 hrs
-CREATED AT
+PÉRIODE DE LA SEMAINE
+2026-11-08 au 2026-11-14
+TOTAL DES HEURES RÉGULIÈRES
+40 h
+TOTAL DES HEURES SUPPLÉMENTAIRES
+0 h
+CRÉÉ LE
 <date>
-Daily Hours Entry
-DATE HOURS LOGGED
-2026-11-09 8 hrs
-2026-11-10 8 hrs
-2026-11-11 8 hrs
-2026-11-12 8 hrs
-2026-11-13 8 hrs
-Jobseeker Details
-FULL NAME
+Saisie des heures quotidiennes
+DATE HEURES ENREGISTRÉES
+2026-11-09 8 h
+2026-11-10 8 h
+2026-11-11 8 h
+2026-11-12 8 h
+2026-11-13 8 h
+Détails du demandeur d'emploi
+NOM COMPLET
 Corey Corporate
-PRIMARY EMAIL
+EMAIL PRINCIPAL
 jobseeker.corp@example.test
-BILLING EMAIL
+COURRIEL DE FACTURATION
 -
-PAYMENT METHOD
+MODE DE PAIEMENT
 Corporation-Direct Deposit
-TAX RATE (HST/GST)
+TAUX DE TAXE (TVH/TPS)
 13%%
-Client & Position
-CLIENT NAME
+Client et poste
+NOM DU CLIENT
 -
-POSITION TITLE
+TITRE DU POSTE
 Driver Helper
-POSITION CODE
+CODE DU POSTE
 QL001
-Jobseeker Pay & Rates
-Regular Pay Rate $20.00/hr
-Premium Rate $2.50/hr
-Overtime Rate $20.00/hr
-Tax (HST/GST) +$117.00
-Grand Total Pay $1017.00
-Client Billing Summary
-Regular Bill Rate $35.00/hr
-Overtime Bill Rate $35.00/hr
-Total Client Bill $1400.00
+Rémunération et taux du demandeur d'emploi
+Taux de rémunération régulier $20.00/h
+Taux de prime $2.50/h
+Taux des heures supplémentaires $20.00/h
+Taxe (TVH/TPS) +$117.00
+Grand total de la rémunération $1017.00
+Résumé de facturation du client
+Taux de facturation régulier $35.00/h
+Taux de facturation des heures supplémentaires $35.00/h
+Total facturé au client $1400.00

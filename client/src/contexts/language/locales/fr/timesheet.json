@@ -149,7 +149,9 @@
       "sendEmail": "Envoyer un email",
       "sendToJobseeker": "Envoyer la feuille de temps par email à ce demandeur d'emploi",
       "sendToAll": "Envoyer les feuilles de temps par email à tous les demandeurs d'emploi",
-      "billingEmailNote": "L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal"
+      "billingEmailNote": "L'email sera envoyé à l'adresse de facturation si fournie, sinon à l'email principal",
+      "sendTo": "Envoyer à {{name}}",
+      "resendTo": "Renvoyer à {{name}}"
     },
     "actions": {
       "viewDelete": "Voir • Supprimer",
@@ -263,5 +265,42 @@
       "partialTimesheetsCreated": "⚠️ {{successful}} sur {{total}} feuilles de temps créées avec succès ({{failed}} échouées). Total : {{totalHours}} heures, ${{totalPay}} CAD",
       "allTimesheetsFailed": "❌ Échec de la création de toutes les feuilles de temps. Détails : {{failureDetails}}"
     }
+  },
+  "timesheetView": {
+    "backToList": "Retour à la liste",
+    "downloadPdf": "Télécharger le PDF",
+    "resendEmail": "Renvoyer l'email",
+    "editTimesheet": "Modifier la feuille de temps",
+    "backToTimesheetList": "Retour à la liste des feuilles de temps",
+    "notFound": "Feuille de temps introuvable",
+    "missingId": "L'identifiant de la feuille de temps est manquant.",
+    "loadFailed": "Échec du chargement des détails de la feuille de temps",
+    "sendFailed": "Échec de l'envoi de l'email.",
+    "emailSentFallback": "Email envoyé avec succès.",
+    "unknownJobseeker": "Demandeur d'emploi inconnu",
+    "overview": "Aperçu de la feuille de temps",
+    "weekRange": "{{start}} au {{end}}",
+    "hours": "{{hours}} h",
+    "createdAt": "Créé le",
+    "dailyHoursEntry": "Saisie des heures quotidiennes",
+    "date": "Date",
+    "hoursLogged": "Heures enregistrées",
+    "noDailyHours": "Aucune heure quotidienne enregistrée.",
+    "jobseekerDetails": "Détails du demandeur d'emploi",
+    "fullName": "Nom complet",
+    "primaryEmail": "Email principal",
+    "paymentMethod": "Mode de paiement",
+    "cashDeduction": "Déduction cash",
+    "taxRate": "Taux de taxe (TVH/TPS)",
+    "clientAndPosition": "Client et poste",
+    "location": "Lieu",
+    "payAndRates": "Rémunération et taux du demandeur d'emploi",
+    "premiumRate": "Taux de prime",
+    "overtimeRate": "Taux des heures supplémentaires",
+    "billingSummary": "Résumé de facturation du client",
+    "regularBillRate": "Taux de facturation régulier",
+    "overtimeBillRate": "Taux de facturation des heures supplémentaires",
+    "totalClientBill": "Total facturé au client",
+    "perHour": "/h"
   }
 }

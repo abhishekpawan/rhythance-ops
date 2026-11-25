@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Pencil, Mail, AlertCircle, Download } from "lucide-react";
 import { AppHeader } from "../../components/AppHeader";
@@ -20,6 +20,9 @@ export function TimesheetView() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
+  // read inside the fetch effect without refetching when the language changes
+  const tRef = useRef(t);
+  tRef.current = t;
 
   const timesheetId = paramId || searchParams.get("id");
 
@@ -35,7 +38,7 @@ export function TimesheetView() {
   useEffect(() => {
     const fetchTimesheetDetails = async () => {
       if (!timesheetId) {
-        setError("Timesheet ID is missing.");
+        setError(tRef.current("timesheetView.missingId"));
         setLoading(false);
         return;
       }
@@ -55,7 +58,7 @@ export function TimesheetView() {
         setError(
           err instanceof Error
             ? err.message
-            : "Failed to load timesheet details"
+            : tRef.current("timesheetView.loadFailed")
         );
       } finally {
         setLoading(false);
@@ -91,12 +94,14 @@ export function TimesheetView() {
       setIsSendingEmail(true);
       setError(null);
       const res = await sendTimesheetEmails(timesheetId);
-      setStatusMessage(res.message || "Email sent successfully.");
+      setStatusMessage(res.message || t("timesheetView.emailSentFallback"));
       setTimesheet((prev) => (prev ? { ...prev, email_sent: true } : prev));
       setTimeout(() => setStatusMessage(null), 4000);
     } catch (err) {
       console.error("Error sending timesheet email:", err);
-      setError(err instanceof Error ? err.message : "Failed to send email.");
+      setError(
+        err instanceof Error ? err.message : t("timesheetView.sendFailed")
+      );
       setTimeout(() => setError(null), 4000);
     } finally {
       setIsSendingEmail(false);
@@ -143,13 +148,13 @@ export function TimesheetView() {
               color="#ef4444"
               style={{ marginBottom: "16px" }}
             />
-            <h3>{error || "Timesheet not found"}</h3>
+            <h3>{error || t("timesheetView.notFound")}</h3>
             <button
               className="button secondary"
               style={{ marginTop: "16px" }}
               onClick={() => navigate("/timesheet-management/list")}
             >
-              <ArrowLeft size={16} /> Back to Timesheet List
+              <ArrowLeft size={16} /> {t("timesheetView.backToTimesheetList")}
             </button>
           </div>
         </div>
@@ -162,7 +167,7 @@ export function TimesheetView() {
 
   const fullName = profile
     ? `${profile.first_name || ""} ${profile.last_name || ""}`.trim()
-    : "Unknown Jobseeker";
+    : t("timesheetView.unknownJobseeker");
 
   const dailyHoursList = Array.isArray(timesheet.daily_hours)
     ? timesheet.daily_hours
@@ -175,7 +180,7 @@ export function TimesheetView() {
   return (
     <div className="timesheet-view-page-container">
       <AppHeader
-        title={`View Timesheet #${timesheet.invoice_number || timesheet.id}`}
+        title={`${t("timesheetForm.viewTitle")} #${timesheet.invoice_number || timesheet.id}`}
         statusMessage={statusMessage || error}
         statusType={error ? "error" : "success"}
         actions={
@@ -184,11 +189,11 @@ export function TimesheetView() {
               className="button secondary"
               onClick={() => navigate("/timesheet-management/list")}
             >
-              <ArrowLeft size={16} /> Back to List
+              <ArrowLeft size={16} /> {t("timesheetView.backToList")}
             </button>
             {pdfSignedUrl && (
               <button className="button secondary" onClick={handleDownloadPdf}>
-                <Download size={16} /> Download PDF
+                <Download size={16} /> {t("timesheetView.downloadPdf")}
               </button>
             )}
             <button
@@ -198,13 +203,13 @@ export function TimesheetView() {
             >
               <Mail size={16} />{" "}
               {isSendingEmail
-                ? "Sending..."
+                ? t("bulkTimesheetManagement.email.sending")
                 : timesheet.email_sent
-                  ? "Resend Email"
-                  : "Send Email"}
+                  ? t("timesheetView.resendEmail")
+                  : t("bulkTimesheetManagement.email.sendEmail")}
             </button>
             <button className="button primary" onClick={handleEdit}>
-              <Pencil size={16} /> Edit Timesheet
+              <Pencil size={16} /> {t("timesheetView.editTimesheet")}
             </button>
           </div>
         }
