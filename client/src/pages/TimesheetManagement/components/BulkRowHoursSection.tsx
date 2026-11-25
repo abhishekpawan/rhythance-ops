@@ -4,6 +4,7 @@ import type { PositionWithOvertime } from "../types";
 import type {
   BulkForms,
   BulkRow,
+  BulkRows,
   BulkSelection,
   BulkT,
 } from "./bulkClientTypes";
@@ -11,7 +12,7 @@ import type {
 interface BulkRowHoursSectionProps {
   t: BulkT;
   row: BulkRow;
-  rowsCount: number;
+  rows: BulkRows;
   selectedPosition: BulkSelection["selectedPosition"];
   removeJobseeker: BulkForms["removeJobseeker"];
   updateEntry: BulkForms["updateEntry"];
@@ -23,7 +24,7 @@ interface BulkRowHoursSectionProps {
 export function BulkRowHoursSection({
   t,
   row,
-  rowsCount,
+  rows,
   selectedPosition,
   removeJobseeker,
   updateEntry,
@@ -41,7 +42,7 @@ export function BulkRowHoursSection({
             className="button danger"
             onClick={() => removeJobseeker(row.assignment.id)}
             title={t("bulkTimesheetManagement.buttons.removeJobseeker")}
-            disabled={rowsCount === 1}
+            disabled={rows.length === 1}
           >
             <Minus size={16} />
           </button>

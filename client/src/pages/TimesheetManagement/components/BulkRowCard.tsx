@@ -6,6 +6,7 @@ import { getPayrollPreviewRows } from "../functions/timesheetCalculations";
 import type {
   BulkForms,
   BulkRow,
+  BulkRows,
   BulkSelection,
   BulkT,
   BulkTf,
@@ -15,7 +16,8 @@ interface BulkRowCardProps {
   t: BulkT;
   tf: BulkTf;
   row: BulkRow;
-  rowsCount: number;
+  /** every row of the screen: the last one cannot be removed */
+  rows: BulkRows;
   selectedPosition: BulkSelection["selectedPosition"];
   clientPosition: BulkSelection["clientPosition"];
   posColUnitHeader: string;
@@ -33,7 +35,7 @@ export function BulkRowCard({
   t,
   tf,
   row,
-  rowsCount,
+  rows,
   selectedPosition,
   clientPosition,
   posColUnitHeader,
@@ -60,7 +62,7 @@ export function BulkRowCard({
       <BulkRowHoursSection
         t={t}
         row={row}
-        rowsCount={rowsCount}
+        rows={rows}
         selectedPosition={selectedPosition}
         removeJobseeker={removeJobseeker}
         updateEntry={updateEntry}

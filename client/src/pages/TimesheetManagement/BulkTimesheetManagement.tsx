@@ -250,7 +250,7 @@ export function BulkTimesheetManagement() {
                 t={t}
                 tf={tf}
                 row={row}
-                rowsCount={rows.length}
+                rows={rows}
                 selectedPosition={selectedPosition}
                 clientPosition={clientPosition}
                 posColUnitHeader={posColUnitHeader}
