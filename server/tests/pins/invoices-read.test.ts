@@ -3,8 +3,9 @@
 // Who may call them, worked out from the routes: `authorizeRoles(["admin", "recruiter", "jobseeker"])` lets all
 // nine kinds of account in. Staff read every invoice (the eight staff answers are checked equal and stored once). A
 // jobseeker reads only invoices they made themselves (`created_by_user_id`), and none of the five seeded ones was made
-// by a jobseeker, so a jobseeker gets an empty list and a 404 on every seeded invoice (what a jobseeker sees after
-// making one is in invoices-jobseeker.test.ts). Reads only: nothing here writes.
+// by a jobseeker, so a jobseeker gets an empty list and a 404 on every seeded invoice (what a jobseeker sees of an
+// invoice recorded as theirs is in invoices-jobseeker.test.ts; a jobseeker cannot create one since DEV-7). Reads only:
+// nothing here writes.
 import { describe, expect, it } from "vitest";
 import { noTokenAnswers, pin } from "./module-helpers";
 import { staffAndJobseekers } from "./timesheet-helpers";

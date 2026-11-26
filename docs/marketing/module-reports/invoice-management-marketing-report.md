@@ -78,7 +78,7 @@ Passing `"recruiter"` expands to: `recruiter`, `bookkeeper`, `recruiter_manager`
 |-------|----------|---------|
 | Who can use invoice UI | `admin`, `accountant_manager` only | Broader API access |
 | `bookkeeper`, `recruiter_manager`, `sales`, etc. | **No** invoice UI | Can call most invoice APIs if they have tokens |
-| `jobseeker` | **No** invoice routes | Can create/read/update own drafts via API |
+| `jobseeker` | **No** invoice routes | Can only read invoices they made via API (none); create, update and every other invoice API refused (403) |
 | Delete | Any invoice UI user sees delete button | `authorizeRoles(["admin", "recruiter"])` — not admin-only despite API client comment “Admin only” |
 | Invoice Report | `REPORTS_ROLES` includes bookkeeper, recruiter_director | Reports API uses `admin`, `recruiter` expansion |
 

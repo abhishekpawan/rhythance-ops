@@ -5,8 +5,9 @@
 // roles all count as "recruiter", so every staff account passes a ["admin", "recruiter"] route):
 //   generate-invoice-number, DELETE :id, PATCH :id/document, timesheets-by-client, POST :id/send-email:
 //       admin + recruiter, so all eight staff accounts; a jobseeker gets 403.
-//   GET /, GET :id, POST /, PUT :id: admin + recruiter + jobseeker. A jobseeker reads and updates only invoices they
-//       made themselves (and updates only drafts); they may create any invoice.
+//   POST /, PUT :id: the same since DEV-7 (inbox 79); before it a jobseeker could create any invoice and update
+//       their own drafts.
+//   GET /, GET :id: admin + recruiter + jobseeker. A jobseeker reads only invoices they made themselves.
 import { expect } from "vitest";
 import {
   JOBSEEKERS,
@@ -28,6 +29,7 @@ import {
   mailOf,
   newEmails,
   stampless,
+  userIdOf,
   type Who,
 } from "./timesheet-helpers";
 
@@ -142,15 +144,43 @@ export function invoiceBody(number: string, over: Body = {}): Body {
   };
 }
 
-/** Makes an invoice through the API and returns the stored row as the answer shows it (fails the test when it is not created). */
+/**
+ * Makes an invoice through the API and returns the stored row as the answer shows it (fails the test when it is not
+ * created). For a jobseeker (who may no longer create one, DEV-7) the admin makes it and the database then records the
+ * jobseeker as its author, as the create route stored the invoices jobseekers made before DEV-7 (`asMadeBy`).
+ */
 export async function makeInvoice(who: Who, tag: string, over: Body = {}) {
   const number = (over.invoiceNumber as string | undefined) ?? nextNumber(tag);
-  const r = await call(who, "/api/invoices", {
+  const jobseeker = who.startsWith("js:");
+  const r = await call(jobseeker ? "admin" : who, "/api/invoices", {
     method: "POST",
     body: invoiceBody(number, over),
   });
   expect(r.status, r.text).toBe(201);
-  return r.json.invoice as Record<string, any>;
+  const made = r.json.invoice as Record<string, any>;
+  return jobseeker ? asMadeBy(who, made) : made;
+}
+
+/** Records a jobseeker as the author of an invoice (service key): who made it, who last changed it, the history. */
+async function asMadeBy(who: Who, made: Record<string, any>) {
+  const userId = userIdOf(who);
+  if (!userId) throw new Error(`no user id for ${who}`);
+  const stored = await invoiceRow(made.id);
+  const r = await supabase(`/rest/v1/invoices?id=eq.${made.id}`, {
+    token: serviceKey(),
+    key: serviceKey(),
+    method: "PATCH",
+    body: {
+      created_by_user_id: userId,
+      updated_by_user_id: userId,
+      version_history: stored.version_history.map((v: any) => ({
+        ...v,
+        updated_by: userId,
+      })),
+    },
+  });
+  expect(r.status, r.text).toBeLessThan(300);
+  return { ...made, createdByUserId: userId, updatedByUserId: userId };
 }
 
 // ---- clean-up ---------------------------------------------------------------------------------------------------

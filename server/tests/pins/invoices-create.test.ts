@@ -1,7 +1,7 @@
 // API pins for POST /api/invoices (R-5, recorded on the code as it is, before the split).
 //
-// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter", "jobseeker"])`, so all eight staff
-// accounts and every jobseeker are let in (what a jobseeker can do is in invoices-jobseeker.test.ts). The server stores
+// Who may call it, worked out from the route: `authorizeRoles(["admin", "recruiter"])`, so all eight staff accounts are
+// let in and a jobseeker gets 403 (since DEV-7, inbox 79; pinned in invoices-jobseeker.test.ts). The server stores
 // what the invoice page sends: it checks that the required fields are there and that the client exists, never that the
 // totals add up, so the money is pinned as stored (numeric(12,2): a longer number is rounded by the table). The table
 // refuses what its checks refuse (a negative total, a due date before the invoice date, an unknown status or currency, a

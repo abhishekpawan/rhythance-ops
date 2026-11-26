@@ -1,8 +1,8 @@
 // API pins for PUT /api/invoices/:id (R-5, recorded on the code as it is, before the split).
 //
-// Who may call it: `authorizeRoles(["admin", "recruiter", "jobseeker"])`, so all eight staff accounts and every
-// jobseeker pass the route. A staff account updates ANY invoice, whoever made it and whatever its status (a recruiter
-// updates a paid invoice made by an admin); a jobseeker only their own drafts (invoices-jobseeker.test.ts).
+// Who may call it: `authorizeRoles(["admin", "recruiter"])`, so all eight staff accounts pass the route and a jobseeker
+// gets 403, their own drafts included (since DEV-7, inbox 79; invoices-jobseeker.test.ts). A staff account updates ANY
+// invoice, whoever made it and whatever its status (a recruiter updates a paid invoice made by an admin).
 //
 // What the update does, worked out from the route: each field present in the body is copied to its column (a field
 // that is absent, empty or zero-like is skipped by the `if (x)` fields, kept by the `!== undefined` ones: dates, status,

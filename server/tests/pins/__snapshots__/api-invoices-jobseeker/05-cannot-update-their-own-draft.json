@@ -1,0 +1,7 @@
+{
+  "status": 403,
+  "answer": {
+    "error": "Access denied",
+    "message": "This resource is only accessible to: admin, recruiter"
+  }
+}

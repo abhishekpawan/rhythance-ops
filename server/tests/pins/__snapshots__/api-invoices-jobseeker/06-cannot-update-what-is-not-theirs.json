@@ -1,26 +1,30 @@
 {
   "another jobseeker's draft": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Invoice not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "a staff-made draft": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Invoice not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "a seeded draft (Quebec)": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Invoice not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
   "their own invoice that is sent": {
-    "status": 404,
+    "status": 403,
     "answer": {
-      "error": "Invoice not found or access denied"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   }
 }

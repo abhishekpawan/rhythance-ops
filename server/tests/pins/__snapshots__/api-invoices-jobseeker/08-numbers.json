@@ -1,14 +1,19 @@
 {
-  "the same number by staff": {
-    "status": 500,
+  "a new number by a jobseeker": {
+    "status": 403,
     "answer": {
-      "error": "Failed to create invoice"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   },
+  "the same number by staff after": {
+    "status": 201
+  },
   "a seeded number by a jobseeker": {
-    "status": 500,
+    "status": 403,
     "answer": {
-      "error": "Failed to create invoice"
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
     }
   }
 }

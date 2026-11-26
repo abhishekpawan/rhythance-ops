@@ -682,12 +682,12 @@ router.get(
 /**
  * Create a new invoice
  * POST /api/invoices
- * @access Private (Admin, Recruiter, Jobseeker)
+ * @access Private (Admin, Recruiter)
  */
 router.post(
   "/",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   sanitizeInputs,
   activityLogger({
     onSuccess: async (req: Request, res: Response) => {
@@ -837,12 +837,12 @@ router.post(
 /**
  * Update an existing invoice
  * PUT /api/invoices/:id
- * @access Private (Admin, Recruiter, Jobseeker - own draft invoices only)
+ * @access Private (Admin, Recruiter)
  */
 router.put(
   "/:id",
   authenticateToken,
-  authorizeRoles(["admin", "recruiter", "jobseeker"]),
+  authorizeRoles(["admin", "recruiter"]),
   sanitizeInputs,
   activityLogger({
     onSuccess: async (req: Request, res: Response) => {
