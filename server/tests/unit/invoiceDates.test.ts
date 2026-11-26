@@ -9,7 +9,17 @@
 // `calculateDueDate`), inside the component. They stay where they are in this gate: the journeys in
 // `e2e/tests/invoices-*.spec.ts` cover them through the browser (the request body and the PDF), and R-5s may move
 // them out verbatim, after which these cases can reach them.
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+// The email template reads the portal name through `services/portalSettings.ts`, which exits the process when the
+// Supabase address or key is unset (CI runs the unit step with no environment). Fake local values, set before the
+// imports below run, so the file loads anywhere and `dotenv` never fills them from `server/.env`: the settings read
+// in the background then fails quietly and the name falls back, and no test here depends on it.
+vi.hoisted(() => {
+  process.env.SUPABASE_URL = "http://127.0.0.1:9";
+  process.env.SUPABASE_SERVICE_KEY = "unit-test-fake-key";
+});
+
 import { PAYMENT_TERMS } from "../../../client/src/constants/formOptions";
 import {
   addDaysToDateStr,
