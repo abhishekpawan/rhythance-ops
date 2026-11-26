@@ -1,0 +1,5 @@
+create: /invoice-management/create -> /invoice-management/create
+the page's other address: /invoice-management -> /invoice-management
+list: /invoice-management/list -> /invoice-management/list
+view: /invoice-management/view/00000000-0000-4000-8000-000000000061 -> /invoice-management/view/00000000-0000-4000-8000-000000000061
+view without an id: /invoice-management/view -> /invoice-management/view

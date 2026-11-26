@@ -1,0 +1,29 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Warehouse
+Regular Hours
+40.00
+$35
+HST 13% on $1400.00:
+$182.00
+$1400.00
+Discount
+Regular Hours
+1.00
+$-50
+HST 0% on $-50.00:
+$0.00
+$-50.00
+Total Hours:
+41.00
+Subtotal:
+$1350.00
+Total HST:
+$182.00
+Total Tax:
+$182.00
+Grand Total:
+$1532.00 CAD

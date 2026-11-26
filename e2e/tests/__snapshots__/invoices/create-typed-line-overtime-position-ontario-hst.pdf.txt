@@ -1,0 +1,77 @@
+pages: 1
+page 1: 595.3 x 841.9 pt
+477.3, 802.0: Test Staffing Inc.
+481.2, 788.8: 240
+500.7, 788.8: Humberline Dr
+454.3, 774.8: Etobicoke ON, M9W 5X1
+451.8, 760.8: GST/HST No. 825183387
+40.0, 713.0: Bill To:
+40.0, 688.0: Northwind Test Staffing Client
+40.0, 671.2: 1
+48.3, 671.2: Test Street
+40.0, 657.2: Toronto
+40.0, 643.2: ON
+40.0, 629.2: M5V 0A1
+40.0, 615.2: nora.north@example.test
+318.3, 713.0: Invoice Details:
+318.3, 691.6: Invoice #:
+521.9, 691.6: <number>
+318.3, 675.6: Invoice Date:
+496.0, 675.6: Nov 17, 2026
+318.3, 659.6: Due Date:
+495.8, 659.6: Dec 17, 2026
+318.3, 643.6: Term:
+525.8, 643.6: Net 30
+200.7, 562.3: From
+231.0, 562.3: 17th Nov 2026
+307.8, 562.3: to
+321.3, 562.3: 17th Dec 2026
+62.6, 521.1: Position Name
+193.0, 521.1: Candidate
+309.6, 521.1: Description
+416.1, 521.1: Hours
+473.0, 521.1: Rate
+518.2, 521.1: Amount
+64.8, 494.0: Forklift Operator
+191.9, 494.0: Sam Sinclair
+276.0, 494.0: Typed by hand - Regular Hours
+419.2, 494.0: 40.00
+470.0, 494.0: $
+475.0, 494.0: 35.00
+518.4, 494.0: $
+523.4, 494.0: 1400.00
+64.8, 463.1: Forklift Operator
+191.9, 463.1: Sam Sinclair
+284.4, 463.1: Typed by hand - Overtime
+284.4, 453.2: Hours
+421.7, 463.1: 5.00
+470.0, 463.1: $
+475.0, 463.1: 52.50
+520.9, 463.1: $
+525.9, 463.1: 262.50
+40.0, 196.7: Item Summary:
+40.0, 174.4: Forklift Operator - 2
+117.8, 174.4: ,
+122.8, 174.4: Total Hrs:
+162.8, 174.4: 45.00
+318.3, 194.6: Positions:
+549.7, 194.6: 2
+318.3, 176.6: Total Hours:
+530.3, 176.6: 45.00
+318.3, 158.6: Subtotal:
+513.6, 158.6: $
+519.1, 158.6: 1662.50
+318.3, 140.6: HST @
+354.1, 140.6: 13.00
+379.1, 140.6: %:
+519.1, 140.6: $
+524.7, 140.6: 216.13
+318.3, 122.6: Total Tax:
+519.1, 122.6: $
+524.7, 122.6: 216.13
+318.3, 104.6: Grand Total:
+513.6, 104.6: $
+519.1, 104.6: 1878.63
+30.0, 70.4: We appreciate your business and look forward to helping you again soon.
+30.0, 56.6: Interest is payable at 24% annually after the agreed terms.
+524.7, 21.6: Page 1 of 1

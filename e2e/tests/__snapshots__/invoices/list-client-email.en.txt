@@ -1,0 +1,4 @@
+TABLE 1
+HEADER: Invoice # | Client | Client Email | Invoice Date Select Range | Due Date Select Range | Payment Terms All Due on Receipt Net 15 Net 22 Net 30 Net 45 Net 60 Net 65 Net 90 | Total Amount Subtotal + Tax | Invoice Emailed All Yes No | Send Email Send • Resend | Actions View • Edit • Delete
+ROW: # 900006 | Northwind Test Staffing Client | nora.north@example.test | Nov 12, 2026 | Dec 12, 2026 | N/A | $2118.75 | No | Send Email | 
+ROW: # 900001 | Northwind Test Staffing Client | nora.north@example.test | Nov 10, 2026 | Dec 10, 2026 | N/A | $4746.00 | Yes | Resend | 

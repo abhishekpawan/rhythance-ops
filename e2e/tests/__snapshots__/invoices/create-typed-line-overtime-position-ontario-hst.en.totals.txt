@@ -1,0 +1,29 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Forklift Operator
+Regular Hours- Sam Sinclair - Typed by hand
+40.00
+$35
+HST 13% on $1400.00:
+$182.00
+$1400.00
+Forklift Operator
+Overtime Hours- Sam Sinclair - Typed by hand
+5.00
+$52.5
+HST 13% on $262.50:
+$34.13
+$262.50
+Total Hours:
+45.00
+Subtotal:
+$1662.50
+Total HST:
+$216.13
+Total Tax:
+$216.13
+Grand Total:
+$1878.63 CAD

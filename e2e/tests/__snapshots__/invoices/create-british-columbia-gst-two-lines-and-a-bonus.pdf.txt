@@ -1,0 +1,86 @@
+pages: 1
+page 1: 595.3 x 841.9 pt
+477.3, 802.0: Test Staffing Inc.
+481.2, 788.8: 240
+500.7, 788.8: Humberline Dr
+454.3, 774.8: Etobicoke ON, M9W 5X1
+451.8, 760.8: GST/HST No. 825183387
+40.0, 713.0: Bill To:
+40.0, 688.0: Pacific Test Warehousing Client
+40.0, 671.2: 3
+48.3, 671.2: Test Road
+40.0, 657.2: Vancouver
+40.0, 643.2: BC
+40.0, 629.2: V6B 1A1
+40.0, 615.2: paige.pacific@example.test
+318.3, 713.0: Invoice Details:
+318.3, 691.6: Invoice #:
+521.9, 691.6: <number>
+318.3, 675.6: Invoice Date:
+496.0, 675.6: Nov 17, 2026
+318.3, 659.6: Due Date:
+495.8, 659.6: Dec 17, 2026
+318.3, 643.6: Term:
+525.8, 643.6: Net 30
+203.0, 562.3: From
+233.3, 562.3: 25th Oct 2026
+307.9, 562.3: to
+321.4, 562.3: 31st Oct 2026
+62.6, 521.1: Position Name
+193.0, 521.1: Candidate
+309.6, 521.1: Description
+416.1, 521.1: Hours
+473.0, 521.1: Rate
+518.2, 521.1: Amount
+83.2, 494.0: Loader
+191.6, 494.0: Ely Etransfer
+276.6, 494.0: Work period: Oct 25 – Oct 31,
+276.6, 484.1: 2026 - Regular Hours
+419.2, 494.0: 30.00
+470.0, 494.0: $
+475.0, 494.0: 35.00
+518.4, 494.0: $
+523.4, 494.0: 1050.00
+83.2, 452.2: Loader
+191.6, 452.2: Ely Etransfer
+276.6, 452.2: Work period: Oct 25 – Oct 31,
+276.6, 442.3: 2026 - Regular Hours
+419.2, 452.2: 10.00
+470.0, 452.2: $
+475.0, 452.2: 35.00
+520.9, 452.2: $
+525.9, 452.2: 350.00
+83.2, 411.4: Loader
+191.6, 411.4: Ely Etransfer
+291.4, 411.4: Bonus - Regular Hours
+421.7, 411.4: 1.00
+470.0, 411.4: $
+475.0, 411.4: 50.00
+523.4, 411.4: $
+528.4, 411.4: 50.00
+40.0, 196.7: Item Summary:
+40.0, 174.4: Loader - 3
+81.0, 174.4: ,
+86.0, 174.4: Total Hrs:
+126.0, 174.4: 41.00
+318.3, 194.6: Positions:
+549.7, 194.6: 3
+318.3, 176.6: Total Hours:
+530.3, 176.6: 41.00
+318.3, 158.6: Subtotal:
+513.6, 158.6: $
+519.1, 158.6: 1450.00
+318.3, 140.6: GST @
+354.6, 140.6: 5.00
+374.1, 140.6: %:
+524.7, 140.6: $
+530.3, 140.6: 72.50
+318.3, 122.6: Total Tax:
+524.7, 122.6: $
+530.3, 122.6: 72.50
+318.3, 104.6: Grand Total:
+513.6, 104.6: $
+519.1, 104.6: 1522.50
+30.0, 70.4: We appreciate your business and look forward to helping you again soon.
+30.0, 56.6: Interest is payable at 24% annually after the agreed terms.
+524.7, 21.6: Page 1 of 1

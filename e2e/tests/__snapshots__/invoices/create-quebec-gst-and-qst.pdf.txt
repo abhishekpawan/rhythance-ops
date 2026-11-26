@@ -1,0 +1,74 @@
+pages: 1
+page 1: 595.3 x 841.9 pt
+477.3, 802.0: Test Staffing Inc.
+481.2, 788.8: 240
+500.7, 788.8: Humberline Dr
+454.3, 774.8: Etobicoke ON, M9W 5X1
+451.8, 760.8: GST/HST No. 825183387
+40.0, 713.0: Bill To:
+40.0, 688.0: Quebec Test Logistics Client
+40.0, 671.2: 2
+48.3, 671.2: Test Avenue
+40.0, 657.2: Montreal
+40.0, 643.2: QC
+40.0, 629.2: H2Y 1A1
+40.0, 615.2: quentin.quebec@example.test
+318.3, 713.0: Invoice Details:
+318.3, 691.6: Invoice #:
+521.9, 691.6: <number>
+318.3, 675.6: Invoice Date:
+496.0, 675.6: Nov 17, 2026
+318.3, 659.6: Due Date:
+501.4, 659.6: Dec 2, 2026
+318.3, 643.6: Term:
+525.8, 643.6: Net 15
+203.5, 562.3: From
+233.9, 562.3: 8th Nov 2026
+304.6, 562.3: to
+318.0, 562.3: 14th Nov 2026
+62.6, 521.1: Position Name
+193.0, 521.1: Candidate
+309.6, 521.1: Description
+416.1, 521.1: Hours
+473.0, 521.1: Rate
+518.2, 521.1: Amount
+70.7, 494.0: Driver Helper
+183.9, 494.0: Corey Corporate
+277.2, 494.0: Work period: Nov 8 – Nov 14,
+277.2, 484.1: 2026 - Regular Hours
+419.2, 494.0: 40.00
+470.0, 494.0: $
+475.0, 494.0: 35.00
+518.4, 494.0: $
+523.4, 494.0: 1400.00
+40.0, 214.7: Item Summary:
+40.0, 192.4: Driver Helper - 1
+105.9, 192.4: ,
+110.9, 192.4: Total Hrs:
+150.9, 192.4: 40.00
+318.3, 212.6: Positions:
+549.7, 212.6: 1
+318.3, 194.6: Total Hours:
+530.3, 194.6: 40.00
+318.3, 176.6: Subtotal:
+513.6, 176.6: $
+519.1, 176.6: 1400.00
+318.3, 158.6: GST @
+354.6, 158.6: 5.00
+374.1, 158.6: %:
+524.7, 158.6: $
+530.3, 158.6: 70.00
+318.3, 140.6: QST @
+354.6, 140.6: 9.97
+374.1, 140.6: %:
+519.1, 140.6: $
+524.7, 140.6: 139.65
+318.3, 122.6: Total Tax:
+519.1, 122.6: $
+524.7, 122.6: 209.65
+318.3, 104.6: Grand Total:
+513.6, 104.6: $
+519.1, 104.6: 1609.65
+30.0, 70.4: We appreciate your business and look forward to helping you again soon.
+30.0, 56.6: Interest is payable at 24% annually after the agreed terms.
+524.7, 21.6: Page 1 of 1

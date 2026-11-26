@@ -1,0 +1,29 @@
+DESCRIPTION
+HEURES
+TAUX
+TAXE
+MONTANT
+Warehouse
+Regular Hours
+40.00
+$35
+HST 13% on $1400.00:
+$182.00
+$1400.00
+Discount
+Regular Hours
+1.00
+$-50
+HST 0% on $-50.00:
+$0.00
+$-50.00
+Total des heures:
+41.00
+Sous-total:
+$1350.00
+TVH totale:
+$182.00
+Taxe totale:
+$182.00
+Total général:
+$1532.00 CAD

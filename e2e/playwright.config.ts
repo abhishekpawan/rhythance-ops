@@ -19,7 +19,11 @@ export default defineConfig({
     { name: "setup", testMatch: /auth\.setup\.ts/ },
     {
       name: "journeys",
-      testIgnore: [/auth\.setup\.ts/, /timesheets-.*\.spec\.ts/],
+      testIgnore: [
+        /auth\.setup\.ts/,
+        /timesheets-.*\.spec\.ts/,
+        /invoices-.*\.spec\.ts/,
+      ],
       dependencies: ["setup"],
     },
     // The Timesheets journeys write timesheets (removed after each test, with the dates they move) and read the list of
@@ -40,6 +44,19 @@ export default defineConfig({
       name: "timesheets-list-view",
       testMatch: /timesheets-list-view\.spec\.ts/,
       dependencies: ["timesheets-bulk"],
+    },
+    // The Invoices journeys write invoices (and files in the invoices bucket, removed after each test) and the list reads
+    // all of them: like the Timesheets files, each is a project that waits for the one before, the first for the
+    // Timesheets journeys (an invoice write moves the clients' and jobseekers' last-activity dates too).
+    {
+      name: "invoices-create",
+      testMatch: /invoices-create\.spec\.ts/,
+      dependencies: ["timesheets-list-view"],
+    },
+    {
+      name: "invoices-list-view",
+      testMatch: /invoices-list-view\.spec\.ts/,
+      dependencies: ["invoices-create"],
     },
   ],
   // a missing snapshot is a failure on CI, never a silent write

@@ -1,0 +1,43 @@
+DESCRIPTION
+HEURES
+TAUX
+TAXE
+MONTANT
+Warehouse Associate
+Regular Hours- Sam Sinclair - Work period: Nov 1 – Nov 7, 2026
+40.00
+$35
+HST 13% on $1400.00:
+$182.00
+$1400.00
+Warehouse Associate
+Regular Hours- Casey Cashman - Work period: Nov 1 – Nov 7, 2026
+40.00
+$35
+HST 13% on $1400.00:
+$182.00
+$1400.00
+Warehouse Associate
+Regular Hours- Hana Hybrid - Work period: Nov 1 – Nov 7, 2026
+20.00
+$35
+HST 13% on $700.00:
+$91.00
+$700.00
+Warehouse Associate
+Regular Hours- Hana Hybrid - Work period: Nov 1 – Nov 7, 2026
+20.00
+$35
+HST 13% on $700.00:
+$91.00
+$700.00
+Total des heures:
+120.00
+Sous-total:
+$4200.00
+TVH totale:
+$546.00
+Taxe totale:
+$546.00
+Total général:
+$4746.00 CAD

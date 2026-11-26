@@ -1,0 +1,5 @@
+create: /invoice-management/create -> /onboarding-consent
+the page's other address: /invoice-management -> /onboarding-consent
+list: /invoice-management/list -> /onboarding-consent
+view: /invoice-management/view/00000000-0000-4000-8000-000000000061 -> /onboarding-consent
+view without an id: /invoice-management/view -> /onboarding-consent

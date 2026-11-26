@@ -1,0 +1,22 @@
+DESCRIPTION
+HEURES
+TAUX
+TAXE
+MONTANT
+Odd cent
+Regular Hours
+0.50
+$22.55
+HST 13% on $11.28:
+$1.47
+$11.28
+Total des heures:
+0.50
+Sous-total:
+$11.28
+TVH totale:
+$1.47
+Taxe totale:
+$1.47
+Total général:
+$12.74 CAD

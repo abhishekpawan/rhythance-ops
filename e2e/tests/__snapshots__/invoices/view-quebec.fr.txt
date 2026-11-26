@@ -1,0 +1,41 @@
+Retour
+Modifier la facture
+Send Email
+Voir la facture #900003
+Invoice #900003
+Draft / Not Sent
+Overview & Dates
+INVOICE NUMBER
+#900003
+INVOICE DATE
+Nov 17, 2026
+DUE DATE
+Dec 2, 2026
+PAYMENT TERMS
+Net 30
+Invoice Line Items (1)
+Description Hours Bill Rate Tax Rate Line Total
+— 40.00 hrs $0.00 / hr 14.975% [QC] $1400.00
+Messages & Terms
+INTERNAL NOTES
+Synthetic invoice, Quebec GST and QST.
+Client Information
+Quebec Test Logistics Client
+Code: QL
+COMPLETE ADDRESS
+2 Test Avenue, Montreal, QC, H2Y 1A1
+CLIENT EMAIL
+quentin.quebec@example.test
+Financial Summary
+Total Billable Hours
+40.00 hrs
+Subtotal
+$1400.00
+GST
+$70.00
+QST
+$139.65
+Total Tax
+$209.65
+Grand Total
+$1609.65

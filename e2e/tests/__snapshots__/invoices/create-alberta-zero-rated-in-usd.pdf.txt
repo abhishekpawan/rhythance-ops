@@ -1,0 +1,64 @@
+pages: 1
+page 1: 595.3 x 841.9 pt
+477.3, 802.0: Test Staffing Inc.
+481.2, 788.8: 240
+500.7, 788.8: Humberline Dr
+454.3, 774.8: Etobicoke ON, M9W 5X1
+451.8, 760.8: GST/HST No. 825183387
+40.0, 713.0: Bill To:
+40.0, 688.0: Prairie Test Foods Client
+40.0, 671.2: 4
+48.3, 671.2: Test Lane
+40.0, 657.2: Calgary
+40.0, 643.2: AB
+40.0, 629.2: T2P 1A1
+40.0, 615.2: pat.prairie@example.test
+318.3, 713.0: Invoice Details:
+318.3, 691.6: Invoice #:
+521.9, 691.6: <number>
+318.3, 675.6: Invoice Date:
+496.0, 675.6: Nov 17, 2026
+318.3, 659.6: Due Date:
+503.2, 659.6: Jan 1, 2027
+318.3, 643.6: Term:
+525.8, 643.6: Net 45
+200.9, 562.3: From
+231.2, 562.3: 20th Sep 2026
+307.6, 562.3: to
+321.1, 562.3: 26th Sep 2026
+62.6, 521.1: Position Name
+193.0, 521.1: Candidate
+309.6, 521.1: Description
+416.1, 521.1: Hours
+473.0, 521.1: Rate
+518.2, 521.1: Amount
+62.4, 494.0: Line Cook Helper
+191.9, 494.0: Sam Sinclair
+276.0, 494.0: Work period: Sep 20 – Sep 26,
+276.0, 484.1: 2026 - Regular Hours
+419.2, 494.0: 40.00
+470.0, 494.0: $
+475.0, 494.0: 35.00
+518.4, 494.0: $
+523.4, 494.0: 1400.00
+40.0, 178.7: Item Summary:
+40.0, 156.4: Line Cook Helper - 1
+122.5, 156.4: ,
+127.5, 156.4: Total Hrs:
+167.5, 156.4: 40.00
+318.3, 176.6: Positions:
+549.7, 176.6: 1
+318.3, 158.6: Total Hours:
+530.3, 158.6: 40.00
+318.3, 140.6: Subtotal:
+513.6, 140.6: $
+519.1, 140.6: 1400.00
+318.3, 122.6: Total Tax:
+530.3, 122.6: $
+535.8, 122.6: 0.00
+318.3, 104.6: Grand Total:
+513.6, 104.6: $
+519.1, 104.6: 1400.00
+30.0, 70.4: We appreciate your business and look forward to helping you again soon.
+30.0, 56.6: Interest is payable at 24% annually after the agreed terms.
+524.7, 21.6: Page 1 of 1

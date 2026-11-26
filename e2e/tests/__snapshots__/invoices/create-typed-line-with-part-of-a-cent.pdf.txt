@@ -1,0 +1,59 @@
+pages: 1
+page 1: 595.3 x 841.9 pt
+477.3, 802.0: Test Staffing Inc.
+481.2, 788.8: 240
+500.7, 788.8: Humberline Dr
+454.3, 774.8: Etobicoke ON, M9W 5X1
+451.8, 760.8: GST/HST No. 825183387
+40.0, 713.0: Bill To:
+40.0, 688.0: Northwind Test Staffing Client
+40.0, 671.2: 1
+48.3, 671.2: Test Street
+40.0, 657.2: Toronto
+40.0, 643.2: ON
+40.0, 629.2: M5V 0A1
+40.0, 615.2: nora.north@example.test
+318.3, 713.0: Invoice Details:
+318.3, 691.6: Invoice #:
+521.9, 691.6: <number>
+318.3, 675.6: Invoice Date:
+496.0, 675.6: Nov 17, 2026
+318.3, 659.6: Due Date:
+495.8, 659.6: Dec 17, 2026
+318.3, 643.6: Term:
+525.8, 643.6: Net 30
+200.7, 562.3: From
+231.0, 562.3: 17th Nov 2026
+307.8, 562.3: to
+321.3, 562.3: 17th Dec 2026
+149.6, 521.1: Description
+349.4, 521.1: Hours
+433.0, 521.1: Rate
+504.9, 521.1: Amount
+125.9, 494.0: Odd cent - Regular Hours
+355.0, 494.0: 0.50
+430.0, 494.0: $
+435.0, 494.0: 22.55
+510.0, 494.0: $
+515.0, 494.0: 11.28
+318.3, 194.6: Items:
+549.7, 194.6: 1
+318.3, 176.6: Total Hours:
+535.8, 176.6: 0.50
+318.3, 158.6: Subtotal:
+524.7, 158.6: $
+530.3, 158.6: 11.28
+318.3, 140.6: HST @
+354.1, 140.6: 13.00
+379.1, 140.6: %:
+530.3, 140.6: $
+535.8, 140.6: 1.47
+318.3, 122.6: Total Tax:
+530.3, 122.6: $
+535.8, 122.6: 1.47
+318.3, 104.6: Grand Total:
+524.7, 104.6: $
+530.3, 104.6: 12.74
+30.0, 70.4: We appreciate your business and look forward to helping you again soon.
+30.0, 56.6: Interest is payable at 24% annually after the agreed terms.
+524.7, 21.6: Page 1 of 1

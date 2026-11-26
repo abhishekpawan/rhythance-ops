@@ -1,0 +1,20 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Line Cook Helper
+Regular Hours- Sam Sinclair - Work period: Sep 20 – Sep 26, 2026
+40.00
+$35
+HST 0% on $1400.00:
+$0.00
+$1400.00
+Total Hours:
+40.00
+Subtotal:
+$1400.00
+Total Tax:
+$0.00
+Grand Total:
+$1400.00 USD

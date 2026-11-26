@@ -1,0 +1,37 @@
+Retour
+Modifier la facture
+Resend Email
+Voir la facture #900005
+Invoice #900005
+Emailed
+Overview & Dates
+INVOICE NUMBER
+#900005
+INVOICE DATE
+Sep 28, 2026
+DUE DATE
+Nov 12, 2026
+PAYMENT TERMS
+Net 30
+Invoice Line Items (1)
+Description Hours Bill Rate Tax Rate Line Total
+— 40.00 hrs $0.00 / hr 0.00% [ZERO RATED] $1400.00
+Messages & Terms
+INTERNAL NOTES
+Synthetic invoice, zero rated, USD.
+Client Information
+Prairie Test Foods Client
+Code: PF
+COMPLETE ADDRESS
+4 Test Lane, Calgary, AB, T2P 1A1
+CLIENT EMAIL
+pat.prairie@example.test
+Financial Summary
+Total Billable Hours
+40.00 hrs
+Subtotal
+$1400.00
+Total Tax
+$0.00
+Grand Total
+$1400.00

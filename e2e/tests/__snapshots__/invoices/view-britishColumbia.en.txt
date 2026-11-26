@@ -1,0 +1,40 @@
+Back
+Edit Invoice
+Resend Email
+View Invoice #900004
+Invoice #900004
+Emailed
+Overview & Dates
+INVOICE NUMBER
+#900004
+INVOICE DATE
+Nov 2, 2026
+DUE DATE
+Dec 2, 2026
+PAYMENT TERMS
+Net 30
+Invoice Line Items (2)
+Description Hours Bill Rate Tax Rate Line Total
+— 30.00 hrs $0.00 / hr 5.00% [BC] $1050.00
+— 10.00 hrs $0.00 / hr 5.00% [BC] $350.00
+Messages & Terms
+INTERNAL NOTES
+Synthetic invoice, British Columbia GST.
+Client Information
+Pacific Test Warehousing Client
+Code: PW
+COMPLETE ADDRESS
+3 Test Road, Vancouver, BC, V6B 1A1
+CLIENT EMAIL
+paige.pacific@example.test
+Financial Summary
+Total Billable Hours
+40.00 hrs
+Subtotal
+$1400.00
+GST
+$70.00
+Total Tax
+$70.00
+Grand Total
+$1470.00

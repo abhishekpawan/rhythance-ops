@@ -1,0 +1,22 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Odd cent
+Regular Hours
+0.50
+$22.55
+HST 13% on $11.28:
+$1.47
+$11.28
+Total Hours:
+0.50
+Subtotal:
+$11.28
+Total HST:
+$1.47
+Total Tax:
+$1.47
+Grand Total:
+$12.74 CAD

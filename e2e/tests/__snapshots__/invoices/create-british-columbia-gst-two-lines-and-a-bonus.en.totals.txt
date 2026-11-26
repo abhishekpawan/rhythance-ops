@@ -1,0 +1,36 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Loader
+Regular Hours- Ely Etransfer - Work period: Oct 25 – Oct 31, 2026
+30.00
+$35
+GST 5% on $1050.00:
+$52.50
+$1050.00
+Loader
+Regular Hours- Ely Etransfer - Work period: Oct 25 – Oct 31, 2026
+10.00
+$35
+GST 5% on $350.00:
+$17.50
+$350.00
+Loader
+Regular Hours- Ely Etransfer - Bonus
+1.00
+$50
+GST 5% on $50.00:
+$2.50
+$50.00
+Total Hours:
+41.00
+Subtotal:
+$1450.00
+Total GST:
+$72.50
+Total Tax:
+$72.50
+Grand Total:
+$1522.50 CAD

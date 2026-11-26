@@ -1,0 +1,29 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Forklift Operator
+Regular Hours- Sam Sinclair - Work period: Nov 8 – Nov 14, 2026
+40.00
+$35
+HST 13% on $1400.00:
+$182.00
+$1400.00
+Forklift Operator
+Overtime Hours- Sam Sinclair - Work period: Nov 8 – Nov 14, 2026
+10.00
+$52.5
+HST 13% on $525.00:
+$68.25
+$525.00
+Total Hours:
+50.00
+Subtotal:
+$1925.00
+Total HST:
+$250.25
+Total Tax:
+$250.25
+Grand Total:
+$2175.25 CAD

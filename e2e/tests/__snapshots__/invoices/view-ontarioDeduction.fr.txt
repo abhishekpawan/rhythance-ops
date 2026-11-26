@@ -1,0 +1,46 @@
+Retour
+Modifier la facture
+Send Email
+Voir la facture #900006
+Invoice #900006
+Draft / Not Sent
+Overview & Dates
+INVOICE NUMBER
+#900006
+INVOICE DATE
+Nov 12, 2026
+DUE DATE
+Dec 12, 2026
+PAYMENT TERMS
+Net 30
+Invoice Line Items (2)
+Position / Candidate Description Hours Bill Rate Tax Rate Line Total
+Forklift Operator
+Candidate: Sam Sinclair
+Forklift week 50.00 hrs
+(10.00 OT)
+$35.00 / hr 13.00% [ON] $1925.00
+Forklift Operator
+Candidate: Sam Sinclair
+Equipment deduction 0.00 hrs $-50.00 / hr 13.00% [ON] $-50.00
+Messages & Terms
+INTERNAL NOTES
+Synthetic invoice with a deduction line.
+Client Information
+Northwind Test Staffing Client
+Code: NW
+COMPLETE ADDRESS
+1 Test Street, Toronto, ON, M5V 0A1
+CLIENT EMAIL
+nora.north@example.test
+Financial Summary
+Total Billable Hours
+50.00 hrs
+Subtotal
+$1875.00
+HST
+$243.75
+Total Tax
+$243.75
+Grand Total
+$2118.75

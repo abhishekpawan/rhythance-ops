@@ -1,0 +1,26 @@
+DESCRIPTION
+HOURS
+RATE
+TAX
+AMOUNT
+Driver Helper
+Regular Hours- Corey Corporate - Work period: Nov 8 – Nov 14, 2026
+40.00
+$35
+GST 5% on $1400.00:
+QST 9.975% on $1400.00:
+$70.00
+$139.65
+$1400.00
+Total Hours:
+40.00
+Subtotal:
+$1400.00
+Total GST:
+$70.00
+Total QST:
+$139.65
+Total Tax:
+$209.65
+Grand Total:
+$1609.65 CAD

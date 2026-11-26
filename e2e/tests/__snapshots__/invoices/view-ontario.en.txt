@@ -1,0 +1,42 @@
+Back
+Edit Invoice
+Resend Email
+View Invoice #900001
+Invoice #900001
+Emailed
+Overview & Dates
+INVOICE NUMBER
+#900001
+INVOICE DATE
+Nov 10, 2026
+DUE DATE
+Dec 10, 2026
+PAYMENT TERMS
+Net 30
+Invoice Line Items (4)
+Description Hours Bill Rate Tax Rate Line Total
+— 40.00 hrs $0.00 / hr 13.00% [ON] $1400.00
+— 40.00 hrs $0.00 / hr 13.00% [ON] $1400.00
+— 20.00 hrs $0.00 / hr 13.00% [ON] $700.00
+— 20.00 hrs $0.00 / hr 13.00% [ON] $700.00
+Messages & Terms
+INTERNAL NOTES
+Synthetic invoice, Ontario HST.
+Client Information
+Northwind Test Staffing Client
+Code: NW
+COMPLETE ADDRESS
+1 Test Street, Toronto, ON, M5V 0A1
+CLIENT EMAIL
+nora.north@example.test
+Financial Summary
+Total Billable Hours
+120.00 hrs
+Subtotal
+$4200.00
+HST
+$546.00
+Total Tax
+$546.00
+Grand Total
+$4746.00
