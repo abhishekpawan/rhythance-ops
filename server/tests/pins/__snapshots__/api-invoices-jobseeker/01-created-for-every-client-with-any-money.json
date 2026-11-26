@@ -1,0 +1,306 @@
+{
+  "northwind": {
+    "status": 201,
+    "stored": {
+      "invoice_number": "<number>",
+      "invoice_date": "2026-11-17",
+      "due_date": "2026-12-17",
+      "status": "paid",
+      "currency": "USD",
+      "client_id": "00000000-0000-4000-8000-000000000021",
+      "subtotal": 999999.99,
+      "total_tax": 0,
+      "total_hst": 0,
+      "total_gst": 0,
+      "total_qst": 0,
+      "grand_total": 1,
+      "total_hours": 40,
+      "email_sent": false,
+      "email_sent_date": null,
+      "invoice_sent_to": null,
+      "document_generated": false,
+      "document_path": null,
+      "document_file_name": null,
+      "document_file_size": null,
+      "document_mime_type": null,
+      "document_generated_at": null,
+      "invoice_data": {
+        "client": {
+          "id": "00000000-0000-4000-8000-000000000021",
+          "shortCode": "NW",
+          "companyName": "Northwind Test Staffing Client"
+        },
+        "summary": {
+          "currency": "CAD",
+          "subtotal": 1400,
+          "totalTax": 182,
+          "grandTotal": 1582,
+          "totalHours": 40
+        },
+        "timesheets": [
+          {
+            "id": "line-1",
+            "salesTax": "13.00% [ON]",
+            "description": "Work period: Nov 8 – Nov 14, 2026",
+            "weekEndDate": "2026-11-14",
+            "weekStartDate": "2026-11-08",
+            "regularBillRate": 35,
+            "totalClientBill": 1400,
+            "overtimeBillRate": 35,
+            "totalRegularHours": 40,
+            "totalOvertimeHours": 0
+          }
+        ],
+        "attachments": [],
+        "paymentTerms": "Net 30",
+        "termsOnInvoice": "",
+        "supplierPOItems": [],
+        "messageOnInvoice": ""
+      },
+      "search_vector": "<search text>",
+      "notes": "R5-PIN",
+      "created_at": "<timestamp>",
+      "created_by_user_id": "<who>",
+      "updated_at": "<timestamp>",
+      "updated_by_user_id": "<who>",
+      "version": 1,
+      "version_history": [
+        {
+          "action": "created",
+          "version": 1,
+          "updated_at": "<timestamp>",
+          "updated_by": "<who>"
+        }
+      ],
+      "id": "<id>"
+    }
+  },
+  "quebec": {
+    "status": 201,
+    "stored": {
+      "invoice_number": "<number>",
+      "invoice_date": "2026-11-17",
+      "due_date": "2026-12-17",
+      "status": "paid",
+      "currency": "USD",
+      "client_id": "00000000-0000-4000-8000-000000000022",
+      "subtotal": 999999.99,
+      "total_tax": 0,
+      "total_hst": 0,
+      "total_gst": 0,
+      "total_qst": 0,
+      "grand_total": 1,
+      "total_hours": 40,
+      "email_sent": false,
+      "email_sent_date": null,
+      "invoice_sent_to": null,
+      "document_generated": false,
+      "document_path": null,
+      "document_file_name": null,
+      "document_file_size": null,
+      "document_mime_type": null,
+      "document_generated_at": null,
+      "invoice_data": {
+        "client": {
+          "id": "00000000-0000-4000-8000-000000000021",
+          "shortCode": "NW",
+          "companyName": "Northwind Test Staffing Client"
+        },
+        "summary": {
+          "currency": "CAD",
+          "subtotal": 1400,
+          "totalTax": 182,
+          "grandTotal": 1582,
+          "totalHours": 40
+        },
+        "timesheets": [
+          {
+            "id": "line-1",
+            "salesTax": "13.00% [ON]",
+            "description": "Work period: Nov 8 – Nov 14, 2026",
+            "weekEndDate": "2026-11-14",
+            "weekStartDate": "2026-11-08",
+            "regularBillRate": 35,
+            "totalClientBill": 1400,
+            "overtimeBillRate": 35,
+            "totalRegularHours": 40,
+            "totalOvertimeHours": 0
+          }
+        ],
+        "attachments": [],
+        "paymentTerms": "Net 30",
+        "termsOnInvoice": "",
+        "supplierPOItems": [],
+        "messageOnInvoice": ""
+      },
+      "search_vector": "<search text>",
+      "notes": "R5-PIN",
+      "created_at": "<timestamp>",
+      "created_by_user_id": "<who>",
+      "updated_at": "<timestamp>",
+      "updated_by_user_id": "<who>",
+      "version": 1,
+      "version_history": [
+        {
+          "action": "created",
+          "version": 1,
+          "updated_at": "<timestamp>",
+          "updated_by": "<who>"
+        }
+      ],
+      "id": "<id>"
+    }
+  },
+  "pacific": {
+    "status": 201,
+    "stored": {
+      "invoice_number": "<number>",
+      "invoice_date": "2026-11-17",
+      "due_date": "2026-12-17",
+      "status": "paid",
+      "currency": "USD",
+      "client_id": "00000000-0000-4000-8000-000000000023",
+      "subtotal": 999999.99,
+      "total_tax": 0,
+      "total_hst": 0,
+      "total_gst": 0,
+      "total_qst": 0,
+      "grand_total": 1,
+      "total_hours": 40,
+      "email_sent": false,
+      "email_sent_date": null,
+      "invoice_sent_to": null,
+      "document_generated": false,
+      "document_path": null,
+      "document_file_name": null,
+      "document_file_size": null,
+      "document_mime_type": null,
+      "document_generated_at": null,
+      "invoice_data": {
+        "client": {
+          "id": "00000000-0000-4000-8000-000000000021",
+          "shortCode": "NW",
+          "companyName": "Northwind Test Staffing Client"
+        },
+        "summary": {
+          "currency": "CAD",
+          "subtotal": 1400,
+          "totalTax": 182,
+          "grandTotal": 1582,
+          "totalHours": 40
+        },
+        "timesheets": [
+          {
+            "id": "line-1",
+            "salesTax": "13.00% [ON]",
+            "description": "Work period: Nov 8 – Nov 14, 2026",
+            "weekEndDate": "2026-11-14",
+            "weekStartDate": "2026-11-08",
+            "regularBillRate": 35,
+            "totalClientBill": 1400,
+            "overtimeBillRate": 35,
+            "totalRegularHours": 40,
+            "totalOvertimeHours": 0
+          }
+        ],
+        "attachments": [],
+        "paymentTerms": "Net 30",
+        "termsOnInvoice": "",
+        "supplierPOItems": [],
+        "messageOnInvoice": ""
+      },
+      "search_vector": "<search text>",
+      "notes": "R5-PIN",
+      "created_at": "<timestamp>",
+      "created_by_user_id": "<who>",
+      "updated_at": "<timestamp>",
+      "updated_by_user_id": "<who>",
+      "version": 1,
+      "version_history": [
+        {
+          "action": "created",
+          "version": 1,
+          "updated_at": "<timestamp>",
+          "updated_by": "<who>"
+        }
+      ],
+      "id": "<id>"
+    }
+  },
+  "prairie": {
+    "status": 201,
+    "stored": {
+      "invoice_number": "<number>",
+      "invoice_date": "2026-11-17",
+      "due_date": "2026-12-17",
+      "status": "paid",
+      "currency": "USD",
+      "client_id": "00000000-0000-4000-8000-000000000024",
+      "subtotal": 999999.99,
+      "total_tax": 0,
+      "total_hst": 0,
+      "total_gst": 0,
+      "total_qst": 0,
+      "grand_total": 1,
+      "total_hours": 40,
+      "email_sent": false,
+      "email_sent_date": null,
+      "invoice_sent_to": null,
+      "document_generated": false,
+      "document_path": null,
+      "document_file_name": null,
+      "document_file_size": null,
+      "document_mime_type": null,
+      "document_generated_at": null,
+      "invoice_data": {
+        "client": {
+          "id": "00000000-0000-4000-8000-000000000021",
+          "shortCode": "NW",
+          "companyName": "Northwind Test Staffing Client"
+        },
+        "summary": {
+          "currency": "CAD",
+          "subtotal": 1400,
+          "totalTax": 182,
+          "grandTotal": 1582,
+          "totalHours": 40
+        },
+        "timesheets": [
+          {
+            "id": "line-1",
+            "salesTax": "13.00% [ON]",
+            "description": "Work period: Nov 8 – Nov 14, 2026",
+            "weekEndDate": "2026-11-14",
+            "weekStartDate": "2026-11-08",
+            "regularBillRate": 35,
+            "totalClientBill": 1400,
+            "overtimeBillRate": 35,
+            "totalRegularHours": 40,
+            "totalOvertimeHours": 0
+          }
+        ],
+        "attachments": [],
+        "paymentTerms": "Net 30",
+        "termsOnInvoice": "",
+        "supplierPOItems": [],
+        "messageOnInvoice": ""
+      },
+      "search_vector": "<search text>",
+      "notes": "R5-PIN",
+      "created_at": "<timestamp>",
+      "created_by_user_id": "<who>",
+      "updated_at": "<timestamp>",
+      "updated_by_user_id": "<who>",
+      "version": 1,
+      "version_history": [
+        {
+          "action": "created",
+          "version": 1,
+          "updated_at": "<timestamp>",
+          "updated_by": "<who>"
+        }
+      ],
+      "id": "<id>"
+    }
+  }
+}

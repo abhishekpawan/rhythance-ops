@@ -1,0 +1,18 @@
+{
+  "roles": [
+    "admin",
+    "superadmin",
+    "recruiter",
+    "bookkeeper",
+    "recruiter_manager",
+    "accountant_manager",
+    "sales",
+    "recruiter_director"
+  ],
+  "status": 200,
+  "answer": {
+    "success": true,
+    "message": "Invoice deleted successfully",
+    "deletedId": "<id>"
+  }
+}

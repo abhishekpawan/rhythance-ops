@@ -1,0 +1,47 @@
+{
+  "query": "?startDate=2026-11-01&endDate=2026-11-30",
+  "status": 200,
+  "answer": {
+    "success": true,
+    "timesheets": [
+      {
+        "id": "00000000-0000-4000-8000-000000000056",
+        "jobseekerProfileId": "00000000-0000-4000-8000-000000000044",
+        "jobseekerUserId": "00000000-0000-4000-8000-000000000014",
+        "positionId": "00000000-0000-4000-8000-000000000034",
+        "weekStartDate": "2026-11-08",
+        "weekEndDate": "2026-11-14",
+        "totalRegularHours": 40,
+        "totalOvertimeHours": 0,
+        "regularPayRate": 20,
+        "premiumPayRate": 2.5,
+        "regularBillRate": 35,
+        "overtimePayRate": 20,
+        "overtimeBillRate": 35,
+        "totalJobseekerPay": 1017,
+        "totalClientBill": 1400,
+        "overtimeEnabled": false,
+        "bonusAmount": 0,
+        "deductionAmount": 0,
+        "invoiceNumber": "900003",
+        "isBulk": false,
+        "bulkBreakdown": [],
+        "position": {
+          "id": "00000000-0000-4000-8000-000000000034",
+          "title": "Driver Helper",
+          "positionCode": "QL001",
+          "positionNumber": null,
+          "clientId": "00000000-0000-4000-8000-000000000022"
+        },
+        "jobseekerProfile": {
+          "id": "00000000-0000-4000-8000-000000000044",
+          "firstName": "Corey",
+          "lastName": "Corporate",
+          "email": "jobseeker.corp@example.test",
+          "employeeId": "E-0014"
+        }
+      }
+    ],
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "no such client": {
+    "status": 400,
+    "answer": {
+      "error": "Invalid client ID"
+    }
+  },
+  "not an id": {
+    "status": 400,
+    "answer": {
+      "error": "Invalid client ID"
+    }
+  }
+}

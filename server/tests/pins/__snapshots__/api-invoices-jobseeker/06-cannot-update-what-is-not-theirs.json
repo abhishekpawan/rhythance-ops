@@ -1,0 +1,26 @@
+{
+  "another jobseeker's draft": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found or access denied"
+    }
+  },
+  "a staff-made draft": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found or access denied"
+    }
+  },
+  "a seeded draft (Quebec)": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found or access denied"
+    }
+  },
+  "their own invoice that is sent": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found or access denied"
+    }
+  }
+}

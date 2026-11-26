@@ -1,0 +1,92 @@
+{
+  "a negative subtotal": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a negative tax": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a negative grand total": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "negative hours": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "the due date before the invoice date": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a date that is not a date": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a status the table does not know": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a currency the table does not know": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a number of eleven characters": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a number that is taken": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "sent with no date and address": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "an address that is not an address": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "the three tax split fields left out (the table needs them, the page always sends them)": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "money that is not a number": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "more than the table holds": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  }
+}

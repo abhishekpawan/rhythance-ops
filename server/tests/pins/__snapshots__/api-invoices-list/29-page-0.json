@@ -1,0 +1,120 @@
+{
+  "query": "?page=0&limit=2",
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "invoices": [],
+      "pagination": {
+        "page": 0,
+        "limit": 2,
+        "total": 5,
+        "totalFiltered": 5,
+        "totalPages": 3,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 0,
+          "limit": 2,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "cash": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 0,
+          "limit": 2,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 0,
+          "limit": 2,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "corp": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 0,
+          "limit": 2,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybridEt": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 0,
+          "limit": 2,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "signup": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 0,
+          "limit": 2,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    }
+  }
+}

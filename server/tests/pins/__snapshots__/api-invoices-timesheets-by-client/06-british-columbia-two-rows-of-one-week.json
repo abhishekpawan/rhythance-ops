@@ -1,0 +1,84 @@
+{
+  "query": "?startDate=2026-10-01&endDate=2026-10-31",
+  "status": 200,
+  "answer": {
+    "success": true,
+    "timesheets": [
+      {
+        "id": "00000000-0000-4000-8000-000000000057",
+        "jobseekerProfileId": "00000000-0000-4000-8000-000000000045",
+        "jobseekerUserId": "00000000-0000-4000-8000-000000000015",
+        "positionId": "00000000-0000-4000-8000-000000000035",
+        "weekStartDate": "2026-10-25",
+        "weekEndDate": "2026-10-31",
+        "totalRegularHours": 30,
+        "totalOvertimeHours": 0,
+        "regularPayRate": 20,
+        "premiumPayRate": 0,
+        "regularBillRate": 35,
+        "overtimePayRate": 20,
+        "overtimeBillRate": 35,
+        "totalJobseekerPay": 650,
+        "totalClientBill": 1050,
+        "overtimeEnabled": false,
+        "bonusAmount": 50,
+        "deductionAmount": 0,
+        "invoiceNumber": "900004",
+        "isBulk": false,
+        "bulkBreakdown": [],
+        "position": {
+          "id": "00000000-0000-4000-8000-000000000035",
+          "title": "Loader",
+          "positionCode": "PW001",
+          "positionNumber": null,
+          "clientId": "00000000-0000-4000-8000-000000000023"
+        },
+        "jobseekerProfile": {
+          "id": "00000000-0000-4000-8000-000000000045",
+          "firstName": "Ely",
+          "lastName": "Etransfer",
+          "email": "jobseeker.hybrid.et@example.test",
+          "employeeId": "E-0015"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000058",
+        "jobseekerProfileId": "00000000-0000-4000-8000-000000000045",
+        "jobseekerUserId": "00000000-0000-4000-8000-000000000015",
+        "positionId": "00000000-0000-4000-8000-000000000035",
+        "weekStartDate": "2026-10-25",
+        "weekEndDate": "2026-10-31",
+        "totalRegularHours": 10,
+        "totalOvertimeHours": 0,
+        "regularPayRate": 20,
+        "premiumPayRate": 0,
+        "regularBillRate": 35,
+        "overtimePayRate": 20,
+        "overtimeBillRate": 35,
+        "totalJobseekerPay": 190,
+        "totalClientBill": 350,
+        "overtimeEnabled": false,
+        "bonusAmount": 0,
+        "deductionAmount": 0,
+        "invoiceNumber": "900004",
+        "isBulk": false,
+        "bulkBreakdown": [],
+        "position": {
+          "id": "00000000-0000-4000-8000-000000000035",
+          "title": "Loader",
+          "positionCode": "PW001",
+          "positionNumber": null,
+          "clientId": "00000000-0000-4000-8000-000000000023"
+        },
+        "jobseekerProfile": {
+          "id": "00000000-0000-4000-8000-000000000045",
+          "firstName": "Ely",
+          "lastName": "Etransfer",
+          "email": "jobseeker.hybrid.et@example.test",
+          "employeeId": "E-0015"
+        }
+      }
+    ],
+    "count": 2
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "a number": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "a client's timesheets": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "delete their own": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "record a document on their own": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "send their own": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  }
+}

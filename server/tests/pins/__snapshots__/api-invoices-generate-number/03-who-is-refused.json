@@ -1,0 +1,21 @@
+{
+  "jobseeker": {
+    "status": 403,
+    "answer": {
+      "error": "Access denied",
+      "message": "This resource is only accessible to: admin, recruiter"
+    }
+  },
+  "noToken": {
+    "status": 401,
+    "answer": {
+      "error": "Missing authentication token"
+    }
+  },
+  "badToken": {
+    "status": 403,
+    "answer": {
+      "error": "Invalid or expired token"
+    }
+  }
+}

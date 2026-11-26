@@ -1,0 +1,8 @@
+{
+  "nothing taken": "000001",
+  "after 000001": "000002",
+  "after 000001 and 000002": "000003",
+  "after 000001, 000002 and INV-000003 (the prefix is read)": "000004",
+  "after 000001 is deleted (the gap is filled)": "000001",
+  "after a number that is not digits": "000001"
+}

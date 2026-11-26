@@ -1,0 +1,83 @@
+{
+  "query": "?startDate=2024-01-01&endDate=2025-12-31",
+  "answer": {
+    "success": true,
+    "timesheets": [
+      {
+        "id": "<uuid>",
+        "jobseekerProfileId": "00000000-0000-4000-8000-000000000041",
+        "jobseekerUserId": "00000000-0000-4000-8000-000000000011",
+        "positionId": "00000000-0000-4000-8000-000000000031",
+        "weekStartDate": "2024-10-13",
+        "weekEndDate": "2024-10-19",
+        "totalRegularHours": 40,
+        "totalOvertimeHours": 10,
+        "regularPayRate": 20,
+        "premiumPayRate": 0,
+        "regularBillRate": 35,
+        "overtimePayRate": 30,
+        "overtimeBillRate": 52.5,
+        "totalJobseekerPay": 1100,
+        "totalClientBill": 1925,
+        "overtimeEnabled": true,
+        "bonusAmount": 0,
+        "deductionAmount": 0,
+        "invoiceNumber": "R5OT",
+        "isBulk": false,
+        "bulkBreakdown": [],
+        "position": {
+          "id": "00000000-0000-4000-8000-000000000031",
+          "title": "Warehouse Associate",
+          "positionCode": "NW001",
+          "positionNumber": null,
+          "clientId": "00000000-0000-4000-8000-000000000021"
+        },
+        "jobseekerProfile": {
+          "id": "00000000-0000-4000-8000-000000000041",
+          "firstName": "Sam",
+          "lastName": "Sinclair",
+          "email": "jobseeker.sin@example.test",
+          "employeeId": "E-0011"
+        }
+      },
+      {
+        "id": "<uuid>",
+        "jobseekerProfileId": "00000000-0000-4000-8000-000000000042",
+        "jobseekerUserId": "00000000-0000-4000-8000-000000000012",
+        "positionId": "00000000-0000-4000-8000-000000000031",
+        "weekStartDate": "2024-10-13",
+        "weekEndDate": "2024-10-19",
+        "totalRegularHours": 40,
+        "totalOvertimeHours": 0,
+        "regularPayRate": 20,
+        "premiumPayRate": 0,
+        "regularBillRate": 35,
+        "overtimePayRate": 20,
+        "overtimeBillRate": 35,
+        "totalJobseekerPay": 829.5,
+        "totalClientBill": 1450,
+        "overtimeEnabled": false,
+        "bonusAmount": 50,
+        "deductionAmount": 20.5,
+        "invoiceNumber": "R5BD",
+        "isBulk": false,
+        "bulkBreakdown": [],
+        "position": {
+          "id": "00000000-0000-4000-8000-000000000031",
+          "title": "Warehouse Associate",
+          "positionCode": "NW001",
+          "positionNumber": null,
+          "clientId": "00000000-0000-4000-8000-000000000021"
+        },
+        "jobseekerProfile": {
+          "id": "00000000-0000-4000-8000-000000000042",
+          "firstName": "Casey",
+          "lastName": "Cashman",
+          "email": "jobseeker.cash@example.test",
+          "employeeId": "E-0012"
+        }
+      }
+    ],
+    "count": 2
+  }
+}

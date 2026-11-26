@@ -1,0 +1,32 @@
+{
+  "no path": {
+    "status": 400,
+    "answer": {
+      "error": "Document path is required"
+    }
+  },
+  "an empty path": {
+    "status": 400,
+    "answer": {
+      "error": "Document path is required"
+    }
+  },
+  "an empty body": {
+    "status": 400,
+    "answer": {
+      "error": "Document path is required"
+    }
+  },
+  "an id nobody has": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found"
+    }
+  },
+  "not an id": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found"
+    }
+  }
+}

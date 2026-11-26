@@ -1,0 +1,20 @@
+{
+  "js:sin": {
+    "status": 201
+  },
+  "js:cash": {
+    "status": 201
+  },
+  "js:hybrid": {
+    "status": 201
+  },
+  "js:corp": {
+    "status": 201
+  },
+  "js:hybridEt": {
+    "status": 201
+  },
+  "js:signup": {
+    "status": 201
+  }
+}

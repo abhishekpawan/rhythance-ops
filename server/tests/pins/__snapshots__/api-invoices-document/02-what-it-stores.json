@@ -1,0 +1,68 @@
+{
+  "a path only": {
+    "status": 200,
+    "columns": {
+      "document_generated": false,
+      "document_path": "some/path.pdf",
+      "document_file_name": null,
+      "document_file_size": null,
+      "document_mime_type": null
+    },
+    "generatedAt": "<now>"
+  },
+  "a path and the flag": {
+    "status": 200,
+    "columns": {
+      "document_generated": true,
+      "document_path": "some/path.pdf",
+      "document_file_name": null,
+      "document_file_size": null,
+      "document_mime_type": null
+    },
+    "generatedAt": "<now>"
+  },
+  "no generated date (the time of the call is stored)": {
+    "status": 200,
+    "columns": {
+      "document_generated": true,
+      "document_path": "00000000-0000-4000-8000-000000000001/N/documents/Invoice_N_Northwind.pdf",
+      "document_file_name": "Invoice_N_Northwind.pdf",
+      "document_file_size": 18432,
+      "document_mime_type": "application/pdf"
+    },
+    "generatedAt": "<now>"
+  },
+  "the flag false": {
+    "status": 200,
+    "columns": {
+      "document_generated": false,
+      "document_path": "00000000-0000-4000-8000-000000000001/N/documents/Invoice_N_Northwind.pdf",
+      "document_file_name": "Invoice_N_Northwind.pdf",
+      "document_file_size": 18432,
+      "document_mime_type": "application/pdf"
+    },
+    "generatedAt": "2026-11-17T15:30:00+00:00"
+  },
+  "a size of zero": {
+    "status": 200,
+    "columns": {
+      "document_generated": true,
+      "document_path": "00000000-0000-4000-8000-000000000001/N/documents/Invoice_N_Northwind.pdf",
+      "document_file_name": "Invoice_N_Northwind.pdf",
+      "document_file_size": 0,
+      "document_mime_type": "application/pdf"
+    },
+    "generatedAt": "2026-11-17T15:30:00+00:00"
+  },
+  "a mime type left out (it is stored empty)": {
+    "status": 200,
+    "columns": {
+      "document_generated": true,
+      "document_path": "00000000-0000-4000-8000-000000000001/N/documents/Invoice_N_Northwind.pdf",
+      "document_file_name": "Invoice_N_Northwind.pdf",
+      "document_file_size": 18432,
+      "document_mime_type": null
+    },
+    "generatedAt": "2026-11-17T15:30:00+00:00"
+  }
+}

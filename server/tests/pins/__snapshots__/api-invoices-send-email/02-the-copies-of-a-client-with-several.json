@@ -1,0 +1,17 @@
+{
+  "to": [
+    "casey.copy@example.test"
+  ],
+  "subject": "Invoice #<number> for R5-PIN Copy Client",
+  "hasHtml": true,
+  "hasText": true,
+  "cc": [
+    "accounts@example.test",
+    "billing@example.test",
+    "second@example.test",
+    "dispatch@example.test"
+  ],
+  "attachments": [
+    "Invoice_<number>.pdf"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "answer": {
+    "invoiceNumber": "<number>",
+    "invoiceDate": "2026-11-17",
+    "dueDate": "2026-12-17",
+    "status": "draft",
+    "currency": "CAD",
+    "clientId": "00000000-0000-4000-8000-000000000023",
+    "subtotal": 1400,
+    "totalTax": 70,
+    "totalHst": 0,
+    "totalGst": 70,
+    "totalQst": 0,
+    "grandTotal": 1470,
+    "totalHours": 40,
+    "emailSent": false,
+    "emailSentDate": null,
+    "invoiceSentTo": null,
+    "documentGenerated": false,
+    "documentPath": null,
+    "documentFileName": null,
+    "documentFileSize": null,
+    "documentMimeType": null,
+    "documentGeneratedAt": null,
+    "invoiceData": {
+      "client": {
+        "id": "00000000-0000-4000-8000-000000000021",
+        "shortCode": "NW",
+        "companyName": "Northwind Test Staffing Client"
+      },
+      "summary": {
+        "currency": "CAD",
+        "subtotal": 1400,
+        "totalTax": 182,
+        "grandTotal": 1582,
+        "totalHours": 40
+      },
+      "timesheets": [
+        {
+          "id": "line-1",
+          "salesTax": "13.00% [ON]",
+          "description": "Work period: Nov 8 – Nov 14, 2026",
+          "weekEndDate": "2026-11-14",
+          "weekStartDate": "2026-11-08",
+          "regularBillRate": 35,
+          "totalClientBill": 1400,
+          "overtimeBillRate": 35,
+          "totalRegularHours": 40,
+          "totalOvertimeHours": 0
+        }
+      ],
+      "attachments": [],
+      "paymentTerms": "Net 30",
+      "termsOnInvoice": "",
+      "supplierPOItems": [],
+      "messageOnInvoice": ""
+    },
+    "searchVector": "<search text>",
+    "notes": "R5-PIN",
+    "createdAt": "<timestamp>",
+    "createdByUserId": "<who>",
+    "updatedAt": "<timestamp>",
+    "updatedByUserId": "<who>",
+    "version": 1,
+    "versionHistory": [
+      {
+        "action": "created",
+        "version": 1,
+        "updated_at": "<timestamp>",
+        "updated_by": "<who>"
+      }
+    ],
+    "id": "<id>"
+  },
+  "money": {
+    "subtotal": 1400,
+    "total_tax": 70,
+    "total_hst": 0,
+    "total_gst": 70,
+    "total_qst": 0,
+    "grand_total": 1470,
+    "total_hours": 40,
+    "currency": "CAD",
+    "client_id": "00000000-0000-4000-8000-000000000023",
+    "due_date": "2026-12-17"
+  }
+}

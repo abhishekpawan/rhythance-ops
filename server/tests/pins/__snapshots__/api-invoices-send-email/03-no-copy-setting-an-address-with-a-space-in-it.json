@@ -1,0 +1,22 @@
+{
+  "status": 200,
+  "answer": {
+    "success": true,
+    "message": "Invoice email sent successfully"
+  },
+  "message": {
+    "to": [
+      "not an address@example.test"
+    ],
+    "subject": "Invoice #<number> for Northwind Test Staffing Client",
+    "hasHtml": true,
+    "hasText": true,
+    "cc": [],
+    "attachments": [
+      "Invoice_<number>.pdf"
+    ]
+  },
+  "stored": {
+    "email_sent": false
+  }
+}

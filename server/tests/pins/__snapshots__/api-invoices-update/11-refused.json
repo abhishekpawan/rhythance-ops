@@ -1,0 +1,56 @@
+{
+  "no such client": {
+    "status": 400,
+    "answer": {
+      "error": "Invalid client ID"
+    }
+  },
+  "a client that is not an id": {
+    "status": 400,
+    "answer": {
+      "error": "Invalid client ID"
+    }
+  },
+  "a status the table does not know": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  },
+  "a currency the table does not know": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  },
+  "a negative total": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  },
+  "the due date before the invoice date": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  },
+  "sent with no date": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  },
+  "the document flag with no path": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  },
+  "money that is not a number": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to update invoice"
+    }
+  }
+}

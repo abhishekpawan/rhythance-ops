@@ -1,0 +1,209 @@
+{
+  "query": "?searchTerm=%20900004%20",
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 200,
+    "answer": {
+      "invoices": [
+        {
+          "id": "00000000-0000-4000-8000-000000000063",
+          "invoiceNumber": "900004",
+          "invoiceDate": "2026-11-02",
+          "dueDate": "2026-12-02",
+          "status": "paid",
+          "currency": "CAD",
+          "clientId": "00000000-0000-4000-8000-000000000023",
+          "subtotal": 1400,
+          "totalTax": 70,
+          "totalHst": 0,
+          "totalGst": 70,
+          "totalQst": 0,
+          "grandTotal": 1470,
+          "totalHours": 40,
+          "emailSent": true,
+          "emailSentDate": "2026-11-02T15:00:00+00:00",
+          "invoiceSentTo": "paige.pacific@example.test",
+          "documentGenerated": false,
+          "documentPath": null,
+          "documentFileName": null,
+          "documentFileSize": null,
+          "documentMimeType": "application/pdf",
+          "documentGeneratedAt": null,
+          "invoiceData": {
+            "client": {
+              "id": "00000000-0000-4000-8000-000000000023",
+              "shortCode": "PW",
+              "companyName": "Pacific Test Warehousing Client"
+            },
+            "timesheets": [
+              {
+                "position": {
+                  "positionId": "00000000-0000-4000-8000-000000000035"
+                },
+                "salesTax": "5.00% [BC]",
+                "timesheetId": "00000000-0000-4000-8000-000000000057",
+                "weekEndDate": "2026-10-31",
+                "weekStartDate": "2026-10-25",
+                "totalClientBill": 1050,
+                "jobseekerProfile": {
+                  "jobseekerProfileId": "00000000-0000-4000-8000-000000000045"
+                },
+                "linePaymentMethod": "SIN-Direct Deposit",
+                "totalJobseekerPay": 650,
+                "totalRegularHours": 30,
+                "totalOvertimeHours": 0
+              },
+              {
+                "position": {
+                  "positionId": "00000000-0000-4000-8000-000000000035"
+                },
+                "salesTax": "5.00% [BC]",
+                "timesheetId": "00000000-0000-4000-8000-000000000058",
+                "weekEndDate": "2026-10-31",
+                "weekStartDate": "2026-10-25",
+                "totalClientBill": 350,
+                "jobseekerProfile": {
+                  "jobseekerProfileId": "00000000-0000-4000-8000-000000000045"
+                },
+                "linePaymentMethod": "e-Transfer",
+                "totalJobseekerPay": 190,
+                "totalRegularHours": 10,
+                "totalOvertimeHours": 0
+              }
+            ],
+            "timesheetEndDate": "2026-10-31",
+            "timesheetStartDate": "2026-10-25"
+          },
+          "searchVector": "'900004':1 'client':5 'pacif':2 'pw':6 'test':3 'wareh':4",
+          "notes": "Synthetic invoice, British Columbia GST.",
+          "createdAt": "2026-11-02T14:00:00+00:00",
+          "createdByUserId": "00000000-0000-4000-8000-000000000004",
+          "updatedAt": "2026-11-02T14:00:00+00:00",
+          "updatedByUserId": "00000000-0000-4000-8000-000000000004",
+          "version": 1,
+          "versionHistory": [],
+          "client": {
+            "id": "00000000-0000-4000-8000-000000000023",
+            "city1": "Vancouver",
+            "province1": "BC",
+            "short_code": "PW",
+            "company_name": "Pacific Test Warehousing Client",
+            "postal_code1": "V6B 1A1",
+            "email_address1": "paige.pacific@example.test",
+            "street_address1": "3 Test Road"
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 5,
+        "totalFiltered": 1,
+        "totalPages": 1,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "cash": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybrid": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "corp": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "hybridEt": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    },
+    "signup": {
+      "status": 200,
+      "answer": {
+        "invoices": [],
+        "pagination": {
+          "page": 1,
+          "limit": 10,
+          "total": 0,
+          "totalFiltered": 0,
+          "totalPages": 0,
+          "hasNextPage": false,
+          "hasPrevPage": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "no dates": {
+    "status": 400,
+    "answer": {
+      "error": "Start date and end date are required"
+    }
+  },
+  "no start": {
+    "status": 400,
+    "answer": {
+      "error": "Start date and end date are required"
+    }
+  },
+  "no end": {
+    "status": 400,
+    "answer": {
+      "error": "Start date and end date are required"
+    }
+  },
+  "empty dates": {
+    "status": 400,
+    "answer": {
+      "error": "Start date and end date are required"
+    }
+  },
+  "not a uuid": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to fetch timesheets"
+    }
+  },
+  "dates that are not dates": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to fetch timesheets"
+    }
+  }
+}

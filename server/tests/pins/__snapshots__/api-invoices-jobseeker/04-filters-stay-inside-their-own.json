@@ -1,0 +1,36 @@
+{
+  "?searchTerm=900001": {
+    "status": 200,
+    "invoices": []
+  },
+  "?searchTerm=Northwind": {
+    "status": 200,
+    "invoices": [
+      "their own"
+    ]
+  },
+  "?searchTerm=%25,created_by_user_id.neq.00000000-0000-4000-8000-000000000011": {
+    "status": 200,
+    "invoices": []
+  },
+  "?searchTerm=a),created_by_user_id.neq.x,(b": {
+    "status": 200,
+    "invoices": []
+  },
+  "?clientFilter=Northwind": {
+    "status": 200,
+    "invoices": [
+      "their own"
+    ]
+  },
+  "?invoiceNumberFilter=9": {
+    "status": 200,
+    "invoices": []
+  },
+  "?limit=1000": {
+    "status": 200,
+    "invoices": [
+      "their own"
+    ]
+  }
+}

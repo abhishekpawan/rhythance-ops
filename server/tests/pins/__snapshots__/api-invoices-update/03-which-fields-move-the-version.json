@@ -1,0 +1,75 @@
+{
+  "the grand total only": {
+    "status": 200,
+    "version": 2,
+    "history": 2,
+    "changed": {
+      "grand_total": 1600
+    }
+  },
+  "the invoice data only": {
+    "status": 200,
+    "version": 2,
+    "history": 2,
+    "changed": {
+      "invoice_data": {
+        "client": {
+          "id": "00000000-0000-4000-8000-000000000021"
+        },
+        "timesheets": []
+      }
+    }
+  },
+  "the status only": {
+    "status": 200,
+    "version": 2,
+    "history": 2,
+    "changed": {
+      "status": "sent"
+    }
+  },
+  "the due date only": {
+    "status": 200,
+    "version": 2,
+    "history": 2,
+    "changed": {
+      "due_date": "2026-12-30"
+    }
+  },
+  "a document path only": {
+    "status": 200,
+    "version": 2,
+    "history": 2,
+    "changed": {
+      "document_path": "x/y.pdf"
+    }
+  },
+  "the sent flag only": {
+    "status": 200,
+    "version": 1,
+    "history": 1,
+    "changed": {
+      "email_sent": true,
+      "email_sent_date": "2026-11-18T15:00:00+00:00",
+      "invoice_sent_to": "nora.north@example.test"
+    }
+  },
+  "the notes only": {
+    "status": 200,
+    "version": 1,
+    "history": 1,
+    "changed": {}
+  },
+  "an empty body": {
+    "status": 200,
+    "version": 1,
+    "history": 1,
+    "changed": {}
+  },
+  "a field the update does not know": {
+    "status": 200,
+    "version": 1,
+    "history": 1,
+    "changed": {}
+  }
+}

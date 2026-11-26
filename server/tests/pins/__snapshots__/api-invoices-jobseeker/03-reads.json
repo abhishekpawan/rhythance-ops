@@ -1,0 +1,66 @@
+{
+  "list": {
+    "admin": {
+      "invoices": [
+        "admin's",
+        "cash's",
+        "sin's",
+        "900003",
+        "900006",
+        "900001",
+        "900004",
+        "900005"
+      ],
+      "pagination": {
+        "total": 8,
+        "totalFiltered": 8
+      }
+    },
+    "js:sin": {
+      "invoices": [
+        "sin's"
+      ],
+      "pagination": {
+        "total": 1,
+        "totalFiltered": 1
+      }
+    },
+    "js:cash": {
+      "invoices": [
+        "cash's"
+      ],
+      "pagination": {
+        "total": 1,
+        "totalFiltered": 1
+      }
+    },
+    "js:hybrid": {
+      "invoices": [],
+      "pagination": {
+        "total": 0,
+        "totalFiltered": 0
+      }
+    },
+    "js:signup": {
+      "invoices": [],
+      "pagination": {
+        "total": 0,
+        "totalFiltered": 0
+      }
+    }
+  },
+  "byId": {
+    "js:sin": {
+      "sin's": 200,
+      "cash's": 404,
+      "admin's": 404,
+      "a seeded one": 404
+    },
+    "js:cash": {
+      "sin's": 404,
+      "cash's": 200,
+      "admin's": 404,
+      "a seeded one": 404
+    }
+  }
+}

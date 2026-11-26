@@ -1,0 +1,41 @@
+{
+  "invoice_number": "<number>",
+  "invoice_date": "2026-11-17",
+  "due_date": "2026-12-17",
+  "status": "draft",
+  "currency": "CAD",
+  "client_id": "00000000-0000-4000-8000-000000000021",
+  "subtotal": 100,
+  "total_tax": 13,
+  "total_hst": 13,
+  "total_gst": 0,
+  "total_qst": 0,
+  "grand_total": 113,
+  "total_hours": 4,
+  "email_sent": false,
+  "email_sent_date": null,
+  "invoice_sent_to": null,
+  "document_generated": false,
+  "document_path": null,
+  "document_file_name": null,
+  "document_file_size": null,
+  "document_mime_type": null,
+  "document_generated_at": null,
+  "invoice_data": {},
+  "search_vector": "<search text>",
+  "notes": null,
+  "created_at": "<timestamp>",
+  "created_by_user_id": "<who>",
+  "updated_at": "<timestamp>",
+  "updated_by_user_id": "<who>",
+  "version": 1,
+  "version_history": [
+    {
+      "action": "created",
+      "version": 1,
+      "updated_at": "<timestamp>",
+      "updated_by": "<who>"
+    }
+  ],
+  "id": "<id>"
+}

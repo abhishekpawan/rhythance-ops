@@ -1,0 +1,114 @@
+{
+  "clientId": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: clientId"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: clientId"
+      }
+    }
+  },
+  "invoiceDate": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: invoiceDate"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: invoiceDate"
+      }
+    }
+  },
+  "dueDate": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: dueDate"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: dueDate"
+      }
+    }
+  },
+  "subtotal": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: subtotal"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: subtotal"
+      }
+    }
+  },
+  "totalTax": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: totalTax"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: totalTax"
+      }
+    }
+  },
+  "grandTotal": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: grandTotal"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: grandTotal"
+      }
+    }
+  },
+  "totalHours": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: totalHours"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: totalHours"
+      }
+    }
+  },
+  "invoiceData": {
+    "missing": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: invoiceData"
+      }
+    },
+    "null": {
+      "status": 400,
+      "answer": {
+        "error": "Missing required field: invoiceData"
+      }
+    }
+  }
+}

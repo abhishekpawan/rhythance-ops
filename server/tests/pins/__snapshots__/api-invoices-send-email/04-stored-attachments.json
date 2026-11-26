@@ -1,0 +1,16 @@
+{
+  "to": [
+    "nora.north@example.test"
+  ],
+  "subject": "Invoice #<number> for Northwind Test Staffing Client",
+  "hasHtml": true,
+  "hasText": true,
+  "cc": [
+    "accounts@example.test",
+    "billing@example.test"
+  ],
+  "attachments": [
+    "Invoice_<number>.pdf",
+    "Timesheet A.txt"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "query": "?startDate=2026-09-01&endDate=2026-09-30",
+  "status": 200,
+  "answer": {
+    "success": true,
+    "timesheets": [
+      {
+        "id": "00000000-0000-4000-8000-000000000059",
+        "jobseekerProfileId": "00000000-0000-4000-8000-000000000041",
+        "jobseekerUserId": "00000000-0000-4000-8000-000000000011",
+        "positionId": "00000000-0000-4000-8000-000000000036",
+        "weekStartDate": "2026-09-20",
+        "weekEndDate": "2026-09-26",
+        "totalRegularHours": 40,
+        "totalOvertimeHours": 0,
+        "regularPayRate": 20,
+        "premiumPayRate": 0,
+        "regularBillRate": 35,
+        "overtimePayRate": 20,
+        "overtimeBillRate": 35,
+        "totalJobseekerPay": 800,
+        "totalClientBill": 1400,
+        "overtimeEnabled": false,
+        "bonusAmount": 0,
+        "deductionAmount": 0,
+        "invoiceNumber": "900005",
+        "isBulk": false,
+        "bulkBreakdown": [],
+        "position": {
+          "id": "00000000-0000-4000-8000-000000000036",
+          "title": "Line Cook Helper",
+          "positionCode": "PF001",
+          "positionNumber": null,
+          "clientId": "00000000-0000-4000-8000-000000000024"
+        },
+        "jobseekerProfile": {
+          "id": "00000000-0000-4000-8000-000000000041",
+          "firstName": "Sam",
+          "lastName": "Sinclair",
+          "email": "jobseeker.sin@example.test",
+          "employeeId": "E-0011"
+        }
+      }
+    ],
+    "count": 1
+  }
+}

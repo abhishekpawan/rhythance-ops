@@ -1,0 +1,9 @@
+{
+  "query": "?startDate=2026-01-01&endDate=2026-12-31",
+  "status": 200,
+  "answer": {
+    "success": true,
+    "timesheets": [],
+    "count": 0
+  }
+}

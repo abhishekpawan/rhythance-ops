@@ -1,0 +1,14 @@
+{
+  "the same number by staff": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  },
+  "a seeded number by a jobseeker": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to create invoice"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "no address": {
+    "status": 400,
+    "answer": {
+      "error": "Recipient email is required"
+    }
+  },
+  "an empty address": {
+    "status": 400,
+    "answer": {
+      "error": "Recipient email is required"
+    }
+  },
+  "no body at all": {
+    "status": 400,
+    "answer": {
+      "error": "Recipient email is required"
+    }
+  },
+  "an invoice nobody has": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found"
+    }
+  },
+  "not an id": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found"
+    }
+  },
+  "an invoice with no PDF": {
+    "status": 400,
+    "answer": {
+      "error": "Invoice PDF not found for this invoice"
+    }
+  },
+  "a PDF that is not in storage": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to download invoice PDF"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "an id nobody has": {
+    "status": 404,
+    "answer": {
+      "error": "Invoice not found or access denied"
+    }
+  },
+  "not an id": {
+    "status": 500,
+    "answer": {
+      "error": "Failed to fetch invoice"
+    }
+  }
+}

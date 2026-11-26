@@ -1,0 +1,64 @@
+{
+  "query": "?limit=-1",
+  "staff": {
+    "roles": [
+      "admin",
+      "superadmin",
+      "recruiter",
+      "bookkeeper",
+      "recruiter_manager",
+      "accountant_manager",
+      "sales",
+      "recruiter_director"
+    ],
+    "status": 500,
+    "answer": {
+      "error": "Failed to fetch invoices",
+      "details": "Requested range not satisfiable"
+    }
+  },
+  "jobseekers": {
+    "sin": {
+      "status": 500,
+      "answer": {
+        "error": "Failed to fetch invoices",
+        "details": "Requested range not satisfiable"
+      }
+    },
+    "cash": {
+      "status": 500,
+      "answer": {
+        "error": "Failed to fetch invoices",
+        "details": "Requested range not satisfiable"
+      }
+    },
+    "hybrid": {
+      "status": 500,
+      "answer": {
+        "error": "Failed to fetch invoices",
+        "details": "Requested range not satisfiable"
+      }
+    },
+    "corp": {
+      "status": 500,
+      "answer": {
+        "error": "Failed to fetch invoices",
+        "details": "Requested range not satisfiable"
+      }
+    },
+    "hybridEt": {
+      "status": 500,
+      "answer": {
+        "error": "Failed to fetch invoices",
+        "details": "Requested range not satisfiable"
+      }
+    },
+    "signup": {
+      "status": 500,
+      "answer": {
+        "error": "Failed to fetch invoices",
+        "details": "Requested range not satisfiable"
+      }
+    }
+  }
+}
