@@ -1,0 +1,135 @@
+.attachment-action-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--background);
+  transform: translateY(-1px);
+}
+
+.attachment-action-btn.preview:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.attachment-action-btn.download:hover:not(:disabled) {
+  border-color: var(--success);
+  background: var(--success);
+}
+
+.attachment-action-btn.delete:hover:not(:disabled) {
+  border-color: var(--danger);
+  background: var(--danger);
+}
+
+.attachment-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.attachment-action-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .attachment-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .attachment-thumbnail {
+    width: 80px;
+    height: 80px;
+    align-self: center;
+  }
+
+  .attachment-info {
+    width: 100%;
+    text-align: center;
+  }
+
+  .attachment-actions {
+    align-self: center;
+    gap: 0.5rem;
+  }
+
+  .attachment-action-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .attachment-details {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* PDF Thumbnail Integration */
+.attachment-thumbnail .pdf-thumbnail-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.attachment-thumbnail .pdf-thumbnail-page {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.attachment-thumbnail .pdf-thumbnail-overlay {
+  border-radius: 4px;
+}
+
+/* Dark mode adjustments */
+.dark .attachment-upload-button:not(.disabled) {
+  background: var(--primary);
+  color: var(--background);
+}
+
+.dark .attachment-upload-button.disabled {
+  background: var(--pending-bg);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.dark .attachment-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+.dark .attachment-action-btn {
+  background: var(--card);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* === Generated Invoice Section Styles === */
+.generated-invoice-item {
+  background: var(--success-bg, #e6f9f0);
+  border: 2px solid var(--success, #2ecc40);
+  box-shadow: 0 2px 8px rgba(46, 204, 64, 0.08);
+  position: relative;
+}
+.generated-invoice-item .attachment-file-placeholder,
+.generated-invoice-item .attachment-name svg {
+  color: var(--success, #2ecc40);
+}
+.generated-invoice-item .attachment-status.uploaded {
+  color: var(--success, #2ecc40);
+}
+.generated-invoice-item::before {
+  content: "Generated Invoice";
+  position: absolute;
+  top: -1.2rem;
+  left: 1rem;
+  background: var(--success, #2ecc40);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.75rem;
+  border-radius: 4px 4px 0 0;
+  letter-spacing: 0.5px;
+}

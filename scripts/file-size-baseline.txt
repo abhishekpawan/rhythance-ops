@@ -46,7 +46,6 @@
 894 client/src/services/api/position.ts
 663 client/src/styles/components/CommonTable.css
 323 client/src/styles/components/CustomDropdown.css
-423 client/src/styles/components/InvoiceAttachments.css
 513 client/src/styles/components/form.css
 797 client/src/styles/components/hamburgerMenu.css
 391 client/src/styles/components/header.css
@@ -55,7 +54,6 @@
 923 client/src/styles/pages/ConsentPage.css
 1583 client/src/styles/pages/CreateConsentPage.css
 840 client/src/styles/pages/Dashboard.css
-1058 client/src/styles/pages/InvoiceManagement.css
 343 client/src/styles/pages/JobSeekerManagement.css
 1290 client/src/styles/pages/JobSeekerPositions.css
 3064 client/src/styles/pages/JobseekerProfileStyles.css
