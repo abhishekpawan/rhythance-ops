@@ -1,4 +1,5 @@
 import { Loader2, Mail } from "lucide-react";
+import type { useInvoiceViewHooks } from "./useInvoiceViewHooks";
 import type { useInvoiceViewState } from "./useInvoiceViewState";
 import type { createInvoiceViewActions } from "./createInvoiceViewActions";
 
@@ -11,9 +12,13 @@ export function SendEmailModal(
     | "emailStatusMessage"
     | "setIsEmailModalOpen"
     | "isSendingEmail"
-  > & {
-    invoice: NonNullable<ReturnType<typeof useInvoiceViewState>["invoice"]>;
-  } & Pick<ReturnType<typeof createInvoiceViewActions>, "handleSendEmailSubmit">
+  > &
+    Pick<ReturnType<typeof useInvoiceViewHooks>, "t"> & {
+      invoice: NonNullable<ReturnType<typeof useInvoiceViewState>["invoice"]>;
+    } & Pick<
+      ReturnType<typeof createInvoiceViewActions>,
+      "handleSendEmailSubmit"
+    >
 ) {
   const {
     emailInput,
@@ -24,6 +29,7 @@ export function SendEmailModal(
     isSendingEmail,
     setEmailInput,
     setIsEmailModalOpen,
+    t,
   } = props;
   return (
     <>
@@ -56,7 +62,7 @@ export function SendEmailModal(
             }}
           >
             <h3 style={{ marginTop: 0, marginBottom: "16px" }}>
-              Send Invoice Email
+              {t("invoiceManagement.sendInvoiceEmailTitle")}
             </h3>
             <p
               style={{
@@ -65,8 +71,9 @@ export function SendEmailModal(
                 marginBottom: "16px",
               }}
             >
-              Specify the recipient email address to deliver Invoice #
-              {invoice.invoiceNumber}.
+              {t("invoiceManagement.sendInvoiceEmailHint", {
+                number: invoice.invoiceNumber ?? "",
+              })}
             </p>
             <div style={{ marginBottom: "16px" }}>
               <label
@@ -77,7 +84,7 @@ export function SendEmailModal(
                   marginBottom: "6px",
                 }}
               >
-                Recipient Email
+                {t("invoiceManagement.recipientEmail")}
               </label>
               <input
                 type="email"
@@ -125,7 +132,7 @@ export function SendEmailModal(
                 onClick={() => setIsEmailModalOpen(false)}
                 disabled={isSendingEmail}
               >
-                Cancel
+                {t("common.cancel")}
               </button>
               <button
                 className="button primary button-icon"
@@ -135,12 +142,12 @@ export function SendEmailModal(
                 {isSendingEmail ? (
                   <>
                     <Loader2 size={16} className="timesheet-loading-spinner" />
-                    Sending...
+                    {t("invoiceManagement.sending")}
                   </>
                 ) : (
                   <>
                     <Mail size={16} />
-                    Send Invoice
+                    {t("invoiceManagement.sendInvoice")}
                   </>
                 )}
               </button>

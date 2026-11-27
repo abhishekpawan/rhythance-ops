@@ -9,10 +9,12 @@ import { PositionData } from "../../../services/api/position";
 import { AssignedJobseeker } from "../invoiceTypes";
 import type { useInvoiceFormState } from "./useInvoiceFormState";
 import type { createLineHandlers } from "./createLineHandlers";
+import type { useInvoicePageHooks } from "./useInvoicePageHooks";
 
 export function createInvoiceHandlers(
   ctx: ReturnType<typeof useInvoiceFormState> &
-    ReturnType<typeof createLineHandlers>
+    ReturnType<typeof createLineHandlers> &
+    Pick<ReturnType<typeof useInvoicePageHooks>, "t">
 ) {
   const {
     invoiceDate,
@@ -26,6 +28,7 @@ export function createInvoiceHandlers(
     setInvoiceNumberLoading,
     setSelectedClient,
     setSelectedTerms,
+    t,
     updateLineItem,
     updateSupplierPOItem,
   } = ctx;
@@ -36,9 +39,7 @@ export function createInvoiceHandlers(
       const newInvoiceNumber = await generateInvoiceNumber();
       setInvoiceNumber(newInvoiceNumber);
     } catch (error) {
-      setGenerationError(
-        "Failed to generate invoice number. Please try again."
-      );
+      setGenerationError(t("invoiceManagement.generateNumberFailed"));
     } finally {
       setInvoiceNumberLoading(false);
     }

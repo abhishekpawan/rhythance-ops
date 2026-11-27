@@ -3,6 +3,18 @@ import { PAYMENT_TERMS } from "../../../constants/formOptions";
 import type { useInvoiceListHooks } from "./useInvoiceListHooks";
 import type { useInvoiceListState } from "./useInvoiceListState";
 
+// the words of each payment term, from the keys the position and client forms use
+const TERM_KEYS: Record<(typeof PAYMENT_TERMS)[number], string> = {
+  "Due on Receipt": "dueOnReceipt",
+  "Net 15": "net15",
+  "Net 22": "net22",
+  "Net 30": "net30",
+  "Net 45": "net45",
+  "Net 60": "net60",
+  "Net 65": "net65",
+  "Net 90": "net90",
+};
+
 export function InvoiceTableHead(
   props: Pick<ReturnType<typeof useInvoiceListHooks>, "t"> &
     Pick<
@@ -158,7 +170,7 @@ export function InvoiceTableHead(
                   </option>
                   {PAYMENT_TERMS.map((term) => (
                     <option key={term} value={term}>
-                      {term}
+                      {t(`positionCreate.selectOptions.${TERM_KEYS[term]}`)}
                     </option>
                   ))}
                 </select>

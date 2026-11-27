@@ -1,6 +1,6 @@
 Retour
 Modifier la facture
-Resend Email
+Renvoyer par email
 Voir la facture #900001
 Invoice #900001
 Emailed

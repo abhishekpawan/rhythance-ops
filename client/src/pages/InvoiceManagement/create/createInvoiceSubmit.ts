@@ -76,38 +76,40 @@ export function createInvoiceSubmit(
     );
 
     if (!hasValidLineItems) {
-      setGenerationError(
-        "At least one line item must have hours and rate greater than 0"
-      );
+      setGenerationError(t("invoiceManagement.lineItemNeedsHoursAndRate"));
       return;
     }
 
     const missingFields = [];
-    if (!selectedClient.id) missingFields.push("ID");
-    if (!selectedClient.companyName) missingFields.push("company name");
-    if (!selectedClient.shortCode) missingFields.push("short code");
-    if (!selectedClient.emailAddress1) missingFields.push("email");
+    if (!selectedClient.id)
+      missingFields.push(t("invoiceManagement.clientFieldId"));
+    if (!selectedClient.companyName)
+      missingFields.push(t("invoiceManagement.clientFieldCompanyName"));
+    if (!selectedClient.shortCode)
+      missingFields.push(t("invoiceManagement.clientFieldShortCode"));
+    if (!selectedClient.emailAddress1)
+      missingFields.push(t("invoiceManagement.clientFieldEmail"));
 
     if (missingFields.length > 0) {
-      const errorMessage = `Selected client is missing required information: ${missingFields.join(
-        ", "
-      )}`;
+      const errorMessage = t("invoiceManagement.clientMissingInfo", {
+        fields: missingFields.join(", "),
+      });
       setGenerationError(errorMessage);
       return;
     }
 
     // Check for attachment upload status before proceeding
     if (attachments.some((att) => att.uploadStatus === "uploading")) {
-      setGenerationError(
-        "Please wait for all attachments to finish uploading."
-      );
+      setGenerationError(t("invoiceManagement.attachmentsStillUploading"));
       return;
     }
     if (attachments.some((att) => att.uploadStatus === "error")) {
       setGenerationError(
-        "One or more attachments failed to upload. Please remove or re-upload them before " +
-          (isEditMode ? "updating" : "generating") +
-          " the invoice."
+        t(
+          isEditMode
+            ? "invoiceManagement.attachmentsFailedBeforeUpdate"
+            : "invoiceManagement.attachmentsFailedBeforeGenerate"
+        )
       );
       return;
     }
@@ -117,7 +119,7 @@ export function createInvoiceSubmit(
 
     try {
       if (!user || !user.id) {
-        setGenerationError("User not authenticated. Please log in again.");
+        setGenerationError(t("invoiceManagement.userNotAuthenticated"));
         return;
       }
       // Calculate totals for the invoice
@@ -238,7 +240,7 @@ export function createInvoiceSubmit(
           contentType: "application/pdf",
         });
       if (pdfUploadError || !pdfUploadData || !pdfUploadData.path) {
-        setGenerationError("Failed to upload invoice PDF. Please try again.");
+        setGenerationError(t("invoiceManagement.pdfUploadFailed"));
         return;
       }
 
@@ -253,8 +255,12 @@ export function createInvoiceSubmit(
       });
 
       // Only use the new message for PDF upload success
-      const actionText = isEditMode ? "updated" : "created";
-      const message = `Invoice ${pdfInvoiceNumber} ${actionText} and PDF uploaded successfully for ${selectedClient.companyName}.`;
+      const message = t(
+        isEditMode
+          ? "invoiceManagement.invoiceUpdatedPdfUploaded"
+          : "invoiceManagement.invoiceCreatedPdfUploaded",
+        { number: pdfInvoiceNumber, client: selectedClient.companyName ?? "" }
+      );
       setGenerationMessage(message);
 
       // Set created invoice and email states after successful invoice creation/upload

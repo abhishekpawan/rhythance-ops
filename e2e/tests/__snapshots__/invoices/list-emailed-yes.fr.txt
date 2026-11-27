@@ -1,5 +1,5 @@
 TABLE 1
-HEADER: Facture # | Client | Email du client | Date de facture Sélectionner la plage | Date d'échéance Sélectionner la plage | Conditions de paiement Tous Due on Receipt Net 15 Net 22 Net 30 Net 45 Net 60 Net 65 Net 90 | Montant total Sous-total + Taxe | Facture envoyée par email Tous Oui Non | Envoyer par email Envoyer • Renvoyer | Actions Voir • Modifier • Supprimer
+HEADER: Facture # | Client | Email du client | Date de facture Sélectionner la plage | Date d'échéance Sélectionner la plage | Conditions de paiement Tous Dû à réception Net 15 Net 22 Net 30 Net 45 Net 60 Net 65 Net 90 | Montant total Sous-total + Taxe | Facture envoyée par email Tous Oui Non | Envoyer par email Envoyer • Renvoyer | Actions Voir • Modifier • Supprimer
 ROW: # 900001 | Northwind Test Staffing Client | nora.north@example.test | Nov 10, 2026 | Dec 10, 2026 | N/A | $4746.00 | Oui | Renvoyer | 
 ROW: # 900004 | Pacific Test Warehousing Client | paige.pacific@example.test | Nov 2, 2026 | Dec 2, 2026 | N/A | $1470.00 | Oui | Renvoyer | 
 ROW: # 900005 | Prairie Test Foods Client | pat.prairie@example.test | Sep 28, 2026 | Nov 12, 2026 | N/A | $1400.00 | Oui | Renvoyer | 

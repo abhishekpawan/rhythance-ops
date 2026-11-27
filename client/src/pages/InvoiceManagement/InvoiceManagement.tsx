@@ -41,7 +41,7 @@ export function InvoiceManagement() {
   const timesheetLoader = createTimesheetLoader({ ...form, ...hooks });
   const lines = createLineHandlers(form);
   const options = createInvoiceOptions({ ...hooks, ...form });
-  const handlers = createInvoiceHandlers({ ...form, ...lines });
+  const handlers = createInvoiceHandlers({ ...form, ...lines, t: hooks.t });
   const uploader = createAttachmentUploader({ ...form, ...hooks });
   const submit = createInvoiceSubmit({ ...form, ...hooks, ...uploader });
   const success = createSuccessActions({ ...form, ...hooks });

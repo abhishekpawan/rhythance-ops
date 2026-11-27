@@ -66,13 +66,13 @@ export function InvoiceView() {
               color="#ef4444"
               style={{ marginBottom: "16px" }}
             />
-            <h3>{error || "Invoice not found"}</h3>
+            <h3>{error || t("invoiceManagement.invoiceNotFound")}</h3>
             <button
               className="button secondary"
               style={{ marginTop: "16px" }}
               onClick={() => navigate("/invoice-management/list")}
             >
-              <ArrowLeft size={16} /> Back to Invoice List
+              <ArrowLeft size={16} /> {t("invoiceManagement.backToInvoiceList")}
             </button>
           </div>
         </div>
@@ -120,7 +120,9 @@ export function InvoiceView() {
               onClick={() => setIsEmailModalOpen(true)}
             >
               <Mail size={16} />
-              {invoice.emailSent ? "Resend Email" : "Send Email"}
+              {invoice.emailSent
+                ? t("invoiceManagement.resendEmail")
+                : t("invoiceManagement.list.sendEmail")}
             </button>
           </div>
         }
@@ -179,6 +181,7 @@ export function InvoiceView() {
         isSendingEmail={view.isSendingEmail}
         setEmailInput={view.setEmailInput}
         setIsEmailModalOpen={view.setIsEmailModalOpen}
+        t={view.t}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 Retour
 Modifier la facture
-Send Email
+Envoyer par email
 Voir la facture #900006
 Invoice #900006
 Draft / Not Sent
