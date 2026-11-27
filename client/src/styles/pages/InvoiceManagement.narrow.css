@@ -1,0 +1,37 @@
+/* Narrow windows (R-5b, inbox 47): what keeps the create page inside a 1,024 px window. */
+
+/* A line of the invoice needs 1,365 px: below that its fields wrap onto more rows instead of running out of the page
+   (it was 1,365 px wide at a 1,024 px window, in both languages; inbox 47). Wider windows are not touched. */
+@media (max-width: 1365px) {
+  .invoice-field-row.single-row {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .invoice-field-row.single-row > .position-selection,
+  .invoice-field-row.single-row > .jobseeker-selection,
+  .invoice-field-row.single-row > .description-selection,
+  .invoice-field-row.single-row > .tax-selection {
+    flex: 1 1 14rem;
+    width: auto;
+    min-width: 0;
+  }
+}
+
+/* In French the selection bar's four choosers are 28 px wider than a 1,024 px window (the dropdowns will not shrink below
+   their longer French placeholders): they wrap to two rows of two instead of running out of the page (inbox 47). The
+   English bar fits and is not touched, nor is the date-range bar. */
+@media (max-width: 1050px) {
+  html:lang(fr) .invoice-selection-bar:not(.timesheet-date-range) {
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
+
+  html:lang(fr)
+    .invoice-selection-bar:not(.timesheet-date-range)
+    > .selection-section {
+    flex: 1 1 20rem;
+    width: auto;
+    min-width: 0;
+  }
+}

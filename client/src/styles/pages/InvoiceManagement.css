@@ -1,6 +1,7 @@
-/* InvoiceManagement.css - styles split by area; the parts are imported in their original order */
+/* InvoiceManagement.css - styles split by area; the parts are imported in their original order (then the narrow-window rules of R-5b) */
 
 @import "./InvoiceManagement.form.css";
 @import "./InvoiceManagement.panels.css";
 @import "./InvoiceManagement.list.css";
 @import "./InvoiceManagement.success.css";
+@import "./InvoiceManagement.narrow.css";
