@@ -1,4 +1,5 @@
 import { FileText } from "lucide-react";
+import { EmptyState } from "../../../components/EmptyState";
 import type { useInvoiceFormState } from "./useInvoiceFormState";
 import type { useInvoicePageHooks } from "./useInvoicePageHooks";
 
@@ -15,11 +16,12 @@ export function NoPositionsState(
       {/* No Positions State */}
       {selectedClient && !positionLoading && positions.length === 0 && (
         <div className="invoice-card empty-state-card">
-          <div className="invoice-empty-state">
-            <FileText size={48} />
-            <h3>{t("invoiceManagement.noPositionsAvailable")}</h3>
-            <p>{t("invoiceManagement.noPositionsForClient")}</p>
-          </div>
+          <EmptyState
+            className="invoice-empty-state"
+            icon={<FileText size={48} />}
+            title={t("invoiceManagement.noPositionsAvailable")}
+            description={t("invoiceManagement.noPositionsForClient")}
+          />
         </div>
       )}
     </>

@@ -1,4 +1,5 @@
 import { Building } from "lucide-react";
+import { EmptyState } from "../../../components/EmptyState";
 import type { useInvoiceFormState } from "./useInvoiceFormState";
 import type { useInvoicePageHooks } from "./useInvoicePageHooks";
 
@@ -15,11 +16,12 @@ export function NoClientsState(
       {/* No Clients State */}
       {!clientLoading && clients.length === 0 && (
         <div className="invoice-card empty-state-card">
-          <div className="invoice-empty-state">
-            <Building size={48} />
-            <h3>{t("invoiceManagement.noClientsAvailable")}</h3>
-            <p>{t("invoiceManagement.noClientsForInvoice")}</p>
-          </div>
+          <EmptyState
+            className="invoice-empty-state"
+            icon={<Building size={48} />}
+            title={t("invoiceManagement.noClientsAvailable")}
+            description={t("invoiceManagement.noClientsForInvoice")}
+          />
         </div>
       )}
     </>

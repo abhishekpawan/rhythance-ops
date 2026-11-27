@@ -1,6 +1,7 @@
 import { formatInvoiceForDisplay } from "../../../services/api/invoice";
 import { getClientEmail, getClientDisplayName } from "./invoiceListHelpers";
 import { Mail, Eye, Pencil, Trash2 } from "lucide-react";
+import { EmptyState } from "../../../components/EmptyState";
 import type { useInvoiceListState } from "./useInvoiceListState";
 import type { useInvoiceListHooks } from "./useInvoiceListHooks";
 import type { createListActions } from "./createListActions";
@@ -81,9 +82,10 @@ export function InvoiceTableBody(
         ) : invoices.length === 0 ? (
           <tr>
             <td colSpan={10} className="empty-state-cell">
-              <div className="empty-state">
-                <p>{t("invoiceManagement.list.noInvoicesMatch")}</p>
-              </div>
+              <EmptyState
+                className="empty-state"
+                description={t("invoiceManagement.list.noInvoicesMatch")}
+              />
             </td>
           </tr>
         ) : (
