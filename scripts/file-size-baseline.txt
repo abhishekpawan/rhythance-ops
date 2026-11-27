@@ -21,7 +21,7 @@
 1365 client/src/pages/Consent/CreateConsentPage.tsx
 558 client/src/pages/Consent/OnboardingConsent.tsx
 942 client/src/pages/InvoiceManagement/InvoiceList.tsx
-3714 client/src/pages/InvoiceManagement/InvoiceManagement.tsx
+3485 client/src/pages/InvoiceManagement/InvoiceManagement.tsx
 749 client/src/pages/InvoiceManagement/InvoiceView.tsx
 928 client/src/pages/JobseekerManagement/JobSeekerManagement.tsx
 694 client/src/pages/JobseekerManagement/JobSeekerPositions.tsx
@@ -73,7 +73,6 @@
 850 server/src/routes/auth.ts
 1428 server/src/routes/clients.ts
 2108 server/src/routes/consent.ts
-1604 server/src/routes/invoices.ts
 2766 server/src/routes/jobseekers.ts
 998 server/src/routes/positionDrafts.ts
 3091 server/src/routes/positions.ts
