@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
 import { createClient } from "@supabase/supabase-js";
-import { apiRateLimiter, sanitizeInputs } from "../middleware/security.js";
+import { sanitizeInputs } from "../middleware/security.js";
 import { activityLogger } from "../middleware/activityLogger.js";
 import dotenv from "dotenv";
 import sgMail from "@sendgrid/mail";
@@ -913,23 +913,11 @@ router.put(
       }
 
       const userId = req.user.id;
-      const userType = req.user.user_metadata?.user_type;
       const { id } = req.params;
       const invoiceData: Partial<InvoiceData> = req.body;
 
-      // Check if invoice exists and user has permission
-      let existingQuery = supabase.from("invoices").select("*").eq("id", id);
-
-      if (userType === "jobseeker") {
-        // Jobseekers can only update their own draft invoices
-        existingQuery = existingQuery
-          .eq("created_by_user_id", userId)
-          .eq("status", "draft");
-      } else if (userType === "recruiter") {
-        // Recruiters can update any invoice but not delete
-        // No additional restriction needed here
-      }
-      // Admin can update any invoice
+      // Check if invoice exists (staff only: admin and recruiter roles can update any invoice)
+      const existingQuery = supabase.from("invoices").select("*").eq("id", id);
 
       const { data: existingInvoice, error: invoiceCheckError } =
         await existingQuery.maybeSingle();
@@ -938,13 +926,6 @@ router.put(
         return res
           .status(404)
           .json({ error: "Invoice not found or access denied" });
-      }
-
-      // Additional validation for jobseekers - can only update draft invoices
-      if (userType === "jobseeker" && existingInvoice.status !== "draft") {
-        return res
-          .status(403)
-          .json({ error: "You can only update draft invoices" });
       }
 
       // Validate client if provided

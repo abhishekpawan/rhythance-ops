@@ -164,7 +164,7 @@ export const getInvoices = async (
 /**
  * Create a new invoice
  */
-export const createInvoice = async (
+const createInvoice = async (
   invoiceData: Omit<
     InvoiceData,
     | "id"

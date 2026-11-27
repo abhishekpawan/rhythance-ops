@@ -294,8 +294,6 @@ export function InvoiceManagement() {
   const [isSendingInvoice, setIsSendingInvoice] = useState(false);
   const [sendInvoiceMessage, setSendInvoiceMessage] = useState<string>("");
 
-  let sendInvoiceStatus;
-
   // Add after all useState hooks, before the return statement in InvoiceManagement
   const documentPath =
     createdInvoice?.documentPath || loadedInvoice?.documentPath || "";
@@ -3696,11 +3694,7 @@ export function InvoiceManagement() {
                 {/* Wrap both messages in a fragment to avoid adjacent JSX errors */}
                 <>
                   {sendInvoiceMessage && (
-                    <div
-                      className={`invoice-success-modal-message${
-                        sendInvoiceStatus === "error" ? " error" : ""
-                      }`}
-                    >
+                    <div className="invoice-success-modal-message">
                       {sendInvoiceMessage}
                     </div>
                   )}
