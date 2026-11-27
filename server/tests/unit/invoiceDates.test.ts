@@ -3,12 +3,9 @@
 // payment term's days, and every date on the list, the view and the PDF is written by `formatCalendarDate`) and the
 // invoice email's text. Expected values are worked out by hand.
 //
-// NOT here, on purpose: the money of the invoice page (line amount = regular hours x rate + overtime hours x rate,
-// each line's tax by province, subtotal, grand total, the overtime split, the due-date rule "Net N" / "Due on Receipt")
-// is written inline in `InvoiceManagement.tsx` (`getTaxInfo`, `calculateLineItemTotals`, `calculateLineItemHours`,
-// `calculateDueDate`), inside the component. They stay where they are in this gate: the journeys in
-// `e2e/tests/invoices-*.spec.ts` cover them through the browser (the request body and the PDF), and R-5s may move
-// them out verbatim, after which these cases can reach them.
+// NOT here: the money of the invoice page (line amount, each line's tax by province, subtotal, grand total, the overtime
+// split, the due-date rule "Net N" / "Due on Receipt"). R-5s moved those functions out of `InvoiceManagement.tsx` into
+// `client/src/pages/InvoiceManagement/invoiceCalculations.ts`; their cases are in `invoiceCalculations.test.ts`.
 import { describe, expect, it, vi } from "vitest";
 
 // The email template reads the portal name through `services/portalSettings.ts`, which exits the process when the
