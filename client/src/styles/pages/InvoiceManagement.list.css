@@ -279,3 +279,8 @@
     var(--glow),
     0 0 25px rgba(0, 0, 0, 0.7);
 }
+
+/* The list card no longer repeats the top bar's title: the search box stays at the right of the card (R-5b) */
+.card-header > .filter-container:only-child {
+  margin-left: auto;
+}

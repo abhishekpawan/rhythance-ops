@@ -15,7 +15,6 @@ export function InvoiceListHeader(
   return (
     <>
       <div className="card-header">
-        <h2>{t("invoiceManagement.list.invoiceListTitle")}</h2>
         <div className="filter-container">
           <div className="search-box">
             <Search size={14} className="search-icon" />
