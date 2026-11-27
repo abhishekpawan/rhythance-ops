@@ -4,30 +4,36 @@ import { supabase } from "../services/invoice.client.js";
 
 // The activity-log entries of the invoice routes (moved out of invoices.ts unchanged).
 
+// The client's name for an activity line (company name, else short code); "Unknown Client" with no id, no row or a
+// failed read. Written three times before R-5b.
+async function clientNameOf(clientId: string | null | undefined) {
+  let clientName = "Unknown Client";
+  if (clientId) {
+    try {
+      const { data: client } = await supabase
+        .from("clients")
+        .select("company_name, short_code")
+        .eq("id", clientId)
+        .single();
+      if (client) {
+        clientName =
+          client.company_name || client.short_code || "Unknown Client";
+      }
+    } catch (error) {
+      console.warn("Could not fetch client name for activity log");
+    }
+  }
+  return clientName;
+}
+
 export const createActivity = activityLogger({
   onSuccess: async (req: Request, res: Response) => {
     const invoiceData = req.body;
     const newInvoice = res.locals.newInvoice;
 
     // Get client name for display
-    let clientName = "Unknown Client";
-    let clientId = invoiceData.clientId || newInvoice?.client_id;
-
-    if (clientId) {
-      try {
-        const { data: client } = await supabase
-          .from("clients")
-          .select("company_name, short_code")
-          .eq("id", clientId)
-          .single();
-        if (client) {
-          clientName =
-            client.company_name || client.short_code || "Unknown Client";
-        }
-      } catch (error) {
-        console.warn("Could not fetch client name for activity log");
-      }
-    }
+    const clientId = invoiceData.clientId || newInvoice?.client_id;
+    const clientName = await clientNameOf(clientId);
 
     // Use created invoice data for accurate values, fallback to request data
     const finalGrandTotal =
@@ -69,24 +75,8 @@ export const updateActivity = activityLogger({
     const { id } = req.params;
 
     // Get client name for display - check multiple sources for client ID
-    let clientName = "Unknown Client";
-    let clientId = invoiceData.clientId || updatedInvoice?.client_id;
-
-    if (clientId) {
-      try {
-        const { data: client } = await supabase
-          .from("clients")
-          .select("company_name, short_code")
-          .eq("id", clientId)
-          .single();
-        if (client) {
-          clientName =
-            client.company_name || client.short_code || "Unknown Client";
-        }
-      } catch (error) {
-        console.warn("Could not fetch client name for activity log");
-      }
-    }
+    const clientId = invoiceData.clientId || updatedInvoice?.client_id;
+    const clientName = await clientNameOf(clientId);
 
     // Use updated invoice data for accurate values, fallback to request data
     const finalGrandTotal =
@@ -129,22 +119,7 @@ export const deleteActivity = activityLogger({
     const deletedInvoice = res.locals.deletedInvoice;
 
     // Get client name for display
-    let clientName = "Unknown Client";
-    if (deletedInvoice?.client_id) {
-      try {
-        const { data: client } = await supabase
-          .from("clients")
-          .select("company_name, short_code")
-          .eq("id", deletedInvoice.client_id)
-          .single();
-        if (client) {
-          clientName =
-            client.company_name || client.short_code || "Unknown Client";
-        }
-      } catch (error) {
-        console.warn("Could not fetch client name for activity log");
-      }
-    }
+    const clientName = await clientNameOf(deletedInvoice?.client_id);
 
     return {
       actionType: "delete_invoice",
