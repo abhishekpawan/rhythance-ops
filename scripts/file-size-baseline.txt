@@ -20,8 +20,6 @@
 957 client/src/pages/Consent/ConsentTemplatePage.tsx
 1365 client/src/pages/Consent/CreateConsentPage.tsx
 558 client/src/pages/Consent/OnboardingConsent.tsx
-942 client/src/pages/InvoiceManagement/InvoiceList.tsx
-749 client/src/pages/InvoiceManagement/InvoiceView.tsx
 928 client/src/pages/JobseekerManagement/JobSeekerManagement.tsx
 694 client/src/pages/JobseekerManagement/JobSeekerPositions.tsx
 2611 client/src/pages/JobseekerManagement/JobSeekerProfile.tsx
