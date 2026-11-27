@@ -94,6 +94,25 @@ export async function sweepInvoices() {
   }
 }
 
+/**
+ * Gives invoices made one after another a clear order in time: `created_at` one second apart, in the order given. The
+ * list is ordered by `created_at`, and the local database clock can step back by about 100 ms between two connections
+ * (seen on the Mac's Docker VM), more than the gap between two quick creates, so two rows could swap.
+ */
+export async function spreadCreatedAt(invoiceNumbers: string[]) {
+  const start = Date.now();
+  for (const [i, number] of invoiceNumbers.entries()) {
+    const r = await rest(`/rest/v1/invoices?invoice_number=eq.${number}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        created_at: new Date(start + i * 1000).toISOString(),
+      }),
+    });
+    if (r.status >= 300)
+      throw new Error(`could not set created_at: ${await r.text()}`);
+  }
+}
+
 /** Every invoice row that is not a seeded one, oldest first. */
 export async function savedInvoices() {
   const r = await rest(

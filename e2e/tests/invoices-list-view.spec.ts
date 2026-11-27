@@ -16,6 +16,7 @@ import {
   CLIENT,
   SEEDED_INVOICE,
   createThroughServer,
+  spreadCreatedAt,
   sweepInvoices,
 } from "../support/invoice-screens";
 
@@ -25,8 +26,15 @@ const LIST = "/invoice-management/list";
 
 /** The list once the screen is quiet: the loader is gone and the rows are drawn. */
 async function listTable(page: Page, rows: number) {
+  // Right after a change (page size, page, filter) the old rows can still be drawn, so "no loader" holds before the
+  // loader starts; the loader then draws one placeholder row per row of the new page, which a plain row count would
+  // take for the answer (seen in CI after the page size went to 10). So count only real rows, wait for text in the
+  // first cell, and check the loader is gone.
+  const real = page.locator(".common-table tbody tr:not(.skeleton-row)");
+  await expect(real).toHaveCount(rows);
+  if (rows > 0)
+    await expect(real.first().locator("td").first()).not.toHaveText(/^\s*$/);
   await expect(page.locator(".skeleton-row")).toHaveCount(0);
-  await expect(page.locator(".common-table tbody tr")).toHaveCount(rows);
   return tableText(page);
 }
 
@@ -78,9 +86,11 @@ for (const language of ["en", "fr"] as const) {
     });
 
     base("two pages: ten to a page", async ({ page }) => {
+      const numbers: string[] = [];
       for (let i = 1; i <= 10; i++) {
+        numbers.push(`8100${String(i).padStart(2, "0")}`);
         await createThroughServer({
-          invoiceNumber: `8100${String(i).padStart(2, "0")}`,
+          invoiceNumber: numbers[i - 1],
           clientId: CLIENT.northwind,
           invoiceDate: "2026-11-17",
           dueDate: "2026-12-17",
@@ -96,6 +106,8 @@ for (const language of ["en", "fr"] as const) {
           invoiceData: { client: { id: CLIENT.northwind }, timesheets: [] },
         });
       }
+      // newest first on the list: 810010 down to 810001, whatever the local database clock did between the creates
+      await spreadCreatedAt(numbers);
       await page.goto(LIST);
       await expect(page.locator(".common-table tbody tr")).toHaveCount(15);
       await page.locator("#pageSize").selectOption("10");
