@@ -29,11 +29,15 @@ async function listTable(page: Page, rows: number) {
   // Right after a change (page size, page, filter) the old rows can still be drawn, so "no loader" holds before the
   // loader starts; the loader then draws one placeholder row per row of the new page, which a plain row count would
   // take for the answer (seen in CI after the page size went to 10). So count only real rows, wait for text in the
-  // first cell, and check the loader is gone.
-  const real = page.locator(".common-table tbody tr:not(.skeleton-row)");
-  await expect(real).toHaveCount(rows);
-  if (rows > 0)
+  // first cell, and check the loader is gone. With no rows, a count of nothing also holds on the blank page before the
+  // app has drawn (the first pins of the empty lists read that), so wait for the list's "no invoices match" line.
+  if (rows === 0) {
+    await expect(page.locator(".common-table .empty-state")).toBeVisible();
+  } else {
+    const real = page.locator(".common-table tbody tr:not(.skeleton-row)");
+    await expect(real).toHaveCount(rows);
     await expect(real.first().locator("td").first()).not.toHaveText(/^\s*$/);
+  }
   await expect(page.locator(".skeleton-row")).toHaveCount(0);
   return tableText(page);
 }
