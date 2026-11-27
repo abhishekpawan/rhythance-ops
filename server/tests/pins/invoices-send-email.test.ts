@@ -238,6 +238,39 @@ describe("POST /api/invoices/:id/send-email", () => {
     );
   });
 
+  it("the third contact is copied when its flag is on (R-5b, inbox 87): in the order second, third, dispatch", async () => {
+    await sql("PATCH", `/rest/v1/clients?id=eq.${COPY_CLIENT}`, {
+      invoice_cc3: true,
+    });
+    try {
+      const made = await ready({ clientId: COPY_CLIENT });
+      const before = emailsSent().length;
+      const r = await send("admin", made.id, {
+        email: "casey.copy@example.test",
+      });
+      expect(r.status, r.text).toBe(200);
+      const sent = await newEmails(before, 1);
+      // second (flag on), third (flag now on), dispatch (flag on), accounts (flag on, no address: left out)
+      expect(sent[0].cc).toEqual([
+        "accounts@example.test",
+        "billing@example.test",
+        "second@example.test",
+        "third@example.test",
+        "dispatch@example.test",
+      ]);
+      await pin(
+        DIR,
+        5,
+        "the copies with the third contact's flag on",
+        messageOf(sent[0], made.invoiceNumber)
+      );
+    } finally {
+      await sql("PATCH", `/rest/v1/clients?id=eq.${COPY_CLIENT}`, {
+        invoice_cc3: false,
+      });
+    }
+  });
+
   it("with no copy setting there are no copies; the address in the body is used as it is (nothing checks it)", async () => {
     await call("superadmin", "/api/portal-settings", {
       method: "PUT",
