@@ -2,7 +2,6 @@ import type { useInvoiceListState } from "./useInvoiceListState";
 
 export function createListFilters(ctx: ReturnType<typeof useInvoiceListState>) {
   const {
-    pagination,
     setClientEmailFilter,
     setClientFilter,
     setDateRangeEnd,
@@ -42,23 +41,9 @@ export function createListFilters(ctx: ReturnType<typeof useInvoiceListState>) {
     setPagination((prev) => ({ ...prev, limit: newLimit, page: 1 }));
   };
 
-  const handlePreviousPage = () => {
-    if (pagination.hasPrevPage) {
-      setPagination((prev) => ({ ...prev, page: prev.page - 1 }));
-    }
-  };
-
-  const handleNextPage = () => {
-    if (pagination.hasNextPage) {
-      setPagination((prev) => ({ ...prev, page: prev.page + 1 }));
-    }
-  };
-
   return {
     resetFilters,
     handlePageChange,
     handleLimitChange,
-    handlePreviousPage,
-    handleNextPage,
   };
 }

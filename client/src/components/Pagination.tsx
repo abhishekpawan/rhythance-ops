@@ -38,6 +38,8 @@ interface PaginationProps {
   className?: string;
   /** writes `type="button"` on the bottom bar's buttons, for a page that always had it; none by default */
   buttonType?: "button";
+  /** the screen-reader name of a page number, when the page's own text holds the number (the invoice list: "Go to page 2"); default is `labels.goToPage`, a space and the number */
+  pageLabel?: (page: number) => string;
 }
 
 const DEFAULT_SIZES = [10, 25, 50, 100];
@@ -56,6 +58,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   selectId = "pageSize",
   className,
   buttonType,
+  pageLabel,
 }) => {
   const { showBottomBar, pageNumbers } = usePagination(pagination);
   const classes = (base: string) => (className ? `${base} ${className}` : base);
@@ -122,7 +125,9 @@ export const Pagination: React.FC<PaginationProps> = ({
                 pageNum === pagination.page ? "active" : ""
               }`}
               onClick={() => onPageChange?.(pageNum)}
-              aria-label={`${labels.goToPage} ${pageNum}`}
+              aria-label={
+                pageLabel ? pageLabel(pageNum) : `${labels.goToPage} ${pageNum}`
+              }
             >
               {pageNum}
             </button>
