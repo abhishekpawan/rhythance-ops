@@ -1,6 +1,7 @@
 import type { PositionData } from "../../services/api/position";
 import { addDaysToDateStr } from "../../utils/dateUtils";
 import type { InvoiceLineItem } from "./invoiceTypes";
+import { overtimeBillRateOf } from "./invoiceLineRates";
 
 // The invoice page's money and date rules, moved out of InvoiceManagement.tsx unchanged (R-5s). The component's state
 // they read became a parameter: calculateLineItemTotals(lineItems) and calculateDueDate(.., .., setDueDate).
@@ -119,10 +120,7 @@ export const calculateLineItemTotals = (lineItems: InvoiceLineItem[]) => {
     }
 
     // Get overtime bill rate (use regular rate if not specified)
-    const overtimeBillRate =
-      item.position?.overtimeEnabled && item.position?.overtimeBillRate
-        ? parseFloat(item.position.overtimeBillRate)
-        : regularBillRate;
+    const overtimeBillRate = overtimeBillRateOf(item.position, regularBillRate);
 
     // Calculate line subtotal with overtime
     const regularAmount = regularHours * regularBillRate;

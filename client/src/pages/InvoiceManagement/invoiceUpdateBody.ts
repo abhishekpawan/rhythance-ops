@@ -1,6 +1,7 @@
 // The request body of "save invoice" when an invoice is being edited, moved out of InvoiceManagement.tsx unchanged
 // (R-5s); the page's state it reads is the parameter.
 import { calculateLineItemHours } from "./invoiceCalculations";
+import { jobseekerPayOf, overtimeBillRateOf } from "./invoiceLineRates";
 import type { UpdateInvoiceInput } from "./invoiceBodyTypes";
 
 export function buildUpdateInvoiceData(input: UpdateInvoiceInput) {
@@ -65,10 +66,10 @@ export function buildUpdateInvoiceData(input: UpdateInvoiceInput) {
         );
 
         const regularBillRate = parseFloat(item.regularBillRate) || 0;
-        const overtimeBillRate =
-          item.position?.overtimeEnabled && item.position?.overtimeBillRate
-            ? parseFloat(item.position.overtimeBillRate)
-            : regularBillRate;
+        const overtimeBillRate = overtimeBillRateOf(
+          item.position,
+          regularBillRate
+        );
 
         const regularAmount = regularHours * regularBillRate;
         const overtimeAmount = overtimeHours * overtimeBillRate;
@@ -77,14 +78,13 @@ export function buildUpdateInvoiceData(input: UpdateInvoiceInput) {
         const regularPayRate = parseFloat(item.regularPayRate) || 0;
         const premiumPayRate =
           parseFloat(item.position?.premiumPayRate || "0") || 0;
-        const effectivePayRate = regularPayRate + premiumPayRate;
-        const overtimePayRate =
-          item.position?.overtimeEnabled && item.position?.overtimePayRate
-            ? parseFloat(item.position.overtimePayRate)
-            : effectivePayRate;
-
-        const totalJobseekerPay =
-          regularHours * effectivePayRate + overtimeHours * overtimePayRate;
+        const { overtimePayRate, totalJobseekerPay } = jobseekerPayOf(
+          item.position,
+          regularHours,
+          overtimeHours,
+          regularPayRate,
+          premiumPayRate
+        );
 
         const positionData =
           item.position &&

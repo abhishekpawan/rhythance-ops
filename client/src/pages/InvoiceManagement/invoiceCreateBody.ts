@@ -1,6 +1,7 @@
 // The request body of "save invoice" when a new invoice is created, moved out of InvoiceManagement.tsx unchanged
 // (R-5s); the page's state it reads is the parameter.
 import type { CreateInvoiceInput } from "./invoiceBodyTypes";
+import { jobseekerPayOf } from "./invoiceLineRates";
 
 export function buildCreateInvoiceData(input: CreateInvoiceInput) {
   const {
@@ -60,13 +61,14 @@ export function buildCreateInvoiceData(input: CreateInvoiceInput) {
         parseFloat(
           item.position?.premiumPayRate || item.premiumPayRate || "0"
         ) || 0;
-      const effectivePayRate = regularPayRate + premiumPayRate;
-      const overtimePayRateValue =
-        item.position?.overtimeEnabled && item.position?.overtimePayRate
-          ? parseFloat(item.position.overtimePayRate)
-          : effectivePayRate;
-      const totalJobseekerPay =
-        regularHours * effectivePayRate + overtimeHours * overtimePayRateValue;
+      const { overtimePayRate: overtimePayRateValue, totalJobseekerPay } =
+        jobseekerPayOf(
+          item.position,
+          regularHours,
+          overtimeHours,
+          regularPayRate,
+          premiumPayRate
+        );
 
       const candidateFullName = item.jobseeker
         ? `${item.jobseeker.firstName || ""} ${item.jobseeker.lastName || ""}`.trim()
