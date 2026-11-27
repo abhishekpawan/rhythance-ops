@@ -127,35 +127,59 @@ export function InvoiceView() {
       />
 
       <div className="invoice-view-content">
-        <InvoiceHeaderBar {...view} />
+        <InvoiceHeaderBar invoice={view.invoice} />
 
         {/* Main Details Grid */}
         <div className="invoice-view-grid">
           {/* Left Column: Details & Line Items */}
           <div className="invoice-view-main-column">
-            <OverviewCard {...view} />
+            <OverviewCard formatted={view.formatted} invoice={view.invoice} />
 
-            <LineItemsCard {...view} />
+            <LineItemsCard timesheets={view.timesheets} />
 
-            <SupplierPoCard {...view} />
+            <SupplierPoCard supplierPOItems={view.supplierPOItems} />
 
-            <AdditionalInfoCard {...view} />
+            <AdditionalInfoCard
+              invoice={view.invoice}
+              messageOnInvoice={view.messageOnInvoice}
+              termsOnInvoice={view.termsOnInvoice}
+            />
           </div>
 
           {/* Right Sidebar: Client Details & Financial Summary */}
           <div className="invoice-view-sidebar-column">
-            <ClientInfoCard {...view} />
+            <ClientInfoCard
+              clientData={view.clientData}
+              fullAddress={view.fullAddress}
+              invoice={view.invoice}
+            />
 
-            <FinancialSummaryCard {...view} />
+            <FinancialSummaryCard
+              formatted={view.formatted}
+              invoice={view.invoice}
+            />
 
-            <PdfPreviewCard {...view} />
+            <PdfPreviewCard
+              handleDownloadPdf={view.handleDownloadPdf}
+              invoice={view.invoice}
+              pdfSignedUrl={view.pdfSignedUrl}
+            />
 
-            <AttachmentsCard {...view} />
+            <AttachmentsCard attachments={view.attachments} />
           </div>
         </div>
       </div>
 
-      <SendEmailModal {...view} />
+      <SendEmailModal
+        emailInput={view.emailInput}
+        emailStatusMessage={view.emailStatusMessage}
+        handleSendEmailSubmit={view.handleSendEmailSubmit}
+        invoice={view.invoice}
+        isEmailModalOpen={view.isEmailModalOpen}
+        isSendingEmail={view.isSendingEmail}
+        setEmailInput={view.setEmailInput}
+        setIsEmailModalOpen={view.setIsEmailModalOpen}
+      />
     </div>
   );
 }

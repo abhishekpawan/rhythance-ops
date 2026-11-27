@@ -74,7 +74,12 @@ export function InvoiceList() {
       />
       <div className="content-container">
         <div className="card">
-          <InvoiceListHeader {...view} />
+          <InvoiceListHeader
+            resetFilters={view.resetFilters}
+            searchTerm={view.searchTerm}
+            setSearchTerm={view.setSearchTerm}
+            t={view.t}
+          />
           <Pagination
             position="top"
             pagination={pagination}
@@ -83,8 +88,38 @@ export function InvoiceList() {
           />
           <div className="table-container">
             <table className="common-table">
-              <InvoiceTableHead {...view} />
-              <InvoiceTableBody {...view} />
+              <InvoiceTableHead
+                clientEmailFilter={view.clientEmailFilter}
+                clientFilter={view.clientFilter}
+                dateRangeEnd={view.dateRangeEnd}
+                dateRangeStart={view.dateRangeStart}
+                dueDateEnd={view.dueDateEnd}
+                dueDateStart={view.dueDateStart}
+                invoiceNumberFilter={view.invoiceNumberFilter}
+                invoiceSentFilter={view.invoiceSentFilter}
+                paymentTermsFilter={view.paymentTermsFilter}
+                setClientEmailFilter={view.setClientEmailFilter}
+                setClientFilter={view.setClientFilter}
+                setDateRangeEnd={view.setDateRangeEnd}
+                setDateRangeStart={view.setDateRangeStart}
+                setDueDateEnd={view.setDueDateEnd}
+                setDueDateStart={view.setDueDateStart}
+                setInvoiceNumberFilter={view.setInvoiceNumberFilter}
+                setInvoiceSentFilter={view.setInvoiceSentFilter}
+                setPaymentTermsFilter={view.setPaymentTermsFilter}
+                t={view.t}
+              />
+              <InvoiceTableBody
+                handleDeleteClick={view.handleDeleteClick}
+                handleEditInvoice={view.handleEditInvoice}
+                handleViewInvoice={view.handleViewInvoice}
+                invoices={view.invoices}
+                loading={view.loading}
+                pagination={view.pagination}
+                sendInvoiceToClient={view.sendInvoiceToClient}
+                sendingEmailInvoiceId={view.sendingEmailInvoiceId}
+                t={view.t}
+              />
             </table>
           </div>
           {!loading && (
@@ -100,7 +135,15 @@ export function InvoiceList() {
           )}
         </div>
       </div>
-      <DeleteInvoiceModal {...view} />
+      <DeleteInvoiceModal
+        deleteError={view.deleteError}
+        handleCancelDelete={view.handleCancelDelete}
+        handleConfirmDelete={view.handleConfirmDelete}
+        invoiceToDelete={view.invoiceToDelete}
+        isDeleteModalOpen={view.isDeleteModalOpen}
+        isDeleting={view.isDeleting}
+        t={view.t}
+      />
     </div>
   );
 }

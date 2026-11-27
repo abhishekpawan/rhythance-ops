@@ -98,23 +98,94 @@ export function InvoiceManagement() {
       />
 
       <div className="invoice-content-container">
-        <InvoiceSelectionBar {...view} />
+        <InvoiceSelectionBar
+          clientLoading={view.clientLoading}
+          clientOptions={view.clientOptions}
+          dueDate={view.dueDate}
+          handleClientSelect={view.handleClientSelect}
+          handleDueDateChange={view.handleDueDateChange}
+          handleDueDateClick={view.handleDueDateClick}
+          handleInvoiceDateChange={view.handleInvoiceDateChange}
+          handleInvoiceDateClick={view.handleInvoiceDateClick}
+          handleTermsSelect={view.handleTermsSelect}
+          invoiceDate={view.invoiceDate}
+          selectedClient={view.selectedClient}
+          selectedClientOption={view.selectedClientOption}
+          selectedTermsOption={view.selectedTermsOption}
+          t={view.t}
+          termsOptions={view.termsOptions}
+        />
 
-        <TimesheetDateRange {...view} />
+        <TimesheetDateRange
+          fetchAndPopulateTimesheets={view.fetchAndPopulateTimesheets}
+          isFetchingTimesheets={view.isFetchingTimesheets}
+          selectedClient={view.selectedClient}
+          setTimesheetEndDate={view.setTimesheetEndDate}
+          setTimesheetStartDate={view.setTimesheetStartDate}
+          t={view.t}
+          timesheetEndDate={view.timesheetEndDate}
+          timesheetStartDate={view.timesheetStartDate}
+        />
 
-        <NoClientsState {...view} />
+        <NoClientsState
+          clientLoading={view.clientLoading}
+          clients={view.clients}
+          t={view.t}
+        />
 
-        <InvoiceDetailsHeader {...view} />
+        <InvoiceDetailsHeader
+          dueDate={view.dueDate}
+          invoiceDate={view.invoiceDate}
+          invoiceNumber={view.invoiceNumber}
+          invoiceNumberLoading={view.invoiceNumberLoading}
+          selectedClient={view.selectedClient}
+          selectedTerms={view.selectedTerms}
+          t={view.t}
+        />
 
-        <NoPositionsState {...view} />
+        <NoPositionsState
+          positionLoading={view.positionLoading}
+          positions={view.positions}
+          selectedClient={view.selectedClient}
+          t={view.t}
+        />
 
         {selectedClient && !positionLoading && positions.length > 0 && (
           <>
-            <LineItemsSection {...view} />
+            <LineItemsSection
+              addLineItem={view.addLineItem}
+              getJobseekerOptions={view.getJobseekerOptions}
+              handleJobseekerSelect={view.handleJobseekerSelect}
+              handlePositionSelect={view.handlePositionSelect}
+              handleSalesTaxSelect={view.handleSalesTaxSelect}
+              jobseekerLoading={view.jobseekerLoading}
+              lineItems={view.lineItems}
+              positionOptions={view.positionOptions}
+              removeLineItem={view.removeLineItem}
+              salesTaxOptions={view.salesTaxOptions}
+              t={view.t}
+              updateLineItem={view.updateLineItem}
+            />
 
-            <SupplierPoSection {...view} />
+            <SupplierPoSection
+              addSupplierPOItem={view.addSupplierPOItem}
+              combinedOptions={view.combinedOptions}
+              handleCombinedOptionSelect={view.handleCombinedOptionSelect}
+              handleSupplierPONumberChange={view.handleSupplierPONumberChange}
+              messageOnInvoice={view.messageOnInvoice}
+              removeSupplierPOItem={view.removeSupplierPOItem}
+              setMessageOnInvoice={view.setMessageOnInvoice}
+              setTermsOnInvoice={view.setTermsOnInvoice}
+              supplierPOItems={view.supplierPOItems}
+              t={view.t}
+              termsOnInvoice={view.termsOnInvoice}
+            />
 
-            <NotesSection {...view} />
+            <NotesSection
+              notes={view.notes}
+              setNotes={view.setNotes}
+              t={view.t}
+            />
 
             {/* Invoice Calculations Container */}
             <div className="timesheet-invoice-container">
@@ -137,9 +208,13 @@ export function InvoiceManagement() {
                   </div>
                 </div>
 
-                <InvoiceTableBody {...view} />
+                <InvoiceTableBody lineItems={view.lineItems} t={view.t} />
 
-                <InvoiceTotals {...view} />
+                <InvoiceTotals
+                  lineItems={view.lineItems}
+                  selectedClient={view.selectedClient}
+                  t={view.t}
+                />
               </div>
             </div>
 
@@ -151,16 +226,60 @@ export function InvoiceManagement() {
               bucketName="invoices"
             />
 
-            <GeneratedInvoiceSection {...view} />
+            <GeneratedInvoiceSection
+              documentFileName={view.documentFileName}
+              documentFileSize={view.documentFileSize}
+              documentPath={view.documentPath}
+              isEditMode={view.isEditMode}
+              t={view.t}
+            />
 
-            <GenerateInvoiceAction {...view} />
+            <GenerateInvoiceAction
+              editingInvoiceId={view.editingInvoiceId}
+              handleInvoiceSubmit={view.handleInvoiceSubmit}
+              invoiceNumber={view.invoiceNumber}
+              isEditMode={view.isEditMode}
+              isGeneratingInvoice={view.isGeneratingInvoice}
+              isViewMode={view.isViewMode}
+              lineItems={view.lineItems}
+              navigate={view.navigate}
+              selectedClient={view.selectedClient}
+              t={view.t}
+            />
           </>
         )}
 
-        <InvoiceSkeleton {...view} />
+        <InvoiceSkeleton
+          positionLoading={view.positionLoading}
+          selectedClient={view.selectedClient}
+        />
       </div>
 
-      <InvoiceSuccessModal {...view} />
+      <InvoiceSuccessModal
+        createdInvoice={view.createdInvoice}
+        emailToSend={view.emailToSend}
+        emailUpdateMessage={view.emailUpdateMessage}
+        goToNextPage={view.goToNextPage}
+        goToPrevPage={view.goToPrevPage}
+        handleDownloadInvoice={view.handleDownloadInvoice}
+        isSendingInvoice={view.isSendingInvoice}
+        onPdfLoadSuccess={view.onPdfLoadSuccess}
+        pdfBlobUrl={view.pdfBlobUrl}
+        pdfNumPages={view.pdfNumPages}
+        pdfPageNumber={view.pdfPageNumber}
+        pdfScale={view.pdfScale}
+        resetZoom={view.resetZoom}
+        selectedClient={view.selectedClient}
+        sendInvoiceMessage={view.sendInvoiceMessage}
+        sendInvoiceToClient={view.sendInvoiceToClient}
+        setEmailToSend={view.setEmailToSend}
+        setEmailUpdateMessage={view.setEmailUpdateMessage}
+        setShowInvoiceSuccessModal={view.setShowInvoiceSuccessModal}
+        showInvoiceSuccessModal={view.showInvoiceSuccessModal}
+        t={view.t}
+        zoomIn={view.zoomIn}
+        zoomOut={view.zoomOut}
+      />
     </div>
   );
 }
